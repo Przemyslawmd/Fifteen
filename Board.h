@@ -3,6 +3,8 @@
 
 #include <QList>
 
+const int EMPTY = 0;    // Empty square
+
 const int UP = 1;
 const int RIGHT = 2;
 const int DOWN = 3;

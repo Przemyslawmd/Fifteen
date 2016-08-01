@@ -17,11 +17,11 @@ Board::Board(int size)
         for (int j = 0; j < size; j++)        
             square[i][j] = k++;        
     }
-    square[size-1][size-1] = 0;
+    square[size-1][size-1] = EMPTY;
 }
 
 /********************************************************************************************************/
-/* CONSTRUCTOR FOR SAVED IMAGE ***************************************************************************/
+/* CONSTRUCTOR FOR A BOARD RESTORED FROM A FILE *********************************************************/
 
 Board::Board(int** values, int size)
 {
@@ -49,33 +49,32 @@ Board::~Board()
     delete[] square;
 }
 
-
 /********************************************************************************************************/
-/* CHECKS WHETHER MOVE IS POSSIBLE **********************************************************************/
+/* CHECK WHETHER MOVE IS POSSIBLE ***********************************************************************/
 
-int Board::checkMove(int row, int col)
+int Board::checkMove( int row, int col )
 {        
-    if (row > 0 && (square[row - 1][col] == 0))
+    if ( row > 0 && (square[row - 1][col] == EMPTY ))
     {
-        makeMove(row, col, row - 1, col);
+        makeMove( row, col, row - 1, col );
         return UP;
     }
 
-    if (col < (size - 1) && (square[row][col + 1] == 0))
+    if ( col < (size - 1) && (square[row][col + 1] == EMPTY ))
     {
-        makeMove(row, col, row, col + 1);
+        makeMove( row, col, row, col + 1 );
         return RIGHT;
     }
 
-    if (row < (size - 1) && (square[row + 1][col] == 0))
+    if ( row < (size - 1) && (square[row + 1][col] ==  EMPTY ))
     {
-        makeMove(row, col, row + 1, col);
+        makeMove( row, col, row + 1, col );
         return DOWN;
     }
 
-    if (col > 0 && (square[row][col -1] == 0))
+    if ( col > 0 && (square[row][col -1] == EMPTY ))
     {
-        makeMove(row, col, row, col -1);
+        makeMove( row, col, row, col -1 );
         return LEFT;
     }
 
@@ -83,8 +82,7 @@ int Board::checkMove(int row, int col)
 }
 
 /********************************************************************************************************/
-/* RANDOMS BOARD ****************************************************************************************/
-/* Public    ********************************************************************************************/
+/* RANDOM BOARD *****************************************************************************************/
 /* It's to remeber - in case of normal move direction is randomed for clicked non empty square **********/
 /* Here, direction is randomed for an empty square ******************************************************/
 
@@ -108,7 +106,7 @@ int** Board::randomBoard()
     {
         for ( int j = 0; j < size; j++ )
         {
-            if ( square[i][j] == 0 )
+            if ( square[i][j] == EMPTY )
             {
                 nullRow = i;
                 nullCol = j;
@@ -139,8 +137,8 @@ int** Board::randomBoard()
            move = qrand() % LEFT + 1;  // randoming from 1 to 4
 
         while( true )
-        {
-            // UP MOVE RANDOMED ////////////////////////////////////////////////////////////////////
+        {            
+            // MOVE UP ///////////////////////////////////////////////
             if ( move == UP )
             {
                 if ( nullRow > 0 )
@@ -154,9 +152,8 @@ int** Board::randomBoard()
                     randomAnotherMove( UP, &moves, &remMove, &move );
                     continue;
                 }
-            }
-
-            // RIGHT MOVE RANDOMED ////////////////////////////////////////////////////////////////
+            }            
+            // MOVE RIGHT //////////////////////////////////////////////
             else if ( move == RIGHT )
             {
                 if (nullCol < (size - 1))
@@ -170,9 +167,8 @@ int** Board::randomBoard()
                     randomAnotherMove( RIGHT, &moves, &remMove, &move );
                     continue;
                 }
-            }
-
-            // DOWN MOVE RANDOMED /////////////////////////////////////////////////////////////////
+            }            
+            // MOVE DOWN /////////////////////////////////////////////////
             else if ( move == DOWN )
             {
                 if (nullRow < (size - 1))
@@ -186,9 +182,8 @@ int** Board::randomBoard()
                     randomAnotherMove( DOWN, &moves, &remMove, &move );
                     continue;
                 }
-            }
-
-            // LEFT MOVE RANDOMED ////////////////////////////////////////////////////////////////
+            }            
+            // MOVE LEFT /////////////////////////////////////////////////
             else
             {
                 if ( nullCol > 0 )
@@ -220,7 +215,7 @@ void Board::randomAnotherMove( int moveToExclude, QList<int>* moves, int* remMov
 }
 
 /*******************************************************************************************************/
-/* SETS BOARD INTO INITIAL STATE ***********************************************************************/
+/* RESTORE A BOARD TO INITIAL STATE ********************************************************************/
 
 int** Board::solveBoard()
 {
@@ -230,14 +225,13 @@ int** Board::solveBoard()
         for ( int j = 0; j < size; j++ )
             square[i][j] = k++;        
     }
-    square[size-1][size-1] = 0;
+    square[size-1][size-1] = EMPTY;
 
     return square;
 }
 
-
 /********************************************************************************************************/
-/* SENDS BOARD VALUES ***********************************************************************************/
+/* SEND BOARD VALUES ************************************************************************************/
 
 int** Board::sendBoard()
 {
@@ -245,10 +239,9 @@ int** Board::sendBoard()
 }
 
 /********************************************************************************************************/
-/* MAKES MOVE *******************************************************************************************/
-/* Private    *******************************************************************************************/
+/* MAKE MOVE ********************************************************************************************/
 
-void Board::makeMove(int srcRow, int srcCol, int desRow, int desCol)
+void Board::makeMove( int srcRow, int srcCol, int desRow, int desCol )
 {
     int temp = square[desRow][desCol];
     square[desRow][desCol] = square[srcRow][srcCol];
