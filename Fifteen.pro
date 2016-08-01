@@ -18,6 +18,9 @@ HEADERS += \
     imageLoad.h
 
 QMAKE_CFLAGS_DEBUG  = -g
+QMAKE_CXXFLAGS += -std=c++11
+
+
 
 
 

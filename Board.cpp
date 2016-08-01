@@ -81,10 +81,10 @@ int Board::checkMove( int row, int col )
     return 0;
 }
 
-/********************************************************************************************************/
-/* RANDOM BOARD *****************************************************************************************/
-/* It's to remeber - in case of normal move direction is randomed for clicked non empty square **********/
-/* Here, direction is randomed for an empty square ******************************************************/
+/****************************************************************************************************************/
+/* RANDOM BOARD *************************************************************************************************/
+/* In case of normal move ( trigerred by an user ) a direction is being randomed for clicked non empty square ***/
+/* Here, direction is being randomed for an empty square ********************************************************/
 
 int** Board::randomBoard()
 {
@@ -94,14 +94,9 @@ int** Board::randomBoard()
     int nullCol = 0;
     int const MOVECOUNT = 2000;
 
-    QList<int> moves;
+    QList<int> moves ( { UP, RIGHT, DOWN, LEFT } );
 
-    moves << UP;
-    moves << RIGHT;
-    moves << DOWN;
-    moves << LEFT;
-
-    // Fiding an empty position
+    // Find an empty square
     for ( int i = 0; i < size; i++ )
     {
         for ( int j = 0; j < size; j++ )
@@ -117,7 +112,7 @@ int** Board::randomBoard()
 
     for ( int i = 0; i < MOVECOUNT; i++ )
     {
-        // Restoring direct list
+        // Restore a list with move directions
         if ( remMove != 0 )
         {
             if ( remMove < 10 )
@@ -130,7 +125,7 @@ int** Board::randomBoard()
             remMove = 0;
         }
 
-        // Increasing chance for move in left direction
+        // Increase a chance for a move in a left direction
         if ( i % 5 == 0 )
            move = LEFT;
         else
