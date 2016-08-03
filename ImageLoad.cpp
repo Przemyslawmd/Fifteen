@@ -1,4 +1,4 @@
-#include "imageLoad.h"
+#include "ImageLoad.h"
 
 ImageLoad::ImageLoad() :
     four( 200, 4, true, false, "4x4\n\n" ),

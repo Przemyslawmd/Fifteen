@@ -2,7 +2,7 @@
 #define IMAGE_H
 #include <QImage>
 #include <QMap>
-#include <imageLoad.h>
+#include <ImageLoad.h>
 
 class Image
 {

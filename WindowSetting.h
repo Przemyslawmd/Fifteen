@@ -11,7 +11,7 @@
 #include <QCheckBox>
 #include <QDialog>
 #include <MainWindow.h>
-#include <imageLoad.h>
+#include <ImageLoad.h>
 
 class WindowSetting : public QDialog
 {

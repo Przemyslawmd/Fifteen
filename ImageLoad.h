@@ -3,12 +3,17 @@
 
 #include <QString>
 
+class ImageLoad;
+
 class State
 {
-    public:
+    friend class ImageLoad;
+
+    private:
         State ( int resolution, int size, bool toLoad, bool loaded, QString message ) :
                 resolution( resolution ), size( size ), toLoad( toLoad ), loaded( loaded ), message( message ) {}
 
+    public:
         int resolution;
         int size;
         QString message;

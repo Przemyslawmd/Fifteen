@@ -20,7 +20,7 @@
 #include <WindowSetting.h>
 #include <WindowAbout.h>
 #include <Text.h>
-#include <imageLoad.h>
+#include <ImageLoad.h>
 
 class MainWindow : public QMainWindow
 {
