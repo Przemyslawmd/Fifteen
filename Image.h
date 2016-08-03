@@ -16,11 +16,7 @@ public:
     QImage** getImageSeven();
 
     void prepareImagesForBoard( QImage*, QString*, const QMap<QString, QString>*, ImageLoad&, bool );
-
-    bool setSavedFourImage( uchar* );
-    bool setSavedFiveImage( uchar* );
-    bool setSavedSixImage( uchar* );
-    bool setSavedSevenImage( uchar* );
+    bool restoreImageFromFile( uchar*, int );
 
 private:
 

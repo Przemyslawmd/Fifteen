@@ -605,7 +605,7 @@ void MainWindow::slotSaveBoard()
 }
 
 /********************************************************************************************************************************/
-/* READS BOARD STATE FROM A BINARY FILE *****************************************************************************************/
+/* READ AND RESTORE SAVED BOARD FROM A BINARY FILE ******************************************************************************************/
 
 void MainWindow::slotReadBoard()
 {
@@ -655,26 +655,14 @@ void MainWindow::slotReadBoard()
 
            images = new Image();
 
-           if (size == 4)
-           {
-                images->setSavedFourImage(buffer);                
-                imagesLoad->four.loaded = true;
-           }
+           if (size == 4)                      
+                imagesLoad->four.loaded = images->restoreImageFromFile( buffer, size );
            else if (size == 5)
-           {
-               images->setSavedFiveImage(buffer);               
-               imagesLoad->five.loaded = true;
-           }
+               imagesLoad->five.loaded = images->restoreImageFromFile( buffer, size );
            else if (size == 6)
-           {
-               images->setSavedSixImage(buffer);               
-               imagesLoad->six.loaded = true;
-           }
+               imagesLoad->six.loaded = images->restoreImageFromFile( buffer, size );
            else
-           {
-               images->setSavedSevenImage(buffer);
-               imagesLoad->seven.loaded = true;               
-           }
+               imagesLoad->seven.loaded = images->restoreImageFromFile( buffer, size );
 
            setSquaresGraphic(false);
            radioGraphic->setEnabled(true);

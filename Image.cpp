@@ -143,78 +143,32 @@ void Image::prepareCroppedImage( QImage* image, QImage*** imagePiece, State& sta
 }
 
 /**************************************************************************************************************************/
-/* MAKES SAVED IMAGES *****************************************************************************************************/
+/* RESTORE SAVED IMAGE BOARD **********************************************************************************************/
 
-bool Image::setSavedFourImage(uchar* bufferImage)
+bool Image::restoreImageFromFile( uchar* bufferImage, int size )
 {
+    QImage** image;
+
+    if ( size == 4 )
+        image = imageFour;
+    else if ( size == 5 )
+        image = imageFive;
+    else if ( size == 6 )
+        image = imageSix;
+    else if ( size == 7 )
+        image = imageSeven;
+
     try
     {
-        for ( int i = 0; i < 16; i++ )
-            imageFour[i] = new QImage( bufferImage + i * 10000, 50, 50, QImage::Format_RGB32 );
+        for ( int i = 0; i < size * size; i++ )
+            image[i] = new QImage( bufferImage + i * 10000, 50, 50, QImage::Format_RGB32 );
     }
     catch(...)
     {
         return false;
     }
-
     return true;
 }
-
-/**************************************************************************************************************************/
-
-bool Image::setSavedFiveImage(uchar* bufferImage)
-{    
-    try
-    {
-        for (int i = 0; i < 25; i++)
-            imageFive[i] = new QImage(bufferImage + i * 10000, 50, 50, QImage::Format_RGB32);
-    }
-    catch(...)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-/**************************************************************************************************************************/
-
-bool Image::setSavedSixImage(uchar* bufferImage)
-{
-    try
-    {
-        for (int i = 0; i < 36; i++)
-            imageSix[i] = new QImage(bufferImage + i * 10000, 50, 50, QImage::Format_RGB32);
-    }
-    catch(...)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-/***************************************************************************************************************************/
-
-bool Image::setSavedSevenImage(uchar* bufferImage)
-{
-    try
-    {
-        for (int i = 0; i < 49; i++)
-            imageSeven[i] = new QImage(bufferImage + i * 10000, 50, 50, QImage::Format_RGB32);
-    }
-    catch(...)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-/**************************************************************************************************************************/
-/*                                                  PRIVATE METHODS                                                       */
-/**************************************************************************************************************************/
-
 
 /**************************************************************************************************************************/
 /* MAKE IMAGE FOR EACH SQUARE *********************************************************************************************/
