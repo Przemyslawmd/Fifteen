@@ -14,7 +14,7 @@ WindowSetting::WindowSetting(int* color, ImageLoad* images, bool* isScaled, bool
     this->setMaximumSize(400,660);
     this->setMinimumSize(400,660);
 
-    QVBoxLayout* layWindow = new QVBoxLayout();
+    QVBoxLayout layWindow;
 
 
     // RADIO IMAGE ///////////////////////////////////////////////////////////////////////////////////////
@@ -142,18 +142,18 @@ WindowSetting::WindowSetting(int* color, ImageLoad* images, bool* isScaled, bool
     layControls->addWidget(pushAccept);
     layControls->addSpacing(120);
 
-    layWindow->addSpacing(20);
-    layWindow->addWidget(boxRadioImage);
-    layWindow->addSpacing(20);
-    layWindow->addWidget(boxRadioColor);
-    layWindow->addSpacing(20);    
-    layWindow->addWidget(boxRadioLang);
-    layWindow->addSpacing(20);
-    layWindow->addLayout(layControls);
-    layWindow->addSpacing(10);
-    layWindow->addStretch();
+    layWindow.addSpacing(20);
+    layWindow.addWidget(boxRadioImage);
+    layWindow.addSpacing(20);
+    layWindow.addWidget(boxRadioColor);
+    layWindow.addSpacing(20);
+    layWindow.addWidget(boxRadioLang);
+    layWindow.addSpacing(20);
+    layWindow.addLayout(layControls);
+    layWindow.addSpacing(10);
+    layWindow.addStretch();
 
-    this->setLayout(layWindow);
+    this->setLayout( &layWindow );
     this->show();
 }
 

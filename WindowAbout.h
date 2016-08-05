@@ -11,8 +11,14 @@
 
 class WindowAbout : public QDialog
 {
+
 public:
     WindowAbout( const QMap<QString, QString>* );
+    ~WindowAbout();
+
+private:
+    QTextDocument* doc;
+    QTextBrowser* browser;
 };
 
 #endif // WINDOWABOUT_H
