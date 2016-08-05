@@ -144,7 +144,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    randomAnotherMove( UP, &moves, &remMove, &move );
+                    move = randomAnotherMove( UP, &moves, &remMove );
                     continue;
                 }
             }            
@@ -159,7 +159,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    randomAnotherMove( RIGHT, &moves, &remMove, &move );
+                    move = randomAnotherMove( RIGHT, &moves, &remMove );
                     continue;
                 }
             }            
@@ -174,7 +174,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    randomAnotherMove( DOWN, &moves, &remMove, &move );
+                    move = randomAnotherMove( DOWN, &moves, &remMove );
                     continue;
                 }
             }            
@@ -189,7 +189,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    randomAnotherMove( LEFT, &moves, &remMove, &move );
+                    move = randomAnotherMove( LEFT, &moves, &remMove );
                     continue;
                 }
             }
@@ -202,11 +202,11 @@ int** Board::randomBoard()
 /******************************************************************************************************/
 /* RANDOM ANOTHER MOVE ********************************************************************************/
 
-void Board::randomAnotherMove( int moveToExclude, QList<int>* moves, int* remMove, int* move )
+int Board::randomAnotherMove( int moveToExclude, QList<int>* moves, int* remMove)
 {
     moves->removeOne( moveToExclude );
     *remMove = *remMove * 10 + moveToExclude;
-    *move = moves->at( qrand() % moves->size() );
+    return moves->at( qrand() % moves->size() );
 }
 
 /*******************************************************************************************************/
@@ -236,10 +236,10 @@ int** Board::sendBoard()
 /********************************************************************************************************/
 /* MAKE MOVE ********************************************************************************************/
 
-void Board::makeMove( int srcRow, int srcCol, int desRow, int desCol )
-{
-    int temp = square[desRow][desCol];
-    square[desRow][desCol] = square[srcRow][srcCol];
-    square[srcRow][srcCol] = temp;
+void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
+{    
+    square[dstRow][dstCol] += square[srcRow][srcCol];
+    square[srcRow][srcCol] = square[dstRow][dstCol] - square[srcRow][srcCol];
+    square[dstRow][dstCol] -= square[srcRow][srcCol];
 }
 
