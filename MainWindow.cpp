@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     size = 4;
     isNumber = true;
     isScaled = true;
-    color = 1;
+    color = Color::BLUE;
     isPl = true;
 
     imagesLoad = new ImageLoad();
@@ -224,18 +224,18 @@ void MainWindow::deleteSquares()
 /***************************************************************************************************************************/
 /* SET SQUARES NUMBER VALUES ***********************************************************************************************/
 
-void MainWindow::setSquaresNumber(bool isRandom)
+void MainWindow::setSquaresNumber( bool isRandom )
 {
     int** values;
 
-    if (!isRandom)
+    if ( !isRandom )
         values = board->sendBoard();
     else
         values = board->randomBoard();
 
-    if (color == 1)
+    if ( color == Color::BLUE )
         numberStyle = numberStyleBlue;
-    else if (color == 2)
+    else if ( color == Color::GREEN )
         numberStyle = numberStyleGreen;
     else
         numberStyle = numberStyleRed;
@@ -708,15 +708,15 @@ void MainWindow::setText()
 
 void MainWindow::setColor()
 {
-    if (!isNumber)
-        return;
-
-    if (color == 1)
+    if ( color == Color::BLUE )
         numberStyle = numberStyleBlue;
-    else if (color == 2)
+    else if ( color == Color::GREEN )
         numberStyle = numberStyleGreen;
     else
         numberStyle = numberStyleRed;
+
+    if ( isNumber == false )
+        return;
 
     for (int i = 0; i < size; i++)
     {
@@ -725,17 +725,15 @@ void MainWindow::setColor()
             if (control[i][j].styleSheet() != *emptyStyle)
                 control[i][j].setStyleSheet(*numberStyle);
         }
-    }
-    return;
+    }    
 }
-
 
 /***************************************************************************************************************************/
 /* CHILD WINDOWS ***********************************************************************************************************/
 
 void MainWindow::slotSettings()
 {
-    new WindowSetting(&color, imagesLoad, &isScaled, &isPl, this, labelsSettings);
+    new WindowSetting( color, imagesLoad, &isScaled, &isPl, this, labelsSettings);
 }
 
 /****************************************************************************************************************************/

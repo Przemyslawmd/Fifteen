@@ -21,6 +21,8 @@
 #include <WindowAbout.h>
 #include <Text.h>
 #include <ImageLoad.h>
+#include <Types.h>
+
 
 class MainWindow : public QMainWindow
 {
@@ -83,13 +85,12 @@ class MainWindow : public QMainWindow
     QString* emptyStyle;    
 
     bool isNumber;          // Indicates whether is number or graphical board
-    int color;              // Indicates color of number square - 1 - blue; 2 - green; 3 - red
+    //int color;              // Indicates color of number square - 1 - blue; 2 - green; 3 - red
     bool isScaled;          // Indicates whether loading image is scalled or cropped
     bool isPl;
     Text* text;
 
-    //int imagesToLoad;       // Indicares for which dimension an image should be loaded, and what images were loaded
-    //int imagesLoaded;       // For example, 0101 means six and four.
+    Color color;
     ImageLoad* imagesLoad;
 
     const QMap<QString, QString>* labelsMenu;

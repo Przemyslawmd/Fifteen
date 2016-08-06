@@ -12,6 +12,7 @@
 #include <QDialog>
 #include <MainWindow.h>
 #include <ImageLoad.h>
+#include <Types.h>
 
 class WindowSetting : public QDialog
 {
@@ -48,7 +49,7 @@ private:
 
     QPushButton* pushAccept;
 
-    int* color;    
+    Color& color;
     bool* isScaled;
     bool* isPl;
     ImageLoad* images;
@@ -58,7 +59,7 @@ private slots:
     void setColor();
 
 public:
-    WindowSetting(int*, ImageLoad*, bool*, bool*, QMainWindow*, const QMap<QString, QString>* );
+    WindowSetting( Color&, ImageLoad*, bool*, bool*, QMainWindow*, const QMap<QString, QString>* );
     ~WindowSetting();
 
 };

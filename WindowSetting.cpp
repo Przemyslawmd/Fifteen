@@ -1,9 +1,8 @@
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting(int* color, ImageLoad* images, bool* isScaled, bool* isPl, QMainWindow* parentParam, const QMap<QString, QString>* labels)
+WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, bool* isPl, QMainWindow* parentParam, const QMap<QString, QString>* labels ) : color( color )
 {
     this->setModal(true);
-    this->color = color;
     this->images = images;
     this->isScaled = isScaled;
     this->isPl = isPl;
@@ -83,9 +82,9 @@ WindowSetting::WindowSetting(int* color, ImageLoad* images, bool* isScaled, bool
     radioRed = new QRadioButton(labels->value("colorR"));
     radioRed->setStyleSheet("margin-left:5px;");
 
-    if (*color == 1)
+    if ( color == Color::BLUE )
         radioBlue->setChecked(true);
-    else if (*color == 2)
+    else if ( color == Color::GREEN )
         radioGreen->setChecked(true);
     else
         radioRed->setChecked(true);
@@ -168,11 +167,11 @@ WindowSetting::~WindowSetting(){}
 void WindowSetting::setColor()
 {   
     if (radioBlue->isChecked())
-        *color = 1;
+        color = Color::BLUE;
     else if (radioGreen->isChecked())
-        *color = 2;
+        color = Color::GREEN;
     else
-        *color = 3;
+        color = Color::RED;
 
     images->four.toLoad = ( checkFour->isChecked() ) ? true : false;
     images->five.toLoad = ( checkFive->isChecked() ) ? true : false;

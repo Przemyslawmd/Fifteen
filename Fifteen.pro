@@ -15,7 +15,8 @@ HEADERS += \
     Board.h \
     Text.h \
     WindowAbout.h \
-    ImageLoad.h
+    ImageLoad.h \
+    Types.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
