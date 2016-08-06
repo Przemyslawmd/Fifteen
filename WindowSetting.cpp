@@ -2,9 +2,6 @@
 
 WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, bool* isPl, QMainWindow* parentParam, const QMap<QString, QString>* labels ) :
     color( color ),
-    radioScale{ labels->value("graphicScal") }, radioCrop{ labels->value("graphicCrop") },
-    radioBlue{ labels->value("colorB") }, radioGreen{ labels->value("colorG")}, radioRed{ labels->value("colorR")},
-    radioPl{ labels->value("pol") }, radioEn{ labels->value("eng")},
     checkFour{ labels->value("graphic4")} , checkFive{ labels->value("graphic5")}, checkSix{ labels->value("graphic6")}, checkSeven{ labels->value("graphic7")},
     boxRadioImage( labels->value("graphic")), boxRadioLang(labels->value("lan")),boxRadioColor(labels->value("color"))
 {
@@ -21,17 +18,26 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, b
 
     QVBoxLayout layWindow;
 
+    for (int i = 0; i < RADIOCOUNT; i++)
+        radio[i].setStyleSheet( "margin-left:5px;" );
 
-    radioScale.setStyleSheet( "margin-left:5px;" );
-    radioCrop.setStyleSheet( "margin-left:5px;" );
+    radio[Radio::SCALE].setText( labels->value( "graphicScal" ));
+    radio[Radio::CROP].setText( labels->value( "graphicCrop" ));
+    radio[Radio::BLUE].setText( labels->value( "colorB" ));
+    radio[Radio::GREEN].setText( labels->value( "colorG" ));
+    radio[Radio::RED].setText( labels->value( "colorR" ));
+    radio[Radio::PL].setText( labels->value( "pol" ));
+    radio[Radio::EN].setText( labels->value( "eng"));
+
+
     if ( *isScaled )
-        radioScale.setChecked( true);
+        radio[Radio::SCALE].setChecked( true);
     else
-        radioCrop.setChecked( true );
+        radio[Radio::CROP].setChecked( true );
 
     groupRadioImage = new QButtonGroup();
-    groupRadioImage->addButton( &radioScale );
-    groupRadioImage->addButton( &radioCrop );
+    groupRadioImage->addButton( &radio[Radio::SCALE] );
+    groupRadioImage->addButton( &radio[Radio::CROP] );
 
 
     checkFour.setStyleSheet( "margin-left:5px;" );
@@ -53,9 +59,9 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, b
 
     layRadioImage = new QVBoxLayout();
     layRadioImage->addSpacing(8);
-    layRadioImage->addWidget( &radioScale );
+    layRadioImage->addWidget( &radio[Radio::SCALE] );
     layRadioImage->addSpacing(8);
-    layRadioImage->addWidget( &radioCrop );
+    layRadioImage->addWidget( &radio[Radio::CROP] );
     layRadioImage->addSpacing(15);
     layRadioImage->addWidget( &checkFour );
     layRadioImage->addSpacing(8);
@@ -68,51 +74,45 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, b
 
     boxRadioImage.setLayout( layRadioImage );
 
-    radioBlue.setStyleSheet( "margin-left:5px;" );
-    radioGreen.setStyleSheet( "margin-left:5px;" );
-    radioRed.setStyleSheet( "margin-left:5px;" );
-
     if ( color == Color::BLUE )
-        radioBlue.setChecked(true);
+        radio[Radio::BLUE].setChecked( true );
     else if ( color == Color::GREEN )
-        radioGreen.setChecked(true);
+        radio[Radio::GREEN].setChecked( true );
     else
-        radioRed.setChecked(true);
+        radio[Radio::RED].setChecked( true );
 
     groupRadioColor = new QButtonGroup();
-    groupRadioColor->addButton( &radioBlue );
-    groupRadioColor->addButton( &radioGreen );
-    groupRadioColor->addButton( &radioRed );
+    groupRadioColor->addButton( &radio[Radio::BLUE] );
+    groupRadioColor->addButton( &radio[Radio::GREEN] );
+    groupRadioColor->addButton( &radio[Radio::RED] );
 
     QVBoxLayout layRadioColor;
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioBlue );
+    layRadioColor.addWidget( &radio[Radio::BLUE] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioGreen );
+    layRadioColor.addWidget( &radio[Radio::GREEN] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioRed );
+    layRadioColor.addWidget( &radio[Radio::RED] );
     layRadioColor.addSpacing( 7 );
 
     boxRadioColor.setLayout( &layRadioColor );
 
     // LANGUAGE /////////////////////////////////////////////////////////////////////////    
-    radioPl.setStyleSheet("margin-left:5px;");
-    radioEn.setStyleSheet("margin-left:5px;");
 
     if ( *isPl )
-        radioPl.setChecked( true );
+        radio[Radio::PL].setChecked( true );
     else
-        radioEn.setChecked( true );
+        radio[Radio::EN].setChecked( true );
 
     groupRadioLang = new QButtonGroup();
-    groupRadioLang->addButton( &radioPl);
-    groupRadioLang->addButton( &radioEn);
+    groupRadioLang->addButton( &radio[Radio::PL] );
+    groupRadioLang->addButton( &radio[Radio::EN] );
 
     QVBoxLayout layRadioLang;
     layRadioLang.addSpacing(7);
-    layRadioLang.addWidget( &radioPl );
+    layRadioLang.addWidget( &radio[Radio::PL] );
     layRadioLang.addSpacing(7);
-    layRadioLang.addWidget( &radioEn );
+    layRadioLang.addWidget( &radio[Radio::EN] );
     layRadioLang.addSpacing(7);
 
 
@@ -154,9 +154,9 @@ WindowSetting::~WindowSetting(){}
 
 void WindowSetting::setColor()
 {   
-    if ( radioBlue.isChecked() )
+    if ( radio[Radio::BLUE].isChecked() )
         color = Color::BLUE;
-    else if ( radioGreen.isChecked() )
+    else if ( radio[Radio::GREEN].isChecked() )
         color = Color::GREEN;
     else
         color = Color::RED;
@@ -166,8 +166,8 @@ void WindowSetting::setColor()
     images->six.toLoad = ( checkSix.isChecked() ) ? true : false;
     images->seven.toLoad = ( checkSeven.isChecked() ) ? true : false;
 
-    *isScaled = ( radioScale.isChecked() ) ? true : false;
-    *isPl = ( radioPl.isChecked() ) ? true : false;
+    *isScaled = ( radio[Radio::SCALE].isChecked() ) ? true : false;
+    *isPl = ( radio[Radio::PL].isChecked() ) ? true : false;
 
     MainWindow* parent2 = qobject_cast<MainWindow*>(parent);
 

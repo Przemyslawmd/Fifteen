@@ -13,19 +13,17 @@
 #include <ImageLoad.h>
 #include <Types.h>
 
+#define RADIOCOUNT 7
+
 class WindowSetting : public QDialog
 {
 
 private:
     Q_OBJECT
 
-    QRadioButton radioScale;
-    QRadioButton radioCrop;
-    QRadioButton radioBlue;
-    QRadioButton radioGreen;
-    QRadioButton radioRed;
-    QRadioButton radioPl;
-    QRadioButton radioEn;
+    enum Radio { SCALE, CROP, BLUE, GREEN, RED, PL, EN };
+
+    QRadioButton radio[RADIOCOUNT];
 
     QButtonGroup* groupRadioImage;
     QButtonGroup* groupRadioColor;
