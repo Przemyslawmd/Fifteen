@@ -36,13 +36,11 @@ private:
     QCheckBox checkSix;
     QCheckBox checkSeven;
 
-    QGroupBox* boxRadioImage;
-    QGroupBox* boxRadioColor;
-    QGroupBox* boxRadioLang;
+    QGroupBox boxRadioImage;
+    QGroupBox boxRadioColor;
+    QGroupBox boxRadioLang;
 
     QVBoxLayout* layRadioImage;
-    QVBoxLayout* layRadioColor;
-    QVBoxLayout* layRadioLang;
 
     QHBoxLayout* layControls;
 
