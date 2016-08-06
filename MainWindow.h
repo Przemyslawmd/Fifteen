@@ -77,7 +77,7 @@ class MainWindow : public QMainWindow
     Image* images;
 
     // Current size of board
-    int size;
+    Size size;
     QString* numberStyleBlue;
     QString* numberStyleRed;
     QString* numberStyleGreen;
@@ -85,11 +85,9 @@ class MainWindow : public QMainWindow
     QString* emptyStyle;    
 
     bool isNumber;          // Indicates whether is number or graphical board
-    //int color;              // Indicates color of number square - 1 - blue; 2 - green; 3 - red
     bool isScaled;          // Indicates whether loading image is scalled or cropped
     bool isPl;
     Text* text;
-
     Color color;
     ImageLoad* imagesLoad;
 

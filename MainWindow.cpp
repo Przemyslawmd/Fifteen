@@ -2,7 +2,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    size = 4;
+    size = Size::FOUR;
     isNumber = true;
     isScaled = true;
     color = Color::BLUE;
@@ -16,13 +16,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     emptyStyle = new QString("background-color:white; color:white; font-size:20px; border:1px solid white;");
     board = new Board( size );
 
-    resize(750,550);
+    resize( 750,550 );
     createMenu();
     createControls();
     createLayouts();
-
     createSquares();
-    setSquaresNumber(false);
+    setSquaresNumber( false );
 
     text = new Text();
     setText();
@@ -269,11 +268,11 @@ void MainWindow::setSquaresGraphic(bool isRandom)
 
     QImage** pictures;
 
-    if (size == 4)            
+    if ( size == Size::FOUR )
         pictures = images->getImageFour();
-    else if (size == 5)
+    else if ( size == Size::FIVE )
         pictures = images->getImageFive();
-    else if (size == 6)
+    else if ( size == Size::SIX )
         pictures = images->getImageSix();    
     else            
         pictures = images->getImageSeven();
@@ -286,7 +285,7 @@ void MainWindow::setSquaresGraphic(bool isRandom)
             QPixmap* pixmap = new QPixmap();
             pixmap->convertFromImage(*pictures[values[i][j]]);
             QIcon icon(*pixmap);
-            QSize iconSize(50, 50);
+            QSize iconSize( 50, 50 );
             control[i][j].setIconSize(iconSize);
             control[i][j].setIcon(icon);
             control[i][j].setStyleSheet("");
@@ -302,35 +301,35 @@ void MainWindow::setSquaresGraphic(bool isRandom)
 
 void MainWindow::slotGenerateBoard()
 {
-    int newSize;
+    Size newSize;
     if ( radioFour->isChecked() )
-        newSize = 4;
+        newSize = Size::FOUR;
     else if(radioFive->isChecked())
-        newSize = 5;
+        newSize = Size::FIVE;
     else if (radioSix->isChecked())
-        newSize = 6;
+        newSize = Size::SIX;
     else
-        newSize = 7;
+        newSize = Size::SEVEN;
 
     // Checking whether in case of graphical board there is proper graphic loaded
     if (radioGraphic->isChecked())
     {
-        if ( newSize == 4 && ( imagesLoad->four.loaded == false ))
+        if ( newSize == Size::FOUR && ( imagesLoad->four.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "4x4\t");
             return;
         }
-        if ( newSize == 5 && ( imagesLoad->five.loaded == false ))
+        if ( newSize == Size::FIVE && ( imagesLoad->five.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "5x5\t");
             return;
         }
-        if ( newSize == 6 && ( imagesLoad->six.loaded == false ))
+        if ( newSize == Size::SIX && ( imagesLoad->six.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "6x6\t");
             return;
         }
-        if ( newSize == 7 && ( imagesLoad->seven.loaded == false ))
+        if ( newSize == Size::SEVEN && ( imagesLoad->seven.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "7x7\t");
             return;
@@ -387,11 +386,11 @@ void MainWindow::slotSolveBoard()
     {
         QImage** pictures;
 
-        if (size == 4)
+        if ( size == Size::FOUR )
             pictures = images->getImageFour();
-        else if (size == 5)
+        else if ( size == Size::FIVE )
             pictures = images->getImageFive();
-        else if (size == 6)
+        else if ( size == Size::SIX )
             pictures = images->getImageSix();
         else
             pictures = images->getImageSeven();
@@ -582,11 +581,11 @@ void MainWindow::slotSaveBoard()
         {
             QImage** pictures;
 
-            if ( size == 4)
+            if ( size == Size::FOUR )
                 pictures = images->getImageFour();
-            else if ( size == 5)
+            else if ( size == Size::FIVE )
                 pictures = images->getImageFive();
-            else if ( size == 6)
+            else if ( size == Size::SIX )
                 pictures = images->getImageSix();
             else
                 pictures = images->getImageSeven();
@@ -627,8 +626,19 @@ void MainWindow::slotReadBoard()
         bool tempIsNumber;
         int** tempValues;
 
+        int tempSize;
+
         outData >> tempIsNumber;
-        outData >> size;
+        outData >> tempSize;
+
+        if ( tempSize == 4 )
+            size = Size::FOUR;
+        else if ( tempSize == 5 )
+            size == Size::FIVE;
+        else if ( tempSize == 6 )
+            size = Size::SIX;
+        else if ( tempSize == 7 )
+            size == Size::SEVEN;
 
         tempValues = new int*[size];
         for (int i = 0; i < size; i++)
@@ -722,7 +732,7 @@ void MainWindow::setColor()
     {
         for (int j = 0; j < size; j++)
         {
-            if (control[i][j].styleSheet() != *emptyStyle)
+            if ( control[i][j].styleSheet() != *emptyStyle)
                 control[i][j].setStyleSheet(*numberStyle);
         }
     }    
