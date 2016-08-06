@@ -2,7 +2,6 @@
 
 WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, bool* isPl, QMainWindow* parentParam, const QMap<QString, QString>* labels ) :
     color( color ),
-    checkFour{ labels->value("graphic4")} , checkFive{ labels->value("graphic5")}, checkSix{ labels->value("graphic6")}, checkSeven{ labels->value("graphic7")},
     boxRadioImage( labels->value("graphic")), boxRadioLang(labels->value("lan")),boxRadioColor(labels->value("color"))
 {
     this->setModal(true);
@@ -30,6 +29,15 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, b
     radio[Radio::EN].setText( labels->value( "eng"));
 
 
+    for (int i = 0; i < CHECKCOUNT; i++)
+        check[i].setStyleSheet( "margin-left:5px;" );
+
+    check[Check::FOUR].setText(labels->value("graphic4"));
+    check[Check::FIVE].setText(labels->value("graphic5"));
+    check[Check::SIX].setText(labels->value("graphic6"));
+    check[Check::SEVEN].setText(labels->value("graphic7"));
+
+
     if ( *isScaled )
         radio[Radio::SCALE].setChecked( true);
     else
@@ -40,21 +48,17 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, b
     groupRadioImage->addButton( &radio[Radio::CROP] );
 
 
-    checkFour.setStyleSheet( "margin-left:5px;" );
     if ( images->four.toLoad == true )
-        checkFour.setChecked( true );
+        check[Check::FOUR].setChecked( true );
 
-    checkFive.setStyleSheet( "margin-left:5px;" );
     if ( images->five.toLoad == true )
-        checkFive.setChecked( true );
+        check[Check::FIVE].setChecked( true );
 
-    checkSix.setStyleSheet( "margin-left:5px;" );
     if ( images->six.toLoad == true )
-        checkSix.setChecked( true );
+        check[Check::SIX].setChecked( true );
 
-    checkSeven.setStyleSheet( "margin-left:5px;" );
     if ( images->seven.toLoad == true )
-        checkSeven.setChecked( true );
+       check[Check::SEVEN].setChecked( true );
 
 
     layRadioImage = new QVBoxLayout();
@@ -63,13 +67,13 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool* isScaled, b
     layRadioImage->addSpacing(8);
     layRadioImage->addWidget( &radio[Radio::CROP] );
     layRadioImage->addSpacing(15);
-    layRadioImage->addWidget( &checkFour );
+    layRadioImage->addWidget( &check[Check::FOUR] );
     layRadioImage->addSpacing(8);
-    layRadioImage->addWidget( &checkFive );
+    layRadioImage->addWidget( &check[Check::FIVE] );
     layRadioImage->addSpacing(8);
-    layRadioImage->addWidget( &checkSix );
+    layRadioImage->addWidget( &check[Check::SIX] );
     layRadioImage->addSpacing(8);
-    layRadioImage->addWidget( &checkSeven );
+    layRadioImage->addWidget( &check[Check::SEVEN] );
     layRadioImage->addSpacing(15);
 
     boxRadioImage.setLayout( layRadioImage );
@@ -161,10 +165,10 @@ void WindowSetting::setColor()
     else
         color = Color::RED;
 
-    images->four.toLoad = ( checkFour.isChecked() ) ? true : false;
-    images->five.toLoad = ( checkFive.isChecked() ) ? true : false;
-    images->six.toLoad = ( checkSix.isChecked() ) ? true : false;
-    images->seven.toLoad = ( checkSeven.isChecked() ) ? true : false;
+    images->four.toLoad = ( check[Check::FOUR].isChecked() ) ? true : false;
+    images->five.toLoad = ( check[Check::FIVE].isChecked() ) ? true : false;
+    images->six.toLoad = ( check[Check::SIX].isChecked() ) ? true : false;
+    images->seven.toLoad = ( check[Check::SEVEN].isChecked() ) ? true : false;
 
     *isScaled = ( radio[Radio::SCALE].isChecked() ) ? true : false;
     *isPl = ( radio[Radio::PL].isChecked() ) ? true : false;

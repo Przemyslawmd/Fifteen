@@ -14,6 +14,7 @@
 #include <Types.h>
 
 #define RADIOCOUNT 7
+#define CHECKCOUNT 4
 
 class WindowSetting : public QDialog
 {
@@ -22,6 +23,7 @@ private:
     Q_OBJECT
 
     enum Radio { SCALE, CROP, BLUE, GREEN, RED, PL, EN };
+    enum Check { FOUR, FIVE, SIX, SEVEN };
 
     QRadioButton radio[RADIOCOUNT];
 
@@ -29,10 +31,7 @@ private:
     QButtonGroup* groupRadioColor;
     QButtonGroup* groupRadioLang;
 
-    QCheckBox checkFour;
-    QCheckBox checkFive;
-    QCheckBox checkSix;
-    QCheckBox checkSeven;
+    QCheckBox check[CHECKCOUNT];
 
     QGroupBox boxRadioImage;
     QGroupBox boxRadioColor;
