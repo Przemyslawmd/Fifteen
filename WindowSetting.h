@@ -26,36 +26,28 @@ private:
     enum Check { FOUR, FIVE, SIX, SEVEN };
 
     QRadioButton radio[RADIOCOUNT];
-
-    QButtonGroup* groupRadioImage;
-    QButtonGroup* groupRadioColor;
-    QButtonGroup* groupRadioLang;
-
     QCheckBox check[CHECKCOUNT];
+    QPushButton accept;
+
+    QButtonGroup groupRadioImage;
+    QButtonGroup groupRadioColor;
+    QButtonGroup groupRadioLang;
 
     QGroupBox boxRadioImage;
     QGroupBox boxRadioColor;
     QGroupBox boxRadioLang;
 
-    QVBoxLayout* layRadioImage;
-
-    QHBoxLayout* layControls;
-
-    QPushButton* pushAccept;
-
     Color& color;
-    bool* isScaled;
-    bool* isPl;
+    bool& isScaled;
+    bool& isPl;
     ImageLoad* images;
     QMainWindow* parent;
 
 private slots:
-    void setColor();
+    void saveSettings();
 
 public:
-    WindowSetting( Color&, ImageLoad*, bool*, bool*, QMainWindow*, const QMap<QString, QString>* );
-    ~WindowSetting();
-
+    WindowSetting( Color&, ImageLoad*, bool&, bool&, QMainWindow*, const QMap<QString, QString>* );
 };
 
 #endif // SETTING_H

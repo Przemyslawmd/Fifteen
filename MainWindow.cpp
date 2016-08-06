@@ -743,7 +743,7 @@ void MainWindow::setColor()
 
 void MainWindow::slotSettings()
 {
-    new WindowSetting( color, imagesLoad, &isScaled, &isPl, this, labelsSettings);
+    new WindowSetting( color, imagesLoad, isScaled, isPl, this, labelsSettings );
 }
 
 /****************************************************************************************************************************/
