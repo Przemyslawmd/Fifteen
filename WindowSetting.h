@@ -1,7 +1,6 @@
 #ifndef SETTING_H
 #define SETTING_H
 
-#include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QRadioButton>
@@ -20,22 +19,22 @@ class WindowSetting : public QDialog
 private:
     Q_OBJECT
 
-    QRadioButton* radioScale;
-    QRadioButton* radioCrop;
-    QRadioButton* radioBlue;
-    QRadioButton* radioGreen;
-    QRadioButton* radioRed;
-    QRadioButton* radioPl;
-    QRadioButton* radioEn;
+    QRadioButton radioScale;
+    QRadioButton radioCrop;
+    QRadioButton radioBlue;
+    QRadioButton radioGreen;
+    QRadioButton radioRed;
+    QRadioButton radioPl;
+    QRadioButton radioEn;
 
     QButtonGroup* groupRadioImage;
     QButtonGroup* groupRadioColor;
     QButtonGroup* groupRadioLang;
 
-    QCheckBox* checkFour;
-    QCheckBox* checkFive;
-    QCheckBox* checkSix;
-    QCheckBox* checkSeven;
+    QCheckBox checkFour;
+    QCheckBox checkFive;
+    QCheckBox checkSix;
+    QCheckBox checkSeven;
 
     QGroupBox* boxRadioImage;
     QGroupBox* boxRadioColor;
