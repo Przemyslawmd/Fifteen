@@ -268,14 +268,15 @@ void MainWindow::setSquaresGraphic(bool isRandom)
 
     QImage** pictures;
 
-    if ( size == Size::FOUR )
-        pictures = images->getImageFour();
-    else if ( size == Size::FIVE )
-        pictures = images->getImageFive();
-    else if ( size == Size::SIX )
-        pictures = images->getImageSix();    
-    else            
-        pictures = images->getImageSeven();
+    pictures = imageProvider->getImage( size );
+    //if ( size == Size::FOUR )
+    //    pictures = images->getImageFour();
+    //else if ( size == Size::FIVE )
+    //    pictures = images->getImageFive();
+    //else if ( size == Size::SIX )
+    //    pictures = images->getImageSix();
+    //else
+    //    pictures = images->getImageSeven();
 
 
     for (int i = 0; i < size; i++)
@@ -510,9 +511,10 @@ void MainWindow::slotLoadGraphic()
         }
 
         QString message;
-        images = new Image();
-
-        images->prepareImagesForBoard( picture, &message, labelsMessages, *imagesLoad, isScaled );
+        //images = new Image();
+        imageProvider = new ImageProvider();
+        imageProvider->prepareImagesForBoard( picture, &message, labelsMessages, *imagesLoad, isScaled );
+        //images->prepareImagesForBoard( picture, &message, labelsMessages, *imagesLoad, isScaled );
         QMessageBox::information( this, "", message );
 
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )

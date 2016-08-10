@@ -22,6 +22,7 @@
 #include <Text.h>
 #include <ImageLoad.h>
 #include <Types.h>
+#include <ImageProvider.h>
 
 
 class MainWindow : public QMainWindow
@@ -75,6 +76,7 @@ class MainWindow : public QMainWindow
 
     Board* board;
     Image* images;
+    ImageProvider* imageProvider;
 
     // Current size of board
     Size size;

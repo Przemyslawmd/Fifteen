@@ -11,6 +11,7 @@ public:
 
     ImageProvider();
 
+    QImage** getImage( int );
     void prepareImagesForBoard( QImage*, QString*, const QMap<QString, QString>*, ImageLoad&, bool );
 
 private:

@@ -6,23 +6,9 @@
 
 Image_::Image_( int size) : size( size )
 {
-    image = new QImage*[size];
-    for (int i = 0; i < size; i++)
-        image[i] = 0;
-
-    /*
-    imageFive = new QImage*[25];
-    for (int i = 0; i < 25; i++)
-        imageFive[i] = 0;
-
-    imageSix = new QImage*[36];
-    for (int i = 0; i < 36; i++)
-        imageSix[i] = 0;
-
-    imageSeven = new QImage*[49];
-    for (int i = 0; i < 49; i++)
-        imageSeven[i] = 0;
-        */
+    image = new QImage*[size * size];
+    for (int i = 0; i < (size * size); i++)
+        image[i] = 0;    
 }
 
 /**************************************************************************************************************************/
@@ -32,33 +18,10 @@ Image_::~Image_()
 {
     if (image[0] != 0)
     {
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < (size * size); i++)
             delete image[i];
         delete[] image;
-    }
-
-    /*
-    if (imageFive[0] != 0)
-    {
-        for (int i = 0; i < 25; i++)
-            delete imageFive[i];
-        delete[] imageFive;
-    }
-
-    if (imageSix[0] != 0)
-    {
-        for (int i = 0; i < 36; i++)
-            delete imageSix[i];
-        delete[] imageSix;
-    }
-
-    if (imageSeven[0] != 0)
-    {
-        for (int i = 0; i < 49; i++)
-            delete imageSeven[i];
-        delete[] imageSeven;
-    }
-    */
+    }    
 }
 
 
@@ -69,22 +32,6 @@ QImage** Image_::getImage()
 {
     return image;
 }
-/*
-QImage** Image_::getImageFive()
-{
-    return imageFive;
-}
-
-QImage** Image_::getImageSix()
-{
-    return imageSix;
-}
-
-QImage** Image_::getImageSeven()
-{
-    return imageSeven;
-}
-*/
 
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE TO BE LOADED IN SCALE MODE IS LOADABLE ************************************************************/
@@ -127,6 +74,7 @@ void Image_::prepareCroppedImage( QImage* image, State& state, QString* message,
 /**************************************************************************************************************************/
 /* RESTORE SAVED IMAGE BOARD **********************************************************************************************/
 
+/*
 bool Image_::restoreImageFromFile( uchar* bufferImage, int size )
 {
     QImage** image;
@@ -151,18 +99,18 @@ bool Image_::restoreImageFromFile( uchar* bufferImage, int size )
     }
     return true;
 }
-
+*/
 /**************************************************************************************************************************/
 /* MAKE IMAGE FOR EACH SQUARE *********************************************************************************************/
 
 bool Image_::setImage(QImage* imageWhole, int size)
 {
     // Settings white (empty) image
-    (*image)[0] = new QImage(50,50, QImage::Format_RGB32);
+    image[0] = new QImage(50,50, QImage::Format_RGB32);
     for (int i = 0; i < 50; i++)
     {
         for (int j = 0; j < 50; j++)
-            (*image)[0]->setPixel(i, j, qRgb(255, 255, 255));
+            image[0]->setPixel(i, j, qRgb(255, 255, 255));
     }
 
     int x = 0;
@@ -176,12 +124,12 @@ bool Image_::setImage(QImage* imageWhole, int size)
 
             try
             {
-                (*image)[++x] = new QImage(50, 50, QImage::Format_RGB32);
+                image[++x] = new QImage(50, 50, QImage::Format_RGB32);
 
                 for (int k = 0; k < 50; k++)
                 {
                     for (int l = 0; l < 50; l++)
-                        (*image)[x]->setPixel(k,l, imageWhole->pixel(k + j ,l + i));
+                        image[x]->setPixel(k,l, imageWhole->pixel(k + j ,l + i));
                 }
             }
             catch (...)

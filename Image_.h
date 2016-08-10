@@ -19,12 +19,12 @@ public:
     //QImage** getImageSeven();
 
     //void prepareImagesForBoard( QImage*, QString*, const QMap<QString, QString>*, ImageLoad&, bool );
-    bool restoreImageFromFile( uchar*, int );
+    //bool restoreImageFromFile( uchar*, int );
 
 private:
 
     int size;
-    bool setImage(QImage*, int);
+    bool setImage(QImage*, int );
     bool tryImage();
 
     // One dimension array with QImage pointers
