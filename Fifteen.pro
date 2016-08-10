@@ -6,7 +6,9 @@ SOURCES += \
     Image.cpp \
     Text.cpp \
     WindowAbout.cpp \
-    ImageLoad.cpp
+    ImageLoad.cpp \
+    ImageProvider.cpp \
+    Image_.cpp
 
 HEADERS += \
     WindowSetting.h \
@@ -16,7 +18,9 @@ HEADERS += \
     Text.h \
     WindowAbout.h \
     ImageLoad.h \
-    Types.h
+    Types.h \
+    ImageProvider.h \
+    Image_.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
