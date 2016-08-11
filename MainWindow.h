@@ -16,7 +16,7 @@
 #include <QIcon>
 #include <QBuffer>
 #include <Board.h>
-#include <Image.h>
+//#include <Image.h>
 #include <WindowSetting.h>
 #include <WindowAbout.h>
 #include <Text.h>
@@ -75,7 +75,6 @@ class MainWindow : public QMainWindow
     QRadioButton* radioGraphic;
 
     Board* board;
-    Image* images;
     ImageProvider* imageProvider;
 
     // Current size of board

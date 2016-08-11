@@ -1,10 +1,9 @@
 #include "Image_.h"
 
-
 /*************************************************************************************************************************/
 /* CONSTRUCTOR ***********************************************************************************************************/
 
-Image_::Image_( int size) : size( size )
+Image_::Image_( int size ) : size( size )
 {
     image = new QImage*[size * size];
     for (int i = 0; i < (size * size); i++)
@@ -23,14 +22,6 @@ Image_::~Image_()
         delete[] image;
     }    
 }
-/*
-f (imageFour[0] != 0)
-    {
-        for (int i = 0; i < 16; i++)
-            delete imageFour[i];
-        delete[] imageFour;
-    }
-*/
 
 /**************************************************************************************************************************/
 /* SEND IMAGE *************************************************************************************************************/
@@ -79,40 +70,11 @@ void Image_::prepareCroppedImage( QImage* image, State& state, QString* message,
 }
 
 /**************************************************************************************************************************/
-/* RESTORE SAVED IMAGE BOARD **********************************************************************************************/
-
-/*
-bool Image_::restoreImageFromFile( uchar* bufferImage, int size )
-{
-    QImage** image;
-
-    if ( size == 4 )
-        image = imageFour;
-    else if ( size == 5 )
-        image = imageFive;
-    else if ( size == 6 )
-        image = imageSix;
-    else if ( size == 7 )
-        image = imageSeven;
-
-    try
-    {
-        for ( int i = 0; i < size * size; i++ )
-            image[i] = new QImage( bufferImage + i * 10000, 50, 50, QImage::Format_RGB32 );
-    }
-    catch(...)
-    {
-        return false;
-    }
-    return true;
-}
-*/
-/**************************************************************************************************************************/
 /* MAKE IMAGE FOR EACH SQUARE *********************************************************************************************/
 
 bool Image_::setImage(QImage* imageWhole, int size)
 {
-    // Settings white (empty) image
+    // Set white (empty) image
     image[0] = new QImage(50,50, QImage::Format_RGB32);
     for (int i = 0; i < 50; i++)
     {
@@ -148,3 +110,19 @@ bool Image_::setImage(QImage* imageWhole, int size)
     return true;
 }
 
+/*****************************************************************************************************/
+/* RESTORE IMAGES FROM FILE BUFFER *******************************************************************/
+
+bool Image_::restoreImagesFromFile( uchar* data )
+{
+    try
+    {
+        for ( int i = 0; i < size * size; i++ )
+            image[i] = new QImage( data + i * 10000, 50, 50, QImage::Format_RGB32 );
+    }
+    catch(...)
+    {
+        return false;
+    }
+    return true;
+}

@@ -2,6 +2,12 @@
 
 ImageProvider::ImageProvider()
 {
+    //imageFour = new QImage*[16];
+    //for (int i = 0; i < 16; i++)
+     //   imageFour[i] = 0;
+
+    images = new Image_*[4];
+
     for ( int i = 0; i < 4; i++ )
         images[i] = nullptr;
 }
@@ -13,6 +19,8 @@ ImageProvider::~ImageProvider()
         if ( images[i] != nullptr )
             delete images[i];
     }
+
+    delete [] images;
 
 }
 
@@ -50,3 +58,10 @@ QImage** ImageProvider::getImage( int size )
 {
     return images[size - 4]->getImage();
 }
+
+bool ImageProvider::restoreImageBoardFromFile( uchar* data, int size )
+{
+    images[size - 4] = new Image_( size * size );
+    return images[size - 4]->restoreImagesFromFile( data );
+}
+

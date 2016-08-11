@@ -17,13 +17,13 @@ public:
 
 private:
 
-    int size;
-    bool setImage(QImage*, int );
+    friend class ImageProvider;
 
-    // One dimension array with QImage pointers
+    int size;
     QImage** image;
 
-    friend class ImageProvider;
+    bool setImage(QImage*, int );
+    bool restoreImagesFromFile( uchar* );
 
     void prepareScaledImage( QImage*, State&, QString*, const QMap<QString,QString>* );
     void prepareCroppedImage( QImage*, State&, QString*, const QMap<QString,QString>* );    

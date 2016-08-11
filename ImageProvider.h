@@ -15,16 +15,12 @@ public:
 
     QImage** getImage( int );
     void prepareBoardImage( QImage*, QString*, const QMap<QString, QString>*, ImageLoad&, bool );
+    bool restoreImageBoardFromFile( uchar*, int );
 
 private:
 
     enum index { FOUR, FIVE, SIX, SEVEN };
-
-    Image_* images[4];
-    Image_* imageFour;
-    Image_* imageFive;
-    Image_* imageSix;
-    Image_* imageSeven;
+    Image_** images;
 
     void ( Image_::*pPrepareImage )( QImage*, State&, QString*, const QMap<QString,QString>* );
 

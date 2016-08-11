@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     isPl = true;
 
     imagesLoad = new ImageLoad();
+    imageProvider = nullptr;
 
     numberStyleRed = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #800000, stop:1 #EE0000); color:white; font-size:20px; border:1px solid white;");
     numberStyleGreen = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; font-size:20px; border:1px solid white;");
@@ -266,18 +267,7 @@ void MainWindow::setSquaresGraphic(bool isRandom)
     else
         values = board->randomBoard();
 
-    QImage** pictures;
-
-    pictures = imageProvider->getImage( size );
-    //if ( size == Size::FOUR )
-    //    pictures = images->getImageFour();
-    //else if ( size == Size::FIVE )
-    //    pictures = images->getImageFive();
-    //else if ( size == Size::SIX )
-    //    pictures = images->getImageSix();
-    //else
-    //    pictures = images->getImageSeven();
-
+    QImage** pictures = imageProvider->getImage( size );
 
     for (int i = 0; i < size; i++)
     {
@@ -297,8 +287,8 @@ void MainWindow::setSquaresGraphic(bool isRandom)
 
 /****************************************************************************************************************************/
 /* GENERATE BOARD ***********************************************************************************************************/
-/* Invokes proper method in board object ************************************************************************************/
-/* Receives array of values and set controls ********************************************************************************/
+/* Invoke proper method in board object *************************************************************************************/
+/* Get an array of values and set controls **********************************************************************************/
 
 void MainWindow::slotGenerateBoard()
 {
@@ -386,15 +376,7 @@ void MainWindow::slotSolveBoard()
     else
     {
         QImage** pictures;
-
-        if ( size == Size::FOUR )
-            pictures = images->getImageFour();
-        else if ( size == Size::FIVE )
-            pictures = images->getImageFive();
-        else if ( size == Size::SIX )
-            pictures = images->getImageSix();
-        else
-            pictures = images->getImageSeven();
+        pictures = imageProvider->getImage( size );
 
         int k = 1;
         for (int i = 0; i < size; i++)
@@ -583,17 +565,7 @@ void MainWindow::slotSaveBoard()
         // If board is graphical then bitmaps are saved as well
         if (!isNumber)
         {
-            QImage** pictures;
-
-            if ( size == Size::FOUR )
-                pictures = images->getImageFour();
-            else if ( size == Size::FIVE )
-                pictures = images->getImageFive();
-            else if ( size == Size::SIX )
-                pictures = images->getImageSix();
-            else
-                pictures = images->getImageSeven();
-
+            QImage** pictures = imageProvider->getImage(size);
             uchar* buffer = new uchar[10000];
 
             for (int i = 0; i < size * size; i++)
@@ -667,16 +639,18 @@ void MainWindow::slotReadBoard()
            for (int i = 0; i < ( size  * size ); i++)
                outData.readRawData((char*)(buffer + i * 10000), 10000);
 
-           images = new Image();
+           if ( imageProvider != nullptr )
+               delete imageProvider;
+           imageProvider = new ImageProvider();
 
-           if (size == 4)                      
-                imagesLoad->four.loaded = images->restoreImageFromFile( buffer, size );
+           if (size == 4)
+                imagesLoad->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
            else if (size == 5)
-               imagesLoad->five.loaded = images->restoreImageFromFile( buffer, size );
+               imagesLoad->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
            else if (size == 6)
-               imagesLoad->six.loaded = images->restoreImageFromFile( buffer, size );
+               imagesLoad->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
            else
-               imagesLoad->seven.loaded = images->restoreImageFromFile( buffer, size );
+               imagesLoad->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
 
            setSquaresGraphic(false);
            radioGraphic->setEnabled(true);
