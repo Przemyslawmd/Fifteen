@@ -1,9 +1,9 @@
-#include "Image_.h"
+#include "Images/Image.h"
 
 /*************************************************************************************************************************/
 /* CONSTRUCTOR ***********************************************************************************************************/
 
-Image_::Image_( int size ) : size( size )
+Image::Image( int size ) : size( size )
 {
     image = new QImage*[size * size];
     for (int i = 0; i < (size * size); i++)
@@ -13,7 +13,7 @@ Image_::Image_( int size ) : size( size )
 /**************************************************************************************************************************/
 /* DESTRUCTOR *************************************************************************************************************/
 
-Image_::~Image_()
+Image::~Image()
 {
     if (image[0] != 0)
     {
@@ -26,7 +26,7 @@ Image_::~Image_()
 /**************************************************************************************************************************/
 /* SEND IMAGE *************************************************************************************************************/
 
-QImage** Image_::getImage()
+QImage** Image::getImage()
 {
     return image;
 }
@@ -34,7 +34,7 @@ QImage** Image_::getImage()
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE TO BE LOADED IN SCALE MODE IS LOADABLE ************************************************************/
 
-void Image_::prepareScaledImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
+void Image::prepareScaledImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
     if (( image->height() >= state.resolution ) && (image->width() >= state.resolution ))
     {
@@ -53,7 +53,7 @@ void Image_::prepareScaledImage( QImage* image, State& state, QString* message, 
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE TO BE LOADED IN CROP MODE IS LOADABLE ************************************************************/
 
-void Image_::prepareCroppedImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
+void Image::prepareCroppedImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
     if (( image->height() >= state.resolution ) && (image->width() >= state.resolution ))
     {
@@ -72,7 +72,7 @@ void Image_::prepareCroppedImage( QImage* image, State& state, QString* message,
 /**************************************************************************************************************************/
 /* MAKE IMAGE FOR EACH SQUARE *********************************************************************************************/
 
-bool Image_::setImage(QImage* imageWhole, int size)
+bool Image::setImage(QImage* imageWhole, int size)
 {
     // Set white (empty) image
     image[0] = new QImage(50,50, QImage::Format_RGB32);
@@ -113,7 +113,7 @@ bool Image_::setImage(QImage* imageWhole, int size)
 /*****************************************************************************************************/
 /* RESTORE IMAGES FROM FILE BUFFER *******************************************************************/
 
-bool Image_::restoreImagesFromFile( uchar* data )
+bool Image::restoreImagesFromFile( uchar* data )
 {
     try
     {

@@ -1,9 +1,9 @@
 #ifndef IMAGEPROVIDER_H
 #define IMAGEPROVIDER_H
 
-#include <ImageLoad.h>
+#include <Images/ImageLoad.h>
 #include <QImage>
-#include <Image_.h>
+#include <Images/Image.h>
 #include <Types.h>
 
 class ImageProvider
@@ -20,9 +20,9 @@ public:
 private:
 
     enum index { FOUR, FIVE, SIX, SEVEN };
-    Image_** images;
+    Image** images;
 
-    void ( Image_::*pPrepareImage )( QImage*, State&, QString*, const QMap<QString,QString>* );
+    void ( Image::*pPrepareImage )( QImage*, State&, QString*, const QMap<QString,QString>* );
 
 };
 

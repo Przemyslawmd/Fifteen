@@ -10,7 +10,7 @@
 #include <QCheckBox>
 #include <QDialog>
 #include <MainWindow.h>
-#include <ImageLoad.h>
+#include <Images/ImageLoad.h>
 #include <Types.h>
 
 #define RADIOCOUNT 7

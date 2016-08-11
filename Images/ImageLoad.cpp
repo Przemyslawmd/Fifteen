@@ -1,4 +1,4 @@
-#include "ImageLoad.h"
+#include "Images/ImageLoad.h"
 
 ImageLoad::ImageLoad() :
     four( 200, 4, true, false, "4x4\n\n" ),
@@ -16,7 +16,4 @@ void ImageLoad::resetLoaded()
     six.loaded = false;
     seven.loaded = false;
 }
-
-
-
 

@@ -16,13 +16,13 @@
 #include <QIcon>
 #include <QBuffer>
 #include <Board.h>
-//#include <Image.h>
+#include <Images/Image.h>
 #include <WindowSetting.h>
 #include <WindowAbout.h>
 #include <Text.h>
-#include <ImageLoad.h>
+#include <Images/ImageLoad.h>
 #include <Types.h>
-#include <ImageProvider.h>
+#include <Images/ImageProvider.h>
 
 
 class MainWindow : public QMainWindow

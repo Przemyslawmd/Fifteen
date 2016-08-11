@@ -3,24 +3,22 @@ SOURCES += \
     MainWindow.cpp \
     Board.cpp \
     Entry.cpp \
-    Image.cpp \
     Text.cpp \
     WindowAbout.cpp \
-    ImageLoad.cpp \
-    ImageProvider.cpp \
-    Image_.cpp
+    Images/Image.cpp \
+    Images/ImageLoad.cpp \
+    Images/ImageProvider.cpp
 
 HEADERS += \
     WindowSetting.h \
     MainWindow.h \
-    Image.h \
     Board.h \
     Text.h \
     WindowAbout.h \
-    ImageLoad.h \
     Types.h \
-    ImageProvider.h \
-    Image_.h
+    Images/Image.h \
+    Images/ImageLoad.h \
+    Images/ImageProvider.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11

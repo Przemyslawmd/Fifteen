@@ -3,15 +3,15 @@
 
 #include <QImage>
 #include <QMap>
-#include <ImageLoad.h>
+#include <Images/ImageLoad.h>
 
 class ImageProvider;
 
-class Image_
+class Image
 {
 public:
-    Image_( int size );
-    ~Image_();
+    Image( int size );
+    ~Image();
 
     QImage** getImage();
 
@@ -22,7 +22,7 @@ private:
     int size;
     QImage** image;
 
-    bool setImage(QImage*, int );
+    bool setImage( QImage*, int );
     bool restoreImagesFromFile( uchar* );
 
     void prepareScaledImage( QImage*, State&, QString*, const QMap<QString,QString>* );
