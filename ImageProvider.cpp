@@ -13,16 +13,8 @@ ImageProvider::~ImageProvider()
         if ( images[i] != nullptr )
             delete images[i];
     }
-    delete [] images;
+
 }
-/*
-if (imageSeven[0] != 0)
-{
-    for (int i = 0; i < 49; i++)
-        delete imageSeven[i];
-    delete[] imageSeven;
-}
-*/
 
 void ImageProvider::prepareBoardImage( QImage* image, QString* message, const QMap<QString,QString>* labels, ImageLoad& imageState, bool isScaled )
 {
