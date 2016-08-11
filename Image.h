@@ -21,7 +21,6 @@ public:
 private:
 
     bool setImage(QImage*, QImage***, int);
-    bool tryImage();
 
     // One dimension array with QImage pointers
     QImage** imageFour;

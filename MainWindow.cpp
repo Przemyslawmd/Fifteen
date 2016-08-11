@@ -513,7 +513,7 @@ void MainWindow::slotLoadGraphic()
         QString message;
         //images = new Image();
         imageProvider = new ImageProvider();
-        imageProvider->prepareImagesForBoard( picture, &message, labelsMessages, *imagesLoad, isScaled );
+        imageProvider->prepareBoardImage( picture, &message, labelsMessages, *imagesLoad, isScaled );
         //images->prepareImagesForBoard( picture, &message, labelsMessages, *imagesLoad, isScaled );
         QMessageBox::information( this, "", message );
 
@@ -530,7 +530,9 @@ void MainWindow::slotLoadGraphic()
 
 void MainWindow::slotRemoveGraphic()
 {
-    delete images;
+    delete imageProvider;
+    imageProvider = nullptr;
+
     radioGraphic->setEnabled( false );
     radioNumber->setChecked( true );
     acRemoveGraphic->setEnabled( false );

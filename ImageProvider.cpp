@@ -2,43 +2,59 @@
 
 ImageProvider::ImageProvider()
 {
-
+    for ( int i = 0; i < 4; i++ )
+        images[i] = nullptr;
 }
 
-void ImageProvider::prepareImagesForBoard( QImage* image, QString* message, const QMap<QString,QString>* labels, ImageLoad& imageState, bool isScaled )
+ImageProvider::~ImageProvider()
+{
+    for ( int i = 0; i < 4; i++ )
+    {
+        if ( images[i] != nullptr )
+            delete images[i];
+    }
+    delete [] images;
+}
+/*
+if (imageSeven[0] != 0)
+{
+    for (int i = 0; i < 49; i++)
+        delete imageSeven[i];
+    delete[] imageSeven;
+}
+*/
+
+void ImageProvider::prepareBoardImage( QImage* image, QString* message, const QMap<QString,QString>* labels, ImageLoad& imageState, bool isScaled )
 {
     pPrepareImage = ( isScaled ) ? &Image_::prepareScaledImage : &Image_::prepareCroppedImage;
 
     if ( imageState.four.toLoad )
     {
-        imageFour = new Image_( imageState.four.size );
-        ( imageFour->*pPrepareImage )( image, imageState.four, message, labels );
+        images[FOUR] = new Image_( imageState.four.size );
+        ( images[FOUR]->*pPrepareImage )( image, imageState.four, message, labels );
     }
 
     if ( imageState.five.toLoad )
     {
-        imageFive = new Image_( imageState.five.size );
-        ( imageFive->*pPrepareImage )( image, imageState.five, message, labels );
+        images[FIVE] = new Image_( imageState.five.size );
+        ( images[FIVE]->*pPrepareImage )( image, imageState.five, message, labels );
     }
 
     if ( imageState.six.toLoad )
     {
-        imageSix = new Image_( imageState.six.size );
-        ( imageSix->*pPrepareImage )( image, imageState.six, message, labels );
+        images[SIX] = new Image_( imageState.six.size );
+        ( images[SIX]->*pPrepareImage )( image, imageState.six, message, labels );
     }
 
     if ( imageState.seven.toLoad )
     {
-        imageSeven = new Image_( imageState.seven.size );
-        ( imageSeven->*pPrepareImage )( image, imageState.seven, message, labels );
+        images[SEVEN] = new Image_( imageState.seven.size );
+        ( images[SEVEN]->*pPrepareImage )( image, imageState.seven, message, labels );
     }
 
 }
 
 QImage** ImageProvider::getImage( int size )
 {
-    if ( size == 4 )
-        return imageFour->getImage();
-    return nullptr;
-
+    return images[size - 4]->getImage();
 }

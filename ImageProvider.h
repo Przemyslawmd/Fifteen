@@ -4,18 +4,23 @@
 #include <ImageLoad.h>
 #include <QImage>
 #include <Image_.h>
+#include <Types.h>
 
 class ImageProvider
 {
 public:
 
     ImageProvider();
+    ~ImageProvider();
 
     QImage** getImage( int );
-    void prepareImagesForBoard( QImage*, QString*, const QMap<QString, QString>*, ImageLoad&, bool );
+    void prepareBoardImage( QImage*, QString*, const QMap<QString, QString>*, ImageLoad&, bool );
 
 private:
 
+    enum index { FOUR, FIVE, SIX, SEVEN };
+
+    Image_* images[4];
     Image_* imageFour;
     Image_* imageFive;
     Image_* imageSix;
