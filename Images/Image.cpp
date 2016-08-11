@@ -32,13 +32,13 @@ QImage** Image::getImage()
 }
 
 /***************************************************************************************************************************/
-/* CHECK WHETHER AN IMAGE TO BE LOADED IN SCALE MODE IS LOADABLE ************************************************************/
+/* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A SCALE MODE *******************************************************************/
 
 void Image::prepareScaledImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
     if (( image->height() >= state.resolution ) && (image->width() >= state.resolution ))
     {
-        if ( setImage( new QImage( image->scaled( state.resolution, state.resolution )), state.size ))
+        if ( createSquareImage( new QImage( image->scaled( state.resolution, state.resolution )), state.size ))
         {
             state.loaded = true;
             message->append( labels->value("success") + state.message );
@@ -50,14 +50,14 @@ void Image::prepareScaledImage( QImage* image, State& state, QString* message, c
         message->append(labels->value("toLow") + state.message );
 }
 
-/***************************************************************************************************************************/
-/* CHECK WHETHER AN IMAGE TO BE LOADED IN CROP MODE IS LOADABLE ************************************************************/
+/****************************************************************************************************************************/
+/* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A CROP MODE *********************************************************************/
 
 void Image::prepareCroppedImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
     if (( image->height() >= state.resolution ) && (image->width() >= state.resolution ))
     {
-        if ( setImage( new QImage(image->copy(( image->width() - state.resolution)/2, ( image->height() - state.resolution )/2, state.resolution, state.resolution )), state.size ))
+        if ( createSquareImage( new QImage(image->copy(( image->width() - state.resolution)/2, ( image->height() - state.resolution )/2, state.resolution, state.resolution )), state.size ))
         {
             state.loaded = true;
             message->append( labels->value("success") + state.message );
@@ -72,33 +72,33 @@ void Image::prepareCroppedImage( QImage* image, State& state, QString* message, 
 /**************************************************************************************************************************/
 /* MAKE IMAGE FOR EACH SQUARE *********************************************************************************************/
 
-bool Image::setImage(QImage* imageWhole, int size)
+bool Image::createSquareImage( QImage* imageWhole, int size )
 {
-    // Set white (empty) image
-    image[0] = new QImage(50,50, QImage::Format_RGB32);
-    for (int i = 0; i < 50; i++)
+    // Set white (empty) square
+    image[0] = new QImage( SQUARE_SIZE, SQUARE_SIZE, QImage::Format_RGB32 );
+    for (int i = 0; i < SQUARE_SIZE; i++)
     {
-        for (int j = 0; j < 50; j++)
-            image[0]->setPixel(i, j, qRgb(255, 255, 255));
+        for (int j = 0; j < SQUARE_SIZE; j++)
+            image[0]->setPixel( i, j, qRgb( 255, 255, 255 ));
     }
 
     int x = 0;
 
-    for (int i = 0; i < size * 50; i += 50)
+    for ( int i = 0; i < size * SQUARE_SIZE; i += SQUARE_SIZE )
     {
-        for (int j = 0; j < size * 50; j +=50)
+        for ( int j = 0; j < size * SQUARE_SIZE; j += SQUARE_SIZE )
         {
-            if ((i == size * 50 - 50) && (j == size * 50 - 50))
+            if (( i == size * SQUARE_SIZE - SQUARE_SIZE ) && ( j == size * SQUARE_SIZE - SQUARE_SIZE ))
                 return true;
 
             try
             {
-                image[++x] = new QImage(50, 50, QImage::Format_RGB32);
+                image[++x] = new QImage( SQUARE_SIZE, SQUARE_SIZE, QImage::Format_RGB32 );
 
-                for (int k = 0; k < 50; k++)
+                for ( int k = 0; k < SQUARE_SIZE; k++ )
                 {
-                    for (int l = 0; l < 50; l++)
-                        image[x]->setPixel(k,l, imageWhole->pixel(k + j ,l + i));
+                    for ( int l = 0; l < SQUARE_SIZE; l++ )
+                        image[x]->setPixel( k, l, imageWhole->pixel( k + j, l + i ));
                 }
             }
             catch (...)
@@ -118,7 +118,7 @@ bool Image::restoreImagesFromFile( uchar* data )
     try
     {
         for ( int i = 0; i < size * size; i++ )
-            image[i] = new QImage( data + i * 10000, 50, 50, QImage::Format_RGB32 );
+            image[i] = new QImage( data + i * 10000, SQUARE_SIZE, SQUARE_SIZE, QImage::Format_RGB32 );
     }
     catch(...)
     {

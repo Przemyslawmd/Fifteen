@@ -543,10 +543,10 @@ void MainWindow::slotSaveBoard()
 
     if (!fileName.isEmpty())
     {                
-        QFile file(fileName);
-        file.open(QIODevice::WriteOnly);
-        QDataStream inData(&file);
-        inData.setVersion(QDataStream::Qt_4_6);
+        QFile file( fileName );
+        file.open( QIODevice::WriteOnly );
+        QDataStream inData( &file );
+        inData.setVersion( QDataStream::Qt_4_6 );
 
         inData << (bool)isNumber;
         inData << (qint32)size;
@@ -560,15 +560,15 @@ void MainWindow::slotSaveBoard()
         }
 
         // If board is graphical then bitmaps are saved as well
-        if (!isNumber)
+        if ( !isNumber )
         {
-            QImage** pictures = imageProvider->getImage(size);
-            uchar* buffer = new uchar[10000];
+            QImage** pictures = imageProvider->getImage( size );
+            uchar buffer[10000];
 
             for (int i = 0; i < size * size; i++)
             {
                 memcpy(buffer, pictures[i]->bits(), pictures[i]->byteCount());
-                inData.writeRawData((char*)buffer, 10000);
+                inData.writeRawData( (char*)&buffer, 10000 );
             }
         }
 
@@ -581,13 +581,13 @@ void MainWindow::slotSaveBoard()
 
 void MainWindow::slotReadBoard()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,"",QDir::currentPath());
+    QString fileName = QFileDialog::getOpenFileName( this,"",QDir::currentPath() );
 
-    if(!fileName.isEmpty())
+    if( !fileName.isEmpty() )
     {
-        QFile file(fileName);
-        file.open(QIODevice::ReadOnly);
-        QDataStream outData(&file);
+        QFile file( fileName );
+        file.open( QIODevice::ReadOnly );
+        QDataStream outData( &file );
 
         QLayoutItem *child;
         while ((child = layImageVertical->takeAt(0)) != 0)
@@ -596,9 +596,9 @@ void MainWindow::slotReadBoard()
         delete board;
         deleteSquares();
 
+        uchar* buffer;
         bool tempIsNumber;
         int** tempValues;
-
         int tempSize;
 
         outData >> tempIsNumber;
@@ -626,34 +626,56 @@ void MainWindow::slotReadBoard()
 
         if ( tempIsNumber == 1 )
         {
-            setSquaresNumber(false);
+            setSquaresNumber( false );
             isNumber = true;
+            radioNumber->setChecked( true );
         }
         else
         {
-           uchar* buffer = new uchar[10000 * size * size];
-
+           buffer = new uchar[10000 * size * size];
            for (int i = 0; i < ( size  * size ); i++)
                outData.readRawData((char*)(buffer + i * 10000), 10000);
 
            ImageProvider::deleteInstance();
            imageProvider = ImageProvider::getInstance();
 
-           if (size == 4)
-                imagesLoad->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-           else if (size == 5)
-               imagesLoad->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-           else if (size == 6)
-               imagesLoad->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-           else
-               imagesLoad->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
+           try {
+                if ( size == 4 )
+                {
+                    imagesLoad->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
+                    radioFour->setChecked( true );
+                }
+                else if ( size == 5 )
+                {
+                    imagesLoad->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
+                    radioFive->setChecked( true );
+                }
+                else if ( size == 6 )
+                {
+                    imagesLoad->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
+                    radioSix->setChecked( true );
+                }
+                else
+                {
+                    imagesLoad->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
+                    radioSeven->setChecked( true );
+                }
+           }
+           catch( ... )
+           {
+               delete buffer;
+               file.close();
+               return;
+           }
 
-           setSquaresGraphic(false);
-           radioGraphic->setEnabled(true);
-           acRemoveGraphic->setEnabled(true);
+           setSquaresGraphic( false );
+           radioGraphic->setEnabled( true );
+           radioGraphic->setChecked( true );
+           acRemoveGraphic->setEnabled( true );
            isNumber = false;
         }
 
+        delete buffer;
         file.close();
     }
 }
