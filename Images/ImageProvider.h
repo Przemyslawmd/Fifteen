@@ -25,6 +25,8 @@ private:
     void ( Image::*pPrepareImage )( QImage*, State&, QString*, const QMap<QString,QString>* );
 
     enum index { FOUR, FIVE, SIX, SEVEN };
+    const int COUNT = 4;
+
     Image** images;
     static ImageProvider* instance;
 };

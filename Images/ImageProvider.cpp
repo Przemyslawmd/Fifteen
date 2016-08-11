@@ -27,9 +27,9 @@ void ImageProvider::deleteInstance()
 
 ImageProvider::ImageProvider()
 {
-    images = new Image*[4];
+    images = new Image*[COUNT];
 
-    for ( int i = 0; i < 4; i++ )
+    for ( int i = 0; i < COUNT; i++ )
         images[i] = nullptr;
 }
 
@@ -38,7 +38,7 @@ ImageProvider::ImageProvider()
 
 ImageProvider::~ImageProvider()
 {
-    for ( int i = 0; i < 4; i++ )
+    for ( int i = 0; i < COUNT; i++ )
     {
         if ( images[i] != nullptr )
             delete images[i];
@@ -85,7 +85,7 @@ void ImageProvider::prepareBoardImage( QImage* image, QString* message, const QM
 
 QImage** ImageProvider::getImage( int size )
 {
-    return images[size - 4]->getImage();
+    return images[size - COUNT]->getImage();
 }
 
 /*******************************************************************************************/
@@ -93,7 +93,7 @@ QImage** ImageProvider::getImage( int size )
 
 bool ImageProvider::restoreImageBoardFromFile( uchar* data, int size )
 {
-    images[size - 4] = new Image( size * size );
+    images[size - COUNT] = new Image( size * size );
     return images[size - 4]->restoreImagesFromFile( data );
 }
 
