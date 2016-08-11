@@ -10,8 +10,8 @@ class ImageProvider
 {
 public:
 
-    ImageProvider();
-    ~ImageProvider();
+    static ImageProvider* getInstance();
+    static void deleteInstance();
 
     QImage** getImage( int );
     void prepareBoardImage( QImage*, QString*, const QMap<QString, QString>*, ImageLoad&, bool );
@@ -19,11 +19,14 @@ public:
 
 private:
 
-    enum index { FOUR, FIVE, SIX, SEVEN };
-    Image** images;
+    ImageProvider();
+    ~ImageProvider();
 
     void ( Image::*pPrepareImage )( QImage*, State&, QString*, const QMap<QString,QString>* );
 
+    enum index { FOUR, FIVE, SIX, SEVEN };
+    Image** images;
+    static ImageProvider* instance;
 };
 
 #endif // IMAGEPROVIDER_H

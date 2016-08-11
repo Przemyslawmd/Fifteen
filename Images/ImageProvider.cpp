@@ -1,5 +1,27 @@
 #include "Images/ImageProvider.h"
 
+/********************************************************************************/
+/* GET IMAGE PROVIDER INSTANCE **************************************************/
+
+ImageProvider* ImageProvider::getInstance()
+{
+    if ( instance == nullptr )
+        instance = new ImageProvider();
+
+    return instance;
+}
+
+/*********************************************************************************/
+/* DELETE IMAGE PROVIDER INSTANCE ************************************************/
+
+void ImageProvider::deleteInstance()
+{
+    if ( instance == nullptr )
+        return;
+
+    delete instance;
+}
+
 /***********************************************************************************/
 /***********************************************************************************/
 
@@ -25,8 +47,8 @@ ImageProvider::~ImageProvider()
     delete [] images;
 }
 
-/***************************************************************************************/
-/* PREPARE BOARD IMAGE *****************************************************************/
+/**************************************************************************************/
+/* PREPARE BOARD IMAGE ****************************************************************/
 
 void ImageProvider::prepareBoardImage( QImage* image, QString* message, const QMap<QString,QString>* labels, ImageLoad& imageState, bool isScaled )
 {
@@ -58,16 +80,16 @@ void ImageProvider::prepareBoardImage( QImage* image, QString* message, const QM
 
 }
 
-/*********************************************************************************************/
-/* GET IMAGES ********************************************************************************/
+/*****************************************************************************************/
+/* GET IMAGES ****************************************************************************/
 
 QImage** ImageProvider::getImage( int size )
 {
     return images[size - 4]->getImage();
 }
 
-/**********************************************************************************************/
-/* RESTORE IMAGE FROM BOARD *******************************************************************/
+/*******************************************************************************************/
+/* RESTORE IMAGE FROM BOARD ****************************************************************/
 
 bool ImageProvider::restoreImageBoardFromFile( uchar* data, int size )
 {
@@ -75,3 +97,7 @@ bool ImageProvider::restoreImageBoardFromFile( uchar* data, int size )
     return images[size - 4]->restoreImagesFromFile( data );
 }
 
+/*********************************************************************************************/
+/*********************************************************************************************/
+
+ImageProvider* ImageProvider::instance = nullptr;

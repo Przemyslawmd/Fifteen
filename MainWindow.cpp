@@ -493,10 +493,8 @@ void MainWindow::slotLoadGraphic()
         }
 
         QString message;
-        //images = new Image();
-        imageProvider = new ImageProvider();
+        imageProvider = ImageProvider::getInstance();
         imageProvider->prepareBoardImage( picture, &message, labelsMessages, *imagesLoad, isScaled );
-        //images->prepareImagesForBoard( picture, &message, labelsMessages, *imagesLoad, isScaled );
         QMessageBox::information( this, "", message );
 
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )
@@ -512,8 +510,7 @@ void MainWindow::slotLoadGraphic()
 
 void MainWindow::slotRemoveGraphic()
 {
-    delete imageProvider;
-    imageProvider = nullptr;
+    ImageProvider::deleteInstance();
 
     radioGraphic->setEnabled( false );
     radioNumber->setChecked( true );
@@ -639,9 +636,8 @@ void MainWindow::slotReadBoard()
            for (int i = 0; i < ( size  * size ); i++)
                outData.readRawData((char*)(buffer + i * 10000), 10000);
 
-           if ( imageProvider != nullptr )
-               delete imageProvider;
-           imageProvider = new ImageProvider();
+           ImageProvider::deleteInstance();
+           imageProvider = ImageProvider::getInstance();
 
            if (size == 4)
                 imagesLoad->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
