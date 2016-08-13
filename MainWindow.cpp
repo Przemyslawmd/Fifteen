@@ -225,13 +225,8 @@ void MainWindow::deleteSquares()
 /* SET SQUARES NUMBER VALUES ***********************************************************************************************/
 
 void MainWindow::setSquaresNumber( bool isRandom )
-{
-    int** values;
-
-    if ( !isRandom )
-        values = board->sendBoard();
-    else
-        values = board->randomBoard();
+{    
+    int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
     if ( color == Color::BLUE )
         numberStyle = numberStyleBlue;
@@ -259,13 +254,8 @@ void MainWindow::setSquaresNumber( bool isRandom )
 /* SETS SQUARES GRAPHICAL VALUES *******************************************************************************************/
 
 void MainWindow::setSquaresGraphic(bool isRandom)
-{    
-    int** values;
-
-    if (!isRandom)
-        values = board->sendBoard();
-    else
-        values = board->randomBoard();
+{
+    int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
     QImage** pictures = imageProvider->getImage( size );
 
@@ -353,19 +343,17 @@ void MainWindow::slotGenerateBoard()
 /* SOLVES BOARD ***********************************************************************************************************/
 
 void MainWindow::slotSolveBoard()
-{
-    int** values;
+{    
+    int** values = board->solveBoard();
 
-    values = board->solveBoard();
-
-    if (isNumber)
+    if ( isNumber )
     {
-        for (int i = 0; i < size; i++)
+        for ( int i = 0; i < size; i++ )
         {
-            for (int j = 0; j < size; j++)
+            for ( int j = 0; j < size; j++ )
             {
-                control[i][j].setText( QString::number(values[i][j]) );
-                if (values[i][j] == 0)
+                control[i][j].setText( QString::number( values[i][j] ));
+                if ( values[i][j] == 0 )
                     control[i][j].setStyleSheet( *emptyStyle );
                 else
                     control[i][j].setStyleSheet( *numberStyle );
@@ -379,23 +367,23 @@ void MainWindow::slotSolveBoard()
         pictures = imageProvider->getImage( size );
 
         int k = 1;
-        for (int i = 0; i < size; i++)
+        for ( int i = 0; i < size; i++ )
         {
-            for (int j = 0; j < size; j++)
+            for ( int j = 0; j < size; j++ )
             {
                 QPixmap* pixmap = new QPixmap();
 
-                if (i == (size - 1) && j == (size - 1))
-                    pixmap->convertFromImage(*pictures[0]);
+                if ( i == ( size - 1 ) && j == ( size - 1 ))
+                    pixmap->convertFromImage( *pictures[0] );
                 else
-                    pixmap->convertFromImage(*pictures[k++]);
+                    pixmap->convertFromImage( *pictures[k++] );
 
-                QIcon icon(*pixmap);
-                QSize iconSize(50, 50);
-                control[i][j].setIconSize(iconSize);
-                control[i][j].setIcon(icon);
-                control[i][j].setStyleSheet("");
-                control[i][j].setText("");
+                QIcon icon( *pixmap );
+                QSize iconSize( 50, 50 );
+                control[i][j].setIconSize( iconSize );
+                control[i][j].setIcon( icon );
+                control[i][j].setStyleSheet( "" );
+                control[i][j].setText( "" );
             }
         }
     }
@@ -406,70 +394,69 @@ void MainWindow::slotSolveBoard()
 
 void MainWindow::passSignal()
 {
-    int position = ((QPushButton*)sender())->accessibleName().toInt();
+    int position = ( (QPushButton*)sender() )->accessibleName().toInt();
 
     int row = position / 10;
     int col = position % 10;
+    int move = board->checkMove( row, col );
 
-    int move = board->checkMove(row, col);
-
-    if (move != 0)
+    if ( move != 0 )
     {
-        // ACTION FOR NUMBER BOARD
-        if (isNumber)
+        // ACTION FOR A NUMBER BOARD
+        if ( isNumber )
         {
-            switch (move)
+            switch ( move )
             {
                 case 1:
-                    control[row - 1][col].setText(control[row][col].text());
-                    control[row - 1][col].setStyleSheet(*numberStyle);
+                    control[row - 1][col].setText( control[row][col].text() );
+                    control[row - 1][col].setStyleSheet( *numberStyle );
                 break;
 
                 case 2:
-                    control[row][col + 1].setText(control[row][col].text());
-                    control[row][col + 1].setStyleSheet(*numberStyle);
+                    control[row][col + 1].setText( control[row][col].text() );
+                    control[row][col + 1].setStyleSheet( *numberStyle );
                 break;
 
                 case 3:
-                    control[row + 1][col].setText(control[row][col].text());
-                    control[row + 1][col].setStyleSheet(*numberStyle);
+                    control[row + 1][col].setText( control[row][col].text() );
+                    control[row + 1][col].setStyleSheet( *numberStyle );
                 break;
 
                 case 4:
-                    control[row][col - 1].setText(control[row][col].text());
-                    control[row][col - 1].setStyleSheet(*numberStyle);
+                    control[row][col - 1].setText( control[row][col].text() );
+                    control[row][col - 1].setStyleSheet( *numberStyle );
                 break;
             }
-            control[row][col].setText("");
-            control[row][col].setStyleSheet(*emptyStyle);
+            control[row][col].setText( "" );
+            control[row][col].setStyleSheet( *emptyStyle );
         }
 
-        // ACTION FOR GRAPHICAL BOARD
+        // ACTION FOR A GRAPHICAL BOARD
         else
         {           
-            QPixmap pixmap(50, 50);
-            pixmap.fill(Qt::white);
-            QIcon icon(pixmap);
+            QPixmap pixmap( 50, 50 );
+            pixmap.fill( Qt::white );
+            QIcon icon( pixmap );
 
-            switch (move)
+            switch ( move )
             {
                 case 1:
-                control[row - 1][col].setIcon(control[row][col].icon());
+                control[row - 1][col].setIcon( control[row][col].icon() );
                 break;
 
                 case 2:
-                control[row][col + 1].setIcon(control[row][col].icon());
+                control[row][col + 1].setIcon( control[row][col].icon() );
                 break;
 
                 case 3:
-                control[row + 1][col].setIcon(control[row][col].icon());
+                control[row + 1][col].setIcon( control[row][col].icon() );
                 break;
 
                 case 4:
-                control[row][col - 1].setIcon(control[row][col].icon());
+                control[row][col - 1].setIcon( control[row][col].icon() );
                 break;
             }
-            control[row][col].setIcon(icon);
+            control[row][col].setIcon( icon );
         }
     }
 }
@@ -483,18 +470,18 @@ void MainWindow::slotLoadGraphic()
 
   if(!fileName.isEmpty())
   {
-        QImage* picture = new QImage();
-        picture->load(fileName);
+        QImage picture;
+        picture.load(fileName);
 
-        if(picture->isNull())
+        if( picture.isNull() )
         {
-            QMessageBox::information(this,"",labelsMessages->value("openGFail"));
+            QMessageBox::information( this, "", labelsMessages->value( "openGFail" ));
             return;
         }
 
         QString message;
         imageProvider = ImageProvider::getInstance();
-        imageProvider->prepareBoardImage( picture, &message, labelsMessages, *imagesLoad, isScaled );
+        imageProvider->prepareBoardImage( &picture, &message, labelsMessages, *imagesLoad, isScaled );
         QMessageBox::information( this, "", message );
 
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )
@@ -530,7 +517,7 @@ void MainWindow::slotRemoveGraphic()
         isNumber = true;
     }
 
-    QMessageBox::information( this,"",labelsMessages->value("remG") );
+    QMessageBox::information( this, "", labelsMessages->value( "remG" ));
 }
 
 /*******************************************************************************************************************************/
@@ -549,7 +536,9 @@ void MainWindow::slotSaveBoard()
         inData.setVersion( QDataStream::Qt_4_6 );
 
         inData << (bool)isNumber;
-        inData << (qint32)size;
+        //inData << (qint32)size;
+        int temp = (quint32)size;
+        inData << temp;
 
         // Board state        
         int** values = board->sendBoard();
@@ -607,11 +596,11 @@ void MainWindow::slotReadBoard()
         if ( tempSize == 4 )
             size = Size::FOUR;
         else if ( tempSize == 5 )
-            size == Size::FIVE;
+            size = Size::FIVE;
         else if ( tempSize == 6 )
             size = Size::SIX;
         else if ( tempSize == 7 )
-            size == Size::SEVEN;
+            size = Size::SEVEN;
 
         tempValues = new int*[size];
         for (int i = 0; i < size; i++)
@@ -640,17 +629,17 @@ void MainWindow::slotReadBoard()
            imageProvider = ImageProvider::getInstance();
 
            try {
-                if ( size == 4 )
+                if ( size == Size::FOUR )
                 {
                     imagesLoad->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
                     radioFour->setChecked( true );
                 }
-                else if ( size == 5 )
+                else if ( size == Size::FIVE )
                 {
                     imagesLoad->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
                     radioFive->setChecked( true );
                 }
-                else if ( size == 6 )
+                else if ( size == Size::SIX )
                 {
                     imagesLoad->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
                     radioSix->setChecked( true );
