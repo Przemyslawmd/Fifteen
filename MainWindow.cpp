@@ -536,7 +536,6 @@ void MainWindow::slotSaveBoard()
         inData.setVersion( QDataStream::Qt_4_6 );
 
         inData << (bool)isNumber;
-        //inData << (qint32)size;
         int temp = (quint32)size;
         inData << temp;
 

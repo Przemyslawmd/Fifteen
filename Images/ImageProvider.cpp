@@ -20,6 +20,7 @@ void ImageProvider::deleteInstance()
         return;
 
     delete instance;
+    instance = nullptr;
 }
 
 /***********************************************************************************/
