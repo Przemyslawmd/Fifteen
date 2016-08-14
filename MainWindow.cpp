@@ -585,7 +585,7 @@ void MainWindow::slotReadBoard()
         delete board;
         deleteSquares();
 
-        uchar* buffer;
+        //uchar* buffer;
         bool tempIsNumber;
         int** tempValues;
         int tempSize;
@@ -621,7 +621,9 @@ void MainWindow::slotReadBoard()
         }
         else
         {
-           buffer = new uchar[10000 * size * size];
+           // This buffer is moved to an Image object which is responsible for release memoru buffer
+           // This data must exist as long as restored images exist
+           uchar* buffer = new uchar[10000 * size * size];
            for (int i = 0; i < ( size  * size ); i++)
                outData.readRawData((char*)(buffer + i * 10000), 10000);
 
@@ -632,29 +634,29 @@ void MainWindow::slotReadBoard()
                 if ( size == Size::FOUR )
                 {
                     imagesLoad->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioFour->setChecked( true );
+                    radioFour->setChecked( imagesLoad->four.loaded );
                 }
                 else if ( size == Size::FIVE )
                 {
                     imagesLoad->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioFive->setChecked( true );
+                    radioFive->setChecked( imagesLoad->five.loaded );
                 }
                 else if ( size == Size::SIX )
                 {
                     imagesLoad->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioSix->setChecked( true );
+                    radioSix->setChecked( imagesLoad->six.loaded );
                 }
                 else
                 {
                     imagesLoad->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioSeven->setChecked( true );
+                    radioSeven->setChecked( imagesLoad->seven.loaded );
                 }
+
            }
            catch( ... )
            {
-               delete buffer;
-               file.close();
-               return;
+                file.close();
+                return;
            }
 
            setSquaresGraphic( false );
@@ -664,7 +666,6 @@ void MainWindow::slotReadBoard()
            isNumber = false;
         }
 
-        delete buffer;
         file.close();
     }
 }

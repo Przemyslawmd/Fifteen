@@ -20,8 +20,10 @@ private:
     friend class ImageProvider;
 
     const int SQUARE_SIZE = 50;
+
     int size;
     QImage** image;
+    uchar* bufferRestored;
 
     bool createSquareImage( QImage*, int );
     bool restoreImagesFromFile( uchar* );

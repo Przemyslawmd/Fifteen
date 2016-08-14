@@ -115,10 +115,12 @@ bool Image::createSquareImage( QImage* imageWhole, int size )
 
 bool Image::restoreImagesFromFile( uchar* data )
 {
+    bufferRestored = std::move( data );
+
     try
     {
         for ( int i = 0; i < size * size; i++ )
-            image[i] = new QImage( data + i * 10000, SQUARE_SIZE, SQUARE_SIZE, QImage::Format_RGB32 );
+            image[i] = new QImage( bufferRestored + i * 10000, SQUARE_SIZE, SQUARE_SIZE, QImage::Format_RGB32 );
     }
     catch(...)
     {
