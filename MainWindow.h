@@ -13,10 +13,8 @@
 #include <QLabel>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QIcon>
 #include <QBuffer>
 #include <Board.h>
-#include <Images/Image.h>
 #include <WindowSetting.h>
 #include <WindowAbout.h>
 #include <Text.h>
@@ -28,6 +26,8 @@
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
+    enum Radio { FOUR, FIVE, SIX, SEVEN, GRAPHIC, NUMERICAL };
 
     QMenuBar* mainMenu;
     QMenu* fileMenu;
@@ -56,7 +56,7 @@ class MainWindow : public QMainWindow
     QPushButton** control;
 
     // RIGHT PANEL
-    // Separate layouts for radio buttons seems to be needed because of group box
+    // Separate layouts for radio buttons seems to be needed because of a group box
     QVBoxLayout* layRadioDim;
     QVBoxLayout* layRadioKind;
     QPushButton* pushRandom;
@@ -64,10 +64,8 @@ class MainWindow : public QMainWindow
 
     QButtonGroup* groupRadioDimension;
     QGroupBox* boxRadioDimension;
-    QRadioButton* radioFour;
-    QRadioButton* radioFive;
-    QRadioButton* radioSix;
-    QRadioButton* radioSeven;
+
+    QRadioButton radio[4];
 
     QButtonGroup* groupRadioKind;
     QGroupBox* boxRadioKind;
@@ -85,8 +83,8 @@ class MainWindow : public QMainWindow
     QString* numberStyle;
     QString* emptyStyle;    
 
-    bool isNumber;          // Indicates whether is number or graphical board
-    bool isScaled;          // Indicates whether loading image is scalled or cropped
+    bool isNumber;          // It indicates whether there is a numerical or graphical board
+    bool isScaled;          // It indicates whether a loading image is to be scalled or cropped
     bool isPl;
     Text* text;
     Color color;
@@ -127,8 +125,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     void setText();
     void setColor();
-
-signals:
 
 public slots:
     void passSignal();

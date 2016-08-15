@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     emptyStyle = new QString("background-color:white; color:white; font-size:20px; border:1px solid white;");
     board = new Board( size );
 
-    resize( 750,550 );
+    resize( 750, 550 );
     createMenu();
     createControls();
     createLayouts();
@@ -29,105 +29,110 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 }
 
 /****************************************************************************************************************************/
-/* CREATES MENU *************************************************************************************************************/
+/* CREATE MENU BAR **********************************************************************************************************/
 
 void MainWindow::createMenu()
 {
     mainMenu = new QMenuBar();    
     fileMenu = new QMenu();
 
-    // FILE MENU
-    acOpenGraphic = new QAction(this);
-    connect(acOpenGraphic, SIGNAL(triggered()),this, SLOT(slotLoadGraphic()));
+    acOpenGraphic = new QAction( this );
+    connect( acOpenGraphic, SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
     acRemoveGraphic = new QAction(this);
     acRemoveGraphic->setEnabled(false);
-    connect(acRemoveGraphic, SIGNAL(triggered()), this, SLOT(slotRemoveGraphic()));
+    connect( acRemoveGraphic, SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
     acSaveBoard = new QAction(this);
-    connect(acSaveBoard, SIGNAL(triggered()), this, SLOT(slotSaveBoard()));
+    connect( acSaveBoard, SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
     acLoadBoard = new QAction(this);
-    connect(acLoadBoard, SIGNAL(triggered()), this, SLOT(slotReadBoard()));
+    connect( acLoadBoard, SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
 
-    fileMenu->addAction(acOpenGraphic);
+    fileMenu->addAction( acOpenGraphic );
     fileMenu->addSeparator();
-    fileMenu->addAction(acRemoveGraphic);
+    fileMenu->addAction( acRemoveGraphic );
     fileMenu->addSeparator();
-    fileMenu->addAction(acSaveBoard);
+    fileMenu->addAction( acSaveBoard );
     fileMenu->addSeparator();
-    fileMenu->addAction(acLoadBoard);
+    fileMenu->addAction( acLoadBoard );
 
-    acSettings = new QAction(this);
-    connect(acSettings, SIGNAL(triggered()), this, SLOT(slotSettings()));
+    acSettings = new QAction( this );
+    connect( acSettings, SIGNAL( triggered() ), this, SLOT( slotSettings() ));
 
     infoMenu = new QAction( this );
-    connect( infoMenu, SIGNAL(triggered()), this, SLOT( slotAbout()));
+    connect( infoMenu, SIGNAL( triggered() ), this, SLOT( slotAbout() ));
 
-    mainMenu->addMenu(fileMenu);
-    mainMenu->addAction(acSettings);    
+    mainMenu->addMenu( fileMenu );
+    mainMenu->addAction( acSettings );
     mainMenu->addAction( infoMenu );
 
-    this->setMenuBar(mainMenu);
+    this->setMenuBar( mainMenu );
 }
 
 /***********************************************************************************************************/
-/* CREATE SQUARE LAYOUT ************************************************************************************/
+/* CREATE A LAYOUT FOR SQUARES *****************************************************************************/
 
 void MainWindow::createLayouts()
 {
     layImageVertical = new QVBoxLayout;
-    layImageVertical->setSpacing(0);
+    layImageVertical->setSpacing( 0 );
 
     boxImages = new QGroupBox();
-    boxImages->setLayout(layImageVertical);
+    boxImages->setLayout( layImageVertical );
 
-    mainLayout = new QHBoxLayout(window);
-    mainLayout->addWidget(boxImages);
-    mainLayout->addLayout(rightLayout);
+    mainLayout = new QHBoxLayout( window );
+    mainLayout->addWidget( boxImages );
+    mainLayout->addLayout( rightLayout );
 
-    this->setCentralWidget(window);
+    this->setCentralWidget( window );
 }
 
 /*************************************************************************************************************/
-/* CREATE CONTROLS *******************************************************************************************/
+/* CREATE RIGHT PANEL CONTROLS *******************************************************************************/
 
 void MainWindow::createControls()
 {
-    window = new QWidget(this);
-    window->setContentsMargins(20,20,0,10);
+    window = new QWidget( this );
+    window->setContentsMargins( 20, 20, 0, 10 );
 
     pushRandom = new QPushButton();
-    pushRandom->setStyleSheet("height:20px;");
-    connect(pushRandom, SIGNAL(clicked()), this, SLOT(slotGenerateBoard()));
+    pushRandom->setStyleSheet( "height:20px;" );
+    connect( pushRandom, SIGNAL( clicked()), this, SLOT( slotGenerateBoard() ));
 
     pushSolve = new QPushButton();
-    pushSolve->setStyleSheet("height:20px;");
-    connect(pushSolve, SIGNAL(clicked()), this, SLOT(slotSolveBoard()));
+    pushSolve->setStyleSheet( "height:20px;" );
+    connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
-    radioFour = new QRadioButton("4", window);
-    radioFour->setStyleSheet("margin-left:5px;");
-    radioFour->setChecked(true);
-    radioFive = new QRadioButton("5", window);
-    radioFive->setStyleSheet("margin-left:5px;");
-    radioSix = new QRadioButton("6", window);
-    radioSix->setStyleSheet("margin-left:5px;");
-    radioSeven = new QRadioButton("7", window);
-    radioSeven->setStyleSheet("margin-left:5px;");    
-
-    groupRadioDimension = new QButtonGroup(window);
-    groupRadioDimension->addButton(radioFour);
-    groupRadioDimension->addButton(radioFive);
-    groupRadioDimension->addButton(radioSix);
-    groupRadioDimension->addButton(radioSeven);    
+    radio[Radio::FOUR].setText( "4" );
+    radio[Radio::FIVE].setText( "5" );
+    radio[Radio::SIX].setText( "6" );
+    radio[Radio::SEVEN].setText( "7" );
+    radio[Radio::FOUR].setChecked( true );
 
     layRadioDim = new QVBoxLayout();
-    layRadioDim->addSpacing(10);
-    layRadioDim->addWidget(radioFour);
-    layRadioDim->addSpacing(10);
-    layRadioDim->addWidget(radioFive);
-    layRadioDim->addSpacing(10);
-    layRadioDim->addWidget(radioSix);
-    layRadioDim->addSpacing(10);
-    layRadioDim->addWidget(radioSeven);
-    layRadioDim->addSpacing(30);
+    for( int i = 0; i < 4; i++ )
+    {
+       layRadioDim->addSpacing( 10 );
+       layRadioDim->addWidget( &radio[i] );
+       radio[i].setStyleSheet( "margin-left: 5px" );
+    }
+    layRadioDim->addSpacing( 30 );
+
+    groupRadioDimension = new QButtonGroup( window );
+    groupRadioDimension->addButton( &radio[Radio::FOUR] );
+    groupRadioDimension->addButton( &radio[Radio::FIVE] );
+    groupRadioDimension->addButton( &radio[Radio::SIX] );
+    groupRadioDimension->addButton( &radio[Radio::SEVEN] );
+
+    //layRadioDim = new QVBoxLayout();
+    //layRadioDim->addSpacing( 10 );
+    //layRadioDim->addWidget( &radio[Radio::FOUR] );
+    //layRadioDim->addSpacing( 10 );
+    //layRadioDim->addWidget( &radio[Radio::FIVE] );
+    //layRadioDim->addSpacing( 10);
+    //layRadioDim->addWidget( &radio[Radio::SIX] );
+    //layRadioDim->addSpacing( 10 );
+    //layRadioDim->addWidget( &radio[Radio::SEVEN] );
+    //layRadioDim->addSpacing( 30 );
+
     boxRadioDimension = new QGroupBox();
     boxRadioDimension->setLayout(layRadioDim);
 
@@ -283,11 +288,11 @@ void MainWindow::setSquaresGraphic(bool isRandom)
 void MainWindow::slotGenerateBoard()
 {
     Size newSize;
-    if ( radioFour->isChecked() )
+    if ( radio[Radio::FOUR].isChecked() )
         newSize = Size::FOUR;
-    else if(radioFive->isChecked())
+    else if( radio[Radio::FIVE].isChecked() )
         newSize = Size::FIVE;
-    else if (radioSix->isChecked())
+    else if ( radio[Radio::SIX].isChecked() )
         newSize = Size::SIX;
     else
         newSize = Size::SEVEN;
@@ -633,22 +638,22 @@ void MainWindow::slotReadBoard()
                 if ( size == Size::FOUR )
                 {
                     imagesLoad->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioFour->setChecked( imagesLoad->four.loaded );
+                    radio[Radio::FOUR].setChecked( imagesLoad->four.loaded );
                 }
                 else if ( size == Size::FIVE )
                 {
                     imagesLoad->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioFive->setChecked( imagesLoad->five.loaded );
+                    radio[Radio::FIVE].setChecked( imagesLoad->five.loaded );
                 }
                 else if ( size == Size::SIX )
                 {
                     imagesLoad->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioSix->setChecked( imagesLoad->six.loaded );
+                    radio[Radio::SIX].setChecked( imagesLoad->six.loaded );
                 }
                 else
                 {
                     imagesLoad->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size );
-                    radioSeven->setChecked( imagesLoad->seven.loaded );
+                    radio[Radio::SEVEN].setChecked( imagesLoad->seven.loaded );
                 }
 
            }

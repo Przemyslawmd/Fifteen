@@ -36,18 +36,16 @@ QImage** Image::getImage()
 
 void Image::prepareScaledImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
-    if (( image->height() >= state.resolution ) && (image->width() >= state.resolution ))
+    if (( image->height() < state.resolution ) || ( image->width() < state.resolution ))
+        message->append(labels->value("toLow") + state.message );
+
+    if ( createSquareImage( new QImage( image->scaled( state.resolution, state.resolution )), state.size ))
     {
-        if ( createSquareImage( new QImage( image->scaled( state.resolution, state.resolution )), state.size ))
-        {
-            state.loaded = true;
-            message->append( labels->value("success") + state.message );
-        }
-        else
-            message->append(labels->value("failure") + state.message );
+        state.loaded = true;
+        message->append( labels->value("success") + state.message );
     }
     else
-        message->append(labels->value("toLow") + state.message );
+        message->append( labels->value("failure") + state.message );
 }
 
 /****************************************************************************************************************************/
@@ -55,18 +53,16 @@ void Image::prepareScaledImage( QImage* image, State& state, QString* message, c
 
 void Image::prepareCroppedImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
-    if (( image->height() >= state.resolution ) && (image->width() >= state.resolution ))
+    if (( image->height() < state.resolution ) || ( image->width() < state.resolution ))
+        message->append(labels->value("toLow") + state.message );
+
+    if ( createSquareImage( new QImage(image->copy(( image->width() - state.resolution)/2, ( image->height() - state.resolution )/2, state.resolution, state.resolution )), state.size ))
     {
-        if ( createSquareImage( new QImage(image->copy(( image->width() - state.resolution)/2, ( image->height() - state.resolution )/2, state.resolution, state.resolution )), state.size ))
-        {
-            state.loaded = true;
-            message->append( labels->value("success") + state.message );
-        }
-        else
-            message->append(labels->value("failure") + state.message );
+        state.loaded = true;
+        message->append( labels->value("success") + state.message );
     }
     else
-        message->append(labels->value("toLow") + state.message );
+        message->append(labels->value("failure") + state.message );
 }
 
 /**************************************************************************************************************************/
