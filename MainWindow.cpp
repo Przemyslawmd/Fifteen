@@ -95,7 +95,7 @@ void MainWindow::createControls()
 
     pushRandom = new QPushButton();
     pushRandom->setStyleSheet( "height:20px;" );
-    connect( pushRandom, SIGNAL( clicked()), this, SLOT( slotGenerateBoard() ));
+    connect( pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
 
     pushSolve = new QPushButton();
     pushSolve->setStyleSheet( "height:20px;" );
@@ -108,62 +108,49 @@ void MainWindow::createControls()
     radio[Radio::FOUR].setChecked( true );
 
     layRadioDim = new QVBoxLayout();
-    for( int i = 0; i < 4; i++ )
+    groupRadioDimension = new QButtonGroup( window );
+
+    for( int i = Radio::FOUR; i <= Radio::SEVEN; i++ )
     {
        layRadioDim->addSpacing( 10 );
        layRadioDim->addWidget( &radio[i] );
        radio[i].setStyleSheet( "margin-left: 5px" );
+       groupRadioDimension->addButton( &radio[i] );
     }
     layRadioDim->addSpacing( 30 );
 
-    groupRadioDimension = new QButtonGroup( window );
-    groupRadioDimension->addButton( &radio[Radio::FOUR] );
-    groupRadioDimension->addButton( &radio[Radio::FIVE] );
-    groupRadioDimension->addButton( &radio[Radio::SIX] );
-    groupRadioDimension->addButton( &radio[Radio::SEVEN] );
-
-    //layRadioDim = new QVBoxLayout();
-    //layRadioDim->addSpacing( 10 );
-    //layRadioDim->addWidget( &radio[Radio::FOUR] );
-    //layRadioDim->addSpacing( 10 );
-    //layRadioDim->addWidget( &radio[Radio::FIVE] );
-    //layRadioDim->addSpacing( 10);
-    //layRadioDim->addWidget( &radio[Radio::SIX] );
-    //layRadioDim->addSpacing( 10 );
-    //layRadioDim->addWidget( &radio[Radio::SEVEN] );
-    //layRadioDim->addSpacing( 30 );
-
     boxRadioDimension = new QGroupBox();
-    boxRadioDimension->setLayout(layRadioDim);
+    boxRadioDimension->setLayout( layRadioDim );
 
 
-    radioNumber = new QRadioButton();
-    radioNumber->setChecked(true);
-    radioNumber->setStyleSheet("margin-left:5px;");
-    radioGraphic = new QRadioButton();
-    radioGraphic->setEnabled(false);
-    radioGraphic->setStyleSheet("margin-left:5px;");
-    groupRadioKind = new QButtonGroup();
-    groupRadioKind->addButton(radioNumber);
-    groupRadioKind->addButton(radioGraphic);
     layRadioKind = new QVBoxLayout();
-    layRadioKind->addSpacing(10);
-    layRadioKind->addWidget(radioNumber);
-    layRadioKind->addSpacing(10);
-    layRadioKind->addWidget(radioGraphic);
-    layRadioKind->addSpacing(30);
+    groupRadioKind = new QButtonGroup();
+
+    for ( int i = Radio::NUMERICAL; i <= Radio::GRAPHIC; i++)
+    {
+        layRadioKind->addSpacing( 10 );
+        layRadioKind->addWidget( &radio[i] );
+        radio[i].setStyleSheet( "margin-left:5px;" );
+        groupRadioKind->addButton( &radio[i] );
+    }
+    layRadioKind->addSpacing( 30 );
+
+    radio[Radio::NUMERICAL].setChecked(true);
+    radio[Radio::GRAPHIC].setEnabled(false);
+
     boxRadioKind = new QGroupBox();
-    boxRadioKind->setLayout(layRadioKind);
+    boxRadioKind->setLayout( layRadioKind );
+
 
     rightLayout = new QVBoxLayout();
-    rightLayout->setContentsMargins(30,0,30,0);
-    rightLayout->addWidget(pushRandom);
-    rightLayout->addSpacing(15);
-    rightLayout->addWidget(pushSolve);
-    rightLayout->addSpacing(30);
-    rightLayout->addWidget(boxRadioDimension);
+    rightLayout->setContentsMargins( 30, 0, 30, 0 );
+    rightLayout->addWidget( pushRandom );
+    rightLayout->addSpacing( 15);
+    rightLayout->addWidget( pushSolve );
+    rightLayout->addSpacing( 30);
+    rightLayout->addWidget( boxRadioDimension );
     rightLayout->addStretch();
-    rightLayout->addWidget(boxRadioKind);
+    rightLayout->addWidget( boxRadioKind );
     rightLayout->addStretch();
 }
 
@@ -176,35 +163,35 @@ void MainWindow::createSquares()
     for (int i = 0; i < size; i++)
         control[i] = new QPushButton[size];
 
-    for (int i = 0; i < size ; i++)
+    for ( int i = 0; i < size ; i++ )
     {
-        for (int j = 0; j < size; j++)
+        for ( int j = 0; j < size; j++ )
         {
-            control[i][j].setAccessibleName(QString::number(i) + QString::number(j));
-            control[i][j].setMaximumSize(50,50);
-            control[i][j].setMinimumSize(50,50);
-            connect(&control[i][j], SIGNAL(clicked()), this, SLOT(passSignal()));
+            control[i][j].setAccessibleName( QString::number(i) + QString::number( j ));
+            control[i][j].setMaximumSize( 50, 50 );
+            control[i][j].setMinimumSize( 50, 50 );
+            connect( &control[i][j], SIGNAL( clicked() ), this, SLOT( passSignal() ));
         }
     }
 
     layImageHorizontal = new QHBoxLayout*[size];
 
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
     {
         layImageHorizontal[i] = new QHBoxLayout();
         layImageHorizontal[i]->setSpacing(0);
     }
 
     layImageVertical->addStretch();
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
     {
         layImageHorizontal[i]->addStretch();
 
-        for (int j = 0; j < size; j++)
-            layImageHorizontal[i]->addWidget(&control[i][j]);
+        for ( int j = 0; j < size; j++ )
+            layImageHorizontal[i]->addWidget( &control[i][j] );
 
         layImageHorizontal[i]->addStretch();
-        layImageVertical->addLayout(layImageHorizontal[i]);
+        layImageVertical->addLayout( layImageHorizontal[i] );
     }
     layImageVertical->addStretch();
 }
@@ -225,9 +212,8 @@ void MainWindow::deleteSquares()
     delete[] layImageHorizontal;
 }
 
-
-/***************************************************************************************************************************/
-/* SET SQUARES NUMBER VALUES ***********************************************************************************************/
+/*************************************************************************************************************************/
+/* SET NUMERICAL SQUARES *************************************************************************************************/
 
 void MainWindow::setSquaresNumber( bool isRandom )
 {    
@@ -245,20 +231,20 @@ void MainWindow::setSquaresNumber( bool isRandom )
     {
         for (int j = 0; j < size; j++)
         {
-            control[i][j].setIcon(QIcon());
-            control[i][j].setText(QString::number(values[i][j]));
-            if (values[i][j] == 0)
-                control[i][j].setStyleSheet(*emptyStyle);
+            control[i][j].setIcon( QIcon() );
+            control[i][j].setText( QString::number(values[i][j]) );
+            if ( values[i][j] == 0 )
+                control[i][j].setStyleSheet( *emptyStyle );
             else
-                control[i][j].setStyleSheet(*numberStyle);
+                control[i][j].setStyleSheet( *numberStyle );
         }
     }
 }
 
-/***************************************************************************************************************************/
-/* SETS SQUARES GRAPHICAL VALUES *******************************************************************************************/
+/*************************************************************************************************************************/
+/* SET GRAPHICAL SQUARES *************************************************************************************************/
 
-void MainWindow::setSquaresGraphic(bool isRandom)
+void MainWindow::setSquaresGraphic( bool isRandom )
 {
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
@@ -269,21 +255,19 @@ void MainWindow::setSquaresGraphic(bool isRandom)
         for (int j = 0; j < size; j++)
         {
             QPixmap* pixmap = new QPixmap();
-            pixmap->convertFromImage(*pictures[values[i][j]]);
-            QIcon icon(*pixmap);
+            pixmap->convertFromImage( *pictures[values[i][j]] );
+            QIcon icon( *pixmap );
             QSize iconSize( 50, 50 );
-            control[i][j].setIconSize(iconSize);
-            control[i][j].setIcon(icon);
-            control[i][j].setStyleSheet("");
-            control[i][j].setText("");
+            control[i][j].setIconSize( iconSize );
+            control[i][j].setIcon( icon );
+            control[i][j].setStyleSheet( "" );
+            control[i][j].setText( "" );
         }
     }
 }
 
 /****************************************************************************************************************************/
 /* GENERATE BOARD ***********************************************************************************************************/
-/* Invoke proper method in board object *************************************************************************************/
-/* Get an array of values and set controls **********************************************************************************/
 
 void MainWindow::slotGenerateBoard()
 {
@@ -298,24 +282,24 @@ void MainWindow::slotGenerateBoard()
         newSize = Size::SEVEN;
 
     // Checking whether in case of graphical board there is proper graphic loaded
-    if (radioGraphic->isChecked())
+    if ( radio[Radio::GRAPHIC].isChecked() )
     {
-        if ( newSize == Size::FOUR && ( imagesLoad->four.loaded == false ))
+        if ( ( newSize == Size::FOUR ) && ( imagesLoad->four.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "4x4\t");
             return;
         }
-        if ( newSize == Size::FIVE && ( imagesLoad->five.loaded == false ))
+        if ( ( newSize == Size::FIVE ) && ( imagesLoad->five.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "5x5\t");
             return;
         }
-        if ( newSize == Size::SIX && ( imagesLoad->six.loaded == false ))
+        if ( ( newSize == Size::SIX ) && ( imagesLoad->six.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "6x6\t");
             return;
         }
-        if ( newSize == Size::SEVEN && ( imagesLoad->seven.loaded == false ))
+        if ( ( newSize == Size::SEVEN ) && ( imagesLoad->seven.loaded == false ))
         {
             QMessageBox::information(this,"", labelsMessages->value("noImage") + "7x7\t");
             return;
@@ -332,7 +316,7 @@ void MainWindow::slotGenerateBoard()
         createSquares();        
     }
 
-    if ( radioNumber->isChecked() )
+    if ( radio[Radio::NUMERICAL].isChecked() )
     {
         setSquaresNumber( true );
         isNumber = true;
@@ -491,7 +475,7 @@ void MainWindow::slotLoadGraphic()
 
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )
         {
-            radioGraphic->setEnabled( true );
+            radio[Radio::GRAPHIC].setEnabled( true );
             acRemoveGraphic->setEnabled( true );
         }
     }    
@@ -504,8 +488,8 @@ void MainWindow::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();
 
-    radioGraphic->setEnabled( false );
-    radioNumber->setChecked( true );
+    radio[Radio::GRAPHIC].setEnabled( false );
+    radio[Radio::NUMERICAL].setChecked( true );
     acRemoveGraphic->setEnabled( false );
     imagesLoad->resetLoaded();
 
@@ -621,7 +605,7 @@ void MainWindow::slotReadBoard()
         {
             setSquaresNumber( false );
             isNumber = true;
-            radioNumber->setChecked( true );
+            radio[Radio::NUMERICAL].setChecked( true );
         }
         else
         {
@@ -664,8 +648,8 @@ void MainWindow::slotReadBoard()
            }
 
            setSquaresGraphic( false );
-           radioGraphic->setEnabled( true );
-           radioGraphic->setChecked( true );
+           radio[Radio::GRAPHIC].setEnabled( true );
+           radio[Radio::GRAPHIC].setChecked( true );
            acRemoveGraphic->setEnabled( true );
            isNumber = false;
         }
@@ -680,27 +664,27 @@ void MainWindow::slotReadBoard()
 void MainWindow::setText()
 {
     if (isPl)
-        text->setPl(&labelsMenu, &labelsSettings, &labelsControls, &labelsMessages, &labelsAbout);
+        text->setPl( &labelsMenu, &labelsSettings, &labelsControls, &labelsMessages, &labelsAbout );
     else
-        text->setEn(&labelsMenu, &labelsSettings, &labelsControls, &labelsMessages, &labelsAbout);
+        text->setEn( &labelsMenu, &labelsSettings, &labelsControls, &labelsMessages, &labelsAbout );
 
-    fileMenu->setTitle(labelsMenu->value("file"));
-    acOpenGraphic->setText(labelsMenu->value("fOpenG"));
-    acRemoveGraphic->setText(labelsMenu->value("fRemG"));
-    acSaveBoard->setText(labelsMenu->value("fSaveB"));
-    acLoadBoard->setText(labelsMenu->value("fLoadB"));
+    fileMenu->setTitle( labelsMenu->value("file") );
+    acOpenGraphic->setText( labelsMenu->value("fOpenG") );
+    acRemoveGraphic->setText( labelsMenu->value("fRemG") );
+    acSaveBoard->setText( labelsMenu->value("fSaveB") );
+    acLoadBoard->setText( labelsMenu->value("fLoadB") );
 
-    acSettings->setText(labelsMenu->value("settings"));
+    acSettings->setText( labelsMenu->value("settings") );
 
-    infoMenu->setText(labelsMenu->value("info"));
+    infoMenu->setText( labelsMenu->value("info") );
 
-    pushRandom->setText(labelsControls->value("random"));
-    pushSolve->setText(labelsControls->value("set"));
+    pushRandom->setText( labelsControls->value("random") );
+    pushSolve->setText( labelsControls->value("set") );
 
-    boxRadioDimension->setTitle(labelsControls->value("dim"));
-    radioNumber->setText(labelsControls->value("num"));
-    radioGraphic->setText(labelsControls->value("graph"));
-    boxRadioKind->setTitle(labelsControls->value("kind"));
+    boxRadioDimension->setTitle( labelsControls->value("dim") );
+    radio[Radio::NUMERICAL].setText( labelsControls->value("num") );
+    radio[Radio::GRAPHIC].setText( labelsControls->value("graph") );
+    boxRadioKind->setTitle( labelsControls->value("kind") );
 }
 
 /********************************************************************************************************************/

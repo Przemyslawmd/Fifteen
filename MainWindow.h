@@ -27,7 +27,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum Radio { FOUR, FIVE, SIX, SEVEN, GRAPHIC, NUMERICAL };
+    enum Radio { FOUR, FIVE, SIX, SEVEN, NUMERICAL, GRAPHIC };
 
     QMenuBar* mainMenu;
     QMenu* fileMenu;
@@ -62,15 +62,12 @@ class MainWindow : public QMainWindow
     QPushButton* pushRandom;
     QPushButton* pushSolve;
 
-    QButtonGroup* groupRadioDimension;
-    QGroupBox* boxRadioDimension;
-
-    QRadioButton radio[4];
+    QRadioButton radio[6];
 
     QButtonGroup* groupRadioKind;
+    QButtonGroup* groupRadioDimension;
     QGroupBox* boxRadioKind;
-    QRadioButton* radioNumber;
-    QRadioButton* radioGraphic;
+    QGroupBox* boxRadioDimension;
 
     Board* board;
     ImageProvider* imageProvider;
