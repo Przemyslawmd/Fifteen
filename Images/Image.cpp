@@ -37,7 +37,10 @@ QImage** Image::getImage()
 void Image::prepareScaledImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
     if (( image->height() < state.resolution ) || ( image->width() < state.resolution ))
+    {
         message->append(labels->value("toLow") + state.message );
+        return;
+    }
 
     if ( createSquareImage( new QImage( image->scaled( state.resolution, state.resolution )), state.size ))
     {
@@ -54,7 +57,10 @@ void Image::prepareScaledImage( QImage* image, State& state, QString* message, c
 void Image::prepareCroppedImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
 {
     if (( image->height() < state.resolution ) || ( image->width() < state.resolution ))
+    {
         message->append(labels->value("toLow") + state.message );
+        return;
+    }
 
     if ( createSquareImage( new QImage(image->copy(( image->width() - state.resolution)/2, ( image->height() - state.resolution )/2, state.resolution, state.resolution )), state.size ))
     {
