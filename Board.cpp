@@ -3,37 +3,31 @@
 /***********************************************************************************************************/
 /* CONSTRUCTOR *********************************************************************************************/
 
-Board::Board(int size)
+Board::Board( int size )
 {
     this->size = size;
 
     square = new int*[size];
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
         square[i] = new int[size];
 
-    int k = 1;
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size; j++)        
-            square[i][j] = k++;        
-    }
-    square[size-1][size-1] = EMPTY;
+    solveBoard();
 }
 
 /********************************************************************************************************/
 /* CONSTRUCTOR FOR A BOARD RESTORED FROM A FILE *********************************************************/
 
-Board::Board(int** values, int size)
+Board::Board( int** values, int size )
 {
     this->size = size;
 
     square = new int*[size];
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
         square[i] = new int[size];
 
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
     {
-        for (int j = 0; j < size; j++)
+        for ( int j = 0; j < size; j++ )
             square[i][j] = values[i][j];
     }
 }
@@ -43,7 +37,7 @@ Board::Board(int** values, int size)
 
 Board::~Board()
 {
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
         delete[] square[i];
 
     delete[] square;
@@ -83,8 +77,6 @@ int Board::checkMove( int row, int col )
 
 /****************************************************************************************************************/
 /* RANDOM BOARD *************************************************************************************************/
-/* In case of normal move ( trigerred by an user ) a direction is being randomed for clicked non empty square ***/
-/* Here, direction is being randomed for an empty square ********************************************************/
 
 int** Board::randomBoard()
 {
@@ -144,7 +136,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    move = randomAnotherMove( UP, &moves, &remMove );
+                    move = randomAnotherMove( UP, moves, &remMove );
                     continue;
                 }
             }            
@@ -159,7 +151,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    move = randomAnotherMove( RIGHT, &moves, &remMove );
+                    move = randomAnotherMove( RIGHT, moves, &remMove );
                     continue;
                 }
             }            
@@ -174,7 +166,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    move = randomAnotherMove( DOWN, &moves, &remMove );
+                    move = randomAnotherMove( DOWN, moves, &remMove );
                     continue;
                 }
             }            
@@ -189,7 +181,7 @@ int** Board::randomBoard()
                 }
                 else
                 {
-                    move = randomAnotherMove( LEFT, &moves, &remMove );
+                    move = randomAnotherMove( LEFT, moves, &remMove );
                     continue;
                 }
             }
@@ -202,20 +194,19 @@ int** Board::randomBoard()
 /******************************************************************************************************/
 /* RANDOM ANOTHER MOVE ********************************************************************************/
 
-int Board::randomAnotherMove( int moveToExclude, QList<int>* moves, int* remMove)
+int Board::randomAnotherMove( int moveToExclude, QList<int>& moves, int* remMove)
 {
-    moves->removeOne( moveToExclude );
+    moves.removeOne( moveToExclude );
     *remMove = *remMove * 10 + moveToExclude;
-    return moves->at( qrand() % moves->size() );
+    return moves.at( qrand() % moves.size() );
 }
 
 /*******************************************************************************************************/
-/* RESTORE A BOARD TO INITIAL STATE ********************************************************************/
+/* SET A BOARD TO ITS INITIAL STATE ********************************************************************/
 
 int** Board::solveBoard()
-{
-    int k = 1;
-    for ( int i = 0; i < size; i++ )
+{    
+    for ( int i = 0, k = 1; i < size; i++ )
     {
         for ( int j = 0; j < size; j++ )
             square[i][j] = k++;        
@@ -234,7 +225,7 @@ int** Board::sendBoard()
 }
 
 /********************************************************************************************************/
-/* MAKE MOVE ********************************************************************************************/
+/* COMMIT MOVE ******************************************************************************************/
 
 void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 {    

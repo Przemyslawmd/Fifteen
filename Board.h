@@ -27,7 +27,7 @@ private:
     int** square;
 
     void makeMove(int, int, int, int);
-    int randomAnotherMove( int, QList<int>*, int* );
+    int randomAnotherMove( int, QList<int>&, int* );
 };
 
 #endif // BOARD_H
