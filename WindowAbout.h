@@ -13,7 +13,7 @@ class WindowAbout : public QDialog
 {
 
 public:
-    WindowAbout( const QMap<QString, QString>* );
+    WindowAbout();
 
 private:    
     QTextBrowser browser;

@@ -8,7 +8,7 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
     this->images = images;
     parent = parentParam;
 
-    this->setWindowTitle( "SETTINGS" );
+    this->setWindowTitle( "Settings" );
     this->setGeometry( 100, 100, 400, 560 );
     this->setMaximumSize( 400, 560 );
     this->setMinimumSize( 400, 560 );

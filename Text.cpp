@@ -8,11 +8,7 @@ Text::Text()
 
     ctrlPl = new map();
     ctrlEn = new map();
-    setControls();
-
-    aboutPl = new map();
-    aboutEn = new map();
-    setAbout();
+    setControls();   
 
     messagesPl = new map();
     messagesEn = new map();
@@ -76,24 +72,6 @@ void Text::setControls()
     ctrlEn->insert("graph","Graphic");
 }
 
-/*******************************************************************************************************************/\
-/*******************************************************************************************************************/
-
-void Text::setAbout()
-{
-    aboutEn->insert("about", "ABOUT APPLICATION");
-    aboutEn->insert("aboutVer",     "<pre>  Version:      1.1.2");
-    aboutEn->insert("aboutAuth",UTF("<pre>  Author:       Przemyslaw Madej, Cracow 2016</pre>"));
-    aboutEn->insert("aboutWeb",     "<pre>  Page:         http://przemeknet.pl/fifteenEn.aspx</pre>");
-    aboutEn->insert("aboutLicense", "<pre>  License:      Freeware</pre>");
-
-    aboutPl->insert("about", "O APLIKACJI");
-    aboutPl->insert("aboutVer",       "<pre>  Wersja:     1.1.2");
-    aboutPl->insert("aboutAuth",  UTF("<pre>  Autor:      Przemysław Madej, Kraków 2016</pre>"));
-    aboutPl->insert("aboutWeb",       "<pre>  Strona:     http://przemeknet.pl/fifteenPl.aspx</pre>");
-    aboutPl->insert("aboutLicense",   "<pre>  Licencja:   Freeware</pre>");
-}
-
 /*******************************************************************************************************************/
 /*******************************************************************************************************************/
 
@@ -122,18 +100,16 @@ void Text::setMessages()
 /********************************************************************************************************************/
 /********************************************************************************************************************/
 
-void Text::setEn(cmap** menu, cmap** ctrl, cmap** mes, cmap** about)
+void Text::setEn(cmap** menu, cmap** ctrl, cmap** mes )
 {
     *menu = menuEn;    
     *ctrl = ctrlEn;
-    *mes = messagesEn;
-    *about = aboutEn;
+    *mes = messagesEn;    
 }
 
-void Text::setPl(cmap** menu, cmap** ctrl, cmap** mes, cmap** about)
+void Text::setPl(cmap** menu, cmap** ctrl, cmap** mes )
 {
     *menu = menuPl;    
     *ctrl = ctrlPl;
-    *mes = messagesPl;
-    *about = aboutPl;
+    *mes = messagesPl;    
 }

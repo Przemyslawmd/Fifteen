@@ -662,7 +662,7 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setText()
 {
-    text->setEn( &labelsMenu, &labelsControls, &labelsMessages, &labelsAbout );
+    text->setEn( &labelsMenu, &labelsControls, &labelsMessages );
 
     fileMenu->setTitle( labelsMenu->value("file") );
     acOpenGraphic->setText( labelsMenu->value("fOpenG") );
@@ -720,6 +720,6 @@ void MainWindow::slotSettings()
 
 void MainWindow::slotAbout()
 {
-    new WindowAbout(labelsAbout);
+    new WindowAbout();
 }
 
