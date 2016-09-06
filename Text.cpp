@@ -6,10 +6,6 @@ Text::Text()
     menuEn = new map();
     setMenu();  
 
-    ctrlPl = new map();
-    ctrlEn = new map();
-    setControls();   
-
     messagesPl = new map();
     messagesEn = new map();
     setMessages();
@@ -55,26 +51,6 @@ void Text::setMenu()
 /*******************************************************************************************************************/
 /*******************************************************************************************************************/
 
-void Text::setControls()
-{
-    ctrlPl->insert("random",UTF("Generuj planszę"));
-    ctrlPl->insert("set",UTF("Ułóż planszę"));
-    ctrlPl->insert("dim","Wymiar planszy");
-    ctrlPl->insert("kind","Rodzaj planszy");
-    ctrlPl->insert("num","numeryczna");
-    ctrlPl->insert("graph","graficzna");
-
-    ctrlEn->insert("random","Random Board");
-    ctrlEn->insert("set","Solve Board");
-    ctrlEn->insert("dim","Dimension of Board");
-    ctrlEn->insert("kind","Kind of Board");
-    ctrlEn->insert("num","Numeric");
-    ctrlEn->insert("graph","Graphic");
-}
-
-/*******************************************************************************************************************/
-/*******************************************************************************************************************/
-
 void Text::setMessages()
 {
     messagesPl->insert("noImage", UTF("Brak załadowanej grafiki dla planszy "));
@@ -100,16 +76,14 @@ void Text::setMessages()
 /********************************************************************************************************************/
 /********************************************************************************************************************/
 
-void Text::setEn(cmap** menu, cmap** ctrl, cmap** mes )
+void Text::setEn(cmap** menu, cmap** mes )
 {
     *menu = menuEn;    
-    *ctrl = ctrlEn;
-    *mes = messagesEn;    
+    *mes = messagesEn;
 }
 
-void Text::setPl(cmap** menu, cmap** ctrl, cmap** mes )
+void Text::setPl(cmap** menu, cmap** mes )
 {
     *menu = menuPl;    
-    *ctrl = ctrlPl;
-    *mes = messagesPl;    
+    *mes = messagesPl;
 }

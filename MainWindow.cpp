@@ -94,10 +94,12 @@ void MainWindow::createControls()
 
     pushRandom = new QPushButton();
     pushRandom->setStyleSheet( "height:20px;" );
+    pushRandom->setText( "Generate Board" );
     connect( pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
 
     pushSolve = new QPushButton();
     pushSolve->setStyleSheet( "height:20px;" );
+    pushSolve->setText( "Solve Board");
     connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
     radio[Radio::FOUR].setText( "4" );
@@ -119,6 +121,7 @@ void MainWindow::createControls()
     layRadioDim->addSpacing( 30 );
 
     boxRadioDimension = new QGroupBox();
+    boxRadioDimension->setTitle( "Dimension of Board" );
     boxRadioDimension->setLayout( layRadioDim );
 
 
@@ -136,8 +139,11 @@ void MainWindow::createControls()
 
     radio[Radio::NUMERICAL].setChecked(true);
     radio[Radio::GRAPHIC].setEnabled(false);
+    radio[Radio::NUMERICAL].setText( "Numerical" );
+    radio[Radio::GRAPHIC].setText( "Graphical" );
 
     boxRadioKind = new QGroupBox();
+    boxRadioKind->setTitle( "Kind of Board" );
     boxRadioKind->setLayout( layRadioKind );
 
 
@@ -662,7 +668,7 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setText()
 {
-    text->setEn( &labelsMenu, &labelsControls, &labelsMessages );
+    text->setEn( &labelsMenu, &labelsMessages );
 
     fileMenu->setTitle( labelsMenu->value("file") );
     acOpenGraphic->setText( labelsMenu->value("fOpenG") );
@@ -672,15 +678,7 @@ void MainWindow::setText()
 
     acSettings->setText( labelsMenu->value("settings") );
 
-    infoMenu->setText( labelsMenu->value("info") );
-
-    pushRandom->setText( labelsControls->value("random") );
-    pushSolve->setText( labelsControls->value("set") );
-
-    boxRadioDimension->setTitle( labelsControls->value("dim") );
-    radio[Radio::NUMERICAL].setText( labelsControls->value("num") );
-    radio[Radio::GRAPHIC].setText( labelsControls->value("graph") );
-    boxRadioKind->setTitle( labelsControls->value("kind") );
+    infoMenu->setText( labelsMenu->value("info") );    
 }
 
 /********************************************************************************************************************/
@@ -703,7 +701,7 @@ void MainWindow::setColor()
         for (int j = 0; j < size; j++)
         {
             if ( control[i][j].styleSheet() != *emptyStyle)
-                control[i][j].setStyleSheet(*numberStyle);
+                control[i][j].setStyleSheet( *numberStyle );
         }
     }    
 }
