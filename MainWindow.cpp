@@ -21,10 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     createControls();
     createLayouts();
     createSquares();
-    setSquaresNumber( false );
-
-    text = new Text();
-    setText();
+    setSquaresNumber( false );    
 }
 
 /****************************************************************************************************************************/
@@ -34,15 +31,20 @@ void MainWindow::createMenu()
 {
     mainMenu = new QMenuBar();    
     fileMenu = new QMenu();
+    fileMenu->setTitle( "File" );
 
     acOpenGraphic = new QAction( this );
+    acOpenGraphic->setText( "Load Graphical File" );
     connect( acOpenGraphic, SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
     acRemoveGraphic = new QAction(this);
+    acRemoveGraphic->setText( "Remove Graphic" );
     acRemoveGraphic->setEnabled(false);
     connect( acRemoveGraphic, SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
     acSaveBoard = new QAction(this);
+    acSaveBoard->setText( "Save Board" );
     connect( acSaveBoard, SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
     acLoadBoard = new QAction(this);
+    acLoadBoard->setText( "Load Board" );
     connect( acLoadBoard, SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
 
     fileMenu->addAction( acOpenGraphic );
@@ -54,9 +56,11 @@ void MainWindow::createMenu()
     fileMenu->addAction( acLoadBoard );
 
     acSettings = new QAction( this );
+    acSettings->setText( "Settings" );
     connect( acSettings, SIGNAL( triggered() ), this, SLOT( slotSettings() ));
 
     infoMenu = new QAction( this );
+    infoMenu->setText( "About" );
     connect( infoMenu, SIGNAL( triggered() ), this, SLOT( slotAbout() ));
 
     mainMenu->addMenu( fileMenu );
@@ -286,27 +290,27 @@ void MainWindow::slotGenerateBoard()
     else
         newSize = Size::SEVEN;
 
-    // Checking whether in case of graphical board there is proper graphic loaded
+    // Check whether in case of graphical board there is proper graphic loaded
     if ( radio[Radio::GRAPHIC].isChecked() )
     {
         if ( ( newSize == Size::FOUR ) && ( imagesLoad->four.loaded == false ))
         {
-            QMessageBox::information(this,"", labelsMessages->value("noImage") + "4x4\t");
+            QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
         if ( ( newSize == Size::FIVE ) && ( imagesLoad->five.loaded == false ))
         {
-            QMessageBox::information(this,"", labelsMessages->value("noImage") + "5x5\t");
+            QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
             return;
         }
         if ( ( newSize == Size::SIX ) && ( imagesLoad->six.loaded == false ))
         {
-            QMessageBox::information(this,"", labelsMessages->value("noImage") + "6x6\t");
+            QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
         if ( ( newSize == Size::SEVEN ) && ( imagesLoad->seven.loaded == false ))
         {
-            QMessageBox::information(this,"", labelsMessages->value("noImage") + "7x7\t");
+            QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
         }
     }
@@ -460,22 +464,22 @@ void MainWindow::passSignal()
 
 void MainWindow::slotLoadGraphic()
 {
-  QString fileName = QFileDialog::getOpenFileName(this,"",QDir::currentPath(), tr("JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)"));
+  QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
 
   if(!fileName.isEmpty())
   {
         QImage picture;
-        picture.load(fileName);
+        picture.load( fileName );
 
         if( picture.isNull() )
         {
-            QMessageBox::information( this, "", labelsMessages->value( "openGFail" ));
+            QMessageBox::information( this, "", "Failure of loading an image\t" );
             return;
         }
 
         QString message;
         imageProvider = ImageProvider::getInstance();
-        imageProvider->prepareBoardImage( &picture, &message, labelsMessages, *imagesLoad, isScaled );
+        imageProvider->prepareBoardImage( &picture, &message, *imagesLoad, isScaled );
         QMessageBox::information( this, "", message );
 
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )
@@ -498,7 +502,7 @@ void MainWindow::slotRemoveGraphic()
     acRemoveGraphic->setEnabled( false );
     imagesLoad->resetLoaded();
 
-    // If active boards is graphical board
+    // If active board is a graphical board
     if ( !isNumber )
     {
         QLayoutItem *child;
@@ -511,7 +515,7 @@ void MainWindow::slotRemoveGraphic()
         isNumber = true;
     }
 
-    QMessageBox::information( this, "", labelsMessages->value( "remG" ));
+    QMessageBox::information( this, "", "Graphic removed\t");
 }
 
 /*******************************************************************************************************************************/
@@ -563,7 +567,7 @@ void MainWindow::slotSaveBoard()
 
 void MainWindow::slotReadBoard()
 {
-    QString fileName = QFileDialog::getOpenFileName( this,"",QDir::currentPath() );
+    QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
 
     if( !fileName.isEmpty() )
     {
@@ -578,7 +582,6 @@ void MainWindow::slotReadBoard()
         delete board;
         deleteSquares();
 
-        //uchar* buffer;
         bool tempIsNumber;
         int** tempValues;
         int tempSize;
@@ -614,8 +617,8 @@ void MainWindow::slotReadBoard()
         }
         else
         {
-           // This buffer is moved to an Image object which is responsible for release memoru buffer
-           // This data must exist as long as restored images exist
+           // This buffer is moved to an Image object which is responsible for releasing memory
+           // This data must exist as long as restored image exists
            uchar* buffer = new uchar[10000 * size * size];
            for (int i = 0; i < ( size  * size ); i++)
                outData.readRawData((char*)(buffer + i * 10000), 10000);
@@ -661,24 +664,6 @@ void MainWindow::slotReadBoard()
 
         file.close();
     }
-}
-
-/********************************************************************************************************************/
-/* SET TEXT *********************************************************************************************************/
-
-void MainWindow::setText()
-{
-    text->setEn( &labelsMenu, &labelsMessages );
-
-    fileMenu->setTitle( labelsMenu->value("file") );
-    acOpenGraphic->setText( labelsMenu->value("fOpenG") );
-    acRemoveGraphic->setText( labelsMenu->value("fRemG") );
-    acSaveBoard->setText( labelsMenu->value("fSaveB") );
-    acLoadBoard->setText( labelsMenu->value("fLoadB") );
-
-    acSettings->setText( labelsMenu->value("settings") );
-
-    infoMenu->setText( labelsMenu->value("info") );    
 }
 
 /********************************************************************************************************************/

@@ -3,7 +3,6 @@ SOURCES += \
     MainWindow.cpp \
     Board.cpp \
     Entry.cpp \
-    Text.cpp \
     WindowAbout.cpp \
     Images/Image.cpp \
     Images/ImageLoad.cpp \
@@ -13,7 +12,6 @@ HEADERS += \
     WindowSetting.h \
     MainWindow.h \
     Board.h \
-    Text.h \
     WindowAbout.h \
     Types.h \
     Images/Image.h \

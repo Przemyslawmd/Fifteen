@@ -34,41 +34,41 @@ QImage** Image::getImage()
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A SCALE MODE *******************************************************************/
 
-void Image::prepareScaledImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
+void Image::prepareScaledImage( QImage* image, State& state, QString* message )
 {
     if (( image->height() < state.resolution ) || ( image->width() < state.resolution ))
     {
-        message->append(labels->value("toLow") + state.message );
+        message->append( "Too low size of graphic for a board " + state.message );
         return;
     }
 
     if ( createSquareImage( new QImage( image->scaled( state.resolution, state.resolution )), state.size ))
     {
         state.loaded = true;
-        message->append( labels->value("success") + state.message );
+        message->append( "Graphic was loaded for a board " + state.message );
     }
     else
-        message->append( labels->value("failure") + state.message );
+        message->append( "Failure of loading graphic for a board " + state.message );
 }
 
 /****************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A CROP MODE *********************************************************************/
 
-void Image::prepareCroppedImage( QImage* image, State& state, QString* message, const QMap<QString,QString>* labels )
+void Image::prepareCroppedImage( QImage* image, State& state, QString* message )
 {
     if (( image->height() < state.resolution ) || ( image->width() < state.resolution ))
     {
-        message->append(labels->value("toLow") + state.message );
+        message->append( "Too low size of graphic for a board " + state.message );
         return;
     }
 
     if ( createSquareImage( new QImage(image->copy(( image->width() - state.resolution)/2, ( image->height() - state.resolution )/2, state.resolution, state.resolution )), state.size ))
     {
         state.loaded = true;
-        message->append( labels->value("success") + state.message );
+        message->append( "Graphic was loaded for a board" + state.message );
     }
     else
-        message->append(labels->value("failure") + state.message );
+        message->append( "Failure of loading graphic for a board " + state.message );
 }
 
 /**************************************************************************************************************************/

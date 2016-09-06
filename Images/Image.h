@@ -28,8 +28,8 @@ private:
     bool createSquareImage( QImage*, int );
     bool restoreImagesFromFile( uchar* );
 
-    void prepareScaledImage( QImage*, State&, QString*, const QMap<QString,QString>* );
-    void prepareCroppedImage( QImage*, State&, QString*, const QMap<QString,QString>* );    
+    void prepareScaledImage( QImage*, State&, QString* );
+    void prepareCroppedImage( QImage*, State&, QString* );
 };
 
 #endif // IMAGE__H

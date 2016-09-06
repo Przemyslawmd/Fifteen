@@ -17,7 +17,6 @@
 #include <Board.h>
 #include <WindowSetting.h>
 #include <WindowAbout.h>
-#include <Text.h>
 #include <Images/ImageLoad.h>
 #include <Types.h>
 #include <Images/ImageProvider.h>
@@ -83,23 +82,15 @@ class MainWindow : public QMainWindow
     bool isNumber;          // It indicates whether there is a numerical or graphical board
     bool isScaled;          // It indicates whether a loading image is to be scalled or cropped
 
-    Text* text;
     Color color;
     ImageLoad* imagesLoad;
-
-    const QMap<QString, QString>* labelsMenu;
-    const QMap<QString, QString>* labelsHelp;
-    const QMap<QString, QString>* labelsAbout;
-    const QMap<QString, QString>* labelsControls;
-    const QMap<QString, QString>* labelsMessages;
-    const QMap<QString, QString>* labelsSettings;
 
     void createMenu();
     void createControls();
     void createSquares();
 
-    void setSquaresNumber(bool);
-    void setSquaresGraphic(bool);
+    void setSquaresNumber( bool );
+    void setSquaresGraphic( bool );
 
     void createLayouts();
     void deleteSquares();
@@ -119,8 +110,7 @@ private slots:
     void slotSolveBoard();
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    void setText();
+    explicit MainWindow( QWidget *parent = 0 );
     void setColor();
 
 public slots:
