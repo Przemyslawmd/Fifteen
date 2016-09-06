@@ -14,22 +14,18 @@ class Text
 public:
     Text();
 
-    void setPl( cmap**, cmap**, cmap**, cmap**, cmap** );
-    void setEn( cmap**, cmap**, cmap**, cmap**, cmap** );
+    void setPl( cmap**, cmap**, cmap**, cmap** );
+    void setEn( cmap**, cmap**, cmap**, cmap** );
 
 private:
 
     void setMenu();
-    void setSettings();
     void setControls();
     void setAbout();
     void setMessages();
 
     map* menuPl;
-    map* menuEn;
-
-    map* settingsPl;
-    map* settingsEn;
+    map* menuEn;  
 
     map* ctrlPl;
     map* ctrlEn;

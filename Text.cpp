@@ -4,11 +4,7 @@ Text::Text()
 {
     menuPl = new map();
     menuEn = new map();
-    setMenu();
-
-    settingsPl = new map();
-    settingsEn = new map();
-    setSettings();
+    setMenu();  
 
     ctrlPl = new map();
     ctrlEn = new map();
@@ -58,47 +54,6 @@ void Text::setMenu()
     menuEn->insert("info", "Information");    
     menuPl->insert("info", "Informacja");
 
-}
-
-/*******************************************************************************************************************/
-/* SETS SETTINGS ***************************************************************************************************/
-
-void Text::setSettings()
-{
-    settingsPl->insert("title","USTAWIENIA");
-    settingsPl->insert("graphic","Grafika");
-    settingsPl->insert("graphic4","Grafika jest wczytywana dla planszy 4x4");
-    settingsPl->insert("graphic5","Grafika jest wczytywana dla planszy 5x5");
-    settingsPl->insert("graphic6","Grafika jest wczytywana dla planszy 7x7");
-    settingsPl->insert("graphic7","Grafika jest wczytywana dla planszy 7x7");
-    settingsPl->insert("graphicScal", "Grafika jest skalowana");
-    settingsPl->insert("graphicCrop", "Grafika jest kadrowana");
-    settingsPl->insert("color", "Kolor planszy numerycznej");
-    settingsPl->insert("colorR", "Czerwony");
-    settingsPl->insert("colorG", "Zielony");
-    settingsPl->insert("colorB", "Niebieski");
-    settingsPl->insert("lan",UTF("Język"));
-    settingsPl->insert("pol","Polski");
-    settingsPl->insert("eng","Angielski");
-    settingsPl->insert("acc","Akceptuj");
-
-
-    settingsEn->insert("title","SETTINGS");
-    settingsEn->insert("graphic","Graphic");
-    settingsEn->insert("graphic4","Graphic is to be loaded for a board 4x4");
-    settingsEn->insert("graphic5","Graphic is to be loaded for a board 5x5");
-    settingsEn->insert("graphic6","Graphic is to be loaded for a board 6x6");
-    settingsEn->insert("graphic7","Graphic is to be loaded for a board 7x7");
-    settingsEn->insert("graphicScal", "Graphic is to be scalled");
-    settingsEn->insert("graphicCrop", "Graphic is to be cropped");
-    settingsEn->insert("color", "Color of Numeric Board");
-    settingsEn->insert("colorR", "Red");
-    settingsEn->insert("colorG", "Green");
-    settingsEn->insert("colorB", "Blue");
-    settingsEn->insert("lan","Language");
-    settingsEn->insert("pol","Polish");
-    settingsEn->insert("eng","English");
-    settingsEn->insert("acc","Accept");
 }
 
 /*******************************************************************************************************************/
@@ -167,19 +122,17 @@ void Text::setMessages()
 /********************************************************************************************************************/
 /********************************************************************************************************************/
 
-void Text::setEn(cmap** menu, cmap** set, cmap** ctrl, cmap** mes, cmap** about)
+void Text::setEn(cmap** menu, cmap** ctrl, cmap** mes, cmap** about)
 {
-    *menu = menuEn;
-    *set = settingsEn;
+    *menu = menuEn;    
     *ctrl = ctrlEn;
     *mes = messagesEn;
     *about = aboutEn;
 }
 
-void Text::setPl(cmap** menu, cmap** set, cmap** ctrl, cmap** mes, cmap** about)
+void Text::setPl(cmap** menu, cmap** ctrl, cmap** mes, cmap** about)
 {
-    *menu = menuPl;
-    *set = settingsPl;
+    *menu = menuPl;    
     *ctrl = ctrlPl;
     *mes = messagesPl;
     *about = aboutPl;

@@ -5,7 +5,7 @@ WindowAbout::WindowAbout( const QMap<QString, QString>* labels ) : doc{}, browse
     this->setModal( true );
     this->setGeometry( 100, 100, 490, 210 );
     this->setMaximumSize( 490, 210 );
-    this->setWindowTitle( labels->value( "about" ));
+    this->setWindowTitle( "ABOUT APPLICATION" );
 
     QVBoxLayout layout( this );
     QString html;

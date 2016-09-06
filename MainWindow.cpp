@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     isNumber = true;
     isScaled = true;
     color = Color::BLUE;
-    isPl = true;
 
     imagesLoad = new ImageLoad();
     imageProvider = nullptr;
@@ -663,10 +662,7 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setText()
 {
-    if (isPl)
-        text->setPl( &labelsMenu, &labelsSettings, &labelsControls, &labelsMessages, &labelsAbout );
-    else
-        text->setEn( &labelsMenu, &labelsSettings, &labelsControls, &labelsMessages, &labelsAbout );
+    text->setEn( &labelsMenu, &labelsControls, &labelsMessages, &labelsAbout );
 
     fileMenu->setTitle( labelsMenu->value("file") );
     acOpenGraphic->setText( labelsMenu->value("fOpenG") );
@@ -717,7 +713,7 @@ void MainWindow::setColor()
 
 void MainWindow::slotSettings()
 {
-    new WindowSetting( color, imagesLoad, isScaled, isPl, this, labelsSettings );
+    new WindowSetting( color, imagesLoad, isScaled, this );
 }
 
 /****************************************************************************************************************************/

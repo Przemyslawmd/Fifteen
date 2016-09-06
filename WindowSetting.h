@@ -22,7 +22,7 @@ class WindowSetting : public QDialog
 private:
     Q_OBJECT
 
-    enum Radio { SCALE, CROP, BLUE, GREEN, RED, PL, EN };
+    enum Radio { SCALE, CROP, BLUE, GREEN, RED };
     enum Check { FOUR, FIVE, SIX, SEVEN };
 
     QRadioButton radio[RADIOCOUNT];
@@ -31,15 +31,13 @@ private:
 
     QButtonGroup groupRadioImage;
     QButtonGroup groupRadioColor;
-    QButtonGroup groupRadioLang;
 
     QGroupBox boxRadioImage;
     QGroupBox boxRadioColor;
-    QGroupBox boxRadioLang;
 
     Color& color;
     bool& isScaled;
-    bool& isPl;
+
     ImageLoad* images;
     QMainWindow* parent;
 
@@ -47,7 +45,7 @@ private slots:
     void saveSettings();
 
 public:
-    WindowSetting( Color&, ImageLoad*, bool&, bool&, QMainWindow*, const QMap<QString, QString>* );
+    WindowSetting( Color&, ImageLoad*, bool&, QMainWindow* );
 };
 
 #endif // SETTING_H

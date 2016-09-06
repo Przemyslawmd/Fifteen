@@ -1,18 +1,17 @@
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, bool& isPl, QMainWindow* parentParam, const QMap<QString, QString>* labels ) :
-    color( color ), isScaled( isScaled ), isPl( isPl ), accept{ labels->value("acc") },
-    boxRadioImage( labels->value("graphic")), boxRadioLang(labels->value("lan")),boxRadioColor(labels->value("color")),
-    groupRadioImage(), groupRadioColor(), groupRadioLang()
+WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, QMainWindow* parentParam ) :
+    color{ color }, isScaled{ isScaled }, accept{ "Accept" }, boxRadioImage{ "Graphic" }, boxRadioColor{ "Color of Numeric Board" },
+    groupRadioImage(), groupRadioColor()
 {
     this->setModal(true);
     this->images = images;
     parent = parentParam;
 
-    this->setWindowTitle(labels->value("title"));
-    this->setGeometry(100,100,400,660);
-    this->setMaximumSize(400,660);
-    this->setMinimumSize(400,660);
+    this->setWindowTitle( "SETTINGS" );
+    this->setGeometry( 100, 100, 400, 560 );
+    this->setMaximumSize( 400, 560 );
+    this->setMinimumSize( 400, 560 );
 
     QVBoxLayout layWindow;
 
@@ -21,13 +20,11 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, b
     for (int i = 0; i < RADIOCOUNT; i++)
         radio[i].setStyleSheet( "margin-left:5px;" );
 
-    radio[Radio::SCALE].setText( labels->value( "graphicScal" ));
-    radio[Radio::CROP].setText( labels->value( "graphicCrop" ));
-    radio[Radio::BLUE].setText( labels->value( "colorB" ));
-    radio[Radio::GREEN].setText( labels->value( "colorG" ));
-    radio[Radio::RED].setText( labels->value( "colorR" ));
-    radio[Radio::PL].setText( labels->value( "pol" ));
-    radio[Radio::EN].setText( labels->value( "eng"));
+    radio[Radio::SCALE].setText( "Graphic is to be scalled" );
+    radio[Radio::CROP].setText( "Graphic is to be cropped" );
+    radio[Radio::BLUE].setText( "Blue" );
+    radio[Radio::GREEN].setText( "Green" );
+    radio[Radio::RED].setText( "Red" );
 
     groupRadioImage.addButton( &radio[Radio::SCALE] );
     groupRadioImage.addButton( &radio[Radio::CROP] );
@@ -45,22 +42,16 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, b
     else
         radio[Radio::RED].setChecked( true );
 
-    groupRadioLang.addButton( &radio[Radio::PL] );
-    groupRadioLang.addButton( &radio[Radio::EN] );
-
-    radio[Radio::PL].setChecked( isPl );
-    radio[Radio::EN].setChecked( !isPl );
-
 
     // PREPARE CHECKBOX CONTROLS /////////////////////////////
 
     for (int i = 0; i < CHECKCOUNT; i++)
         check[i].setStyleSheet( "margin-left:5px;" );
 
-    check[Check::FOUR].setText( labels->value( "graphic4" ));
-    check[Check::FIVE].setText( labels->value( "graphic5" ));
-    check[Check::SIX].setText( labels->value( "graphic6" ));
-    check[Check::SEVEN].setText( labels->value( "graphic7" ));
+    check[Check::FOUR].setText( "Graphic is to be loaded for a board 4x4" );
+    check[Check::FIVE].setText( "Graphic is to be loaded for a board 5x5" );
+    check[Check::SIX].setText( "Graphic is to be loaded for a board 6x6" );
+    check[Check::SEVEN].setText( "Graphic is to be loaded for a board 7x7" );
 
     check[Check::FOUR].setChecked( images->four.toLoad );
     check[Check::FIVE].setChecked( images->five.toLoad );
@@ -97,18 +88,7 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, b
     layRadioColor.addWidget( &radio[Radio::RED] );
     layRadioColor.addSpacing( 7 );
 
-    boxRadioColor.setLayout( &layRadioColor );
-
-
-    QVBoxLayout layRadioLang;
-    layRadioLang.addSpacing(7);
-    layRadioLang.addWidget( &radio[Radio::PL] );
-    layRadioLang.addSpacing(7);
-    layRadioLang.addWidget( &radio[Radio::EN] );
-    layRadioLang.addSpacing(7);
-
-    boxRadioLang.setLayout( &layRadioLang );
-
+    boxRadioColor.setLayout( &layRadioColor );  
 
     QHBoxLayout layControls;
     accept.setStyleSheet("height:20px;");
@@ -122,8 +102,6 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, b
     layWindow.addWidget( &boxRadioImage );
     layWindow.addSpacing( 20 );
     layWindow.addWidget( &boxRadioColor);
-    layWindow.addSpacing( 20 );
-    layWindow.addWidget( &boxRadioLang);
     layWindow.addSpacing( 20 );
     layWindow.addLayout( &layControls );
     layWindow.addSpacing(10);
@@ -151,11 +129,7 @@ void WindowSetting::saveSettings()
     images->seven.toLoad = check[Check::SEVEN].isChecked();
 
     isScaled = radio[Radio::SCALE].isChecked();
-    isPl = radio[Radio::PL].isChecked();
 
-    MainWindow* parent2 = qobject_cast< MainWindow* >( parent );
-
-    parent2->setText();
-    parent2->setColor();
+    qobject_cast< MainWindow* >( parent )->setColor();
     this->close();
 }
