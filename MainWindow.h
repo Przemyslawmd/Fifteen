@@ -21,25 +21,19 @@
 #include <Types.h>
 #include <Images/ImageProvider.h>
 
+#define ACTION_COUNT 6
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
     enum Radio { FOUR, FIVE, SIX, SEVEN, NUMERICAL, GRAPHIC };
+    enum Action { OPENG, REMG, SAVE, LOAD, SETT, INFO };
 
     QMenuBar* mainMenu;
     QMenu* fileMenu;
-    QAction* infoMenu;
 
-    // FILE MENU ACTIONS
-    QAction* acOpenGraphic;
-    QAction* acRemoveGraphic;
-    QAction* acSaveBoard;
-    QAction* acLoadBoard;
-
-    QAction* acSettings;
-    QAction* acHelp;
+    QAction* action[ACTION_COUNT];
 
     QWidget* window;
     QHBoxLayout* mainLayout;
@@ -51,11 +45,10 @@ class MainWindow : public QMainWindow
     QVBoxLayout* layImageVertical;
     QHBoxLayout** layImageHorizontal;
     QGroupBox* boxImages;
-
     QPushButton** control;
 
     // RIGHT PANEL
-    // Separate layouts for radio buttons seems to be needed because of a group box
+    // Separate layouts for radio buttons seem to be needed because of a group box
     QVBoxLayout* layRadioDim;
     QVBoxLayout* layRadioKind;
     QPushButton* pushRandom;

@@ -33,39 +33,39 @@ void MainWindow::createMenu()
     fileMenu = new QMenu();
     fileMenu->setTitle( "File" );
 
-    acOpenGraphic = new QAction( this );
-    acOpenGraphic->setText( "Load Graphical File" );
-    connect( acOpenGraphic, SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
-    acRemoveGraphic = new QAction(this);
-    acRemoveGraphic->setText( "Remove Graphic" );
-    acRemoveGraphic->setEnabled(false);
-    connect( acRemoveGraphic, SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
-    acSaveBoard = new QAction(this);
-    acSaveBoard->setText( "Save Board" );
-    connect( acSaveBoard, SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
-    acLoadBoard = new QAction(this);
-    acLoadBoard->setText( "Load Board" );
-    connect( acLoadBoard, SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
+    for ( int i = 0; i < ACTION_COUNT; i++ )
+      action[i] = new QAction( this );
 
-    fileMenu->addAction( acOpenGraphic );
-    fileMenu->addSeparator();
-    fileMenu->addAction( acRemoveGraphic );
-    fileMenu->addSeparator();
-    fileMenu->addAction( acSaveBoard );
-    fileMenu->addSeparator();
-    fileMenu->addAction( acLoadBoard );
+    action[Action::OPENG]->setText( "Load Graphical file" );
+    connect( action[Action::OPENG], SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
 
-    acSettings = new QAction( this );
-    acSettings->setText( "Settings" );
-    connect( acSettings, SIGNAL( triggered() ), this, SLOT( slotSettings() ));
+    action[Action::REMG]->setText( "Remove Graphic" );
+    action[Action::REMG]->setEnabled( false );
+    connect( action[Action::REMG], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
 
-    infoMenu = new QAction( this );
-    infoMenu->setText( "About" );
-    connect( infoMenu, SIGNAL( triggered() ), this, SLOT( slotAbout() ));
+    action[Action::SAVE]->setText( "Save Board" );
+    connect( action[Action::SAVE], SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
+
+    action[Action::LOAD]->setText( "Load Board" );
+    connect( action[Action::LOAD], SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
+
+    fileMenu->addAction( action[Action::OPENG] );
+    fileMenu->addSeparator();
+    fileMenu->addAction( action[Action::REMG] );
+    fileMenu->addSeparator();
+    fileMenu->addAction( action[Action::SAVE] );
+    fileMenu->addSeparator();
+    fileMenu->addAction( action[Action::LOAD] );
+
+    action[Action::SETT]->setText( "Settings" );
+    connect( action[Action::SETT], SIGNAL( triggered()), this, SLOT( slotSettings() ));
+
+    action[Action::INFO]->setText( "About" );
+    connect( action[Action::INFO], SIGNAL( triggered()), this, SLOT( slotAbout() ));
 
     mainMenu->addMenu( fileMenu );
-    mainMenu->addAction( acSettings );
-    mainMenu->addAction( infoMenu );
+    mainMenu->addAction( action[Action::SETT] );
+    mainMenu->addAction( action[Action::INFO] );
 
     this->setMenuBar( mainMenu );
 }
@@ -89,7 +89,7 @@ void MainWindow::createLayouts()
 }
 
 /*************************************************************************************************************/
-/* CREATE RIGHT PANEL CONTROLS *******************************************************************************/
+/* CREATE RIGHT PANEL FOR CONTROLS ***************************************************************************/
 
 void MainWindow::createControls()
 {
@@ -485,7 +485,7 @@ void MainWindow::slotLoadGraphic()
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )
         {
             radio[Radio::GRAPHIC].setEnabled( true );
-            acRemoveGraphic->setEnabled( true );
+            action[Action::REMG]->setEnabled( true );
         }
     }    
 }
@@ -499,7 +499,7 @@ void MainWindow::slotRemoveGraphic()
 
     radio[Radio::GRAPHIC].setEnabled( false );
     radio[Radio::NUMERICAL].setChecked( true );
-    acRemoveGraphic->setEnabled( false );
+    action[Action::REMG]->setEnabled( false );
     imagesLoad->resetLoaded();
 
     // If active board is a graphical board
@@ -658,7 +658,7 @@ void MainWindow::slotReadBoard()
            setSquaresGraphic( false );
            radio[Radio::GRAPHIC].setEnabled( true );
            radio[Radio::GRAPHIC].setChecked( true );
-           acRemoveGraphic->setEnabled( true );
+           action[Action::REMG]->setEnabled( true );
            isNumber = false;
         }
 
