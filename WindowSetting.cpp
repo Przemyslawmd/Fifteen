@@ -2,9 +2,9 @@
 
 WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, QMainWindow* parentParam ) :
     color{ color }, isScaled{ isScaled }, accept{ "Accept" }, boxRadioImage{ "Graphic" }, boxRadioColor{ "Color of Numeric Board" },
-    groupRadioImage(), groupRadioColor()
+    slider{ Qt::Horizontal, this }, groupRadioImage(), groupRadioColor()
 {
-    this->setModal(true);
+    this->setModal( true );
     this->images = images;
     parent = parentParam;
 
@@ -59,6 +59,24 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
     check[Check::SEVEN].setChecked( images->seven.toLoad );
 
 
+    slider.setRange( 1, 5 );
+    slider.setSingleStep( 1 );
+    sliderLabels[0].setText( "50" );
+    sliderLabels[1].setText( "100" );
+    sliderLabels[2].setText( "150" );
+    sliderLabels[3].setText( "200" );
+    sliderLabels[4].setText( "250" );
+
+    QGridLayout layoutSlider;
+    layoutSlider.setContentsMargins( 30, 0, 30, 0 );
+    layoutSlider.addWidget( &slider,          0, 0, 1, 5 );
+    layoutSlider.addWidget( &sliderLabels[0], 1, 0, 1, 1, Qt::AlignLeft );
+    layoutSlider.addWidget( &sliderLabels[1], 1, 1, 1, 1, Qt::AlignLeft );
+    layoutSlider.addWidget( &sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
+    layoutSlider.addWidget( &sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
+    layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
+
+
     // PREPARE LAYOUT ////////////////////////////////////////
 
     QVBoxLayout layRadioImage;
@@ -92,7 +110,7 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
 
     QHBoxLayout layControls;
     accept.setStyleSheet("height:20px;");
-    connect( &accept, SIGNAL(clicked()), this, SLOT( saveSettings()) );
+    connect( &accept, SIGNAL( clicked() ), this, SLOT( saveSettings() ));
 
     layControls.addSpacing( 120 );
     layControls.addWidget( &accept );
@@ -102,6 +120,8 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
     layWindow.addWidget( &boxRadioImage );
     layWindow.addSpacing( 20 );
     layWindow.addWidget( &boxRadioColor);
+    layWindow.addSpacing( 20 );
+    layWindow.addLayout( &layoutSlider );
     layWindow.addSpacing( 20 );
     layWindow.addLayout( &layControls );
     layWindow.addSpacing(10);

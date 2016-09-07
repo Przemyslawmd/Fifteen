@@ -8,6 +8,7 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QCheckBox>
+#include <QSlider>
 #include <QDialog>
 #include <MainWindow.h>
 #include <Images/ImageLoad.h>
@@ -27,6 +28,8 @@ private:
 
     QRadioButton radio[RADIOCOUNT];
     QCheckBox check[CHECKCOUNT];
+    QSlider slider;
+    QLabel sliderLabels[5];
     QPushButton accept;
 
     QButtonGroup groupRadioImage;
