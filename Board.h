@@ -14,10 +14,10 @@ class Board
 {
 
 public:
-    Board(int);
-    Board(int**, int);
+    Board( int );
+    Board( int**, int );
     ~Board();
-    int checkMove(int, int);
+    int checkMove( int, int );
     int** randomBoard();
     int** solveBoard();
     int** sendBoard();    
@@ -26,8 +26,7 @@ private:
     int size;
     int** square;
 
-    void makeMove(int, int, int, int);
-    int randomAnotherMove( int, QList<int>&, int* );
+    void makeMove( int, int, int, int );
 };
 
 #endif // BOARD_H

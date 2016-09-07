@@ -80,8 +80,8 @@ int Board::checkMove( int row, int col )
 
 int** Board::randomBoard()
 {
-    int move = 0;    
-    int remMove = 0;
+    int move = 0;
+    int removedMoves = 0;
     int nullRow = 0;
     int nullCol = 0;
     int const MOVECOUNT = 2000;
@@ -104,101 +104,62 @@ int** Board::randomBoard()
 
     for ( int i = 0; i < MOVECOUNT; i++ )
     {
-        // Restore a list with move directions
-        if ( remMove != 0 )
+        // Restore list with all directions
+        if ( removedMoves != 0 )
         {
-            if ( remMove < 10 )
-                moves.append( remMove );
+            if ( removedMoves < 10 )
+                moves.append( removedMoves );
             else
             {
-                moves.append( remMove / 10 );
-                moves.append( remMove % 10 );
+                moves.append( removedMoves / 10 );
+                moves.append( removedMoves % 10 );
             }
-            remMove = 0;
+            removedMoves = 0;
         }
 
-        // Increase a chance for a move in a left direction
+        // Increase a chance for move in a left direction
         if ( i % 5 == 0 )
            move = LEFT;
         else
-           move = qrand() % LEFT + 1;  // randoming from 1 to 4
+           move = qrand() % LEFT + 1;  // random from 1 to 4
 
         while( true )
-        {            
-            // MOVE UP ///////////////////////////////////////////////
-            if ( move == UP )
-            {
-                if ( nullRow > 0 )
-                {
-                    makeMove( nullRow, nullCol, nullRow - 1, nullCol );
-                    nullRow--;
-                    break;
-                }
-                else
-                {
-                    move = randomAnotherMove( UP, moves, &remMove );
-                    continue;
-                }
+        {
+            if (( move == UP ) && ( nullRow > 0 ))
+            {                
+                makeMove( nullRow, nullCol, nullRow - 1, nullCol );
+                nullRow--;
+                break;
             }            
-            // MOVE RIGHT //////////////////////////////////////////////
-            else if ( move == RIGHT )
-            {
-                if (nullCol < (size - 1))
-                {
-                    makeMove( nullRow, nullCol, nullRow, nullCol + 1 );
-                    nullCol++;
-                    break;
-                }
-                else
-                {
-                    move = randomAnotherMove( RIGHT, moves, &remMove );
-                    continue;
-                }
+
+            if (( move == RIGHT ) && ( nullCol < ( size - 1 )))
+            {                
+                makeMove( nullRow, nullCol, nullRow, nullCol + 1 );
+                nullCol++;
+                break;
             }            
-            // MOVE DOWN /////////////////////////////////////////////////
-            else if ( move == DOWN )
-            {
-                if (nullRow < (size - 1))
-                {
-                    makeMove( nullRow, nullCol, nullRow + 1, nullCol );
-                    nullRow++;
-                    break;
-                }
-                else
-                {
-                    move = randomAnotherMove( DOWN, moves, &remMove );
-                    continue;
-                }
+
+            if (( move == DOWN ) && ( nullRow < (size - 1 )))
+            {                
+                makeMove( nullRow, nullCol, nullRow + 1, nullCol );
+                nullRow++;
+                break;
             }            
-            // MOVE LEFT /////////////////////////////////////////////////
-            else
-            {
-                if ( nullCol > 0 )
-                {
-                    makeMove( nullRow, nullCol, nullRow, nullCol - 1 );
-                    nullCol--;
-                    break;
-                }
-                else
-                {
-                    move = randomAnotherMove( LEFT, moves, &remMove );
-                    continue;
-                }
+
+            if (( move == LEFT ) && ( nullCol > 0 ))
+            {                
+                makeMove( nullRow, nullCol, nullRow, nullCol - 1 );
+                nullCol--;
+                break;
             }
+
+            moves.removeOne( move );
+            removedMoves = removedMoves * 10 + move;
+            move = moves.at( qrand() % moves.size() );
         }
     }
 
     return square;
-}
-
-/******************************************************************************************************/
-/* RANDOM ANOTHER MOVE ********************************************************************************/
-
-int Board::randomAnotherMove( int moveToExclude, QList<int>& moves, int* remMove)
-{
-    moves.removeOne( moveToExclude );
-    *remMove = *remMove * 10 + moveToExclude;
-    return moves.at( qrand() % moves.size() );
 }
 
 /*******************************************************************************************************/
