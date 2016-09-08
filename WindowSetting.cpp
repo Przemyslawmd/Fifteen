@@ -1,7 +1,8 @@
 #include "WindowSetting.h"
 
 WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, QMainWindow* parentParam ) :
-    color{ color }, isScaled{ isScaled }, accept{ "Accept" }, boxRadioImage{ "Graphic" }, boxRadioColor{ "Color of Numeric Board" },
+    color{ color }, isScaled{ isScaled }, accept{ "Accept" },
+    boxRadioImage{ "Graphic" }, boxRadioColor{ "Color of Numeric Board" }, boxSquareSize{ "Size of Square" },
     slider{ Qt::Horizontal, this }, groupRadioImage(), groupRadioColor()
 {
     this->setModal( true );
@@ -10,12 +11,12 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
 
     this->setWindowTitle( "Settings" );
     this->setGeometry( 100, 100, 400, 560 );
-    this->setMaximumSize( 400, 560 );
-    this->setMinimumSize( 400, 560 );
+    this->setMaximumSize( 400, 680 );
+    this->setMinimumSize( 400, 680 );
 
     QVBoxLayout layWindow;
 
-    // PREPARE RADIO CONTROLS ////////////////////////////////
+    /* RADIO COLOR *********************************/
 
     for (int i = 0; i < RADIOCOUNT; i++)
         radio[i].setStyleSheet( "margin-left:5px;" );
@@ -42,8 +43,18 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
     else
         radio[Radio::RED].setChecked( true );
 
+    QVBoxLayout layRadioColor;
+    layRadioColor.addSpacing( 7 );
+    layRadioColor.addWidget( &radio[Radio::BLUE] );
+    layRadioColor.addSpacing( 7 );
+    layRadioColor.addWidget( &radio[Radio::GREEN] );
+    layRadioColor.addSpacing( 7 );
+    layRadioColor.addWidget( &radio[Radio::RED] );
+    layRadioColor.addSpacing( 7 );
+    boxRadioColor.setLayout( &layRadioColor );
 
-    // PREPARE CHECKBOX CONTROLS /////////////////////////////
+
+    /* CHECKBOX IMAGE SIZE ********************************/
 
     for (int i = 0; i < CHECKCOUNT; i++)
         check[i].setStyleSheet( "margin-left:5px;" );
@@ -57,27 +68,6 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
     check[Check::FIVE].setChecked( images->five.toLoad );
     check[Check::SIX].setChecked( images->six.toLoad );
     check[Check::SEVEN].setChecked( images->seven.toLoad );
-
-
-    slider.setRange( 1, 5 );
-    slider.setSingleStep( 1 );
-    sliderLabels[0].setText( "50" );
-    sliderLabels[1].setText( "100" );
-    sliderLabels[2].setText( "150" );
-    sliderLabels[3].setText( "200" );
-    sliderLabels[4].setText( "250" );
-
-    QGridLayout layoutSlider;
-    layoutSlider.setContentsMargins( 30, 0, 30, 0 );
-    layoutSlider.addWidget( &slider,          0, 0, 1, 5 );
-    layoutSlider.addWidget( &sliderLabels[0], 1, 0, 1, 1, Qt::AlignLeft );
-    layoutSlider.addWidget( &sliderLabels[1], 1, 1, 1, 1, Qt::AlignLeft );
-    layoutSlider.addWidget( &sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
-    layoutSlider.addWidget( &sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
-    layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
-
-
-    // PREPARE LAYOUT ////////////////////////////////////////
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -93,20 +83,31 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
     layRadioImage.addSpacing( 8 );
     layRadioImage.addWidget( &check[Check::SEVEN] );
     layRadioImage.addSpacing( 15 );
-
     boxRadioImage.setLayout( &layRadioImage );
 
 
-    QVBoxLayout layRadioColor;
-    layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radio[Radio::BLUE] );
-    layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radio[Radio::GREEN] );
-    layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radio[Radio::RED] );
-    layRadioColor.addSpacing( 7 );
+    /* SLIDER SQUARE SIZE ***************************************/
 
-    boxRadioColor.setLayout( &layRadioColor );  
+    slider.setRange( 1, 5 );
+    slider.setSingleStep( 1 );
+    sliderLabels[0].setText( "50" );
+    sliderLabels[1].setText( "100" );
+    sliderLabels[2].setText( "150" );
+    sliderLabels[3].setText( "200" );
+    sliderLabels[4].setText( "250" );
+
+    QGridLayout layoutSlider;
+    layoutSlider.setContentsMargins( 30, 20, 30, 20 );
+    layoutSlider.addWidget( &slider,          0, 0, 1, 5 );
+    layoutSlider.addWidget( &sliderLabels[0], 1, 0, 1, 1, Qt::AlignLeft );
+    layoutSlider.addWidget( &sliderLabels[1], 1, 1, 1, 1, Qt::AlignLeft );
+    layoutSlider.addWidget( &sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
+    layoutSlider.addWidget( &sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
+    layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );    
+    boxSquareSize.setLayout( &layoutSlider );
+
+
+    /* GENERAL LAYOUT *********************************************/
 
     QHBoxLayout layControls;
     accept.setStyleSheet("height:20px;");
@@ -121,7 +122,7 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
     layWindow.addSpacing( 20 );
     layWindow.addWidget( &boxRadioColor);
     layWindow.addSpacing( 20 );
-    layWindow.addLayout( &layoutSlider );
+    layWindow.addWidget( &boxSquareSize );
     layWindow.addSpacing( 20 );
     layWindow.addLayout( &layControls );
     layWindow.addSpacing(10);

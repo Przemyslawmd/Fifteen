@@ -37,6 +37,7 @@ private:
 
     QGroupBox boxRadioImage;
     QGroupBox boxRadioColor;
+    QGroupBox boxSquareSize;
 
     Color& color;
     bool& isScaled;
