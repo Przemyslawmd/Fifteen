@@ -74,7 +74,6 @@ class MainWindow : public QMainWindow
     bool isNumber;          // It indicates whether there is a numerical or graphical board
     bool isScaled;          // It indicates whether a loading image is to be scalled or cropped
 
-    Color color;
     ImageLoad* imagesLoad;
 
     void createMenu();

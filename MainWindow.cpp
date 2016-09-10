@@ -5,7 +5,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     Size size = Options::getBoardSize();
     isNumber = Options::checkNumeric();
     isScaled = Options::checkScaled();
-    color = Options::getColor();
 
     imagesLoad = new ImageLoad();
     imageProvider = nullptr;
@@ -232,6 +231,7 @@ void MainWindow::setSquaresNumber( bool isRandom )
 {    
     Size size = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
+    Color color = Options::getColor();
 
     if ( color == Color::BLUE )
         numberStyle = numberStyleBlue;
@@ -681,6 +681,7 @@ void MainWindow::slotReadBoard()
 void MainWindow::setColor()
 {
     Size size = Options::getBoardSize();
+    Color color = Options::getColor();
 
     if ( color == Color::BLUE )
         numberStyle = numberStyleBlue;
@@ -707,7 +708,7 @@ void MainWindow::setColor()
 
 void MainWindow::slotSettings()
 {
-    new WindowSetting( color, imagesLoad, isScaled, this );
+    new WindowSetting( imagesLoad, isScaled, this );
 }
 
 /****************************************************************************************************************************/

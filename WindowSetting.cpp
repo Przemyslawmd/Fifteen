@@ -1,7 +1,7 @@
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, QMainWindow* parentParam ) :
-    color{ color }, isScaled{ isScaled }, accept{ "Accept" },
+WindowSetting::WindowSetting( ImageLoad* images, bool& isScaled, QMainWindow* parentParam ) :
+    isScaled{ isScaled }, accept{ "Accept" },
     boxRadioImage{ "Graphic" }, boxRadioColor{ "Color of Numeric Board" }, boxSquareSize{ "Size of Square" },
     slider{ Qt::Horizontal, this }, groupRadioImage(), groupRadioColor()
 {
@@ -34,14 +34,9 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
 
     groupRadioColor.addButton( &radio[Radio::BLUE] );
     groupRadioColor.addButton( &radio[Radio::GREEN] );
-    groupRadioColor.addButton( &radio[Radio::RED] );
+    groupRadioColor.addButton( &radio[Radio::RED] );   
 
-    if ( color == Color::BLUE )
-        radio[Radio::BLUE].setChecked( true );
-    else if ( color == Color::GREEN )
-        radio[Radio::GREEN].setChecked( true );
-    else
-        radio[Radio::RED].setChecked( true );
+    radio[ Options::getColor() ].setChecked( true );
 
     QVBoxLayout layRadioColor;
     layRadioColor.addSpacing( 7 );
@@ -138,11 +133,11 @@ WindowSetting::WindowSetting( Color& color, ImageLoad* images, bool& isScaled, Q
 void WindowSetting::saveSettings()
 {   
     if ( radio[Radio::BLUE].isChecked() )
-        color = Color::BLUE;
+        Options::setColor( Color::BLUE );
     else if ( radio[Radio::GREEN].isChecked() )
-        color = Color::GREEN;
+        Options::setColor( Color::GREEN );
     else
-        color = Color::RED;
+        Options::setColor( Color::RED );
 
     images->four.toLoad = check[Check::FOUR].isChecked();
     images->five.toLoad = check[Check::FIVE].isChecked();

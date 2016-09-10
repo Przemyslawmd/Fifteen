@@ -13,6 +13,7 @@
 #include <MainWindow.h>
 #include <Images/ImageLoad.h>
 #include <Types.h>
+#include <Options.h>
 
 #define RADIOCOUNT 7
 #define CHECKCOUNT 4
@@ -39,7 +40,6 @@ private:
     QGroupBox boxRadioColor;
     QGroupBox boxSquareSize;
 
-    Color& color;
     bool& isScaled;
 
     ImageLoad* images;
@@ -49,7 +49,7 @@ private slots:
     void saveSettings();
 
 public:
-    WindowSetting( Color&, ImageLoad*, bool&, QMainWindow* );
+    WindowSetting( ImageLoad*, bool&, QMainWindow* );
 };
 
 #endif // SETTING_H
