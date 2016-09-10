@@ -71,8 +71,7 @@ class MainWindow : public QMainWindow
     QString* numberStyle;
     QString* emptyStyle;    
 
-    bool isNumber;          // It indicates whether there is a numerical or graphical board
-    bool isScaled;          // It indicates whether a loading image is to be scalled or cropped
+    bool isNumber;          // It indicates whether there is a numeric or a graphic board
 
     ImageLoad* imagesLoad;
 

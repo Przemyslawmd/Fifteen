@@ -1,7 +1,7 @@
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting( ImageLoad* images, bool& isScaled, QMainWindow* parentParam ) :
-    isScaled{ isScaled }, accept{ "Accept" },
+WindowSetting::WindowSetting( ImageLoad* images, QMainWindow* parentParam ) :
+    accept{ "Accept" },
     boxRadioImage{ "Graphic" }, boxRadioColor{ "Color of Numeric Board" }, boxSquareSize{ "Size of Square" },
     slider{ Qt::Horizontal, this }, groupRadioImage(), groupRadioColor()
 {
@@ -18,7 +18,7 @@ WindowSetting::WindowSetting( ImageLoad* images, bool& isScaled, QMainWindow* pa
 
     /* RADIO COLOR *********************************/
 
-    for (int i = 0; i < RADIOCOUNT; i++)
+    for ( int i = 0; i < RADIOCOUNT; i++ )
         radio[i].setStyleSheet( "margin-left:5px;" );
 
     radio[Radio::SCALE].setText( "Graphic is to be scalled" );
@@ -29,8 +29,9 @@ WindowSetting::WindowSetting( ImageLoad* images, bool& isScaled, QMainWindow* pa
 
     groupRadioImage.addButton( &radio[Radio::SCALE] );
     groupRadioImage.addButton( &radio[Radio::CROP] );
-    radio[Radio::SCALE].setChecked( isScaled );
-    radio[Radio::CROP].setChecked( !isScaled );
+
+    radio[Radio::SCALE].setChecked( Options::checkScaled() );
+    radio[Radio::CROP].setChecked( !Options::checkScaled() );
 
     groupRadioColor.addButton( &radio[Radio::BLUE] );
     groupRadioColor.addButton( &radio[Radio::GREEN] );
@@ -144,7 +145,7 @@ void WindowSetting::saveSettings()
     images->six.toLoad = check[Check::SIX].isChecked();
     images->seven.toLoad = check[Check::SEVEN].isChecked();
 
-    isScaled = radio[Radio::SCALE].isChecked();
+    Options::setScaled( radio[Radio::SCALE].isChecked() );
 
     qobject_cast< MainWindow* >( parent )->setColor();
     this->close();

@@ -4,7 +4,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     Size size = Options::getBoardSize();
     isNumber = Options::checkNumeric();
-    isScaled = Options::checkScaled();
 
     imagesLoad = new ImageLoad();
     imageProvider = nullptr;
@@ -486,7 +485,7 @@ void MainWindow::slotLoadGraphic()
 
         QString message;
         imageProvider = ImageProvider::getInstance();
-        imageProvider->prepareBoardImage( &picture, &message, *imagesLoad, isScaled );
+        imageProvider->prepareBoardImage( &picture, &message, *imagesLoad, Options::checkScaled() );
         QMessageBox::information( this, "", message );
 
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )
@@ -708,7 +707,7 @@ void MainWindow::setColor()
 
 void MainWindow::slotSettings()
 {
-    new WindowSetting( imagesLoad, isScaled, this );
+    new WindowSetting( imagesLoad, this );
 }
 
 /****************************************************************************************************************************/

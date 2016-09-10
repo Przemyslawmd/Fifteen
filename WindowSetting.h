@@ -38,9 +38,7 @@ private:
 
     QGroupBox boxRadioImage;
     QGroupBox boxRadioColor;
-    QGroupBox boxSquareSize;
-
-    bool& isScaled;
+    QGroupBox boxSquareSize;    
 
     ImageLoad* images;
     QMainWindow* parent;
@@ -49,7 +47,7 @@ private slots:
     void saveSettings();
 
 public:
-    WindowSetting( ImageLoad*, bool&, QMainWindow* );
+    WindowSetting( ImageLoad*, QMainWindow* );
 };
 
 #endif // SETTING_H
