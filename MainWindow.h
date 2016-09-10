@@ -19,6 +19,7 @@
 #include <WindowAbout.h>
 #include <Images/ImageLoad.h>
 #include <Types.h>
+#include <Options.h>
 #include <Images/ImageProvider.h>
 
 #define ACTION_COUNT 6
@@ -64,8 +65,6 @@ class MainWindow : public QMainWindow
     Board* board;
     ImageProvider* imageProvider;
 
-    // Current size of board
-    Size size;
     QString* numberStyleBlue;
     QString* numberStyleRed;
     QString* numberStyleGreen;

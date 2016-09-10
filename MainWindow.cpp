@@ -2,10 +2,10 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    size = Size::FOUR;
-    isNumber = true;
-    isScaled = true;
-    color = Color::BLUE;
+    Size size = Options::getBoardSize();
+    isNumber = Options::checkNumeric();
+    isScaled = Options::checkScaled();
+    color = Options::getColor();
 
     imagesLoad = new ImageLoad();
     imageProvider = nullptr;
@@ -143,8 +143,8 @@ void MainWindow::createControls()
 
     radio[Radio::NUMERICAL].setChecked(true);
     radio[Radio::GRAPHIC].setEnabled(false);
-    radio[Radio::NUMERICAL].setText( "Numerical" );
-    radio[Radio::GRAPHIC].setText( "Graphical" );
+    radio[Radio::NUMERICAL].setText( "Numeric" );
+    radio[Radio::GRAPHIC].setText( "Graphic" );
 
     boxRadioKind = new QGroupBox();
     boxRadioKind->setTitle( "Kind of Board" );
@@ -168,7 +168,9 @@ void MainWindow::createControls()
 
 void MainWindow::createSquares()
 {
+    Size size = Options::getBoardSize();
     control = new QPushButton*[size];
+
     for (int i = 0; i < size; i++)
         control[i] = new QPushButton[size];
 
@@ -210,7 +212,9 @@ void MainWindow::createSquares()
 
 void MainWindow::deleteSquares()
 {
+    Size size = Options::getBoardSize();
     QLayoutItem* child;
+
     while ((child = layImageVertical->takeAt(0)) != 0)
         layImageVertical->removeItem(0);
 
@@ -226,6 +230,7 @@ void MainWindow::deleteSquares()
 
 void MainWindow::setSquaresNumber( bool isRandom )
 {    
+    Size size = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
     if ( color == Color::BLUE )
@@ -255,6 +260,7 @@ void MainWindow::setSquaresNumber( bool isRandom )
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
+    Size size = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
     QImage** pictures = imageProvider->getImage( size );
@@ -316,12 +322,12 @@ void MainWindow::slotGenerateBoard()
     }
 
     // New size, new board needed
-    if ( size != newSize )
+    if ( Options::getBoardSize() != newSize )
     {
         delete board;
-        deleteSquares();
-        size = newSize;
-        board = new Board( size );
+        deleteSquares();        
+        Options::setBoardSize( newSize );
+        board = new Board( Options::getBoardSize() );
         createSquares();        
     }
 
@@ -342,6 +348,7 @@ void MainWindow::slotGenerateBoard()
 
 void MainWindow::slotSolveBoard()
 {    
+    Size size = Options::getBoardSize();
     int** values = board->solveBoard();
 
     if ( isNumber )
@@ -523,6 +530,7 @@ void MainWindow::slotRemoveGraphic()
 
 void MainWindow::slotSaveBoard()
 {
+    Size size = Options::getBoardSize();
     QFileDialog dialog;
     QString fileName = dialog.getSaveFileName(this, "", QDir::currentPath());
 
@@ -567,6 +575,7 @@ void MainWindow::slotSaveBoard()
 
 void MainWindow::slotReadBoard()
 {
+    int size;
     QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
 
     if( !fileName.isEmpty() )
@@ -584,19 +593,19 @@ void MainWindow::slotReadBoard()
 
         bool tempIsNumber;
         int** tempValues;
-        int tempSize;
+        int size;
 
         outData >> tempIsNumber;
-        outData >> tempSize;
+        outData >> size;
 
-        if ( tempSize == 4 )
-            size = Size::FOUR;
-        else if ( tempSize == 5 )
-            size = Size::FIVE;
-        else if ( tempSize == 6 )
-            size = Size::SIX;
-        else if ( tempSize == 7 )
-            size = Size::SEVEN;
+        if ( size == 4 )
+            Options::setBoardSize( Size::FOUR );
+        else if ( size == 5 )
+            Options::setBoardSize( Size::FIVE );
+        else if ( size == 6 )
+            Options::setBoardSize( Size::SIX );
+        else if ( size == 7 )
+            Options::setBoardSize( Size::SEVEN );
 
         tempValues = new int*[size];
         for (int i = 0; i < size; i++)
@@ -671,6 +680,8 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setColor()
 {
+    Size size = Options::getBoardSize();
+
     if ( color == Color::BLUE )
         numberStyle = numberStyleBlue;
     else if ( color == Color::GREEN )
