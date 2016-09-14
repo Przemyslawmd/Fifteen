@@ -1,9 +1,9 @@
 #include "WindowSetting.h"
 
 WindowSetting::WindowSetting( ImageLoad* images, QMainWindow* parentParam ) :
-    accept{ "Accept" },
-    boxRadioImage{ "Graphic" }, boxRadioColor{ "Color of Numeric Board" }, boxSquareSize{ "Size of Square" },
-    slider{ Qt::Horizontal, this }, groupRadioImage(), groupRadioColor()
+    slider{ Qt::Horizontal, this },accept{ "Accept" },
+    boxRadioColor{ "Color of Numeric Board" }, boxRadioImage{ "Graphic" }, boxSquareSize{ "Size of Square" },
+    groupRadioImage(), groupRadioColor()
 {
     this->setModal( true );
     this->images = images;

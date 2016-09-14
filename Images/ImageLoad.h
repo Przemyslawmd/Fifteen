@@ -16,9 +16,9 @@ class State
     public:
         int resolution;
         int size;
-        QString message;
-        mutable bool loaded;
         mutable bool toLoad;
+        mutable bool loaded;        
+        QString message;
 };
 
 class ImageLoad

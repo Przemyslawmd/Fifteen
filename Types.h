@@ -8,6 +8,8 @@ enum Color { BLUE = 2, GREEN, RED };
 
 enum Size { FOUR = 4, FIVE, SIX, SEVEN };
 
+enum SquareSize { _50 = 50, _75 = 75, _100 = 100, _125 = 125, _150 = 150 };
+
 #endif // TYPES_H
 
 

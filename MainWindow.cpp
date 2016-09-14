@@ -1,8 +1,7 @@
 #include "MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
-{
-    Size size = Options::getBoardSize();
+{    
     isNumber = Options::checkNumeric();
 
     imagesLoad = new ImageLoad();
@@ -12,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     numberStyleGreen = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; font-size:20px; border:1px solid white;");
     numberStyleBlue = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000080, stop:1 #0000EE); color:white; font-size:20px; border:1px solid white;");
     emptyStyle = new QString("background-color:white; color:white; font-size:20px; border:1px solid white;");
-    board = new Board( size );
+    board = new Board( Options::getBoardSize() );
 
     resize( 750, 550 );
     createMenu();
@@ -166,37 +165,39 @@ void MainWindow::createControls()
 
 void MainWindow::createSquares()
 {
-    Size size = Options::getBoardSize();
-    control = new QPushButton*[size];
+    Size boardSize = Options::getBoardSize();
+    SquareSize squareSize = Options::getSquareSize();
 
-    for (int i = 0; i < size; i++)
-        control[i] = new QPushButton[size];
+    control = new QPushButton*[boardSize];
 
-    for ( int i = 0; i < size ; i++ )
+    for (int i = 0; i < boardSize; i++)
+        control[i] = new QPushButton[boardSize];
+
+    for ( int i = 0; i < boardSize ; i++ )
     {
-        for ( int j = 0; j < size; j++ )
+        for ( int j = 0; j < boardSize; j++ )
         {
             control[i][j].setAccessibleName( QString::number(i) + QString::number( j ));
-            control[i][j].setMaximumSize( 50, 50 );
-            control[i][j].setMinimumSize( 50, 50 );
+            control[i][j].setMaximumSize( squareSize, squareSize );
+            control[i][j].setMinimumSize( squareSize, squareSize );
             connect( &control[i][j], SIGNAL( clicked() ), this, SLOT( passSignal() ));
         }
     }
 
-    layImageHorizontal = new QHBoxLayout*[size];
+    layImageHorizontal = new QHBoxLayout*[boardSize];
 
-    for ( int i = 0; i < size; i++ )
+    for ( int i = 0; i < boardSize; i++ )
     {
         layImageHorizontal[i] = new QHBoxLayout();
         layImageHorizontal[i]->setSpacing(0);
     }
 
     layImageVertical->addStretch();
-    for ( int i = 0; i < size; i++ )
+    for ( int i = 0; i < boardSize; i++ )
     {
         layImageHorizontal[i]->addStretch();
 
-        for ( int j = 0; j < size; j++ )
+        for ( int j = 0; j < boardSize; j++ )
             layImageHorizontal[i]->addWidget( &control[i][j] );
 
         layImageHorizontal[i]->addStretch();
@@ -260,6 +261,8 @@ void MainWindow::setSquaresNumber( bool isRandom )
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
     Size size = Options::getBoardSize();
+    SquareSize squareSize = Options::getSquareSize();
+
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
     QImage** pictures = imageProvider->getImage( size );
@@ -271,7 +274,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
             QPixmap* pixmap = new QPixmap();
             pixmap->convertFromImage( *pictures[values[i][j]] );
             QIcon icon( *pixmap );
-            QSize iconSize( 50, 50 );
+            QSize iconSize( squareSize, squareSize );
             control[i][j].setIconSize( iconSize );
             control[i][j].setIcon( icon );
             control[i][j].setStyleSheet( "" );
@@ -573,8 +576,7 @@ void MainWindow::slotSaveBoard()
 /* READ AND RESTORE SAVED BOARD FROM A BINARY FILE ******************************************************************************************/
 
 void MainWindow::slotReadBoard()
-{
-    int size;
+{    
     QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
 
     if( !fileName.isEmpty() )

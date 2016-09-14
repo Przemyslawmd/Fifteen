@@ -14,6 +14,28 @@ void Options::setBoardSize( Size size )
     boardSize = size;
 }
 
+/**********************************************************************/
+/* SQUARE SIZE ********************************************************/
+
+SquareSize Options::getSquareSize()
+{
+    return squareSize;
+}
+
+void Options::setSquareSize( int value )
+{
+    if ( value == 1 )
+        squareSize = SquareSize::_50;
+    else if ( value == 2 )
+        squareSize = SquareSize::_75;
+    else if ( value == 3 )
+        squareSize = SquareSize::_100;
+    else if ( value == 4 )
+        squareSize = SquareSize::_125;
+    else if ( value == 5 )
+        squareSize = SquareSize::_150;
+}
+
 /***********************************************************************/
 /* KIND OF BOARD *******************************************************/
 
@@ -57,6 +79,7 @@ void Options::setColor( Color requestedColor )
 /***********************************************************************/
 
 Size Options::boardSize = Size::FOUR;
+SquareSize Options::squareSize = SquareSize::_50;
 bool Options::isNumeric = true;
 bool Options::isScaled = true;
 Color Options::color = Color::BLUE;

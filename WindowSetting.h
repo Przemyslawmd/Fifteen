@@ -31,14 +31,14 @@ private:
     QCheckBox check[CHECKCOUNT];
     QSlider slider;
     QLabel sliderLabels[5];
-    QPushButton accept;
+    QPushButton accept;    
+
+    QGroupBox boxRadioColor;
+    QGroupBox boxRadioImage;
+    QGroupBox boxSquareSize;
 
     QButtonGroup groupRadioImage;
     QButtonGroup groupRadioColor;
-
-    QGroupBox boxRadioImage;
-    QGroupBox boxRadioColor;
-    QGroupBox boxSquareSize;    
 
     ImageLoad* images;
     QMainWindow* parent;
