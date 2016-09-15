@@ -25,11 +25,11 @@ private:
     QImage** image;
     uchar* bufferRestored;
 
-    bool createSquareImage( QImage*, int );
+    bool createSquareImage( QImage*, int, SquareSize );
     bool restoreImagesFromFile( uchar* );
 
-    void prepareScaledImage( QImage*, State&, QString* );
-    void prepareCroppedImage( QImage*, State&, QString* );
+    void prepareScaledImage( QImage*, State&, QString*, SquareSize );
+    void prepareCroppedImage( QImage*, State&, QString*, SquareSize );
 };
 
 #endif // IMAGE__H

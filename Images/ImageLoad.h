@@ -2,6 +2,7 @@
 #define IMAGESTATE_H
 
 #include <QString>
+#include <Types.h>
 
 class ImageLoad;
 
@@ -10,11 +11,10 @@ class State
     friend class ImageLoad;
 
     private:
-        State ( int resolution, int size, bool toLoad, bool loaded, QString message ) :
-                resolution( resolution ), size( size ), toLoad( toLoad ), loaded( loaded ), message( message ) {}
+        State ( int size, bool toLoad, bool loaded, QString message ) :
+                size( size ), toLoad( toLoad ), loaded( loaded ), message( message ) {}
 
-    public:
-        int resolution;
+    public:        
         int size;
         mutable bool toLoad;
         mutable bool loaded;        
@@ -28,6 +28,8 @@ public:
     ImageLoad();
 
     void resetLoaded();
+
+    SquareSize squareSize;
     State four;
     State five;
     State six;

@@ -51,34 +51,33 @@ ImageProvider::~ImageProvider()
 /**************************************************************************************/
 /* PREPARE BOARD IMAGE ****************************************************************/
 
-void ImageProvider::prepareBoardImage( QImage* image, QString* message, ImageLoad& imageState, bool isScaled )
+void ImageProvider::prepareBoardImage( QImage* image, QString* message, ImageLoad& imageState, SquareSize squareSize )
 {
-    pPrepareImage = ( isScaled ) ? &Image::prepareScaledImage : &Image::prepareCroppedImage;
+    pPrepareImage = ( Options::checkScaled() ) ? &Image::prepareScaledImage : &Image::prepareCroppedImage;
 
     if ( imageState.four.toLoad )
     {
         images[FOUR] = new Image( imageState.four.size );
-        ( images[FOUR]->*pPrepareImage )( image, imageState.four, message );
+        ( images[FOUR]->*pPrepareImage )( image, imageState.four, message, squareSize );
     }
 
     if ( imageState.five.toLoad )
     {
         images[FIVE] = new Image( imageState.five.size );
-        ( images[FIVE]->*pPrepareImage )( image, imageState.five, message );
+        ( images[FIVE]->*pPrepareImage )( image, imageState.five, message, squareSize );
     }
 
     if ( imageState.six.toLoad )
     {
         images[SIX] = new Image( imageState.six.size );
-        ( images[SIX]->*pPrepareImage )( image, imageState.six, message );
+        ( images[SIX]->*pPrepareImage )( image, imageState.six, message, squareSize );
     }
 
     if ( imageState.seven.toLoad )
     {
         images[SEVEN] = new Image( imageState.seven.size );
-        ( images[SEVEN]->*pPrepareImage )( image, imageState.seven, message );
+        ( images[SEVEN]->*pPrepareImage )( image, imageState.seven, message, squareSize );
     }
-
 }
 
 /*****************************************************************************************/

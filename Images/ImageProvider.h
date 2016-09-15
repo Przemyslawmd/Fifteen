@@ -5,6 +5,7 @@
 #include <QImage>
 #include <Images/Image.h>
 #include <Types.h>
+#include <Options.h>
 
 class ImageProvider
 {
@@ -14,7 +15,7 @@ public:
     static void deleteInstance();
 
     QImage** getImage( int );
-    void prepareBoardImage( QImage*, QString*, ImageLoad&, bool );
+    void prepareBoardImage( QImage*, QString*, ImageLoad&, SquareSize );
     bool restoreImageBoardFromFile( uchar*, int );
 
 private:
@@ -22,7 +23,7 @@ private:
     ImageProvider();
     ~ImageProvider();
 
-    void ( Image::*pPrepareImage )( QImage*, State&, QString*  );
+    void ( Image::*pPrepareImage )( QImage*, State&, QString*, SquareSize );
 
     enum index { FOUR = 0, FIVE, SIX, SEVEN };
     const int COUNT = 4;

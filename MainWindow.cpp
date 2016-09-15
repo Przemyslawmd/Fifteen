@@ -10,6 +10,9 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow( parent )
     numberStyleGreen = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; font-size:20px; border:1px solid white;");
     numberStyleBlue = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000080, stop:1 #0000EE); color:white; font-size:20px; border:1px solid white;");
     emptyStyle = new QString("background-color:white; color:white; font-size:20px; border:1px solid white;");
+
+    test = new QString("font-size:30px;");
+
     board = new Board( Options::getBoardSize() );
 
     resize( 750, 550 );
@@ -250,6 +253,10 @@ void MainWindow::setSquaresNumber( bool isRandom )
                 control[i][j].setStyleSheet( *emptyStyle );
             else
                 control[i][j].setStyleSheet( *numberStyle );
+
+            //control[i][j].setStyleSheet( *test );
+            control[i][j].setProperty( "font-size", "5px" );
+            control[i][j].update();
         }
     }
 }
@@ -260,7 +267,7 @@ void MainWindow::setSquaresNumber( bool isRandom )
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
     Size size = Options::getBoardSize();
-    SquareSize squareSize = Options::getSquareSize();
+    SquareSize squareSize = imagesLoad->squareSize;
 
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
@@ -368,9 +375,8 @@ void MainWindow::slotSolveBoard()
     }
 
     else
-    {
-        QImage** pictures;
-        pictures = imageProvider->getImage( size );
+    {        
+        QImage** pictures = imageProvider->getImage( size );
 
         int k = 1;
         for ( int i = 0; i < size; i++ )
@@ -385,7 +391,7 @@ void MainWindow::slotSolveBoard()
                     pixmap->convertFromImage( *pictures[k++] );
 
                 QIcon icon( *pixmap );
-                QSize iconSize( 50, 50 );
+                QSize iconSize( imagesLoad->squareSize, imagesLoad->squareSize );
                 control[i][j].setIconSize( iconSize );
                 control[i][j].setIcon( icon );
                 control[i][j].setStyleSheet( "" );
@@ -474,26 +480,26 @@ void MainWindow::slotLoadGraphic()
 {
   QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
 
-  if(!fileName.isEmpty())
+  if (!fileName.isEmpty() )
   {
         QImage picture;
         picture.load( fileName );
 
-        if( picture.isNull() )
+        if ( picture.isNull() )
         {
             QMessageBox::information( this, "", "Failure of loading an image\t" );
             return;
         }
 
-        QString message;
-        imageProvider = ImageProvider::getInstance();
-        imageProvider->prepareBoardImage( &picture, &message, *imagesLoad, Options::checkScaled() );
+        QString message;        
+        ImageProvider::getInstance()->prepareBoardImage( &picture, &message, *imagesLoad, Options::getSquareSize() );
         QMessageBox::information( this, "", message );
 
         if ( imagesLoad->four.loaded == true || imagesLoad->five.loaded == true || imagesLoad->six.loaded == true || imagesLoad->seven.loaded == true )
         {
             radio[Radio::GRAPHIC].setEnabled( true );
             action[Action::REMG]->setEnabled( true );
+            imagesLoad->squareSize = Options::getSquareSize();
         }
     }    
 }
