@@ -1,6 +1,6 @@
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting( ImageLoad* images, QMainWindow* parentParam ) :
+WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     slider{ Qt::Horizontal, this },accept{ "Accept" },
     boxRadioColor{ "Color of Numeric Board" }, boxRadioImage{ "Graphic" }, boxSquareSize{ "Size of Square" },
     groupRadioImage(), groupRadioColor()
@@ -91,6 +91,8 @@ WindowSetting::WindowSetting( ImageLoad* images, QMainWindow* parentParam ) :
     sliderLabels[2].setText( "150" );
     sliderLabels[3].setText( "200" );
     sliderLabels[4].setText( "250" );
+    slider.setValue( Options::getSquareSizeIndex() );
+
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 30, 20, 30, 20 );
@@ -128,18 +130,11 @@ WindowSetting::WindowSetting( ImageLoad* images, QMainWindow* parentParam ) :
     this->show();
 }
 
-/********************************************************************************************************************************/
-/* SAVE SETTINGS ****************************************************************************************************************/
+/*************************************************************************************************/
+/* SAVE SETTINGS *********************************************************************************/
 
 void WindowSetting::saveSettings()
-{   
-    if ( radio[Radio::BLUE].isChecked() )
-        Options::setColor( Color::BLUE );
-    else if ( radio[Radio::GREEN].isChecked() )
-        Options::setColor( Color::GREEN );
-    else
-        Options::setColor( Color::RED );
-
+{
     images->four.toLoad = check[Check::FOUR].isChecked();
     images->five.toLoad = check[Check::FIVE].isChecked();
     images->six.toLoad = check[Check::SIX].isChecked();
@@ -147,6 +142,27 @@ void WindowSetting::saveSettings()
 
     Options::setScaled( radio[Radio::SCALE].isChecked() );
 
-    qobject_cast< MainWindow* >( parent )->setColor();
+    if ( slider.value() != Options::getSquareSizeIndex() )
+    {
+        Options::setSquareSize( slider.value() );
+        parent->redrawSquares();
+    }
+
+    if ( radio[Radio::BLUE].isChecked() && Options::getColor() != Color::BLUE )
+    {
+        Options::setColor( Color::BLUE );
+        parent->setColor();
+    }
+    else if ( radio[Radio::GREEN].isChecked() && Options::getColor() != Color::GREEN )
+    {
+        Options::setColor( Color::GREEN );
+        parent->setColor();
+    }
+    else if ( radio[Radio::RED].isChecked() && Options::getColor() != Color::RED )
+    {
+        Options::setColor( Color::RED );
+        parent->setColor();
+    }
+
     this->close();
 }

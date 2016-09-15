@@ -18,6 +18,8 @@
 #define RADIOCOUNT 7
 #define CHECKCOUNT 4
 
+class MainWindow;
+
 class WindowSetting : public QDialog
 {
 
@@ -41,13 +43,13 @@ private:
     QButtonGroup groupRadioColor;
 
     ImageLoad* images;
-    QMainWindow* parent;
+    MainWindow* parent;
 
 private slots:
     void saveSettings();
 
 public:
-    WindowSetting( ImageLoad*, QMainWindow* );
+    WindowSetting( ImageLoad*, MainWindow* );
 };
 
 #endif // SETTING_H

@@ -12,6 +12,7 @@ public:
 
     static SquareSize getSquareSize();
     static void setSquareSize( int );
+    static int getSquareSizeIndex();
 
     static bool checkNumeric();
     static void setNumeric( bool );

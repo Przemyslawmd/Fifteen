@@ -1,6 +1,5 @@
 #include "Options.h"
 
-
 /***********************************************************************/
 /* BOARD SIZE **********************************************************/
 
@@ -8,6 +7,7 @@ Size Options::getBoardSize()
 {
     return boardSize;
 }
+
 
 void Options::setBoardSize( Size size )
 {
@@ -21,6 +21,22 @@ SquareSize Options::getSquareSize()
 {
     return squareSize;
 }
+
+
+int Options::getSquareSizeIndex()
+{
+    if ( squareSize == SquareSize::_50 )
+        return 1;
+    else if ( squareSize == SquareSize::_75 )
+        return 2;
+    else if ( squareSize == SquareSize::_100 )
+        return 3;
+    else if ( squareSize == SquareSize::_125 )
+        return 4;
+    else
+        return 5;
+}
+
 
 void Options::setSquareSize( int value )
 {
@@ -44,6 +60,7 @@ bool Options::checkNumeric()
     return isNumeric;
 }
 
+
 void Options::setNumeric( bool numeric )
 {
     isNumeric = numeric;
@@ -57,6 +74,7 @@ bool Options::checkScaled()
     return isScaled;
 }
 
+
 void Options::setScaled( bool scaled )
 {
     isScaled = scaled;
@@ -69,6 +87,7 @@ Color Options::getColor()
 {
     return color;
 }
+
 
 void Options::setColor( Color requestedColor )
 {

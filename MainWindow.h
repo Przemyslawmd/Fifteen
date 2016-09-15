@@ -102,6 +102,7 @@ private slots:
 public:
     explicit MainWindow( QWidget *parent = 0 );
     void setColor();
+    void redrawSquares();
 
 public slots:
     void passSignal();
