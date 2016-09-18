@@ -109,7 +109,7 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
 
     QHBoxLayout layControls;
     accept.setStyleSheet("height:20px;");
-    connect( &accept, SIGNAL( clicked() ), this, SLOT( saveSettings() ));
+    connect( &accept, SIGNAL( clicked() ), this, SLOT( acceptSettings() ));
 
     layControls.addSpacing( 120 );
     layControls.addWidget( &accept );
@@ -130,10 +130,10 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     this->show();
 }
 
-/*************************************************************************************************/
-/* SAVE SETTINGS *********************************************************************************/
+/******************************************************************************************/
+/* ACCEPT SETTINGS ************************************************************************/
 
-void WindowSetting::saveSettings()
+void WindowSetting::acceptSettings()
 {
     images->four.toLoad = check[Check::FOUR].isChecked();
     images->five.toLoad = check[Check::FIVE].isChecked();
@@ -142,27 +142,35 @@ void WindowSetting::saveSettings()
 
     Options::setScaled( radio[Radio::SCALE].isChecked() );
 
+    bool redraw = ( Options::checkNumeric() ) ? true : false;
+
+
     if ( slider.value() != Options::getSquareSizeIndex() )
     {
-        Options::setSquareSize( slider.value() );
+       Options::setSquareSize( slider.value() );
+       if ( redraw )
         parent->redrawSquares();
     }
 
     if ( radio[Radio::BLUE].isChecked() && Options::getColor() != Color::BLUE )
     {
         Options::setColor( Color::BLUE );
-        parent->setColor();
+        if ( redraw )
+            parent->setColor();
     }
     else if ( radio[Radio::GREEN].isChecked() && Options::getColor() != Color::GREEN )
     {
         Options::setColor( Color::GREEN );
-        parent->setColor();
+        if ( redraw )
+            parent->setColor();
     }
     else if ( radio[Radio::RED].isChecked() && Options::getColor() != Color::RED )
     {
         Options::setColor( Color::RED );
-        parent->setColor();
+        if ( redraw )
+            parent->setColor();
     }
 
-    this->close();
+    close();
 }
+

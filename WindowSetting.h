@@ -46,7 +46,8 @@ private:
     MainWindow* parent;
 
 private slots:
-    void saveSettings();
+    void acceptSettings();
+
 
 public:
     WindowSetting( ImageLoad*, MainWindow* );

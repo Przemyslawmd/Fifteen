@@ -4,7 +4,6 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow( parent )
 {    
     isNumber = Options::checkNumeric();
     imagesLoad = new ImageLoad();
-    imageProvider = nullptr;
 
     numberStyleRed = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #800000, stop:1 #EE0000); color:white; font-size:20px; border:1px solid white;");
     numberStyleGreen = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; font-size:20px; border:1px solid white;");
@@ -168,7 +167,7 @@ void MainWindow::createControls()
 void MainWindow::createSquares()
 {
     Size boardSize = Options::getBoardSize();
-    SquareSize squareSize = Options::getSquareSize();
+    SquareSize squareSize = ( Options::checkNumeric() ) ? Options::getSquareSize() : imagesLoad->squareSize;
 
     control = new QPushButton*[boardSize];
 
@@ -252,13 +251,11 @@ void MainWindow::setSquaresNumber( bool isRandom )
             if ( values[i][j] == 0 )
                 control[i][j].setStyleSheet( *emptyStyle );
             else
-                control[i][j].setStyleSheet( *numberStyle );
-
-            //control[i][j].setStyleSheet( *test );
-            control[i][j].setProperty( "font-size", "5px" );
-            control[i][j].update();
+                control[i][j].setStyleSheet( *numberStyle );            
         }
     }
+
+    Options::setNumeric( true );;
 }
 
 /*************************************************************************************************************************/
@@ -271,11 +268,11 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
-    QImage** pictures = imageProvider->getImage( size );
+    QImage** pictures = ImageProvider::getInstance()->getImage( size );
 
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
     {
-        for (int j = 0; j < size; j++)
+        for ( int j = 0; j < size; j++ )
         {
             QPixmap* pixmap = new QPixmap();
             pixmap->convertFromImage( *pictures[values[i][j]] );
@@ -287,6 +284,8 @@ void MainWindow::setSquaresGraphic( bool isRandom )
             control[i][j].setText( "" );
         }
     }
+
+    Options::setNumeric( false );
 }
 
 /****************************************************************************************************************************/
@@ -376,7 +375,7 @@ void MainWindow::slotSolveBoard()
 
     else
     {        
-        QImage** pictures = imageProvider->getImage( size );
+        QImage** pictures = ImageProvider::getInstance()->getImage( size );
 
         int k = 1;
         for ( int i = 0; i < size; i++ )
@@ -563,7 +562,7 @@ void MainWindow::slotSaveBoard()
         // If board is graphical then bitmaps are saved as well
         if ( !isNumber )
         {
-            QImage** pictures = imageProvider->getImage( size );
+            QImage** pictures = ImageProvider::getInstance()->getImage( size );
             uchar buffer[10000];
 
             for (int i = 0; i < size * size; i++)
@@ -639,7 +638,7 @@ void MainWindow::slotReadBoard()
                outData.readRawData((char*)(buffer + i * 10000), 10000);
 
            ImageProvider::deleteInstance();
-           imageProvider = ImageProvider::getInstance();
+           ImageProvider* imageProvider = ImageProvider::getInstance();
 
            try {
                 if ( size == Size::FOUR )

@@ -63,7 +63,6 @@ class MainWindow : public QMainWindow
     QGroupBox* boxRadioDimension;
 
     Board* board;
-    ImageProvider* imageProvider;
 
     QString* numberStyleBlue;
     QString* numberStyleRed;
