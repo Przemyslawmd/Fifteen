@@ -68,11 +68,7 @@ class MainWindow : public QMainWindow
     QString* numberStyleRed;
     QString* numberStyleGreen;
     QString* numberStyle;
-    QString* emptyStyle;    
-
-    QString* test;
-
-    bool isNumber;          // It indicates whether there is a numeric or a graphic board
+    QString* emptyStyle;           
 
     ImageLoad* imagesLoad;
 

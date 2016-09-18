@@ -1,16 +1,13 @@
 #include "MainWindow.h"
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow( parent )
-{    
-    isNumber = Options::checkNumeric();
+{
     imagesLoad = new ImageLoad();
 
     numberStyleRed = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #800000, stop:1 #EE0000); color:white; font-size:20px; border:1px solid white;");
     numberStyleGreen = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; font-size:20px; border:1px solid white;");
     numberStyleBlue = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000080, stop:1 #0000EE); color:white; font-size:20px; border:1px solid white;");
     emptyStyle = new QString("background-color:white; color:white; font-size:20px; border:1px solid white;");
-
-    test = new QString("font-size:30px;");
 
     board = new Board( Options::getBoardSize() );
 
@@ -293,60 +290,58 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
 void MainWindow::slotGenerateBoard()
 {
-    Size newSize;
+    Size boardSize;
     if ( radio[Radio::FOUR].isChecked() )
-        newSize = Size::FOUR;
+        boardSize = Size::FOUR;
     else if( radio[Radio::FIVE].isChecked() )
-        newSize = Size::FIVE;
+        boardSize = Size::FIVE;
     else if ( radio[Radio::SIX].isChecked() )
-        newSize = Size::SIX;
+        boardSize = Size::SIX;
     else
-        newSize = Size::SEVEN;
+        boardSize = Size::SEVEN;
 
-    // Check whether in case of graphical board there is proper graphic loaded
+    // Check whether in case of graphic board there is proper graphic loaded
     if ( radio[Radio::GRAPHIC].isChecked() )
     {
-        if ( ( newSize == Size::FOUR ) && ( imagesLoad->four.loaded == false ))
+        if ( ( boardSize == Size::FOUR ) && ( imagesLoad->four.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
-        if ( ( newSize == Size::FIVE ) && ( imagesLoad->five.loaded == false ))
+        if ( ( boardSize == Size::FIVE ) && ( imagesLoad->five.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
             return;
         }
-        if ( ( newSize == Size::SIX ) && ( imagesLoad->six.loaded == false ))
+        if ( ( boardSize == Size::SIX ) && ( imagesLoad->six.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
-        if ( ( newSize == Size::SEVEN ) && ( imagesLoad->seven.loaded == false ))
+        if ( ( boardSize == Size::SEVEN ) && ( imagesLoad->seven.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
         }
     }
 
-    // New size, new board needed
-    if ( Options::getBoardSize() != newSize )
-    {
-        delete board;
-        deleteSquares();        
-        Options::setBoardSize( newSize );
-        board = new Board( Options::getBoardSize() );
-        createSquares();        
-    }
+    delete board;
+    deleteSquares();
+    Options::setBoardSize( boardSize );
+    board = new Board( boardSize );
 
     if ( radio[Radio::NUMERICAL].isChecked() )
     {
+        Options::setNumeric( true );
+        createSquares();
         setSquaresNumber( true );
-        isNumber = true;
+
     }
     else
     {
+        Options::setNumeric( false );
+        createSquares();
         setSquaresGraphic( true );
-        isNumber = false;
     }
 }
 
@@ -358,7 +353,7 @@ void MainWindow::slotSolveBoard()
     Size size = Options::getBoardSize();
     int** values = board->solveBoard();
 
-    if ( isNumber )
+    if ( Options::checkNumeric() )
     {
         for ( int i = 0; i < size; i++ )
         {
@@ -414,7 +409,7 @@ void MainWindow::passSignal()
     if ( move != 0 )
     {
         // ACTION FOR A NUMBER BOARD
-        if ( isNumber )
+        if ( Options::checkNumeric() )
         {
             switch ( move )
             {
@@ -445,7 +440,7 @@ void MainWindow::passSignal()
         // ACTION FOR A GRAPHICAL BOARD
         else
         {           
-            QPixmap pixmap( 50, 50 );
+            QPixmap pixmap( imagesLoad->squareSize, imagesLoad->squareSize );
             pixmap.fill( Qt::white );
             QIcon icon( pixmap );
 
@@ -516,7 +511,7 @@ void MainWindow::slotRemoveGraphic()
     imagesLoad->resetLoaded();
 
     // If active board is a graphical board
-    if ( !isNumber )
+    if ( Options::checkNumeric() == false )
     {
         QLayoutItem *child;
         while (( child = layImageVertical->takeAt(0)) != 0 )
@@ -525,7 +520,7 @@ void MainWindow::slotRemoveGraphic()
         deleteSquares();
         createSquares();
         setSquaresNumber( false );
-        isNumber = true;
+        Options::setNumeric( true );
     }
 
     QMessageBox::information( this, "", "Graphic removed\t");
@@ -540,27 +535,27 @@ void MainWindow::slotSaveBoard()
     QFileDialog dialog;
     QString fileName = dialog.getSaveFileName(this, "", QDir::currentPath());
 
-    if (!fileName.isEmpty())
+    if ( fileName.isEmpty() == false )
     {                
         QFile file( fileName );
         file.open( QIODevice::WriteOnly );
         QDataStream inData( &file );
         inData.setVersion( QDataStream::Qt_4_6 );
 
-        inData << (bool)isNumber;
+        inData << (bool)Options::checkNumeric();
         int temp = (quint32)size;
         inData << temp;
 
         // Board state        
         int** values = board->sendBoard();
-        for (int i = 0; i < size; i++)
+        for ( int i = 0; i < size; i++ )
         {
-            for (int j = 0; j < size; j++)
+            for ( int j = 0; j < size; j++ )
                 inData << (qint32)values[i][j];
         }
 
         // If board is graphical then bitmaps are saved as well
-        if ( !isNumber )
+        if ( Options::checkNumeric() == false )
         {
             QImage** pictures = ImageProvider::getInstance()->getImage( size );
             uchar buffer[10000];
@@ -626,7 +621,7 @@ void MainWindow::slotReadBoard()
         if ( tempIsNumber == 1 )
         {
             setSquaresNumber( false );
-            isNumber = true;
+            Options::setNumeric( true );
             radio[Radio::NUMERICAL].setChecked( true );
         }
         else
@@ -673,7 +668,7 @@ void MainWindow::slotReadBoard()
            radio[Radio::GRAPHIC].setEnabled( true );
            radio[Radio::GRAPHIC].setChecked( true );
            action[Action::REMG]->setEnabled( true );
-           isNumber = false;
+           Options::setNumeric( false );
         }
 
         file.close();
@@ -693,10 +688,7 @@ void MainWindow::setColor()
     else if ( color == Color::GREEN )
         numberStyle = numberStyleGreen;
     else
-        numberStyle = numberStyleRed;
-
-    if ( isNumber == false )
-        return;
+        numberStyle = numberStyleRed;   
 
     for (int i = 0; i < size; i++)
     {

@@ -141,7 +141,6 @@ void WindowSetting::acceptSettings()
     images->seven.toLoad = check[Check::SEVEN].isChecked();
 
     Options::setScaled( radio[Radio::SCALE].isChecked() );
-
     bool redraw = ( Options::checkNumeric() ) ? true : false;
 
 

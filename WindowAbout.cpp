@@ -2,10 +2,10 @@
 
 WindowAbout::WindowAbout() : doc{}, browser{}
 {
-    this->setModal( true );
-    this->setGeometry( 100, 100, 490, 210 );
-    this->setMaximumSize( 490, 210 );
-    this->setWindowTitle( "About Application");
+    setModal( true );
+    setGeometry( 100, 100, 490, 210 );
+    setMaximumSize( 490, 210 );
+    setWindowTitle( "About Application");
 
     QVBoxLayout layout( this );
     QString html;
@@ -19,6 +19,6 @@ WindowAbout::WindowAbout() : doc{}, browser{}
     doc.setHtml( html );
     browser.setDocument( &doc );
     layout.addWidget( &browser );
-    this->show();
+    show();
 }
 
