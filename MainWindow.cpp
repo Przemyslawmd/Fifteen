@@ -2,13 +2,7 @@
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow( parent )
 {
-    imagesLoad = new ImageLoad();
-
-    numberStyleRed = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #800000, stop:1 #EE0000); color:white; font-size:20px; border:1px solid white;");
-    numberStyleGreen = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; font-size:20px; border:1px solid white;");
-    numberStyleBlue = new QString("background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000080, stop:1 #0000EE); color:white; font-size:20px; border:1px solid white;");
-    emptyStyle = new QString("background-color:white; color:white; font-size:20px; border:1px solid white;");
-
+    imagesLoad = new ImageLoad();    
     board = new Board( Options::getBoardSize() );
 
     resize( 750, 550 );
@@ -178,7 +172,7 @@ void MainWindow::createSquares()
             control[i][j].setAccessibleName( QString::number(i) + QString::number( j ));
             control[i][j].setMaximumSize( squareSize, squareSize );
             control[i][j].setMinimumSize( squareSize, squareSize );
-            connect( &control[i][j], SIGNAL( clicked() ), this, SLOT( passSignal() ));
+            connect( &control[i][j], SIGNAL( clicked() ), this, SLOT( passSignal() ));            
         }
     }
 
@@ -230,13 +224,15 @@ void MainWindow::setSquaresNumber( bool isRandom )
     Size size = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
     Color color = Options::getColor();
+    QFont font;
+    font.setPixelSize( Options::getFontSquareSize() );
 
     if ( color == Color::BLUE )
-        numberStyle = numberStyleBlue;
+        currentStyle = &styleBlue;
     else if ( color == Color::GREEN )
-        numberStyle = numberStyleGreen;
+        currentStyle = &styleGreen;
     else
-        numberStyle = numberStyleRed;
+        currentStyle = &styleRed;
 
 
     for (int i = 0; i < size; i++)
@@ -246,13 +242,14 @@ void MainWindow::setSquaresNumber( bool isRandom )
             control[i][j].setIcon( QIcon() );
             control[i][j].setText( QString::number(values[i][j]) );
             if ( values[i][j] == 0 )
-                control[i][j].setStyleSheet( *emptyStyle );
+                control[i][j].setStyleSheet( styleEmpty );
             else
-                control[i][j].setStyleSheet( *numberStyle );            
+                control[i][j].setStyleSheet( *currentStyle );
+            control[i][j].setFont( font );
         }
     }
 
-    Options::setNumeric( true );;
+    Options::setNumeric( true );
 }
 
 /*************************************************************************************************************************/
@@ -361,9 +358,9 @@ void MainWindow::slotSolveBoard()
             {
                 control[i][j].setText( QString::number( values[i][j] ));
                 if ( values[i][j] == 0 )
-                    control[i][j].setStyleSheet( *emptyStyle );
+                    control[i][j].setStyleSheet( styleEmpty );
                 else
-                    control[i][j].setStyleSheet( *numberStyle );
+                    control[i][j].setStyleSheet( *currentStyle );
             }
         }
     }
@@ -415,26 +412,26 @@ void MainWindow::passSignal()
             {
                 case 1:
                     control[row - 1][col].setText( control[row][col].text() );
-                    control[row - 1][col].setStyleSheet( *numberStyle );
+                    control[row - 1][col].setStyleSheet( *currentStyle );
                 break;
 
                 case 2:
                     control[row][col + 1].setText( control[row][col].text() );
-                    control[row][col + 1].setStyleSheet( *numberStyle );
+                    control[row][col + 1].setStyleSheet( *currentStyle );
                 break;
 
                 case 3:
                     control[row + 1][col].setText( control[row][col].text() );
-                    control[row + 1][col].setStyleSheet( *numberStyle );
+                    control[row + 1][col].setStyleSheet( *currentStyle );
                 break;
 
                 case 4:
                     control[row][col - 1].setText( control[row][col].text() );
-                    control[row][col - 1].setStyleSheet( *numberStyle );
+                    control[row][col - 1].setStyleSheet( *currentStyle );
                 break;
             }
             control[row][col].setText( "" );
-            control[row][col].setStyleSheet( *emptyStyle );
+            control[row][col].setStyleSheet( styleEmpty );
         }
 
         // ACTION FOR A GRAPHICAL BOARD
@@ -510,7 +507,7 @@ void MainWindow::slotRemoveGraphic()
     action[Action::REMG]->setEnabled( false );
     imagesLoad->resetLoaded();
 
-    // If active board is a graphical board
+    // If active board is a graphic board
     if ( Options::checkNumeric() == false )
     {
         QLayoutItem *child;
@@ -684,18 +681,18 @@ void MainWindow::setColor()
     Color color = Options::getColor();
 
     if ( color == Color::BLUE )
-        numberStyle = numberStyleBlue;
+        currentStyle = &styleBlue;
     else if ( color == Color::GREEN )
-        numberStyle = numberStyleGreen;
+        currentStyle = &styleGreen;
     else
-        numberStyle = numberStyleRed;   
+        currentStyle = &styleRed;
 
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            if ( control[i][j].styleSheet() != *emptyStyle)
-                control[i][j].setStyleSheet( *numberStyle );
+            if ( control[i][j].styleSheet() != styleEmpty )
+                control[i][j].setStyleSheet( *currentStyle );
         }
     }    
 }

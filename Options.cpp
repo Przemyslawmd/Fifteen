@@ -52,6 +52,22 @@ void Options::setSquareSize( int value )
         squareSize = SquareSize::_150;
 }
 
+
+int Options::getFontSquareSize()
+{
+    if ( squareSize == SquareSize::_50 )
+        return 20;
+    else if ( squareSize == SquareSize::_75 )
+        return 25;
+    else if ( squareSize == SquareSize::_100 )
+        return 30;
+    else if ( squareSize == SquareSize::_125 )
+        return 35;
+    else
+        return 40;
+
+}
+
 /***********************************************************************/
 /* KIND OF BOARD *******************************************************/
 

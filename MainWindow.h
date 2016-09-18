@@ -11,6 +11,7 @@
 #include <QRadioButton>
 #include <QGroupBox>
 #include <QLabel>
+#include <QFont>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QBuffer>
@@ -38,18 +39,16 @@ class MainWindow : public QMainWindow
 
     QWidget* window;
     QHBoxLayout* mainLayout;
-    QVBoxLayout* rightLayout;
+    QVBoxLayout* rightLayout; 
 
-
-    // IMAGE PANEL
+    // Image panel
     QGridLayout* imageLayout;
     QVBoxLayout* layImageVertical;
     QHBoxLayout** layImageHorizontal;
     QGroupBox* boxImages;
     QPushButton** control;
 
-    // RIGHT PANEL
-    // Separate layouts for radio buttons seem to be needed because of a group box
+    // Right panel
     QVBoxLayout* layRadioDim;
     QVBoxLayout* layRadioKind;
     QPushButton* pushRandom;
@@ -64,11 +63,11 @@ class MainWindow : public QMainWindow
 
     Board* board;
 
-    QString* numberStyleBlue;
-    QString* numberStyleRed;
-    QString* numberStyleGreen;
-    QString* numberStyle;
-    QString* emptyStyle;           
+    QString styleBlue { "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000080, stop:1 #0000EE); color:white; border:1px solid white;" };
+    QString styleRed { "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #800000, stop:1 #EE0000); color:white; border:1px solid white;"  };
+    QString styleGreen{ "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; border:1px solid white;" };
+    QString styleEmpty { "background-color:white; color:white; font-size:20px; border:1px solid white;" };
+    QString* currentStyle;
 
     ImageLoad* imagesLoad;
 
@@ -84,7 +83,7 @@ class MainWindow : public QMainWindow
 
 private slots:
 
-    // MENU SLOTS
+    // Menu slots
     void slotLoadGraphic();
     void slotRemoveGraphic();
     void slotSaveBoard();
@@ -92,7 +91,7 @@ private slots:
     void slotSettings();
     void slotAbout();
 
-    // PUSH SLOTS
+    // Push slots
     void slotGenerateBoard();
     void slotSolveBoard();
 

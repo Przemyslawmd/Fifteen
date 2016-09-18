@@ -14,6 +14,8 @@ public:
     static void setSquareSize( int );
     static int getSquareSizeIndex();
 
+    static int getFontSquareSize();
+
     static bool checkNumeric();
     static void setNumeric( bool );
 
