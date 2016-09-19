@@ -1,7 +1,6 @@
 #ifndef WINDOWABOUT_H
 #define WINDOWABOUT_H
 
-#include <QMap>
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QTextDocument>

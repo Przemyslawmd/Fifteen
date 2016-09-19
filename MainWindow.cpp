@@ -216,24 +216,16 @@ void MainWindow::deleteSquares()
     delete[] layImageHorizontal;
 }
 
-/*************************************************************************************************************************/
-/* SET NUMERICAL SQUARES *************************************************************************************************/
+/**************************************************************************************************************/
+/* SET NUMERIC SQUARES ****************************************************************************************/
 
 void MainWindow::setSquaresNumber( bool isRandom )
 {    
     Size size = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
-    Color color = Options::getColor();
+    currentStyle = Options::getStyle();
     QFont font;
     font.setPixelSize( Options::getFontSquareSize() );
-
-    if ( color == Color::BLUE )
-        currentStyle = &styleBlue;
-    else if ( color == Color::GREEN )
-        currentStyle = &styleGreen;
-    else
-        currentStyle = &styleRed;
-
 
     for (int i = 0; i < size; i++)
     {
@@ -343,7 +335,7 @@ void MainWindow::slotGenerateBoard()
 }
 
 /**************************************************************************************************************************/
-/* SOLVES BOARD ***********************************************************************************************************/
+/* SOLVE BOARD ***********************************************************************************************************/
 
 void MainWindow::slotSolveBoard()
 {    
@@ -677,19 +669,12 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setColor()
 {
-    Size size = Options::getBoardSize();
-    Color color = Options::getColor();
+    Size size = Options::getBoardSize();    
+    currentStyle = Options::getStyle();
 
-    if ( color == Color::BLUE )
-        currentStyle = &styleBlue;
-    else if ( color == Color::GREEN )
-        currentStyle = &styleGreen;
-    else
-        currentStyle = &styleRed;
-
-    for (int i = 0; i < size; i++)
+    for ( int i = 0; i < size; i++ )
     {
-        for (int j = 0; j < size; j++)
+        for ( int j = 0; j < size; j++ )
         {
             if ( control[i][j].styleSheet() != styleEmpty )
                 control[i][j].setStyleSheet( *currentStyle );

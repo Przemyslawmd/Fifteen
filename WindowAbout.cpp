@@ -1,11 +1,11 @@
 #include "WindowAbout.h"
 
-WindowAbout::WindowAbout() : doc{}, browser{}
+WindowAbout::WindowAbout()
 {
     setModal( true );
-    setGeometry( 100, 100, 490, 210 );
-    setMaximumSize( 490, 210 );
-    setWindowTitle( "About Application");
+    setGeometry( 100, 100, 490, 180 );
+    setMaximumSize( 490, 180 );
+    setWindowTitle( " ");
 
     QVBoxLayout layout( this );
     QString html;

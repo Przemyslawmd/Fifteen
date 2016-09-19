@@ -5,18 +5,18 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     boxRadioColor{ "Color of Numeric Board" }, boxRadioImage{ "Graphic" }, boxSquareSize{ "Size of Square" },
     groupRadioImage(), groupRadioColor()
 {
-    this->setModal( true );
+    setModal( true );
     this->images = images;
     parent = parentParam;
 
-    this->setWindowTitle( "Settings" );
-    this->setGeometry( 100, 100, 400, 560 );
-    this->setMaximumSize( 400, 680 );
-    this->setMinimumSize( 400, 680 );
+    setWindowTitle( " " );
+    setGeometry( 100, 100, 400, 560 );
+    setMaximumSize( 400, 680 );
+    setMinimumSize( 400, 680 );
 
     QVBoxLayout layWindow;
 
-    /* RADIO COLOR *********************************/
+    /* Radio controls **********************************************/
 
     for ( int i = 0; i < RADIOCOUNT; i++ )
         radio[i].setStyleSheet( "margin-left:5px;" );
@@ -50,7 +50,7 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     boxRadioColor.setLayout( &layRadioColor );
 
 
-    /* CHECKBOX IMAGE SIZE ********************************/
+    /* Checkbox for images praparing  ********************************/
 
     for (int i = 0; i < CHECKCOUNT; i++)
         check[i].setStyleSheet( "margin-left:5px;" );
@@ -82,17 +82,16 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     boxRadioImage.setLayout( &layRadioImage );
 
 
-    /* SLIDER SQUARE SIZE ***************************************/
+    /* Slider for square size *************************************/
 
     slider.setRange( 1, 5 );
     slider.setSingleStep( 1 );
     sliderLabels[0].setText( "50" );
-    sliderLabels[1].setText( "100" );
+    sliderLabels[1].setText( "  100" );
     sliderLabels[2].setText( "150" );
-    sliderLabels[3].setText( "200" );
+    sliderLabels[3].setText( "200  " );
     sliderLabels[4].setText( "250" );
     slider.setValue( Options::getSquareSizeIndex() );
-
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 30, 20, 30, 20 );
@@ -105,7 +104,7 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     boxSquareSize.setLayout( &layoutSlider );
 
 
-    /* GENERAL LAYOUT *********************************************/
+    /* General layout *********************************************/
 
     QHBoxLayout layControls;
     accept.setStyleSheet("height:20px;");
@@ -130,8 +129,8 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     this->show();
 }
 
-/******************************************************************************************/
-/* ACCEPT SETTINGS ************************************************************************/
+/*******************************************************************************/
+/* ACCEPT SETTINGS *************************************************************/
 
 void WindowSetting::acceptSettings()
 {

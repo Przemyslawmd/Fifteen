@@ -63,9 +63,6 @@ class MainWindow : public QMainWindow
 
     Board* board;
 
-    QString styleBlue { "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000080, stop:1 #0000EE); color:white; border:1px solid white;" };
-    QString styleRed { "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #800000, stop:1 #EE0000); color:white; border:1px solid white;"  };
-    QString styleGreen{ "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; border:1px solid white;" };
     QString styleEmpty { "background-color:white; color:white; font-size:20px; border:1px solid white;" };
     QString* currentStyle;
 
