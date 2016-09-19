@@ -19,14 +19,12 @@ private:
 
     friend class ImageProvider;
 
-    const int SQUARE_SIZE = 50;
-
     int size;
     QImage** image;
     uchar* bufferRestored;
 
     bool createSquareImage( QImage*, int, SquareSize );
-    bool restoreImagesFromFile( uchar* );
+    bool restoreImagesFromFile( uchar*, SquareSize );
 
     void prepareScaledImage( QImage*, State&, QString*, SquareSize );
     void prepareCroppedImage( QImage*, State&, QString*, SquareSize );

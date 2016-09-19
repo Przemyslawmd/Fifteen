@@ -16,7 +16,7 @@ public:
 
     QImage** getImage( int );
     void prepareBoardImage( QImage*, QString*, ImageLoad&, SquareSize );
-    bool restoreImageBoardFromFile( uchar*, int );
+    bool restoreImageBoardFromFile( uchar*, int, SquareSize );
 
 private:
 

@@ -29,7 +29,7 @@ public:
 
     void resetLoaded();
 
-    SquareSize squareSize;
+    SquareSize imageSize;
     State four;
     State five;
     State six;
