@@ -66,7 +66,7 @@ class MainWindow : public QMainWindow
     QString styleEmpty { "background-color:white; color:white; font-size:20px; border:1px solid white;" };
     QString* currentStyle;
 
-    ImageLoad* imagesLoad;
+    ImageLoad* images;
 
     void createMenu();
     void createControls();
@@ -98,7 +98,7 @@ public:
     void redrawSquares();
 
 public slots:
-    void passSignal();
+    void pressSquare();
 };
 
 #endif // MAINWINDOW_H
