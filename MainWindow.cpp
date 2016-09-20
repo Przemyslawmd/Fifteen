@@ -385,7 +385,7 @@ void MainWindow::slotSolveBoard()
 }
 
 /****************************************************************************************************************************/
-/* PASSES SIGNAL TO BOARD INSTANCE ******************************************************************************************/
+/* MOVE A SQUARE IF IT'S POSSIBLE *******************************************************************************************/
 
 void MainWindow::pressSquare()
 {
@@ -515,8 +515,8 @@ void MainWindow::slotRemoveGraphic()
     QMessageBox::information( this, "", "Graphic removed\t");
 }
 
-/*******************************************************************************************************************************/
-/* WRITES BOARD STATE INTO A BINARY FILE ***************************************************************************************/
+/***********************************************************************************************************************/
+/* WRITE BOARD STATE INTO A BINARY FILE ********************************************************************************/
 
 void MainWindow::slotSaveBoard()
 {
@@ -547,21 +547,22 @@ void MainWindow::slotSaveBoard()
         {
             inData << ( quint32 )images->imageSize;
             QImage** pictures = ImageProvider::getInstance()->getImage( size );
-            uchar buffer[10000];
+            uchar* buffer = ( uchar* )malloc( pictures[0]->byteCount() );
 
             for (int i = 0; i < size * size; i++)
-            {
+            {                
                 memcpy( buffer, pictures[i]->bits(), pictures[i]->byteCount() );
-                inData.writeRawData( (char*)&buffer, 10000 );
+                inData.writeRawData( (char*)buffer, 10000 );
             }
+            free( buffer );
         }
 
-        file.close();
+        file.close();        
     }
 }
 
-/********************************************************************************************************************************/
-/* READ AND RESTORE SAVED BOARD FROM A BINARY FILE ******************************************************************************************/
+/**********************************************************************************************************************/
+/* READ AND RESTORE BOARD FROM A BINARY FILE **************************************************************************/
 
 void MainWindow::slotReadBoard()
 {    
