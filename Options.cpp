@@ -3,13 +3,13 @@
 /***********************************************************************/
 /* BOARD SIZE **********************************************************/
 
-Size Options::getBoardSize()
+BoardSize Options::getBoardSize()
 {
     return boardSize;
 }
 
 
-void Options::setBoardSize( Size size )
+void Options::setBoardSize( BoardSize size )
 {
     boardSize = size;
 }
@@ -123,7 +123,7 @@ QString* Options::getStyle()
 /***********************************************************************/
 /***********************************************************************/
 
-Size Options::boardSize = Size::FOUR;
+BoardSize Options::boardSize = BoardSize::FOUR;
 SquareSize Options::squareSize = SquareSize::_50;
 bool Options::isNumeric = true;
 bool Options::isScaled = true;

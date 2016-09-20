@@ -157,7 +157,7 @@ void MainWindow::createControls()
 
 void MainWindow::createSquares()
 {
-    Size boardSize = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     SquareSize squareSize = ( Options::checkNumeric() ) ? Options::getSquareSize() : images->imageSize;
 
     control = new QPushButton*[boardSize];
@@ -203,13 +203,13 @@ void MainWindow::createSquares()
 
 void MainWindow::deleteSquares()
 {
-    Size size = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     QLayoutItem* child;
 
     while ((child = layImageVertical->takeAt(0)) != 0)
         layImageVertical->removeItem(0);
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < boardSize; i++)
         delete[] control[i];
 
     delete[] control;
@@ -221,18 +221,18 @@ void MainWindow::deleteSquares()
 
 void MainWindow::setSquaresNumber( bool isRandom )
 {    
-    Size size = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
     currentStyle = Options::getStyle();
     QFont font;
     font.setPixelSize( Options::getFontSquareSize() );
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < boardSize; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (int j = 0; j < boardSize; j++)
         {
             control[i][j].setIcon( QIcon() );
-            control[i][j].setText( QString::number(values[i][j]) );
+            control[i][j].setText( QString::number( values[i][j] ));
             if ( values[i][j] == 0 )
                 control[i][j].setStyleSheet( styleEmpty );
             else
@@ -249,16 +249,16 @@ void MainWindow::setSquaresNumber( bool isRandom )
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
-    Size size = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     SquareSize squareSize = images->imageSize;
 
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
 
-    QImage** pictures = ImageProvider::getInstance()->getImage( size );
+    QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
 
-    for ( int i = 0; i < size; i++ )
+    for ( int i = 0; i < boardSize; i++ )
     {
-        for ( int j = 0; j < size; j++ )
+        for ( int j = 0; j < boardSize; j++ )
         {
             QPixmap* pixmap = new QPixmap();
             pixmap->convertFromImage( *pictures[values[i][j]] );
@@ -279,35 +279,35 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
 void MainWindow::slotGenerateBoard()
 {
-    Size boardSize;
+    BoardSize boardSize;
     if ( radio[Radio::FOUR].isChecked() )
-        boardSize = Size::FOUR;
+        boardSize = BoardSize::FOUR;
     else if( radio[Radio::FIVE].isChecked() )
-        boardSize = Size::FIVE;
+        boardSize = BoardSize::FIVE;
     else if ( radio[Radio::SIX].isChecked() )
-        boardSize = Size::SIX;
+        boardSize = BoardSize::SIX;
     else
-        boardSize = Size::SEVEN;
+        boardSize = BoardSize::SEVEN;
 
     // Check whether in case of graphic board there is proper graphic loaded
     if ( radio[Radio::GRAPHIC].isChecked() )
     {
-        if ( ( boardSize == Size::FOUR ) && ( images->four.loaded == false ))
+        if ( ( boardSize == BoardSize::FOUR ) && ( images->four.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
-        if ( ( boardSize == Size::FIVE ) && ( images->five.loaded == false ))
+        if ( ( boardSize == BoardSize::FIVE ) && ( images->five.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
             return;
         }
-        if ( ( boardSize == Size::SIX ) && ( images->six.loaded == false ))
+        if ( ( boardSize == BoardSize::SIX ) && ( images->six.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
-        if ( ( boardSize == Size::SEVEN ) && ( images->seven.loaded == false ))
+        if ( ( boardSize == BoardSize::SEVEN ) && ( images->seven.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
@@ -339,14 +339,14 @@ void MainWindow::slotGenerateBoard()
 
 void MainWindow::slotSolveBoard()
 {    
-    Size size = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     int** values = board->solveBoard();
 
     if ( Options::checkNumeric() )
     {
-        for ( int i = 0; i < size; i++ )
+        for ( int i = 0; i < boardSize; i++ )
         {
-            for ( int j = 0; j < size; j++ )
+            for ( int j = 0; j < boardSize; j++ )
             {
                 control[i][j].setText( QString::number( values[i][j] ));
                 if ( values[i][j] == 0 )
@@ -359,16 +359,16 @@ void MainWindow::slotSolveBoard()
 
     else
     {        
-        QImage** pictures = ImageProvider::getInstance()->getImage( size );
+        QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
 
         int k = 1;
-        for ( int i = 0; i < size; i++ )
+        for ( int i = 0; i < boardSize; i++ )
         {
-            for ( int j = 0; j < size; j++ )
+            for ( int j = 0; j < boardSize; j++ )
             {
                 QPixmap* pixmap = new QPixmap();
 
-                if ( i == ( size - 1 ) && j == ( size - 1 ))
+                if ( i == ( boardSize - 1 ) && j == ( boardSize - 1 ))
                     pixmap->convertFromImage( *pictures[0] );
                 else
                     pixmap->convertFromImage( *pictures[k++] );
@@ -520,7 +520,7 @@ void MainWindow::slotRemoveGraphic()
 
 void MainWindow::slotSaveBoard()
 {
-    Size size = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     QFileDialog dialog;
     QString fileName = dialog.getSaveFileName( this, "", QDir::currentPath() );
 
@@ -532,13 +532,13 @@ void MainWindow::slotSaveBoard()
         inData.setVersion( QDataStream::Qt_4_6 );
 
         inData << Options::checkNumeric();
-        inData << size;
+        inData << boardSize;
 
         // Board state        
         int** values = board->sendBoard();
-        for ( int i = 0; i < size; i++ )
+        for ( int i = 0; i < boardSize; i++ )
         {
-            for ( int j = 0; j < size; j++ )
+            for ( int j = 0; j < boardSize; j++ )
                 inData << values[i][j];
         }
 
@@ -546,12 +546,12 @@ void MainWindow::slotSaveBoard()
         if ( Options::checkNumeric() == false )
         {
             inData << ( quint32 )images->imageSize;
-            QImage** pictures = ImageProvider::getInstance()->getImage( size );
+            QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
             int byteCount = pictures[0]->byteCount();
             inData << byteCount;
             uchar* buffer = new uchar[ byteCount ];
 
-            for (int i = 0; i < size * size; i++)
+            for (int i = 0; i < boardSize * boardSize; i++)
             {                
                 memcpy( buffer, pictures[i]->bits(), byteCount );
                 inData.writeRawData( (char*)buffer, byteCount );
@@ -591,14 +591,7 @@ void MainWindow::slotReadBoard()
         outData >> tempIsNumber;
         outData >> size;
 
-        if ( size == 4 )
-            Options::setBoardSize( Size::FOUR );
-        else if ( size == 5 )
-            Options::setBoardSize( Size::FIVE );
-        else if ( size == 6 )
-            Options::setBoardSize( Size::SIX );
-        else if ( size == 7 )
-            Options::setBoardSize( Size::SEVEN );
+        Options::setBoardSize( static_cast< BoardSize >( size ));
 
         tempValues = new int*[size];
         for (int i = 0; i < size; i++)
@@ -635,17 +628,17 @@ void MainWindow::slotReadBoard()
            ImageProvider* imageProvider = ImageProvider::getInstance();
 
            try {
-                if ( size == Size::FOUR )
+                if ( size == BoardSize::FOUR )
                 {
                     images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
                     radio[Radio::FOUR].setChecked( images->four.loaded );
                 }
-                else if ( size == Size::FIVE )
+                else if ( size == BoardSize::FIVE )
                 {
                     images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
                     radio[Radio::FIVE].setChecked( images->five.loaded );
                 }
-                else if ( size == Size::SIX )
+                else if ( size == BoardSize::SIX )
                 {
                     images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
                     radio[Radio::SIX].setChecked( images->six.loaded );
@@ -680,12 +673,12 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setColor()
 {
-    Size size = Options::getBoardSize();    
+    BoardSize boardSize = Options::getBoardSize();
     currentStyle = Options::getStyle();
 
-    for ( int i = 0; i < size; i++ )
+    for ( int i = 0; i < boardSize; i++ )
     {
-        for ( int j = 0; j < size; j++ )
+        for ( int j = 0; j < boardSize; j++ )
         {
             if ( control[i][j].styleSheet() != styleEmpty )
                 control[i][j].setStyleSheet( *currentStyle );
