@@ -91,10 +91,10 @@ QImage** ImageProvider::getImage( int size )
 /*******************************************************************************************/
 /* RESTORE IMAGE FROM BOARD ****************************************************************/
 
-bool ImageProvider::restoreImageBoardFromFile( uchar* data, int size, SquareSize imageSize )
+bool ImageProvider::restoreImageBoardFromFile( uchar* data, int size, SquareSize imageSize, int byteCount )
 {
     images[size - COUNT] = new Image( size * size );
-    return images[size - 4]->restoreImagesFromFile( data, imageSize );
+    return images[size - 4]->restoreImagesFromFile( data, imageSize, byteCount );
 }
 
 /*********************************************************************************************/

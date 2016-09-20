@@ -24,7 +24,7 @@ private:
     uchar* bufferRestored;
 
     bool createSquareImage( QImage*, int, SquareSize );
-    bool restoreImagesFromFile( uchar*, SquareSize );
+    bool restoreImagesFromFile( uchar*, SquareSize, int );
 
     void prepareScaledImage( QImage*, State&, QString*, SquareSize );
     void prepareCroppedImage( QImage*, State&, QString*, SquareSize );

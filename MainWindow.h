@@ -15,6 +15,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QBuffer>
+#include <memory>
 #include <Board.h>
 #include <WindowSetting.h>
 #include <WindowAbout.h>

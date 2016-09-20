@@ -547,14 +547,16 @@ void MainWindow::slotSaveBoard()
         {
             inData << ( quint32 )images->imageSize;
             QImage** pictures = ImageProvider::getInstance()->getImage( size );
-            uchar* buffer = ( uchar* )malloc( pictures[0]->byteCount() );
+            int byteCount = pictures[0]->byteCount();
+            inData << byteCount;
+            uchar* buffer = new uchar[ byteCount ];
 
             for (int i = 0; i < size * size; i++)
             {                
-                memcpy( buffer, pictures[i]->bits(), pictures[i]->byteCount() );
-                inData.writeRawData( (char*)buffer, 10000 );
+                memcpy( buffer, pictures[i]->bits(), byteCount );
+                inData.writeRawData( (char*)buffer, byteCount );
             }
-            free( buffer );
+            delete [] buffer;
         }
 
         file.close();        
@@ -607,24 +609,27 @@ void MainWindow::slotReadBoard()
         }
 
         board = new Board( tempValues, size );
-        createSquares();
+
 
         if ( tempIsNumber == 1 )
         {
-            setSquaresNumber( false );
             Options::setNumeric( true );
+            createSquares();
+            setSquaresNumber( false );
             radio[Radio::NUMERICAL].setChecked( true );
         }
         else
         {
            outData >> imageSize;
            images->imageSize = ( SquareSize )imageSize;
+           int byteCount;
+           outData >> byteCount;
 
            // This buffer is moved to an Image object which is responsible for releasing memory
            // This data must exist as long as restored image exists
-           uchar* buffer = new uchar[10000 * size * size];
+           uchar* buffer = new uchar[byteCount * size * size];
            for ( int i = 0; i < ( size  * size ); i++ )
-               outData.readRawData( (char*)( buffer + i * 10000 ), 10000 );
+               outData.readRawData( (char*)( buffer + i * byteCount ), byteCount );
 
            ImageProvider::deleteInstance();
            ImageProvider* imageProvider = ImageProvider::getInstance();
@@ -632,22 +637,22 @@ void MainWindow::slotReadBoard()
            try {
                 if ( size == Size::FOUR )
                 {
-                    images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize );
+                    images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
                     radio[Radio::FOUR].setChecked( images->four.loaded );
                 }
                 else if ( size == Size::FIVE )
                 {
-                    images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize );
+                    images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
                     radio[Radio::FIVE].setChecked( images->five.loaded );
                 }
                 else if ( size == Size::SIX )
                 {
-                    images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize );
+                    images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
                     radio[Radio::SIX].setChecked( images->six.loaded );
                 }
                 else
                 {
-                    images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize );
+                    images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
                     radio[Radio::SEVEN].setChecked( images->seven.loaded );
                 }
 
@@ -658,11 +663,12 @@ void MainWindow::slotReadBoard()
                 return;
            }
 
+           Options::setNumeric( false );
+           createSquares();
            setSquaresGraphic( false );
            radio[Radio::GRAPHIC].setEnabled( true );
            radio[Radio::GRAPHIC].setChecked( true );
            action[Action::REMG]->setEnabled( true );
-           Options::setNumeric( false );
         }
 
         file.close();
