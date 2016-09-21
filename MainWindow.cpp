@@ -95,7 +95,7 @@ void MainWindow::createControls()
     pushSolve->setText( "Solve Board");
     connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
-    radio[Radio::FOUR].setText( "4" );
+    radio[Radio::FOUR].setText( "4" );    
     radio[Radio::FIVE].setText( "5" );
     radio[Radio::SIX].setText( "6" );
     radio[Radio::SEVEN].setText( "7" );
@@ -104,12 +104,13 @@ void MainWindow::createControls()
     layRadioDim = new QVBoxLayout();
     groupRadioDimension = new QButtonGroup( window );
 
-    for( int i = Radio::FOUR; i <= Radio::SEVEN; i++ )
+    for( int i = Radio::FOUR, j = 4; i <= Radio::SEVEN; i++, j++ )
     {
        layRadioDim->addSpacing( 10 );
        layRadioDim->addWidget( &radio[i] );
        radio[i].setStyleSheet( "margin-left: 5px" );
        groupRadioDimension->addButton( &radio[i] );
+       groupRadioDimension->setId( &radio[i], j );
     }
     layRadioDim->addSpacing( 30 );
 
@@ -138,7 +139,6 @@ void MainWindow::createControls()
     boxRadioKind = new QGroupBox();
     boxRadioKind->setTitle( "Kind of Board" );
     boxRadioKind->setLayout( layRadioKind );
-
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 30, 0 );
@@ -253,7 +253,6 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     SquareSize squareSize = images->imageSize;
 
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
-
     QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
 
     for ( int i = 0; i < boardSize; i++ )
@@ -279,17 +278,9 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize boardSize;
-    if ( radio[Radio::FOUR].isChecked() )
-        boardSize = BoardSize::FOUR;
-    else if( radio[Radio::FIVE].isChecked() )
-        boardSize = BoardSize::FIVE;
-    else if ( radio[Radio::SIX].isChecked() )
-        boardSize = BoardSize::SIX;
-    else
-        boardSize = BoardSize::SEVEN;
+    BoardSize boardSize = static_cast< BoardSize >( groupRadioDimension->checkedId() );
 
-    // Check whether in case of graphic board there is proper graphic loaded
+    // In case of graphic board check whether there is a proper image loaded
     if ( radio[Radio::GRAPHIC].isChecked() )
     {
         if ( ( boardSize == BoardSize::FOUR ) && ( images->four.loaded == false ))
@@ -583,28 +574,28 @@ void MainWindow::slotReadBoard()
         delete board;
         deleteSquares();
 
-        bool tempIsNumber;
-        int** tempValues;
-        int size;
+        bool isNumeric;
+        int** values;
+        int boardSize;
         int imageSize;
 
-        outData >> tempIsNumber;
-        outData >> size;
+        outData >> isNumeric;
+        outData >> boardSize;
 
-        Options::setBoardSize( static_cast< BoardSize >( size ));
+        Options::setBoardSize( static_cast< BoardSize >( boardSize ));
 
-        tempValues = new int*[size];
-        for (int i = 0; i < size; i++)
+        values = new int*[boardSize];
+        for (int i = 0; i < boardSize; i++)
         {
-            tempValues[i] = new int[size];
-            for (int j = 0; j < size; j++)
-                outData >> tempValues[i][j];
+            values[i] = new int[boardSize];
+            for (int j = 0; j < boardSize; j++)
+                outData >> values[i][j];
         }
 
-        board = new Board( tempValues, size );
+        board = new Board( values, boardSize );
 
 
-        if ( tempIsNumber == 1 )
+        if ( isNumeric == 1 )
         {
             Options::setNumeric( true );
             createSquares();
@@ -618,34 +609,34 @@ void MainWindow::slotReadBoard()
            int byteCount;
            outData >> byteCount;
 
-           // This buffer is moved to an Image object which is responsible for releasing memory
-           // This data must exist as long as restored image exists
-           uchar* buffer = new uchar[byteCount * size * size];
-           for ( int i = 0; i < ( size  * size ); i++ )
+           // This buffer is moved to an Image object which is responsible for release memory
+           // and must exist as long as restored image exists
+           uchar* buffer = new uchar[byteCount * boardSize * boardSize];
+           for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
                outData.readRawData( (char*)( buffer + i * byteCount ), byteCount );
 
            ImageProvider::deleteInstance();
            ImageProvider* imageProvider = ImageProvider::getInstance();
 
            try {
-                if ( size == BoardSize::FOUR )
+                if ( boardSize == BoardSize::FOUR )
                 {
-                    images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
+                    images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, boardSize, images->imageSize, byteCount );
                     radio[Radio::FOUR].setChecked( images->four.loaded );
                 }
-                else if ( size == BoardSize::FIVE )
+                else if ( boardSize == BoardSize::FIVE )
                 {
-                    images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
+                    images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, boardSize, images->imageSize, byteCount );
                     radio[Radio::FIVE].setChecked( images->five.loaded );
                 }
-                else if ( size == BoardSize::SIX )
+                else if ( boardSize == BoardSize::SIX )
                 {
-                    images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
+                    images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, boardSize, images->imageSize, byteCount );
                     radio[Radio::SIX].setChecked( images->six.loaded );
                 }
                 else
                 {
-                    images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, size, images->imageSize, byteCount );
+                    images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, boardSize, images->imageSize, byteCount );
                     radio[Radio::SEVEN].setChecked( images->seven.loaded );
                 }
 

@@ -83,18 +83,18 @@ void ImageProvider::prepareBoardImage( QImage* image, QString* message, ImageLoa
 /*****************************************************************************************/
 /* GET IMAGES ****************************************************************************/
 
-QImage** ImageProvider::getImage( int size )
+QImage** ImageProvider::getImage( int boardSize )
 {
-    return images[size - COUNT]->getImage();
+    return images[boardSize - COUNT]->getImage();
 }
 
 /*******************************************************************************************/
 /* RESTORE IMAGE FROM BOARD ****************************************************************/
 
-bool ImageProvider::restoreImageBoardFromFile( uchar* data, int size, SquareSize imageSize, int byteCount )
+bool ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, SquareSize imageSize, int byteCount )
 {
-    images[size - COUNT] = new Image( size * size );
-    return images[size - 4]->restoreImagesFromFile( data, imageSize, byteCount );
+    images[boardSize - COUNT] = new Image( boardSize * boardSize );
+    return images[boardSize - 4]->restoreImagesFromFile( data, imageSize, byteCount );
 }
 
 /*********************************************************************************************/
