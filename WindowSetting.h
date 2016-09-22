@@ -42,15 +42,15 @@ private:
     QButtonGroup groupRadioImage;
     QButtonGroup groupRadioColor;
 
-    ImageLoad* images;
-    MainWindow* parent;
+    ImageLoad& images;
+    MainWindow& parent;
 
 private slots:
     void acceptSettings();
 
 
 public:
-    WindowSetting( ImageLoad*, MainWindow* );
+    WindowSetting( ImageLoad&, MainWindow& );
 };
 
 #endif // SETTING_H

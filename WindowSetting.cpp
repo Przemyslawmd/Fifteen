@@ -1,14 +1,11 @@
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
-    slider{ Qt::Horizontal, this },accept{ "Accept" },
+WindowSetting::WindowSetting( ImageLoad& images, MainWindow& parent ) :
+    slider{ Qt::Horizontal, this }, accept{ "Accept" },
     boxRadioColor{ "Color of Numeric Board" }, boxRadioImage{ "Graphic" }, boxSquareSize{ "Size of Square" },
-    groupRadioImage(), groupRadioColor()
+    groupRadioImage(), groupRadioColor(), images( images ), parent( parent )
 {
-    setModal( true );
-    this->images = images;
-    parent = parentParam;
-
+    setModal( true );    
     setWindowTitle( " " );
     setGeometry( 100, 100, 400, 560 );
     setMaximumSize( 400, 680 );
@@ -60,10 +57,10 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
     check[Check::SIX].setText( "Graphic is to be loaded for a board 6x6" );
     check[Check::SEVEN].setText( "Graphic is to be loaded for a board 7x7" );
 
-    check[Check::FOUR].setChecked( images->four.toLoad );
-    check[Check::FIVE].setChecked( images->five.toLoad );
-    check[Check::SIX].setChecked( images->six.toLoad );
-    check[Check::SEVEN].setChecked( images->seven.toLoad );
+    check[Check::FOUR].setChecked( images.four.toLoad );
+    check[Check::FIVE].setChecked( images.five.toLoad );
+    check[Check::SIX].setChecked( images.six.toLoad );
+    check[Check::SEVEN].setChecked( images.seven.toLoad );
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -134,39 +131,38 @@ WindowSetting::WindowSetting( ImageLoad* images, MainWindow* parentParam ) :
 
 void WindowSetting::acceptSettings()
 {
-    images->four.toLoad = check[Check::FOUR].isChecked();
-    images->five.toLoad = check[Check::FIVE].isChecked();
-    images->six.toLoad = check[Check::SIX].isChecked();
-    images->seven.toLoad = check[Check::SEVEN].isChecked();
+    images.four.toLoad = check[Check::FOUR].isChecked();
+    images.five.toLoad = check[Check::FIVE].isChecked();
+    images.six.toLoad = check[Check::SIX].isChecked();
+    images.seven.toLoad = check[Check::SEVEN].isChecked();
 
     Options::setScaled( radio[Radio::SCALE].isChecked() );
     bool redraw = ( Options::checkNumeric() ) ? true : false;
-
 
     if ( slider.value() != Options::getSquareSizeIndex() )
     {
        Options::setSquareSize( slider.value() );
        if ( redraw )
-        parent->redrawSquares();
+            parent.redrawSquares();
     }
 
     if ( radio[Radio::BLUE].isChecked() && Options::getColor() != Color::BLUE )
     {
         Options::setColor( Color::BLUE );
         if ( redraw )
-            parent->setColor();
+            parent.setColor();
     }
     else if ( radio[Radio::GREEN].isChecked() && Options::getColor() != Color::GREEN )
     {
         Options::setColor( Color::GREEN );
         if ( redraw )
-            parent->setColor();
+            parent.setColor();
     }
     else if ( radio[Radio::RED].isChecked() && Options::getColor() != Color::RED )
     {
         Options::setColor( Color::RED );
         if ( redraw )
-            parent->setColor();
+            parent.setColor();
     }
 
     close();

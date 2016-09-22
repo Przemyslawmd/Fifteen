@@ -15,7 +15,7 @@ public:
     static void deleteInstance();
 
     QImage** getImage( int );
-    void prepareBoardImage( QImage*, QString*, ImageLoad&, SquareSize );
+    void prepareBoardImage( QImage*, QString&, ImageLoad&, SquareSize );
     bool restoreImageBoardFromFile( uchar*, int, SquareSize, int );
 
 private:
@@ -23,7 +23,8 @@ private:
     ImageProvider();
     ~ImageProvider();
 
-    void ( Image::*pPrepareImage )( QImage*, State&, QString*, SquareSize );
+    void ( Image::*pPrepareImage )( QImage*, State&, QString&, SquareSize );
+    bool checkImageSize( QImage&, State&, SquareSize, QString& ) ;
 
     enum index { FOUR = 0, FIVE, SIX, SEVEN };
     const int COUNT = 4;

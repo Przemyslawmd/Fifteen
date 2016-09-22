@@ -26,8 +26,8 @@ private:
     bool createSquareImage( QImage*, int, SquareSize );
     bool restoreImagesFromFile( uchar*, SquareSize, int );
 
-    void prepareScaledImage( QImage*, State&, QString*, SquareSize );
-    void prepareCroppedImage( QImage*, State&, QString*, SquareSize );
+    void prepareScaledImage( QImage*, State&, QString&, SquareSize );
+    void prepareCroppedImage( QImage*, State&, QString&, SquareSize );
 };
 
 #endif // IMAGE__H
