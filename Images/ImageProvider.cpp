@@ -28,7 +28,7 @@ void ImageProvider::deleteInstance()
 
 ImageProvider::ImageProvider()
 {
-    images = new Image*[COUNT];
+    images = new GraphicBoard*[COUNT];
 
     for ( int i = 0; i < COUNT; i++ )
         images[i] = nullptr;
@@ -51,31 +51,31 @@ ImageProvider::~ImageProvider()
 /**************************************************************************************/
 /* PREPARE BOARD IMAGE ****************************************************************/
 
-void ImageProvider::prepareBoardImage( QImage* image, QString& message, ImageLoad& imageState, SquareSize squareSize )
+void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImageLoad& imageState, SquareSize squareSize )
 {
-    pPrepareImage = ( Options::checkScaled() ) ? &Image::prepareScaledImage : &Image::prepareCroppedImage;
+    pPrepareImage = ( Options::checkScaled() ) ? &GraphicBoard::prepareScaledImage : &GraphicBoard::prepareCroppedImage;
 
-    if (( imageState.four.toLoad ) && ( checkImageSize( *image, imageState.four, squareSize, message )))
+    if (( imageState.four.toLoad ) && ( checkImageSize( image, imageState.four, squareSize, message )))
     {
-        images[FOUR] = new Image( imageState.four.size );
+        images[FOUR] = new GraphicBoard( imageState.four.size );
         ( images[FOUR]->*pPrepareImage )( image, imageState.four, message, squareSize );
     }
 
-    if (( imageState.five.toLoad  ) && ( checkImageSize( *image, imageState.five, squareSize, message )))
+    if (( imageState.five.toLoad  ) && ( checkImageSize( image, imageState.five, squareSize, message )))
     {
-        images[FIVE] = new Image( imageState.five.size );
+        images[FIVE] = new GraphicBoard( imageState.five.size );
         ( images[FIVE]->*pPrepareImage )( image, imageState.five, message, squareSize );
     }
 
-    if (( imageState.six.toLoad ) && ( checkImageSize( *image, imageState.six, squareSize, message )))
+    if (( imageState.six.toLoad ) && ( checkImageSize( image, imageState.six, squareSize, message )))
     {
-        images[SIX] = new Image( imageState.six.size );
+        images[SIX] = new GraphicBoard( imageState.six.size );
         ( images[SIX]->*pPrepareImage )( image, imageState.six, message, squareSize );
     }
 
-    if (( imageState.seven.toLoad ) && ( checkImageSize( *image, imageState.seven, squareSize, message )))
+    if (( imageState.seven.toLoad ) && ( checkImageSize( image, imageState.seven, squareSize, message )))
     {
-        images[SEVEN] = new Image( imageState.seven.size );
+        images[SEVEN] = new GraphicBoard( imageState.seven.size );
         ( images[SEVEN]->*pPrepareImage )( image, imageState.seven, message, squareSize );
     }
 }
@@ -107,7 +107,7 @@ QImage** ImageProvider::getImage( int boardSize )
 
 bool ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, SquareSize imageSize, int byteCount )
 {
-    images[boardSize - COUNT] = new Image( boardSize * boardSize );
+    images[boardSize - COUNT] = new GraphicBoard( boardSize * boardSize );
     return images[boardSize - 4]->restoreImagesFromFile( data, imageSize, byteCount );
 }
 
@@ -115,3 +115,4 @@ bool ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, Squar
 /*********************************************************************************************/
 
 ImageProvider* ImageProvider::instance = nullptr;
+

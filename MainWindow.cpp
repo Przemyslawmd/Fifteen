@@ -466,7 +466,7 @@ void MainWindow::slotLoadGraphic()
         }
 
         QString message;        
-        ImageProvider::getInstance()->prepareBoardImage( &picture, message, *images, Options::getSquareSize() );
+        ImageProvider::getInstance()->prepareBoardImage( picture, message, *images, Options::getSquareSize() );
         QMessageBox::information( this, "", message );
 
         if ( images->four.loaded || images->five.loaded || images->six.loaded || images->seven.loaded )

@@ -1,23 +1,23 @@
-#include "Images/Image.h"
+#include "Images/GraphicBoard.h"
 
 /*************************************************************************************************************************/
 /* CONSTRUCTOR ***********************************************************************************************************/
 
-Image::Image( int size ) : size( size )
+GraphicBoard::GraphicBoard( int level ) : level( level )
 {
-    image = new QImage*[size * size];
-    for (int i = 0; i < (size * size); i++)
+    image = new QImage*[level  * level];
+    for (int i = 0; i < ( level * level ); i++)
         image[i] = 0;    
 }
 
 /**************************************************************************************************************************/
 /* DESTRUCTOR *************************************************************************************************************/
 
-Image::~Image()
+GraphicBoard::~GraphicBoard()
 {
-    if (image[0] != 0)
+    if ( image[0] != 0 )
     {
-        for (int i = 0; i < (size * size); i++)
+        for ( int i = 0; i < ( level * level ); i++ )
             delete image[i];
         delete[] image;
     }    
@@ -26,7 +26,7 @@ Image::~Image()
 /**************************************************************************************************************************/
 /* SEND IMAGE *************************************************************************************************************/
 
-QImage** Image::getImage()
+QImage** GraphicBoard::getImage()
 {
     return image;
 }
@@ -34,11 +34,11 @@ QImage** Image::getImage()
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A SCALE MODE *******************************************************************/
 
-void Image::prepareScaledImage( QImage* image, State& state, QString& message, SquareSize squareSize )
+void GraphicBoard::prepareScaledImage( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
     int boardSize = state.size * squareSize;    
 
-    if ( createSquareImage( new QImage( image->scaled( boardSize, boardSize )), state.size, squareSize ))
+    if ( createSquareImage( new QImage( picture.scaled( boardSize, boardSize )), state.size, squareSize ))
     {
         state.loaded = true;
         message.append( "Graphic was loaded for a board " + state.message );
@@ -50,11 +50,11 @@ void Image::prepareScaledImage( QImage* image, State& state, QString& message, S
 /****************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A CROP MODE *********************************************************************/
 
-void Image::prepareCroppedImage( QImage* image, State& state, QString& message, SquareSize squareSize )
+void GraphicBoard::prepareCroppedImage( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
     int boardSize = state.size * squareSize;    
 
-    if ( createSquareImage( new QImage(image->copy(( image->width() - boardSize )/2, ( image->height() - boardSize )/2, boardSize, boardSize )), state.size, squareSize ))
+    if ( createSquareImage( new QImage( picture.copy(( picture.width() - boardSize )/2, ( picture.height() - boardSize )/2, boardSize, boardSize )), state.size, squareSize ))
     {
         state.loaded = true;
         message.append( "Graphic was loaded for a board" + state.message );
@@ -66,7 +66,7 @@ void Image::prepareCroppedImage( QImage* image, State& state, QString& message, 
 /**************************************************************************************************************************/
 /* MAKE IMAGE FOR EACH SQUARE *********************************************************************************************/
 
-bool Image::createSquareImage( QImage* picture, int size, SquareSize squareSize )
+bool GraphicBoard::createSquareImage( QImage* picture, int size, SquareSize squareSize )
 {
     // Prepare an empty square
     image[0] = new QImage( squareSize, squareSize, QImage::Format_RGB32 );
@@ -107,13 +107,13 @@ bool Image::createSquareImage( QImage* picture, int size, SquareSize squareSize 
 /*****************************************************************************************************/
 /* RESTORE IMAGES FROM FILE BUFFER *******************************************************************/
 
-bool Image::restoreImagesFromFile( uchar* data, SquareSize imageSize, int byteCount )
+bool GraphicBoard::restoreImagesFromFile( uchar* data, SquareSize imageSize, int byteCount )
 {
     bufferRestored = std::move( data );
 
     try
     {
-        for ( int i = 0; i < size * size; i++ )
+        for ( int i = 0; i < level * level; i++ )
             image[i] = new QImage( bufferRestored + i * byteCount, imageSize, imageSize, QImage::Format_RGB32 );
     }
     catch(...)

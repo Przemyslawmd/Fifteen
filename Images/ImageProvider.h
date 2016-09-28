@@ -3,7 +3,7 @@
 
 #include <Images/ImageLoad.h>
 #include <QImage>
-#include <Images/Image.h>
+#include <Images/GraphicBoard.h>
 #include <Types.h>
 #include <Options.h>
 
@@ -15,7 +15,7 @@ public:
     static void deleteInstance();
 
     QImage** getImage( int );
-    void prepareBoardImage( QImage*, QString&, ImageLoad&, SquareSize );
+    void prepareBoardImage( QImage&, QString&, ImageLoad&, SquareSize );
     bool restoreImageBoardFromFile( uchar*, int, SquareSize, int );
 
 private:
@@ -23,13 +23,13 @@ private:
     ImageProvider();
     ~ImageProvider();
 
-    void ( Image::*pPrepareImage )( QImage*, State&, QString&, SquareSize );
+    void ( GraphicBoard::*pPrepareImage )( QImage&, State&, QString&, SquareSize );
     bool checkImageSize( QImage&, State&, SquareSize, QString& ) ;
 
     enum index { FOUR = 0, FIVE, SIX, SEVEN };
     const int COUNT = 4;
 
-    Image** images;
+    GraphicBoard** images;
     static ImageProvider* instance;
 };
 
