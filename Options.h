@@ -8,8 +8,8 @@ class Options
 {
 public:
 
-    static BoardSize getBoardSize();
-    static void setBoardSize( BoardSize );
+    static Level getLevel();
+    static void setLevel( Level );
 
     static SquareSize getSquareSize();
     static void setSquareSize( int );
@@ -30,7 +30,7 @@ public:
 private:
     Options();
 
-    static BoardSize boardSize;
+    static Level level;
     static SquareSize squareSize;
     static bool isNumeric;
     static bool isScaled;

@@ -5,10 +5,7 @@
 
 const int EMPTY = 0;    // Empty square
 
-const int UP = 1;
-const int RIGHT = 2;
-const int DOWN = 3;
-const int LEFT = 4;
+enum move { UP = 1, RIGHT, DOWN, LEFT };
 
 class Board
 {

@@ -3,15 +3,15 @@
 /***********************************************************************/
 /* BOARD SIZE **********************************************************/
 
-BoardSize Options::getBoardSize()
+Level Options::getLevel()
 {
-    return boardSize;
+    return level;
 }
 
 
-void Options::setBoardSize( BoardSize size )
+void Options::setLevel( Level _level )
 {
-    boardSize = size;
+    level = _level;
 }
 
 /**********************************************************************/
@@ -123,7 +123,7 @@ QString* Options::getStyle()
 /***********************************************************************/
 /***********************************************************************/
 
-BoardSize Options::boardSize = BoardSize::FOUR;
+Level Options::level = Level::FOUR;
 SquareSize Options::squareSize = SquareSize::_50;
 bool Options::isNumeric = true;
 bool Options::isScaled = true;
