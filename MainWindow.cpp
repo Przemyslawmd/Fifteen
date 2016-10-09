@@ -25,7 +25,7 @@ void MainWindow::createMenu()
     for ( int i = 0; i < ACTION_COUNT; i++ )
       action[i] = new QAction( this );
 
-    action[Action::OPENG]->setText( "Load Graphical file" );
+    action[Action::OPENG]->setText( "Load Graphic File" );
     connect( action[Action::OPENG], SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
 
     action[Action::REMG]->setText( "Remove Graphic" );
@@ -132,7 +132,6 @@ void MainWindow::createControls()
     layRadioKind->addSpacing( 30 );
 
     radio[Radio::NUMERICAL].setChecked(true);
-    radio[Radio::GRAPHIC].setEnabled(false);
     radio[Radio::NUMERICAL].setText( "Numeric" );
     radio[Radio::GRAPHIC].setText( "Graphic" );
 
@@ -470,8 +469,7 @@ void MainWindow::slotLoadGraphic()
         QMessageBox::information( this, "", message );
 
         if ( images->four.loaded || images->five.loaded || images->six.loaded || images->seven.loaded )
-        {
-            radio[Radio::GRAPHIC].setEnabled( true );
+        {            
             action[Action::REMG]->setEnabled( true );
             images->imageSize = Options::getSquareSize();
         }
@@ -483,10 +481,7 @@ void MainWindow::slotLoadGraphic()
 
 void MainWindow::slotRemoveGraphic()
 {
-    ImageProvider::deleteInstance();
-
-    radio[Radio::GRAPHIC].setEnabled( false );
-    radio[Radio::NUMERICAL].setChecked( true );
+    ImageProvider::deleteInstance();    
     action[Action::REMG]->setEnabled( false );
     images->resetLoaded();
 
@@ -649,8 +644,7 @@ void MainWindow::slotReadBoard()
 
            Options::setNumeric( false );
            createSquares();
-           setSquaresGraphic( false );
-           radio[Radio::GRAPHIC].setEnabled( true );
+           setSquaresGraphic( false );           
            radio[Radio::GRAPHIC].setChecked( true );
            action[Action::REMG]->setEnabled( true );
         }
