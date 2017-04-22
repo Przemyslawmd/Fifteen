@@ -34,7 +34,7 @@ void TestFifteen::testCase()
             if ( i != 3 || j != 3 )
                 QCOMPARE( squares[i][j], k++);
             else
-                QCOMPARE( squares[i][j], 1);
+                QCOMPARE( squares[i][j], 0);
         }
     }
 
