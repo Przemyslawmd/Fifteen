@@ -1,8 +1,8 @@
 #include <QString>
 #include <QtTest>
 
-#include "../Board.h"
-#include "../Board.cpp"
+#include "../Project/Board.h"
+#include "../Project/Board.cpp"
 
 class TestFifteen : public QObject
 {
