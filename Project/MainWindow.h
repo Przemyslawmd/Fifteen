@@ -19,10 +19,10 @@
 #include <Board.h>
 #include <WindowSetting.h>
 #include <WindowAbout.h>
-#include <Images/ImageLoad.h>
+#include <GraphicBoard//ImageLoad.h>
 #include <Types.h>
 #include <Options.h>
-#include <Images/ImageProvider.h>
+#include <GraphicBoard/ImageProvider.h>
 
 #define ACTION_COUNT 6
 

@@ -1,9 +1,9 @@
 #ifndef IMAGEPROVIDER_H
 #define IMAGEPROVIDER_H
 
-#include <Images/ImageLoad.h>
+#include <GraphicBoard/ImageLoad.h>
 #include <QImage>
-#include <Images/GraphicBoard.h>
+#include <GraphicBoard/GraphicBoard.h>
 #include <Types.h>
 #include <Options.h>
 

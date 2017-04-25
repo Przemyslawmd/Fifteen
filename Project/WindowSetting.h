@@ -11,7 +11,7 @@
 #include <QSlider>
 #include <QDialog>
 #include <MainWindow.h>
-#include <Images/ImageLoad.h>
+#include <GraphicBoard/ImageLoad.h>
 #include <Types.h>
 #include <Options.h>
 

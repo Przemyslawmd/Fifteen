@@ -4,10 +4,10 @@ SOURCES += \
     Board.cpp \
     Entry.cpp \
     WindowAbout.cpp \
-    Images/ImageLoad.cpp \
-    Images/ImageProvider.cpp \
+    GraphicBoard/ImageLoad.cpp \
+    GraphicBoard/ImageProvider.cpp \
     Options.cpp \
-    Images/GraphicBoard.cpp
+    GraphicBoard/GraphicBoard.cpp
 
 HEADERS += \
     WindowSetting.h \
@@ -15,10 +15,10 @@ HEADERS += \
     Board.h \
     WindowAbout.h \
     Types.h \
-    Images/ImageLoad.h \
-    Images/ImageProvider.h \
+    GraphicBoard/ImageLoad.h \
+    GraphicBoard/ImageProvider.h \
     Options.h \
-    Images/GraphicBoard.h
+    GraphicBoard/GraphicBoard.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11

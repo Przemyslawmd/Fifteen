@@ -2,7 +2,7 @@
 #define GRAPHIC_BOARD__H
 
 #include <QImage>
-#include <Images/ImageLoad.h>
+#include <GraphicBoard/ImageLoad.h>
 
 /*
  * This class is responsible for maintain and preparing

@@ -1,4 +1,4 @@
-#include "Images/ImageProvider.h"
+#include "GraphicBoard/ImageProvider.h"
 
 /********************************************************************************/
 /* GET IMAGE PROVIDER INSTANCE **************************************************/
