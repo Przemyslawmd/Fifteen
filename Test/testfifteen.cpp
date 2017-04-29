@@ -10,32 +10,33 @@ class TestFifteen : public QObject
 
 private Q_SLOTS:
 
-    void testCaseCreatingBoard();
-    void testCreatingBoard( int size );
+    void suiteCreateBoardSolved();
+    void testCreateBoardSolved( int size );
 
-    void testCaseGeneratingBoard();
-    void testGeneratingBoard( int size );
+    void suiteCreateBoardRandom();
+    void testCreateBoardRandom( int size );
 };
 
-void TestFifteen::testCaseCreatingBoard()
+
+void TestFifteen::suiteCreateBoardSolved()
 {
-    testCreatingBoard( 4 );
-    testCreatingBoard( 6 );
+    testCreateBoardSolved( 4 );
+    testCreateBoardSolved( 6 );
 }
 
 
-void TestFifteen::testCaseGeneratingBoard()
+void TestFifteen::suiteCreateBoardRandom()
 {
-    testGeneratingBoard( 5 );
-    testGeneratingBoard( 7 );
+    testCreateBoardRandom( 5 );
+    testCreateBoardRandom( 7 );
 }
 
 /**********************************************/
-/* TEST CREATING BOARD ************************/
+/* TEST CREATING BOARD SOLVED *****************/
 // Test creating board at the beginning
 // Board should be created and solved
 
-void TestFifteen::testCreatingBoard( int size )
+void TestFifteen::testCreateBoardSolved( int size )
 {
     Board board( size );
     int** squares = board.sendBoard();
@@ -54,13 +55,12 @@ void TestFifteen::testCreatingBoard( int size )
     }
 }
 
-
 /**********************************************/
-/* TEST GENERATING BOARD **********************/
+/* TEST CREATING BOARD RANDOM *****************/
 // Test generating board
 // Values are not sorted
 
-void TestFifteen::testGeneratingBoard( int size )
+void TestFifteen::testCreateBoardRandom( int size )
 {
     Board board( size );
     int** squares = board.randomBoard();
