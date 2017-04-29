@@ -1,5 +1,5 @@
-*o
-*moc
+*.o
+*.moc 
 moc_*
 Project/*.o
 Project/moc_*
