@@ -3,7 +3,7 @@
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow( parent )
 {
     images = new ImageLoad();
-    board = new Board( Options::getLevel() );
+    board = Board::createBoard( Options::getLevel() );
 
     resize( 750, 550 );
     createMenu();
@@ -304,17 +304,16 @@ void MainWindow::slotGenerateBoard()
         }
     }
 
-    delete board;
+    //delete board;
     deleteSquares();
     Options::setLevel( level );
-    board = new Board( level );
+    board = Board::createBoard( level );
 
     if ( radio[Radio::NUMERICAL].isChecked() )
     {
         Options::setNumeric( true );
         createSquares();
         setSquaresNumber( true );
-
     }
     else
     {
@@ -566,7 +565,7 @@ void MainWindow::slotReadBoard()
         while ((child = layImageVertical->takeAt(0)) != 0)
             layImageVertical->removeItem(0);
 
-        delete board;
+        //delete board;
         deleteSquares();
 
         bool isNumeric;
@@ -587,7 +586,7 @@ void MainWindow::slotReadBoard()
                 outData >> values[i][j];
         }
 
-        board = new Board( values, level );
+        board = Board::createBoard( values, level );
 
 
         if ( isNumeric == 1 )
