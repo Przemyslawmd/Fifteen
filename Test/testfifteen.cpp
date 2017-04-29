@@ -3,18 +3,22 @@
 
 #include "../Project/Board.h"
 #include "../Project/Board.cpp"
+#include "Data.h"
 
 class TestFifteen : public QObject
 {
     Q_OBJECT
 
-private Q_SLOTS:
+private Q_SLOTS:   
 
     void suiteCreateBoardSolved();
-    void testCreateBoardSolved( int size );
+    void testCreateBoardSolved( int dimension );
 
     void suiteCreateBoardRandom();
-    void testCreateBoardRandom( int size );
+    void testCreateBoardRandom( int dimension );
+
+    void suiteMoveSquareDefined();
+    void testMoveSquareDefined( int dimension, int dataNumber );
 };
 
 
@@ -29,6 +33,12 @@ void TestFifteen::suiteCreateBoardRandom()
 {
     testCreateBoardRandom( 5 );
     testCreateBoardRandom( 7 );
+}
+
+
+void TestFifteen::suiteMoveSquareDefined()
+{
+    testMoveSquareDefined( 4, 1 );
 }
 
 /**********************************************/
@@ -70,7 +80,6 @@ void TestFifteen::testCreateBoardRandom( int size )
     for ( int i = 0; i < ( size * size ); i++ )
         values.append( i );
 
-
     for ( int i = 0; i < size; i++)
     {
         for ( int j = 0; j < size; j++)
@@ -84,6 +93,39 @@ void TestFifteen::testCreateBoardRandom( int size )
     // List should be empty at the end
     QCOMPARE( values.size(), 0 );
 }
+
+/*************************************************/
+/* TEST MOVING SQUARE DEFINED ********************/
+
+void TestFifteen::testMoveSquareDefined( int dimension, int dataNumber )
+{
+    Board board( dimension );
+
+    int* moves = Data::getMoves( dataNumber );
+    int rowNumber;
+    int colNumber;
+
+    int numberOfMoves = moves[0];
+
+    for( int i = 1; i <= numberOfMoves ; i++ )
+    {
+        rowNumber = moves[i] / 10;
+        colNumber = moves[i] % 10;
+        board.checkMove( rowNumber, colNumber );
+    }
+
+    int** squares  = board.sendBoard();
+    int* expectedSquares = Data::getExcpectedBoard( dataNumber );
+
+    int k = 0;
+
+    for ( int i = 0; i < dimension; i++ )
+    {
+        for ( int j = 0; j < dimension; j++ )
+            QCOMPARE( squares[i][j], expectedSquares[k++] );
+    }
+}
+
 
 
 QTEST_APPLESS_MAIN(TestFifteen)
