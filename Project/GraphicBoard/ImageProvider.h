@@ -15,7 +15,7 @@ public:
     static void deleteInstance();
 
     QImage** getImage( int );
-    void prepareBoardImage( QImage&, QString&, ImageLoad&, SquareSize );
+    void prepareBoardImage( QImage&, QString&, ImagesState&, SquareSize );
     bool restoreImageBoardFromFile( uchar*, int, SquareSize, int );
 
 private:

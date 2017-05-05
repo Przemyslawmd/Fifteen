@@ -67,7 +67,7 @@ class MainWindow : public QMainWindow
     QString styleEmpty { "background-color:white; color:white; font-size:20px; border:1px solid white;" };
     QString* currentStyle;
 
-    ImageLoad* images;
+    ImagesState* images;
 
     void createMenu();
     void createControls();

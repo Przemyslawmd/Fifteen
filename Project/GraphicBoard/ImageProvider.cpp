@@ -51,7 +51,7 @@ ImageProvider::~ImageProvider()
 /**************************************************************************************/
 /* PREPARE BOARD IMAGE ****************************************************************/
 
-void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImageLoad& imageState, SquareSize squareSize )
+void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImagesState& imageState, SquareSize squareSize )
 {
     pPrepareImage = ( Options::checkScaled() ) ? &GraphicBoard::prepareScaledImage : &GraphicBoard::prepareCroppedImage;
 

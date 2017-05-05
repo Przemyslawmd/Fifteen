@@ -4,11 +4,11 @@
 #include <QString>
 #include <Types.h>
 
-class ImageLoad;
+class ImagesState;
 
 class State
 {
-    friend class ImageLoad;
+    friend class ImagesState;
 
     private:
         State ( int size, bool toLoad, bool loaded, QString message ) :
@@ -21,11 +21,11 @@ class State
         QString message;
 };
 
-class ImageLoad
+class ImagesState
 {
 public:
 
-    ImageLoad();
+    ImagesState();
 
     void resetLoaded();
 

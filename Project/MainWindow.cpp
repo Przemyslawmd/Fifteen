@@ -2,7 +2,7 @@
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow( parent )
 {
-    images = new ImageLoad();
+    images = new ImagesState();
     board = Board::createBoard( Options::getLevel() );
 
     resize( 750, 550 );
