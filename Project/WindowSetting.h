@@ -1,3 +1,4 @@
+
 #ifndef SETTING_H
 #define SETTING_H
 
@@ -15,9 +16,6 @@
 #include <Types.h>
 #include <Options.h>
 
-#define RADIOCOUNT 7
-#define CHECKCOUNT 4
-
 class MainWindow;
 
 class WindowSetting : public QDialog
@@ -26,8 +24,9 @@ class WindowSetting : public QDialog
 private:
     Q_OBJECT
 
-    enum Radio { SCALE, CROP, BLUE, GREEN, RED };
-    enum Check { FOUR, FIVE, SIX, SEVEN };
+    // Indicators for radio buttons and check boxes
+    enum Radio { SCALE, CROP, BLUE, GREEN, RED, RADIOCOUNT };
+    enum Check { FOUR, FIVE, SIX, SEVEN, CHECKCOUNT };
 
     QRadioButton radio[RADIOCOUNT];
     QCheckBox check[CHECKCOUNT];
@@ -42,15 +41,19 @@ private:
     QButtonGroup groupRadioImage;
     QButtonGroup groupRadioColor;
 
-    ImageLoad& images;
+    // Reference to a class that stores state of images
+    // This window sets there for what board dimensions an image is to be loaded
+    ImagesState& images;
+
     MainWindow& parent;
 
 private slots:
+
+    // Send changes to intances of Options and ImagesState classes
     void acceptSettings();
 
-
 public:
-    WindowSetting( ImageLoad&, MainWindow& );
+    WindowSetting( ImagesState& imagesState, MainWindow& parentWindow );
 };
 
 #endif // SETTING_H

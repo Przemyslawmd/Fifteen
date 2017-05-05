@@ -1,6 +1,7 @@
+
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting( ImageLoad& images, MainWindow& parent ) :
+WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
     slider{ Qt::Horizontal, this }, accept{ "Accept" },
     boxRadioColor{ "Color of Numeric Board" }, boxRadioImage{ "Graphic" }, boxSquareSize{ "Size of Square" },
     groupRadioImage(), groupRadioColor(), images( images ), parent( parent )
@@ -49,7 +50,7 @@ WindowSetting::WindowSetting( ImageLoad& images, MainWindow& parent ) :
 
     /* Checkbox for images praparing  ********************************/
 
-    for (int i = 0; i < CHECKCOUNT; i++)
+    for ( int i = 0; i < CHECKCOUNT; i++ )
         check[i].setStyleSheet( "margin-left:5px;" );
 
     check[Check::FOUR].setText( "Graphic is to be loaded for a board 4x4" );
@@ -104,7 +105,7 @@ WindowSetting::WindowSetting( ImageLoad& images, MainWindow& parent ) :
     /* General layout *********************************************/
 
     QHBoxLayout layControls;
-    accept.setStyleSheet("height:20px;");
+    accept.setStyleSheet( "height:20px;" );
     connect( &accept, SIGNAL( clicked() ), this, SLOT( acceptSettings() ));
 
     layControls.addSpacing( 120 );
@@ -119,7 +120,7 @@ WindowSetting::WindowSetting( ImageLoad& images, MainWindow& parent ) :
     layWindow.addWidget( &boxSquareSize );
     layWindow.addSpacing( 20 );
     layWindow.addLayout( &layControls );
-    layWindow.addSpacing(10);
+    layWindow.addSpacing( 10 );
     layWindow.addStretch();
 
     this->setLayout( &layWindow );
@@ -141,30 +142,30 @@ void WindowSetting::acceptSettings()
 
     if ( slider.value() != Options::getSquareSizeIndex() )
     {
-       Options::setSquareSize( slider.value() );
-       if ( redraw )
+        Options::setSquareSize( slider.value() );
+        if ( redraw )
             parent.redrawSquares();
     }
 
+    bool change = false;
     if ( radio[Radio::BLUE].isChecked() && Options::getColor() != Color::BLUE )
     {
         Options::setColor( Color::BLUE );
-        if ( redraw )
-            parent.setColor();
+        change = true;
     }
     else if ( radio[Radio::GREEN].isChecked() && Options::getColor() != Color::GREEN )
     {
         Options::setColor( Color::GREEN );
-        if ( redraw )
-            parent.setColor();
+        change = true;
     }
     else if ( radio[Radio::RED].isChecked() && Options::getColor() != Color::RED )
     {
         Options::setColor( Color::RED );
-        if ( redraw )
-            parent.setColor();
+        change = true;
     }
+
+    if ( change == true && redraw == true )
+        parent.setColor();
 
     close();
 }
-
