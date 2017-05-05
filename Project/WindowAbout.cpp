@@ -11,9 +11,9 @@ WindowAbout::WindowAbout()
     QVBoxLayout layout( this );
     QString html;
 
-    HTML( "<br/><pre>  Version:      1.2.1" );
-    HTML( "<pre>  Author:       Przemyslaw Madej, Warsaw 2017</pre>" );
-    HTML( "<pre>  Page:         http://przemeknet.pl/fifteenEn.aspx</pre>" );
+    html.append( "<br/><pre>  Version:      1.2.1" );
+    html.append( "<pre>  Author:       Przemyslaw Madej, Warsaw 2017</pre>" );
+    html.append( "<pre>  Page:         http://przemeknet.pl/fifteenEn.aspx</pre>" );
 
     doc.setHtml( html );
     browser.setDocument( &doc );
