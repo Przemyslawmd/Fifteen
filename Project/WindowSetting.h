@@ -25,11 +25,13 @@ private:
     Q_OBJECT
 
     // Indicators for radio buttons and check boxes
-    enum Radio { SCALE, CROP, BLUE, GREEN, RED, RADIOCOUNT };
-    enum Check { FOUR, FIVE, SIX, SEVEN, CHECKCOUNT };
+    enum GraphicMode { scale, crop, countGraphic };
+    enum SquareColor { blue, green, red, countColor };
+    enum BoardSize   { four, five, six, seven, countBoard };
 
-    QRadioButton radio[RADIOCOUNT];
-    QCheckBox check[CHECKCOUNT];
+    QRadioButton radioColor[countColor];
+    QRadioButton radioGraphic[countGraphic];
+    QCheckBox checkBoardSize[countBoard];
     QSlider slider;
     QLabel sliderLabels[5];
     QPushButton accept;    
@@ -57,3 +59,4 @@ public:
 };
 
 #endif // SETTING_H
+
