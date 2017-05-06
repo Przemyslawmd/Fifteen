@@ -1,3 +1,4 @@
+
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
@@ -8,8 +9,8 @@ class Options
 {
 public:
 
-    static Level getLevel();
-    static void setLevel( Level );
+    static BoardSize getBoardSize();
+    static void setBoardSize( BoardSize );
 
     static SquareSize getSquareSize();
     static void setSquareSize( int );
@@ -30,7 +31,7 @@ public:
 private:
     Options();
 
-    static Level level;
+    static BoardSize boardSize;
     static SquareSize squareSize;
     static bool isNumeric;
     static bool isScaled;
@@ -42,3 +43,4 @@ private:
 };
 
 #endif // OPTIONS_H
+

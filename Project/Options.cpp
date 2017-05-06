@@ -1,17 +1,18 @@
+
 #include "Options.h"
 
 /***********************************************************************/
 /* BOARD SIZE **********************************************************/
 
-Level Options::getLevel()
+BoardSize Options::getBoardSize()
 {
-    return level;
+    return boardSize;
 }
 
 
-void Options::setLevel( Level _level )
+void Options::setBoardSize( BoardSize boardSize )
 {
-    level = _level;
+    Options::boardSize = boardSize;
 }
 
 /**********************************************************************/
@@ -123,12 +124,20 @@ QString* Options::getStyle()
 /***********************************************************************/
 /***********************************************************************/
 
-Level Options::level = Level::FOUR;
+BoardSize Options::boardSize = BoardSize::FOUR;
 SquareSize Options::squareSize = SquareSize::_50;
 bool Options::isNumeric = true;
 bool Options::isScaled = true;
 Color Options::color = Color::BLUE;
 
-QString Options::styleBlue { "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #000080, stop:1 #0000EE); color:white; border:1px solid white;" };
-QString Options::styleRed { "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #800000, stop:1 #EE0000); color:white; border:1px solid white;"  };
-QString Options::styleGreen { "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #004d00, stop:1 #009900); color:white; border:1px solid white;" };
+#define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
+#define END_STYLE "color:white; border:1px solid white"
+
+QString Options::styleBlue { BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE };
+QString Options::styleRed { BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE  };
+QString Options::styleGreen { BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE };
+
+#undef BEGIN_STYLE
+#undef END_STYLE
+
+
