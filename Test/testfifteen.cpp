@@ -17,9 +17,12 @@ private Q_SLOTS:
 
     void suiteCreateBoardRandom();
     void testCreateBoardRandom( int boardSize );
+    void testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond );
 
     void suiteMoveSquareDefined();
     void testMoveSquareDefined( int boardSize, int dataNumber );
+
+    void checkSquares( int boardSize, int** squares );
 };
 
 
@@ -34,6 +37,8 @@ void TestFifteen::suiteCreateBoardRandom()
 {
     testCreateBoardRandom( 5 );
     testCreateBoardRandom( 7 );
+    testCreateBoardRandomWithChange( 5, 6 );
+    testCreateBoardRandomWithChange( 7, 4 );
 }
 
 
@@ -77,6 +82,34 @@ void TestFifteen::testCreateBoardRandom( int boardSize )
     Board* board = Board::createBoard( boardSize );
     int** squares = board->randomBoard();
 
+    checkSquares( boardSize, squares );
+}
+
+/*************************************************/
+/* TEST BOARD WITH SIZE CHANGE *******************/
+
+void TestFifteen::testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond )
+{
+    Board* board = Board::createBoard( boardSizeFirst );
+    board->randomBoard();
+    board->randomBoard();
+    int** squares = board->randomBoard();
+
+    checkSquares( boardSizeFirst, squares );
+
+    board = Board::createBoard( boardSizeSecond );
+    board->randomBoard();
+    squares = board->randomBoard();
+
+    checkSquares( boardSizeSecond, squares );
+}
+
+/**************************************************/
+/* CHECK SQUARES **********************************/
+// Helper method to check whether a board has all square values
+
+void TestFifteen::checkSquares( int boardSize, int** squares )
+{
     QList<int> values;
 
     for ( int i = 0; i < ( boardSize * boardSize ); i++ )
@@ -131,3 +164,4 @@ void TestFifteen::testMoveSquareDefined( int boardSize, int dataNumber )
 QTEST_APPLESS_MAIN(TestFifteen)
 
 #include "testfifteen.moc"
+
