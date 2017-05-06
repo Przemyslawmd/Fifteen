@@ -39,7 +39,8 @@ void TestFifteen::suiteCreateBoardRandom()
 
 void TestFifteen::suiteMoveSquareDefined()
 {
-    testMoveSquareDefined( 4, 1 );
+    testMoveSquareDefined( 4, 0 );
+    testMoveSquareDefined( 5, 1 );
 }
 
 /**********************************************/
@@ -85,9 +86,9 @@ void TestFifteen::testCreateBoardRandom( int boardSize )
     {
         for ( int j = 0; j < boardSize; j++)
         {
-                // Check whether value exists in a list
-                QCOMPARE( values.contains( squares[i][j]), true );
-                values.removeOne( squares[i][j] );
+            // Check whether value exists in a list
+            QCOMPARE( values.contains( squares[i][j]), true );
+            values.removeOne( squares[i][j] );
         }
     }
 
