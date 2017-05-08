@@ -53,10 +53,10 @@ class MainWindow : public QMainWindow
     QPushButton** control;
 
     // Right panel
-    QVBoxLayout* layRadioDim;
-    QVBoxLayout* layRadioKind;
-    QPushButton* pushRandom;
-    QPushButton* pushSolve;
+    QVBoxLayout layRadioSize;
+    QVBoxLayout layRadioKind;
+    QPushButton pushRandom;
+    QPushButton pushSolve;
 
     QRadioButton radio[6];
 

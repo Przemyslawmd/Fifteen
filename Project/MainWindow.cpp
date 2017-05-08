@@ -82,15 +82,13 @@ void MainWindow::createControls()
 {    
     mainPanel.setContentsMargins( 20, 20, 0, 10 );
 
-    pushRandom = new QPushButton();
-    pushRandom->setStyleSheet( "height:20px;" );
-    pushRandom->setText( "Generate Board" );
-    connect( pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
+    pushRandom.setStyleSheet( "height:20px;" );
+    pushRandom.setText( "Generate Board" );
+    connect( &pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
 
-    pushSolve = new QPushButton();
-    pushSolve->setStyleSheet( "height:20px;" );
-    pushSolve->setText( "Solve Board");
-    connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
+    pushSolve.setStyleSheet( "height:20px;" );
+    pushSolve.setText( "Solve Board");
+    connect( &pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
     radio[Radio::four].setText( "4" );
     radio[Radio::five].setText( "5" );
@@ -98,35 +96,32 @@ void MainWindow::createControls()
     radio[Radio::seven].setText( "7" );
     radio[Radio::four].setChecked( true );
 
-    layRadioDim = new QVBoxLayout();
     groupRadioDimension = new QButtonGroup();
 
     for( int i = Radio::four, j = 4; i <= Radio::seven; i++, j++ )
     {
-       layRadioDim->addSpacing( 10 );
-       layRadioDim->addWidget( &radio[i] );
+       layRadioSize.addSpacing( 10 );
+       layRadioSize.addWidget( &radio[i] );
        radio[i].setStyleSheet( "margin-left: 5px" );
        groupRadioDimension->addButton( &radio[i] );
        groupRadioDimension->setId( &radio[i], j );
     }
-    layRadioDim->addSpacing( 30 );
+    layRadioSize.addSpacing( 30 );
 
     boxRadioDimension = new QGroupBox();
     boxRadioDimension->setTitle( "Dimension of Board" );
-    boxRadioDimension->setLayout( layRadioDim );
+    boxRadioDimension->setLayout( &layRadioSize );
 
-
-    layRadioKind = new QVBoxLayout();
     groupRadioKind = new QButtonGroup();
 
     for ( int i = Radio::numeric; i <= Radio::graphic; i++)
     {
-        layRadioKind->addSpacing( 10 );
-        layRadioKind->addWidget( &radio[i] );
+        layRadioKind.addSpacing( 10 );
+        layRadioKind.addWidget( &radio[i] );
         radio[i].setStyleSheet( "margin-left:5px;" );
         groupRadioKind->addButton( &radio[i] );
     }
-    layRadioKind->addSpacing( 30 );
+    layRadioKind.addSpacing( 30 );
 
     radio[Radio::numeric].setChecked(true);
     radio[Radio::numeric].setText( "Numeric" );
@@ -134,13 +129,13 @@ void MainWindow::createControls()
 
     boxRadioKind = new QGroupBox();
     boxRadioKind->setTitle( "Kind of Board" );
-    boxRadioKind->setLayout( layRadioKind );
+    boxRadioKind->setLayout( &layRadioKind );
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 30, 0 );
-    rightLayout->addWidget( pushRandom );
+    rightLayout->addWidget( &pushRandom );
     rightLayout->addSpacing( 15);
-    rightLayout->addWidget( pushSolve );
+    rightLayout->addWidget( &pushSolve );
     rightLayout->addSpacing( 30);
     rightLayout->addWidget( boxRadioDimension );
     rightLayout->addStretch();
