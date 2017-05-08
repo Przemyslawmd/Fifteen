@@ -94,32 +94,27 @@ void MainWindow::createControls()
     radio[Radio::five].setText( "5" );
     radio[Radio::six].setText( "6" );
     radio[Radio::seven].setText( "7" );
-    radio[Radio::four].setChecked( true );
-
-    groupRadioDimension = new QButtonGroup();
+    radio[Radio::four].setChecked( true );   
 
     for( int i = Radio::four, j = 4; i <= Radio::seven; i++, j++ )
     {
        layRadioSize.addSpacing( 10 );
        layRadioSize.addWidget( &radio[i] );
        radio[i].setStyleSheet( "margin-left: 5px" );
-       groupRadioDimension->addButton( &radio[i] );
-       groupRadioDimension->setId( &radio[i], j );
+       groupRadioSize.addButton( &radio[i] );
+       groupRadioSize.setId( &radio[i], j );
     }
     layRadioSize.addSpacing( 30 );
 
-    boxRadioDimension = new QGroupBox();
-    boxRadioDimension->setTitle( "Dimension of Board" );
-    boxRadioDimension->setLayout( &layRadioSize );
-
-    groupRadioKind = new QButtonGroup();
+    boxRadioSize.setTitle( "Dimension of Board" );
+    boxRadioSize.setLayout( &layRadioSize );
 
     for ( int i = Radio::numeric; i <= Radio::graphic; i++)
     {
         layRadioKind.addSpacing( 10 );
         layRadioKind.addWidget( &radio[i] );
         radio[i].setStyleSheet( "margin-left:5px;" );
-        groupRadioKind->addButton( &radio[i] );
+        groupRadioKind.addButton( &radio[i] );
     }
     layRadioKind.addSpacing( 30 );
 
@@ -127,9 +122,8 @@ void MainWindow::createControls()
     radio[Radio::numeric].setText( "Numeric" );
     radio[Radio::graphic].setText( "Graphic" );
 
-    boxRadioKind = new QGroupBox();
-    boxRadioKind->setTitle( "Kind of Board" );
-    boxRadioKind->setLayout( &layRadioKind );
+    boxRadioKind.setTitle( "Kind of Board" );
+    boxRadioKind.setLayout( &layRadioKind );
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 30, 0 );
@@ -137,9 +131,9 @@ void MainWindow::createControls()
     rightLayout->addSpacing( 15);
     rightLayout->addWidget( &pushSolve );
     rightLayout->addSpacing( 30);
-    rightLayout->addWidget( boxRadioDimension );
+    rightLayout->addWidget( &boxRadioSize );
     rightLayout->addStretch();
-    rightLayout->addWidget( boxRadioKind );
+    rightLayout->addWidget( &boxRadioKind );
     rightLayout->addStretch();
 }
 
@@ -269,27 +263,27 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize level = static_cast< BoardSize >( groupRadioDimension->checkedId() );
+    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize.checkedId() );
 
     // In case of graphic board check whether there is a proper image loaded
     if ( radio[Radio::graphic].isChecked() )
     {
-        if ( ( level == BoardSize::FOUR ) && ( images->four.loaded == false ))
+        if ( ( boardSize == BoardSize::FOUR ) && ( images->four.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
-        if ( ( level == BoardSize::FIVE ) && ( images->five.loaded == false ))
+        if ( ( boardSize == BoardSize::FIVE ) && ( images->five.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
             return;
         }
-        if ( ( level == BoardSize::SIX ) && ( images->six.loaded == false ))
+        if ( ( boardSize == BoardSize::SIX ) && ( images->six.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
-        if ( ( level == BoardSize::SEVEN ) && ( images->seven.loaded == false ))
+        if ( ( boardSize == BoardSize::SEVEN ) && ( images->seven.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
@@ -297,8 +291,8 @@ void MainWindow::slotGenerateBoard()
     }
 
     deleteSquares();
-    Options::setBoardSize( level );
-    board = Board::createBoard( level );
+    Options::setBoardSize( boardSize );
+    board = Board::createBoard( boardSize );
 
     if ( radio[Radio::numeric].isChecked() )
     {

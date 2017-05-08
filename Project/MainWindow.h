@@ -60,10 +60,10 @@ class MainWindow : public QMainWindow
 
     QRadioButton radio[6];
 
-    QButtonGroup* groupRadioKind;
-    QButtonGroup* groupRadioDimension;
-    QGroupBox* boxRadioKind;
-    QGroupBox* boxRadioDimension;
+    QButtonGroup groupRadioKind;
+    QButtonGroup groupRadioSize;
+    QGroupBox boxRadioKind;
+    QGroupBox boxRadioSize;
 
     Board* board;
 
