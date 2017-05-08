@@ -33,8 +33,8 @@ class MainWindow : public QMainWindow
     enum Radio { FOUR, FIVE, SIX, SEVEN, NUMERICAL, GRAPHIC };
     enum Action { OPENG, REMG, SAVE, LOAD, SETT, INFO };
 
-    QMenuBar* mainMenu;
-    QMenu* fileMenu;
+    QMenuBar mainMenu;
+    QMenu fileMenu;
 
     QAction* action[ACTION_COUNT];
 
