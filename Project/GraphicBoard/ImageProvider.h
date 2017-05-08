@@ -26,8 +26,7 @@ private:
     void ( GraphicBoard::*pPrepareImage )( QImage&, State&, QString&, SquareSize );
     bool checkImageSize( QImage&, State&, SquareSize, QString& ) ;
 
-    enum index { FOUR = 0, FIVE, SIX, SEVEN };
-    const int COUNT = 4;
+    enum Index { four = 0, five, six, seven, countImages };
 
     GraphicBoard** images;
     static ImageProvider* instance;
