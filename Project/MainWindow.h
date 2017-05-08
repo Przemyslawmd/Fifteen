@@ -1,3 +1,4 @@
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -24,21 +25,20 @@
 #include <Options.h>
 #include <GraphicBoard/ImageProvider.h>
 
-#define ACTION_COUNT 6
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
     enum Radio { FOUR, FIVE, SIX, SEVEN, NUMERICAL, GRAPHIC };
-    enum Action { OPENG, REMG, SAVE, LOAD, SETT, INFO };
+    enum Action { openGraphic, remGraphic, saveBoard, loadBoard, settings, about, countActions };
 
     QMenuBar mainMenu;
     QMenu fileMenu;
 
-    QAction* action[ACTION_COUNT];
+    QAction* action[countActions];
 
-    QWidget* window;
+    QWidget rightPanel;
     QHBoxLayout* mainLayout;
     QVBoxLayout* rightLayout; 
 

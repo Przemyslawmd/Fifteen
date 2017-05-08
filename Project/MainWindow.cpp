@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 
-MainWindow::MainWindow( QWidget *parent ) : QMainWindow( parent )
+MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, rightPanel{ this }
 {
     images = new ImagesState();
     board = Board::createBoard( Options::getBoardSize() );
@@ -20,39 +20,39 @@ void MainWindow::createMenu()
 {    
     fileMenu.setTitle( "File" );
 
-    for ( int i = 0; i < ACTION_COUNT; i++ )
+    for ( int i = 0; i < Action::countActions; i++ )
       action[i] = new QAction( this );
 
-    action[Action::OPENG]->setText( "Load Graphic File" );
-    connect( action[Action::OPENG], SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
+    action[Action::openGraphic]->setText( "Load Graphic File" );
+    connect( action[Action::openGraphic], SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
 
-    action[Action::REMG]->setText( "Remove Graphic" );
-    action[Action::REMG]->setEnabled( false );
-    connect( action[Action::REMG], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
+    action[Action::remGraphic]->setText( "Remove Graphic" );
+    action[Action::remGraphic]->setEnabled( false );
+    connect( action[Action::remGraphic], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
 
-    action[Action::SAVE]->setText( "Save Board" );
-    connect( action[Action::SAVE], SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
+    action[Action::saveBoard]->setText( "Save Board" );
+    connect( action[Action::saveBoard], SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
 
-    action[Action::LOAD]->setText( "Load Board" );
-    connect( action[Action::LOAD], SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
+    action[Action::loadBoard]->setText( "Load Board" );
+    connect( action[Action::loadBoard], SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
 
-    fileMenu.addAction( action[Action::OPENG] );
+    fileMenu.addAction( action[Action::openGraphic] );
     fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::REMG] );
+    fileMenu.addAction( action[Action::remGraphic] );
     fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::SAVE] );
+    fileMenu.addAction( action[Action::saveBoard] );
     fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::LOAD] );
+    fileMenu.addAction( action[Action::loadBoard] );
 
-    action[Action::SETT]->setText( "Settings" );
-    connect( action[Action::SETT], SIGNAL( triggered()), this, SLOT( slotSettings() ));
+    action[Action::settings]->setText( "Settings" );
+    connect( action[Action::settings], SIGNAL( triggered()), this, SLOT( slotSettings() ));
 
-    action[Action::INFO]->setText( "About" );
-    connect( action[Action::INFO], SIGNAL( triggered()), this, SLOT( slotAbout() ));
+    action[Action::about]->setText( "About" );
+    connect( action[Action::about], SIGNAL( triggered()), this, SLOT( slotAbout() ));
 
     mainMenu.addMenu( &fileMenu );
-    mainMenu.addAction( action[Action::SETT] );
-    mainMenu.addAction( action[Action::INFO] );
+    mainMenu.addAction( action[Action::settings] );
+    mainMenu.addAction( action[Action::about] );
 
     this->setMenuBar( &mainMenu );
 }
@@ -68,20 +68,19 @@ void MainWindow::createLayouts()
     boxImages = new QGroupBox();
     boxImages->setLayout( layImageVertical );
 
-    mainLayout = new QHBoxLayout( window );
+    mainLayout = new QHBoxLayout( &rightPanel );
     mainLayout->addWidget( boxImages );
     mainLayout->addLayout( rightLayout );
 
-    this->setCentralWidget( window );
+    this->setCentralWidget( &rightPanel );
 }
 
 /*************************************************************************************************************/
 /* CREATE RIGHT PANEL FOR CONTROLS ***************************************************************************/
 
 void MainWindow::createControls()
-{
-    window = new QWidget( this );
-    window->setContentsMargins( 20, 20, 0, 10 );
+{    
+    rightPanel.setContentsMargins( 20, 20, 0, 10 );
 
     pushRandom = new QPushButton();
     pushRandom->setStyleSheet( "height:20px;" );
@@ -100,7 +99,7 @@ void MainWindow::createControls()
     radio[Radio::FOUR].setChecked( true );
 
     layRadioDim = new QVBoxLayout();
-    groupRadioDimension = new QButtonGroup( window );
+    groupRadioDimension = new QButtonGroup( &rightPanel );
 
     for( int i = Radio::FOUR, j = 4; i <= Radio::SEVEN; i++, j++ )
     {
@@ -302,7 +301,6 @@ void MainWindow::slotGenerateBoard()
         }
     }
 
-    //delete board;
     deleteSquares();
     Options::setBoardSize( level );
     board = Board::createBoard( level );
@@ -467,7 +465,7 @@ void MainWindow::slotLoadGraphic()
 
         if ( images->four.loaded || images->five.loaded || images->six.loaded || images->seven.loaded )
         {            
-            action[Action::REMG]->setEnabled( true );
+            action[Action::remGraphic]->setEnabled( true );
             images->imageSize = Options::getSquareSize();
         }
     }    
@@ -479,7 +477,7 @@ void MainWindow::slotLoadGraphic()
 void MainWindow::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
-    action[Action::REMG]->setEnabled( false );
+    action[Action::remGraphic]->setEnabled( false );
     images->resetLoaded();
 
     // Graphic board is active
@@ -643,7 +641,7 @@ void MainWindow::slotReadBoard()
            createSquares();
            setSquaresGraphic( false );           
            radio[Radio::GRAPHIC].setChecked( true );
-           action[Action::REMG]->setEnabled( true );
+           action[Action::remGraphic]->setEnabled( true );
         }
 
         file.close();
