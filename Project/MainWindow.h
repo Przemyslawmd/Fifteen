@@ -30,7 +30,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum Radio { FOUR, FIVE, SIX, SEVEN, NUMERICAL, GRAPHIC };
+    enum Radio { four, five, six, seven, numeric, graphic };
     enum Action { openGraphic, remGraphic, saveBoard, loadBoard, settings, about, countActions };
 
     QMenuBar mainMenu;

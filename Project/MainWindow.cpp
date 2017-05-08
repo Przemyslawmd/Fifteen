@@ -92,16 +92,16 @@ void MainWindow::createControls()
     pushSolve->setText( "Solve Board");
     connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
-    radio[Radio::FOUR].setText( "4" );    
-    radio[Radio::FIVE].setText( "5" );
-    radio[Radio::SIX].setText( "6" );
-    radio[Radio::SEVEN].setText( "7" );
-    radio[Radio::FOUR].setChecked( true );
+    radio[Radio::four].setText( "4" );
+    radio[Radio::five].setText( "5" );
+    radio[Radio::six].setText( "6" );
+    radio[Radio::seven].setText( "7" );
+    radio[Radio::four].setChecked( true );
 
     layRadioDim = new QVBoxLayout();
     groupRadioDimension = new QButtonGroup();
 
-    for( int i = Radio::FOUR, j = 4; i <= Radio::SEVEN; i++, j++ )
+    for( int i = Radio::four, j = 4; i <= Radio::seven; i++, j++ )
     {
        layRadioDim->addSpacing( 10 );
        layRadioDim->addWidget( &radio[i] );
@@ -119,7 +119,7 @@ void MainWindow::createControls()
     layRadioKind = new QVBoxLayout();
     groupRadioKind = new QButtonGroup();
 
-    for ( int i = Radio::NUMERICAL; i <= Radio::GRAPHIC; i++)
+    for ( int i = Radio::numeric; i <= Radio::graphic; i++)
     {
         layRadioKind->addSpacing( 10 );
         layRadioKind->addWidget( &radio[i] );
@@ -128,9 +128,9 @@ void MainWindow::createControls()
     }
     layRadioKind->addSpacing( 30 );
 
-    radio[Radio::NUMERICAL].setChecked(true);
-    radio[Radio::NUMERICAL].setText( "Numeric" );
-    radio[Radio::GRAPHIC].setText( "Graphic" );
+    radio[Radio::numeric].setChecked(true);
+    radio[Radio::numeric].setText( "Numeric" );
+    radio[Radio::graphic].setText( "Graphic" );
 
     boxRadioKind = new QGroupBox();
     boxRadioKind->setTitle( "Kind of Board" );
@@ -277,7 +277,7 @@ void MainWindow::slotGenerateBoard()
     BoardSize level = static_cast< BoardSize >( groupRadioDimension->checkedId() );
 
     // In case of graphic board check whether there is a proper image loaded
-    if ( radio[Radio::GRAPHIC].isChecked() )
+    if ( radio[Radio::graphic].isChecked() )
     {
         if ( ( level == BoardSize::FOUR ) && ( images->four.loaded == false ))
         {
@@ -305,7 +305,7 @@ void MainWindow::slotGenerateBoard()
     Options::setBoardSize( level );
     board = Board::createBoard( level );
 
-    if ( radio[Radio::NUMERICAL].isChecked() )
+    if ( radio[Radio::numeric].isChecked() )
     {
         Options::setNumeric( true );
         createSquares();
@@ -590,7 +590,7 @@ void MainWindow::slotReadBoard()
             Options::setNumeric( true );
             createSquares();
             setSquaresNumber( false );
-            radio[Radio::NUMERICAL].setChecked( true );
+            radio[Radio::numeric].setChecked( true );
         }
         else
         {
@@ -612,22 +612,22 @@ void MainWindow::slotReadBoard()
                 if ( level == BoardSize::FOUR )
                 {
                     images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::FOUR].setChecked( images->four.loaded );
+                    radio[Radio::four].setChecked( images->four.loaded );
                 }
                 else if ( level == BoardSize::FIVE )
                 {
                     images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::FIVE].setChecked( images->five.loaded );
+                    radio[Radio::five].setChecked( images->five.loaded );
                 }
                 else if ( level == BoardSize::SIX )
                 {
                     images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::SIX].setChecked( images->six.loaded );
+                    radio[Radio::six].setChecked( images->six.loaded );
                 }
                 else
                 {
                     images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::SEVEN].setChecked( images->seven.loaded );
+                    radio[Radio::seven].setChecked( images->seven.loaded );
                 }
 
            }
@@ -640,7 +640,7 @@ void MainWindow::slotReadBoard()
            Options::setNumeric( false );
            createSquares();
            setSquaresGraphic( false );           
-           radio[Radio::GRAPHIC].setChecked( true );
+           radio[Radio::graphic].setChecked( true );
            action[Action::remGraphic]->setEnabled( true );
         }
 
