@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 
-MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, rightPanel{ this }
+MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
     images = new ImagesState();
     board = Board::createBoard( Options::getBoardSize() );
@@ -68,11 +68,11 @@ void MainWindow::createLayouts()
     boxImages = new QGroupBox();
     boxImages->setLayout( layImageVertical );
 
-    mainLayout = new QHBoxLayout( &rightPanel );
+    mainLayout = new QHBoxLayout( &mainPanel );
     mainLayout->addWidget( boxImages );
     mainLayout->addLayout( rightLayout );
 
-    this->setCentralWidget( &rightPanel );
+    this->setCentralWidget( &mainPanel );
 }
 
 /*************************************************************************************************************/
@@ -80,7 +80,7 @@ void MainWindow::createLayouts()
 
 void MainWindow::createControls()
 {    
-    rightPanel.setContentsMargins( 20, 20, 0, 10 );
+    mainPanel.setContentsMargins( 20, 20, 0, 10 );
 
     pushRandom = new QPushButton();
     pushRandom->setStyleSheet( "height:20px;" );
@@ -99,7 +99,7 @@ void MainWindow::createControls()
     radio[Radio::FOUR].setChecked( true );
 
     layRadioDim = new QVBoxLayout();
-    groupRadioDimension = new QButtonGroup( &rightPanel );
+    groupRadioDimension = new QButtonGroup();
 
     for( int i = Radio::FOUR, j = 4; i <= Radio::SEVEN; i++, j++ )
     {

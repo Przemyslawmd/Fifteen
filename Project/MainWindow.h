@@ -38,9 +38,12 @@ class MainWindow : public QMainWindow
 
     QAction* action[countActions];
 
-    QWidget rightPanel;
+    // Main Panel of GUI, layout is being created starting
+    // from this panel
+    QWidget mainPanel;
+
     QHBoxLayout* mainLayout;
-    QVBoxLayout* rightLayout; 
+    QVBoxLayout* rightLayout;
 
     // Image panel
     QGridLayout* imageLayout;
