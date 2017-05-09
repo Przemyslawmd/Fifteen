@@ -41,10 +41,10 @@ void GraphicBoard::prepareScaledImage( QImage& picture, State& state, QString& m
     if ( createSquareImage( new QImage( picture.scaled( boardSize, boardSize )), state.size, squareSize ))
     {
         state.loaded = true;
-        message.append( "Graphic was loaded for a board " + state.message );
+        message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n").arg( state.size ));
     }
     else
-        message.append( "Failure of loading graphic for a board " + state.message );
+        message.append( QString( "Failure of loading graphic for a board of size %1 \t\n\n" ).arg( state.size ));
 }
 
 /****************************************************************************************************************************/
@@ -57,10 +57,10 @@ void GraphicBoard::prepareCroppedImage( QImage& picture, State& state, QString& 
     if ( createSquareImage( new QImage( picture.copy(( picture.width() - boardSize )/2, ( picture.height() - boardSize )/2, boardSize, boardSize )), state.size, squareSize ))
     {
         state.loaded = true;
-        message.append( "Graphic was loaded for a board" + state.message );
+        message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n" ).arg( state.size ));
     }
     else
-        message.append( "Failure of loading graphic for a board " + state.message );
+        message.append( QString( "Failure of loading graphic for a board of size %1 \t\n\n" ).arg( state.size ));
 }
 
 /**************************************************************************************************************************/

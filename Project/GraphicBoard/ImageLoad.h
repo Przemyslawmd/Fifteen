@@ -11,14 +11,13 @@ class State
     friend class ImagesState;
 
     private:
-        State ( int size, bool toLoad, bool loaded, QString message ) :
-                size( size ), toLoad( toLoad ), loaded( loaded ), message( message ) {}
+        State ( int size, bool toLoad, bool loaded ) :
+                size( size ), toLoad( toLoad ), loaded( loaded ) {}
 
     public:        
-        int size;
-        mutable bool toLoad;
-        mutable bool loaded;        
-        QString message;
+        const int size;
+        bool toLoad;
+        bool loaded;
 };
 
 class ImagesState

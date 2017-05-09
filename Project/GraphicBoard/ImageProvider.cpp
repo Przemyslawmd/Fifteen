@@ -87,7 +87,7 @@ bool ImageProvider::checkImageSize( QImage& picture, State& state, SquareSize sq
 {
     if (( picture.height() < state.size * squareSize ) || ( picture.width() < state.size * squareSize ))
     {
-        message.append( "Too low size of graphic for a board " +  state.message );
+        message.append( QString ( "Too low size of graphic for a board of size %1 \t\n\n" ).arg( state.size ));
         return false;
     }
 
