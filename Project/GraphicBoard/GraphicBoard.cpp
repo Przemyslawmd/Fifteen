@@ -3,10 +3,10 @@
 /*************************************************************************************************************************/
 /* CONSTRUCTOR ***********************************************************************************************************/
 
-GraphicBoard::GraphicBoard( int level ) : level( level )
+GraphicBoard::GraphicBoard( int boardSize ) : boardSize( boardSize )
 {
-    image = new QImage*[level  * level];
-    for (int i = 0; i < ( level * level ); i++)
+    image = new QImage*[boardSize  * boardSize];
+    for ( int i = 0; i < ( boardSize * boardSize ); i++ )
         image[i] = 0;    
 }
 
@@ -17,7 +17,7 @@ GraphicBoard::~GraphicBoard()
 {
     if ( image[0] != 0 )
     {
-        for ( int i = 0; i < ( level * level ); i++ )
+        for ( int i = 0; i < ( boardSize * boardSize ); i++ )
             delete image[i];
         delete[] image;
     }    
@@ -36,9 +36,9 @@ QImage** GraphicBoard::getImage()
 
 void GraphicBoard::prepareScaledImage( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
-    int boardSize = state.size * squareSize;    
+    int boardSizeInPixel = state.size * squareSize;
 
-    if ( createSquareImage( new QImage( picture.scaled( boardSize, boardSize )), state.size, squareSize ))
+    if ( createSquareImage( new QImage( picture.scaled( boardSizeInPixel, boardSizeInPixel )), state.size, squareSize ))
     {
         state.loaded = true;
         message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n").arg( state.size ));
@@ -52,9 +52,9 @@ void GraphicBoard::prepareScaledImage( QImage& picture, State& state, QString& m
 
 void GraphicBoard::prepareCroppedImage( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
-    int boardSize = state.size * squareSize;    
+    int boardSizeInPixel = state.size * squareSize;
 
-    if ( createSquareImage( new QImage( picture.copy(( picture.width() - boardSize )/2, ( picture.height() - boardSize )/2, boardSize, boardSize )), state.size, squareSize ))
+    if ( createSquareImage( new QImage( picture.copy(( picture.width() - boardSizeInPixel )/2, ( picture.height() - boardSizeInPixel )/2, boardSizeInPixel, boardSizeInPixel )), state.size, squareSize ))
     {
         state.loaded = true;
         message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n" ).arg( state.size ));
@@ -64,7 +64,7 @@ void GraphicBoard::prepareCroppedImage( QImage& picture, State& state, QString& 
 }
 
 /**************************************************************************************************************************/
-/* MAKE IMAGE FOR EACH SQUARE *********************************************************************************************/
+/* CREATE SQUARE IMAGE ****************************************************************************************************/
 
 bool GraphicBoard::createSquareImage( QImage* picture, int size, SquareSize squareSize )
 {
@@ -105,16 +105,16 @@ bool GraphicBoard::createSquareImage( QImage* picture, int size, SquareSize squa
 }
 
 /*****************************************************************************************************/
-/* RESTORE IMAGES FROM FILE BUFFER *******************************************************************/
+/* RESTORE IMAGES FROM FILE **************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( uchar* data, SquareSize imageSize, int byteCount )
+bool GraphicBoard::restoreImagesFromFile( uchar* data, SquareSize squareSize, int bytes )
 {
-    bufferRestored = std::move( data );
+    uchar* bufferRestored = std::move( data );
 
     try
     {
-        for ( int i = 0; i < level * level; i++ )
-            image[i] = new QImage( bufferRestored + i * byteCount, imageSize, imageSize, QImage::Format_RGB32 );
+        for ( int i = 0; i < boardSize * boardSize; i++ )
+            image[i] = new QImage( bufferRestored + i * bytes, squareSize, squareSize, QImage::Format_RGB32 );
     }
     catch(...)
     {
