@@ -18,7 +18,8 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 
 void MainWindow::createMenu()
 {    
-    fileMenu.setTitle( "File" );
+    fileMenu = new QMenu();
+    fileMenu->setTitle( "File" );
 
     for ( int i = 0; i < Action::countActions; i++ )
       action[i] = new QAction( this );
@@ -36,13 +37,13 @@ void MainWindow::createMenu()
     action[Action::loadBoard]->setText( "Load Board" );
     connect( action[Action::loadBoard], SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
 
-    fileMenu.addAction( action[Action::openGraphic] );
-    fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::remGraphic] );
-    fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::saveBoard] );
-    fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::loadBoard] );
+    fileMenu->addAction( action[Action::openGraphic] );
+    fileMenu->addSeparator();
+    fileMenu->addAction( action[Action::remGraphic] );
+    fileMenu->addSeparator();
+    fileMenu->addAction( action[Action::saveBoard] );
+    fileMenu->addSeparator();
+    fileMenu->addAction( action[Action::loadBoard] );
 
     action[Action::settings]->setText( "Settings" );
     connect( action[Action::settings], SIGNAL( triggered()), this, SLOT( slotSettings() ));
@@ -50,11 +51,12 @@ void MainWindow::createMenu()
     action[Action::about]->setText( "About" );
     connect( action[Action::about], SIGNAL( triggered()), this, SLOT( slotAbout() ));
 
-    mainMenu.addMenu( &fileMenu );
-    mainMenu.addAction( action[Action::settings] );
-    mainMenu.addAction( action[Action::about] );
+    mainMenu = new QMenuBar();
+    mainMenu->addMenu( fileMenu );
+    mainMenu->addAction( action[Action::settings] );
+    mainMenu->addAction( action[Action::about] );
 
-    this->setMenuBar( &mainMenu );
+    this->setMenuBar( mainMenu );
 }
 
 /***********************************************************************************************************/
