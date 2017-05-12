@@ -30,13 +30,13 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum Radio { four, five, six, seven, numeric, graphic };
-    enum Action { openGraphic, remGraphic, saveBoard, loadBoard, settings, about, countActions };
+    enum Radio { FOUR, FIVE, SIX, SEVEN, NUMERIC, GRAPHIC };
+    enum Action { OPENGRAPHIC, REMGRAPHIC, SAVEBOARD, LOADBOARD, SETTINGS, ABOUT, COUNTACTIONS };
 
     QMenuBar* mainMenu;
     QMenu* fileMenu;
 
-    QAction* action[countActions];
+    QAction* action[COUNTACTIONS];
 
     // Main Panel of GUI, layout is being created starting
     // from this panel

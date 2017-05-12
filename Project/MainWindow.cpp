@@ -21,40 +21,40 @@ void MainWindow::createMenu()
     fileMenu = new QMenu();
     fileMenu->setTitle( "File" );
 
-    for ( int i = 0; i < Action::countActions; i++ )
+    for ( int i = 0; i < Action::COUNTACTIONS; i++ )
       action[i] = new QAction( this );
 
-    action[Action::openGraphic]->setText( "Load Graphic File" );
-    connect( action[Action::openGraphic], SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
+    action[Action::OPENGRAPHIC]->setText( "Load Graphic File" );
+    connect( action[Action::OPENGRAPHIC], SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
 
-    action[Action::remGraphic]->setText( "Remove Graphic" );
-    action[Action::remGraphic]->setEnabled( false );
-    connect( action[Action::remGraphic], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
+    action[Action::REMGRAPHIC]->setText( "Remove Graphic" );
+    action[Action::REMGRAPHIC]->setEnabled( false );
+    connect( action[Action::REMGRAPHIC], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
 
-    action[Action::saveBoard]->setText( "Save Board" );
-    connect( action[Action::saveBoard], SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
+    action[Action::SAVEBOARD]->setText( "Save Board" );
+    connect( action[Action::SAVEBOARD], SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
 
-    action[Action::loadBoard]->setText( "Load Board" );
-    connect( action[Action::loadBoard], SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
+    action[Action::LOADBOARD]->setText( "Load Board" );
+    connect( action[Action::LOADBOARD], SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
 
-    fileMenu->addAction( action[Action::openGraphic] );
+    fileMenu->addAction( action[Action::OPENGRAPHIC] );
     fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::remGraphic] );
+    fileMenu->addAction( action[Action::REMGRAPHIC] );
     fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::saveBoard] );
+    fileMenu->addAction( action[Action::SAVEBOARD] );
     fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::loadBoard] );
+    fileMenu->addAction( action[Action::LOADBOARD] );
 
-    action[Action::settings]->setText( "Settings" );
-    connect( action[Action::settings], SIGNAL( triggered()), this, SLOT( slotSettings() ));
+    action[Action::SETTINGS]->setText( "Settings" );
+    connect( action[Action::SETTINGS], SIGNAL( triggered()), this, SLOT( slotSettings() ));
 
-    action[Action::about]->setText( "About" );
-    connect( action[Action::about], SIGNAL( triggered()), this, SLOT( slotAbout() ));
+    action[Action::ABOUT]->setText( "About" );
+    connect( action[Action::ABOUT], SIGNAL( triggered()), this, SLOT( slotAbout() ));
 
     mainMenu = new QMenuBar();
     mainMenu->addMenu( fileMenu );
-    mainMenu->addAction( action[Action::settings] );
-    mainMenu->addAction( action[Action::about] );
+    mainMenu->addAction( action[Action::SETTINGS] );
+    mainMenu->addAction( action[Action::ABOUT] );
 
     this->setMenuBar( mainMenu );
 }
@@ -92,13 +92,13 @@ void MainWindow::createControls()
     pushSolve.setText( "Solve Board");
     connect( &pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
-    radio[Radio::four].setText( "4" );
-    radio[Radio::five].setText( "5" );
-    radio[Radio::six].setText( "6" );
-    radio[Radio::seven].setText( "7" );
-    radio[Radio::four].setChecked( true );   
+    radio[Radio::FOUR].setText( "4" );
+    radio[Radio::FIVE].setText( "5" );
+    radio[Radio::SIX].setText( "6" );
+    radio[Radio::SEVEN].setText( "7" );
+    radio[Radio::FOUR].setChecked( true );
 
-    for( int i = Radio::four, j = 4; i <= Radio::seven; i++, j++ )
+    for( int i = Radio::FOUR, j = 4; i <= Radio::SEVEN; i++, j++ )
     {
        layRadioSize.addSpacing( 10 );
        layRadioSize.addWidget( &radio[i] );
@@ -111,7 +111,7 @@ void MainWindow::createControls()
     boxRadioSize.setTitle( "Dimension of Board" );
     boxRadioSize.setLayout( &layRadioSize );
 
-    for ( int i = Radio::numeric; i <= Radio::graphic; i++)
+    for ( int i = Radio::NUMERIC; i <= Radio::GRAPHIC; i++)
     {
         layRadioKind.addSpacing( 10 );
         layRadioKind.addWidget( &radio[i] );
@@ -120,9 +120,9 @@ void MainWindow::createControls()
     }
     layRadioKind.addSpacing( 30 );
 
-    radio[Radio::numeric].setChecked(true);
-    radio[Radio::numeric].setText( "Numeric" );
-    radio[Radio::graphic].setText( "Graphic" );
+    radio[Radio::NUMERIC].setChecked(true);
+    radio[Radio::NUMERIC].setText( "Numeric" );
+    radio[Radio::GRAPHIC].setText( "Graphic" );
 
     boxRadioKind.setTitle( "Kind of Board" );
     boxRadioKind.setLayout( &layRadioKind );
@@ -268,7 +268,7 @@ void MainWindow::slotGenerateBoard()
     BoardSize boardSize = static_cast< BoardSize >( groupRadioSize.checkedId() );
 
     // In case of graphic board check whether there is a proper image loaded
-    if ( radio[Radio::graphic].isChecked() )
+    if ( radio[Radio::GRAPHIC].isChecked() )
     {
         if ( ( boardSize == BoardSize::FOUR ) && ( images->four.loaded == false ))
         {
@@ -296,7 +296,7 @@ void MainWindow::slotGenerateBoard()
     Options::setBoardSize( boardSize );
     board = Board::createBoard( boardSize );
 
-    if ( radio[Radio::numeric].isChecked() )
+    if ( radio[Radio::NUMERIC].isChecked() )
     {
         Options::setNumeric( true );
         createSquares();
@@ -456,7 +456,7 @@ void MainWindow::slotLoadGraphic()
 
         if ( images->four.loaded || images->five.loaded || images->six.loaded || images->seven.loaded )
         {            
-            action[Action::remGraphic]->setEnabled( true );
+            action[Action::REMGRAPHIC]->setEnabled( true );
             images->imageSize = Options::getSquareSize();
         }
     }    
@@ -468,7 +468,7 @@ void MainWindow::slotLoadGraphic()
 void MainWindow::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
-    action[Action::remGraphic]->setEnabled( false );
+    action[Action::OPENGRAPHIC]->setEnabled( false );
     images->resetLoaded();
 
     // Graphic board is active
@@ -581,7 +581,7 @@ void MainWindow::slotReadBoard()
             Options::setNumeric( true );
             createSquares();
             setSquaresNumber( false );
-            radio[Radio::numeric].setChecked( true );
+            radio[Radio::NUMERIC].setChecked( true );
         }
         else
         {
@@ -603,22 +603,22 @@ void MainWindow::slotReadBoard()
                 if ( level == BoardSize::FOUR )
                 {
                     images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::four].setChecked( images->four.loaded );
+                    radio[Radio::FOUR].setChecked( images->four.loaded );
                 }
                 else if ( level == BoardSize::FIVE )
                 {
                     images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::five].setChecked( images->five.loaded );
+                    radio[Radio::FIVE].setChecked( images->five.loaded );
                 }
                 else if ( level == BoardSize::SIX )
                 {
                     images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::six].setChecked( images->six.loaded );
+                    radio[Radio::SIX].setChecked( images->six.loaded );
                 }
                 else
                 {
                     images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::seven].setChecked( images->seven.loaded );
+                    radio[Radio::SEVEN].setChecked( images->seven.loaded );
                 }
 
            }
@@ -631,8 +631,8 @@ void MainWindow::slotReadBoard()
            Options::setNumeric( false );
            createSquares();
            setSquaresGraphic( false );           
-           radio[Radio::graphic].setChecked( true );
-           action[Action::remGraphic]->setEnabled( true );
+           radio[Radio::GRAPHIC].setChecked( true );
+           action[Action::REMGRAPHIC]->setEnabled( true );
         }
 
         file.close();
