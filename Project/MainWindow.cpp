@@ -102,44 +102,53 @@ void MainWindow::createControls()
     radio[Radio::SEVEN].setText( "7" );
     radio[Radio::FOUR].setChecked( true );
 
+    layRadioSize = new QVBoxLayout();
+    groupRadioSize = new QButtonGroup();
+
     for( int i = Radio::FOUR, j = 4; i <= Radio::SEVEN; i++, j++ )
     {
-       layRadioSize.addSpacing( 10 );
-       layRadioSize.addWidget( &radio[i] );
+       layRadioSize->addSpacing( 10 );
+       layRadioSize->addWidget( &radio[i] );
        radio[i].setStyleSheet( "margin-left: 5px" );
-       groupRadioSize.addButton( &radio[i] );
-       groupRadioSize.setId( &radio[i], j );
+       groupRadioSize->addButton( &radio[i] );
+       groupRadioSize->setId( &radio[i], j );
     }
-    layRadioSize.addSpacing( 30 );
+    layRadioSize->addSpacing( 30 );
 
-    boxRadioSize.setTitle( "Dimension of Board" );
-    boxRadioSize.setLayout( &layRadioSize );
+    boxRadioKind = new QGroupBox();
+    boxRadioSize->setTitle( "Dimension of Board" );
+    boxRadioSize->setLayout( layRadioSize );
+
+    layRadioKind = new QVBoxLayout();
+
+    groupRadioKind = new QButtonGroup();
 
     for ( int i = Radio::NUMERIC; i <= Radio::GRAPHIC; i++)
     {
-        layRadioKind.addSpacing( 10 );
-        layRadioKind.addWidget( &radio[i] );
+        layRadioKind->addSpacing( 10 );
+        layRadioKind->addWidget( &radio[i] );
         radio[i].setStyleSheet( "margin-left:5px;" );
-        groupRadioKind.addButton( &radio[i] );
+        groupRadioKind->addButton( &radio[i] );
     }
-    layRadioKind.addSpacing( 30 );
+    layRadioKind->addSpacing( 30 );
 
     radio[Radio::NUMERIC].setChecked(true);
     radio[Radio::NUMERIC].setText( "Numeric" );
     radio[Radio::GRAPHIC].setText( "Graphic" );
 
-    boxRadioKind.setTitle( "Kind of Board" );
-    boxRadioKind.setLayout( &layRadioKind );
+    boxRadioKind = new QGroupBox();
+    boxRadioKind->setTitle( "Kind of Board" );
+    boxRadioKind->setLayout( layRadioKind );
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 30, 0 );
     rightLayout->addWidget( pushRandom );
-    rightLayout->addSpacing( 15);
+    rightLayout->addSpacing( 15 );
     rightLayout->addWidget( pushSolve );
-    rightLayout->addSpacing( 30);
-    rightLayout->addWidget( &boxRadioSize );
+    rightLayout->addSpacing( 30 );
+    rightLayout->addWidget( boxRadioSize );
     rightLayout->addStretch();
-    rightLayout->addWidget( &boxRadioKind );
+    rightLayout->addWidget( boxRadioKind );
     rightLayout->addStretch();
 }
 
@@ -269,7 +278,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize.checkedId() );
+    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize->checkedId() );
 
     // In case of graphic board check whether there is a proper image loaded
     if ( radio[Radio::GRAPHIC].isChecked() )
