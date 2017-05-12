@@ -70,11 +70,13 @@ void MainWindow::createLayouts()
     boxImages = new QGroupBox();
     boxImages->setLayout( layImageVertical );
 
-    mainLayout = new QHBoxLayout( &mainPanel );
+    mainPanel = new QWidget();
+
+    mainLayout = new QHBoxLayout( mainPanel );
     mainLayout->addWidget( boxImages );
     mainLayout->addLayout( rightLayout );
 
-    this->setCentralWidget( &mainPanel );
+    this->setCentralWidget( mainPanel );
 }
 
 /*************************************************************************************************************/
@@ -82,15 +84,17 @@ void MainWindow::createLayouts()
 
 void MainWindow::createControls()
 {    
-    mainPanel.setContentsMargins( 20, 20, 0, 10 );
+    mainPanel->setContentsMargins( 20, 20, 0, 10 );
 
-    pushRandom.setStyleSheet( "height:20px;" );
-    pushRandom.setText( "Generate Board" );
-    connect( &pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
+    pushRandom = new QPushButton();
+    pushRandom->setStyleSheet( "height:20px;" );
+    pushRandom->setText( "Generate Board" );
+    connect( pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
 
-    pushSolve.setStyleSheet( "height:20px;" );
-    pushSolve.setText( "Solve Board");
-    connect( &pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
+    pushSolve = new QPushButton();
+    pushSolve->setStyleSheet( "height:20px;" );
+    pushSolve->setText( "Solve Board");
+    connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
     radio[Radio::FOUR].setText( "4" );
     radio[Radio::FIVE].setText( "5" );
@@ -129,9 +133,9 @@ void MainWindow::createControls()
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 30, 0 );
-    rightLayout->addWidget( &pushRandom );
+    rightLayout->addWidget( pushRandom );
     rightLayout->addSpacing( 15);
-    rightLayout->addWidget( &pushSolve );
+    rightLayout->addWidget( pushSolve );
     rightLayout->addSpacing( 30);
     rightLayout->addWidget( &boxRadioSize );
     rightLayout->addStretch();

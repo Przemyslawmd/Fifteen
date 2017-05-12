@@ -38,9 +38,8 @@ class MainWindow : public QMainWindow
 
     QAction* action[COUNTACTIONS];
 
-    // Main Panel of GUI, layout is being created starting
-    // from this panel
-    QWidget mainPanel;
+    // Main panel, a layout is being created starting form this panel
+    QWidget* mainPanel;
 
     QHBoxLayout* mainLayout;
     QVBoxLayout* rightLayout;
@@ -55,8 +54,8 @@ class MainWindow : public QMainWindow
     // Right panel
     QVBoxLayout layRadioSize;
     QVBoxLayout layRadioKind;
-    QPushButton pushRandom;
-    QPushButton pushSolve;
+    QPushButton* pushRandom;
+    QPushButton* pushSolve;
 
     QRadioButton radio[6];
 
