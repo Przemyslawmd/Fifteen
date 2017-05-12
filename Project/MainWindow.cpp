@@ -7,7 +7,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 
     resize( 750, 550 );
     createMenu();
-    createControls();
+    createRightPanel();
     createLayouts();
     createSquares();
     setSquaresNumber( false );    
@@ -59,33 +59,11 @@ void MainWindow::createMenu()
     this->setMenuBar( mainMenu );
 }
 
-/***********************************************************************************************************/
-/* CREATE A LAYOUT FOR SQUARES *****************************************************************************/
-
-void MainWindow::createLayouts()
-{
-    layImageVertical = new QVBoxLayout;
-    layImageVertical->setSpacing( 0 );
-
-    boxImages = new QGroupBox();
-    boxImages->setLayout( layImageVertical );
-
-    mainPanel = new QWidget();
-
-    mainLayout = new QHBoxLayout( mainPanel );
-    mainLayout->addWidget( boxImages );
-    mainLayout->addLayout( rightLayout );
-
-    this->setCentralWidget( mainPanel );
-}
-
 /*************************************************************************************************************/
-/* CREATE RIGHT PANEL FOR CONTROLS ***************************************************************************/
+/* CREATE RIGHT PANEL ****************************************************************************************/
 
-void MainWindow::createControls()
-{    
-    mainPanel->setContentsMargins( 20, 20, 0, 10 );
-
+void MainWindow::createRightPanel()
+{
     pushRandom = new QPushButton();
     pushRandom->setStyleSheet( "height:20px;" );
     pushRandom->setText( "Generate Board" );
@@ -115,7 +93,7 @@ void MainWindow::createControls()
     }
     layRadioSize->addSpacing( 30 );
 
-    boxRadioKind = new QGroupBox();
+    boxRadioSize = new QGroupBox();
     boxRadioSize->setTitle( "Dimension of Board" );
     boxRadioSize->setLayout( layRadioSize );
 
@@ -152,8 +130,29 @@ void MainWindow::createControls()
     rightLayout->addStretch();
 }
 
-/************************************************************************************************************************/
-/* CREATE SQUARES *******************************************************************************************************/
+/***********************************************************************************************************/
+/* CREATE A LAYOUT FOR SQUARES *****************************************************************************/
+
+void MainWindow::createLayouts()
+{
+    mainPanel = new QWidget();
+    mainPanel->setContentsMargins( 20, 20, 0, 10 );
+
+    layImageVertical = new QVBoxLayout;
+    layImageVertical->setSpacing( 0 );
+
+    boxImages = new QGroupBox();
+    boxImages->setLayout( layImageVertical );    
+
+    mainLayout = new QHBoxLayout( mainPanel );
+    mainLayout->addWidget( boxImages );
+    mainLayout->addLayout( rightLayout );
+
+    this->setCentralWidget( mainPanel );
+}
+
+/*************************************************************************************************************/
+/* CREATE SQUARES ********************************************************************************************/
 
 void MainWindow::createSquares()
 {
@@ -198,8 +197,8 @@ void MainWindow::createSquares()
     layImageVertical->addStretch();
 }
 
-/***************************************************************************************************************************/
-/* DELETE SQUARES **********************************************************************************************************/
+/*********************************************************************************************************/
+/* DELETE SQUARES ****************************************************************************************/
 
 void MainWindow::deleteSquares()
 {

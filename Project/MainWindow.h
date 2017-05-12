@@ -72,7 +72,9 @@ class MainWindow : public QMainWindow
     ImagesState* images;
 
     void createMenu();
-    void createControls();
+
+    // Create right panel with all controls
+    void createRightPanel();
     void createSquares();
 
     void setSquaresNumber( bool );
