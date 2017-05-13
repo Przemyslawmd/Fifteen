@@ -222,8 +222,8 @@ void MainWindow::deleteSquares()
     delete[] boardHorizontalLayout;
 }
 
-/**************************************************************************************************************/
-/* SET NUMERIC SQUARES ****************************************************************************************/
+/*********************************************************************************************************/
+/* SET NUMERIC SQUARES ***********************************************************************************/
 
 void MainWindow::setSquaresNumber( bool isRandom )
 {    
@@ -250,8 +250,8 @@ void MainWindow::setSquaresNumber( bool isRandom )
     Options::setNumeric( true );
 }
 
-/*************************************************************************************************************************/
-/* SET GRAPHICAL SQUARES *************************************************************************************************/
+/*********************************************************************************************************/
+/* SET GRAPHIC SQUARES ***********************************************************************************/
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
@@ -279,8 +279,8 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     Options::setNumeric( false );
 }
 
-/****************************************************************************************************************************/
-/* GENERATE BOARD ***********************************************************************************************************/
+/*********************************************************************************************************/
+/* GENERATE BOARD ****************************************************************************************/
 
 void MainWindow::slotGenerateBoard()
 {
@@ -329,8 +329,8 @@ void MainWindow::slotGenerateBoard()
     }
 }
 
-/**************************************************************************************************************************/
-/* SOLVE BOARD ***********************************************************************************************************/
+/*********************************************************************************************************/
+/* SOLVE SQUARES *****************************************************************************************/
 
 void MainWindow::slotSolveBoard()
 {    
@@ -379,8 +379,8 @@ void MainWindow::slotSolveBoard()
     }
 }
 
-/****************************************************************************************************************************/
-/* MOVE A SQUARE IF IT'S POSSIBLE *******************************************************************************************/
+/*********************************************************************************************************/
+/* MOVE SQUARE IF POSSIBLE *******************************************************************************/
 
 void MainWindow::pressSquare()
 {
@@ -399,27 +399,21 @@ void MainWindow::pressSquare()
         switch ( move )
         {
             case Move::UP:
-                control[row - 1][col].setText( control[row][col].text() );
-                control[row - 1][col].setStyleSheet( *currentStyle );
+                moveNumericSquares(row, col, row - 1, col );
                 break;
 
             case Move::RIGHT:
-                control[row][col + 1].setText( control[row][col].text() );
-                control[row][col + 1].setStyleSheet( *currentStyle );
+                moveNumericSquares(row, col, row, col + 1 );
                 break;
 
             case Move::DOWN:
-                control[row + 1][col].setText( control[row][col].text() );
-                control[row + 1][col].setStyleSheet( *currentStyle );
+                moveNumericSquares( row, col, row + 1, col );
                 break;
 
             case Move::LEFT:
-                control[row][col - 1].setText( control[row][col].text() );
-                control[row][col - 1].setStyleSheet( *currentStyle );
+                moveNumericSquares( row, col, row, col -1 );
                 break;
-            }
-            control[row][col].setText( "" );
-            control[row][col].setStyleSheet( styleEmpty );
+            }            
         }
 
     // An action for a graphic board
@@ -450,6 +444,25 @@ void MainWindow::pressSquare()
          control[row][col].setIcon( icon );
     }
 }
+
+/*********************************************************************************************************/
+/* MOVE NUMERIC SQUARES **********************************************************************************/
+
+void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
+{
+    control[rowDest][colDest].setText( control[rowSource][colSource].text() );
+    control[rowDest][colDest].setStyleSheet( *currentStyle );
+    control[rowSource][colSource].setText( "" );
+    control[rowSource][colSource].setStyleSheet( styleEmpty );
+}
+
+void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
+{
+
+
+}
+
+
 
 /****************************************************************************************************************************/
 /* OPEN GRAPHIC *************************************************************************************************************/

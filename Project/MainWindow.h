@@ -85,6 +85,9 @@ class MainWindow : public QMainWindow
     void setSquaresGraphic( bool isRandom );
     void deleteSquares();
 
+    void moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest );
+    void moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest );
+
 private slots:
 
     // Menu slots
