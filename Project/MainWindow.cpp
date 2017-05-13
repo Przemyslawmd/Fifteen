@@ -393,51 +393,28 @@ void MainWindow::pressSquare()
     if ( move == NOT_ALLOWED )
         return;
 
-    // An action for a numeric board
-    if ( Options::checkNumeric() )
+    // Set pointer to a method for moving squares, according to kind of a board
+    moveSquare = ( Options::checkNumeric() ) ? &MainWindow::moveNumericSquares : &MainWindow::moveGraphicSquares;
+
+    switch ( move )
     {
-        switch ( move )
-        {
-            case Move::UP:
-                moveNumericSquares(row, col, row - 1, col );
-                break;
+        case Move::UP:
+            ( this->*moveSquare )( row, col, row - 1, col );
+            break;
 
-            case Move::RIGHT:
-                moveNumericSquares(row, col, row, col + 1 );
-                break;
+        case Move::RIGHT:
+            ( this->*moveSquare )( row, col, row, col + 1 );
+            break;
 
-            case Move::DOWN:
-                moveNumericSquares( row, col, row + 1, col );
-                break;
+        case Move::DOWN:
+            ( this->*moveSquare )( row, col, row + 1, col );
+            break;
 
-            case Move::LEFT:
-                moveNumericSquares( row, col, row, col - 1 );
-                break;
-            }            
-        }
-
-    // An action for a graphic board
-    else
-    {
-        switch ( move )
-        {
-             case Move::UP:
-                moveGraphicSquares(row, col, row - 1, col );
-                break;
-
-             case Move::RIGHT:
-                moveGraphicSquares(row, col, row, col + 1 );
-                break;
-
-             case Move::DOWN:
-                moveGraphicSquares(row, col, row + 1, col );
-                break;
-
-             case Move::LEFT:
-                moveGraphicSquares(row, col, row, col - 1 );
-                break;
-         }         
+        case Move::LEFT:
+            ( this->*moveSquare )( row, col, row, col - 1 );
+            break;
     }
+
 }
 
 /*********************************************************************************************************/
@@ -493,8 +470,8 @@ void MainWindow::slotLoadGraphic()
     }    
 }
 
-/***************************************************************************************************************************/
-/* REMOVE GRAPHIC **********************************************************************************************************/
+/*********************************************************************************************************/
+/* REMOVE GRAPHIC ****************************************************************************************/
 
 void MainWindow::slotRemoveGraphic()
 {
@@ -518,8 +495,8 @@ void MainWindow::slotRemoveGraphic()
     QMessageBox::information( this, "", "Graphic removed\t");
 }
 
-/***********************************************************************************************************************/
-/* WRITE BOARD STATE INTO A BINARY FILE ********************************************************************************/
+/*********************************************************************************************************/
+/* WRITE BOARD INTO FILE *********************************************************************************/
 
 void MainWindow::slotSaveBoard()
 {
@@ -566,8 +543,8 @@ void MainWindow::slotSaveBoard()
     }
 }
 
-/**********************************************************************************************************************/
-/* READ AND RESTORE BOARD FROM A BINARY FILE **************************************************************************/
+/*********************************************************************************************************/
+/* RESTORE BOARD FROM FILE *******************************************************************************/
 
 void MainWindow::slotReadBoard()
 {    
@@ -669,8 +646,8 @@ void MainWindow::slotReadBoard()
     }
 }
 
-/********************************************************************************************************/
-/* SET COLOR ********************************************************************************************/
+/*********************************************************************************************************/
+/* SET COLOR *********************************************************************************************/
 
 void MainWindow::setColor()
 {
@@ -688,7 +665,7 @@ void MainWindow::setColor()
 }
 
 /*********************************************************************************************************/
-/* REDRAW SQUARES WHEN SQUARE SIZE IS CHANGED VIA SETTING WINDOW *****************************************/
+/* REDRAW SQUARES ****************************************************************************************/
 
 void MainWindow::redrawSquares()
 {
@@ -705,7 +682,6 @@ void MainWindow::slotSettings()
     new WindowSetting( *images, *this );
 }
 
-/************************************************************************************************************/
 
 void MainWindow::slotAbout()
 {
