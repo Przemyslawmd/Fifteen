@@ -71,33 +71,33 @@ Board::~Board()
 /*************************************************************************************/
 /* CHECK WHETHER MOVE IS POSSIBLE ****************************************************/
 
-int Board::checkMove( int row, int col )
+Move Board::checkMove( int row, int col )
 {        
-    if ( row > 0 && (square[row - 1][col] == EMPTY ))
+    if ( row > 0 && ( square[row - 1][col] == EMPTY ))
     {
         makeMove( row, col, row - 1, col );
-        return UP;
+        return Move::UP;
     }
 
     if ( col < (size - 1) && (square[row][col + 1] == EMPTY ))
     {
         makeMove( row, col, row, col + 1 );
-        return RIGHT;
+        return Move::RIGHT;
     }
 
     if ( row < (size - 1) && (square[row + 1][col] ==  EMPTY ))
     {
         makeMove( row, col, row + 1, col );
-        return DOWN;
+        return Move::DOWN;
     }
 
     if ( col > 0 && (square[row][col -1] == EMPTY ))
     {
         makeMove( row, col, row, col -1 );
-        return LEFT;
+        return Move::LEFT;
     }
 
-    return 0;
+    return Move::NOT_ALLOWED;
 }
 
 /***************************************************************************************/
@@ -146,7 +146,7 @@ int** Board::randomBoard()
                 break;
             }            
 
-            if (( move == Move::DOWN ) && ( nullRow < (size - 1 )))
+            if (( move == Move::DOWN ) && ( nullRow < ( size - 1 )))
             {                
                 makeMove( nullRow, nullCol, nullRow + 1, nullCol );
                 nullRow++;

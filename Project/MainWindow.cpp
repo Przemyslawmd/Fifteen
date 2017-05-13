@@ -388,66 +388,66 @@ void MainWindow::pressSquare()
 
     int row = position / 10;
     int col = position % 10;
-    int move = board->checkMove( row, col );
+    Move move = board->checkMove( row, col );
 
-    if ( move != 0 )
+    if ( move == NOT_ALLOWED )
+        return;
+
+    // An action for a numeric board
+    if ( Options::checkNumeric() )
     {
-        // An action for a numeric board
-        if ( Options::checkNumeric() )
+        switch ( move )
         {
-            switch ( move )
-            {
-                case 1:
-                    control[row - 1][col].setText( control[row][col].text() );
-                    control[row - 1][col].setStyleSheet( *currentStyle );
+            case Move::UP:
+                control[row - 1][col].setText( control[row][col].text() );
+                control[row - 1][col].setStyleSheet( *currentStyle );
                 break;
 
-                case 2:
-                    control[row][col + 1].setText( control[row][col].text() );
-                    control[row][col + 1].setStyleSheet( *currentStyle );
+            case Move::RIGHT:
+                control[row][col + 1].setText( control[row][col].text() );
+                control[row][col + 1].setStyleSheet( *currentStyle );
                 break;
 
-                case 3:
-                    control[row + 1][col].setText( control[row][col].text() );
-                    control[row + 1][col].setStyleSheet( *currentStyle );
+            case Move::DOWN:
+                control[row + 1][col].setText( control[row][col].text() );
+                control[row + 1][col].setStyleSheet( *currentStyle );
                 break;
 
-                case 4:
-                    control[row][col - 1].setText( control[row][col].text() );
-                    control[row][col - 1].setStyleSheet( *currentStyle );
+            case Move::LEFT:
+                control[row][col - 1].setText( control[row][col].text() );
+                control[row][col - 1].setStyleSheet( *currentStyle );
                 break;
             }
             control[row][col].setText( "" );
             control[row][col].setStyleSheet( styleEmpty );
         }
 
-        // An action for a graphic board
-        else
-        {           
-            QPixmap pixmap( images->imageSize, images->imageSize );
-            pixmap.fill( Qt::white );
-            QIcon icon( pixmap );
+    // An action for a graphic board
+    else
+    {
+        QPixmap pixmap( images->imageSize, images->imageSize );
+        pixmap.fill( Qt::white );
+        QIcon icon( pixmap );
 
-            switch ( move )
-            {
-                case 1:
+        switch ( move )
+        {
+             case Move::UP:
                 control[row - 1][col].setIcon( control[row][col].icon() );
                 break;
 
-                case 2:
+             case Move::RIGHT:
                 control[row][col + 1].setIcon( control[row][col].icon() );
                 break;
 
-                case 3:
+             case Move::DOWN:
                 control[row + 1][col].setIcon( control[row][col].icon() );
                 break;
 
-                case 4:
+             case Move::LEFT:
                 control[row][col - 1].setIcon( control[row][col].icon() );
                 break;
-            }
-            control[row][col].setIcon( icon );
-        }
+         }
+         control[row][col].setIcon( icon );
     }
 }
 
@@ -675,8 +675,8 @@ void MainWindow::setColor()
     }    
 }
 
-/**************************************************************************************************************/
-/* REDRAW SQUARES WHEN SQUARE SIZE IS CHANGED VIA SETTING WINDOW **********************************************/
+/*********************************************************************************************************/
+/* REDRAW SQUARES WHEN SQUARE SIZE IS CHANGED VIA SETTING WINDOW *****************************************/
 
 void MainWindow::redrawSquares()
 {
@@ -685,15 +685,15 @@ void MainWindow::redrawSquares()
     setSquaresNumber( false );
 }
 
-/***************************************************************************************************************/
-/* CHILD WINDOWS ***********************************************************************************************/
+/***********************************************************************************************************/
+/* CHILD WINDOWS *******************************************************************************************/
 
 void MainWindow::slotSettings()
 {
     new WindowSetting( *images, *this );
 }
 
-/*****************************************************************************************************************/
+/************************************************************************************************************/
 
 void MainWindow::slotAbout()
 {

@@ -2,6 +2,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include "Types.h"
 #include <QList>
 
 class Board
@@ -16,7 +17,7 @@ public:
     static Board* createBoard( int** squareValues, int boardSize );
 
     // Check whether a move is allowed for an indicated row and column, if yes then make move
-    int checkMove( int row, int col );
+    Move checkMove( int row, int col );
 
     // These methods return squares
     int** randomBoard();
@@ -28,9 +29,7 @@ private:
     int size;
     int** square;
 
-    const int EMPTY = 0;    // Empty square
-
-    enum Move { UP, RIGHT, DOWN, LEFT };
+    const int EMPTY = 0;    // Empty square    
 
     // Constructors and destructor are invoked via createBoard
     Board( int boardSize );
