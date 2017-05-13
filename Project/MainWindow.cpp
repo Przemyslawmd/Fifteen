@@ -13,8 +13,8 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     setSquaresNumber( false );    
 }
 
-/****************************************************************************************************************************/
-/* CREATE MENU BAR **********************************************************************************************************/
+/******************************************************************************************************/
+/* CREATE MENU BAR ************************************************************************************/
 
 void MainWindow::createMenu()
 {    
@@ -64,59 +64,66 @@ void MainWindow::createMenu()
 
 void MainWindow::createRightPanel()
 {
-    pushRandom = new QPushButton();
+    // Push buttons
+
+    pushRandom = new QPushButton( "Generate Board");
     pushRandom->setStyleSheet( "height:20px;" );
-    pushRandom->setText( "Generate Board" );
     connect( pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
 
-    pushSolve = new QPushButton();
+    pushSolve = new QPushButton( "Solve Board" );
     pushSolve->setStyleSheet( "height:20px;" );
-    pushSolve->setText( "Solve Board");
     connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
 
-    radio[Radio::FOUR].setText( "4" );
-    radio[Radio::FIVE].setText( "5" );
-    radio[Radio::SIX].setText( "6" );
-    radio[Radio::SEVEN].setText( "7" );
-    radio[Radio::FOUR].setChecked( true );
+    // Radio buttons for size of a board
 
     layRadioSize = new QVBoxLayout();
     groupRadioSize = new QButtonGroup();
 
-    for( int i = Radio::FOUR, j = 4; i <= Radio::SEVEN; i++, j++ )
+    for( int i = EnumSize::FOUR, j = 4; i <= EnumSize::SEVEN; i++, j++ )
     {
+       radioSize[i] = new QRadioButton();
        layRadioSize->addSpacing( 10 );
-       layRadioSize->addWidget( &radio[i] );
-       radio[i].setStyleSheet( "margin-left: 5px" );
-       groupRadioSize->addButton( &radio[i] );
-       groupRadioSize->setId( &radio[i], j );
+       layRadioSize->addWidget( radioSize[i] );
+       radioSize[i]->setStyleSheet( "margin-left: 5px" );
+       groupRadioSize->addButton( radioSize[i] );
+       groupRadioSize->setId( radioSize[i], j );
     }
     layRadioSize->addSpacing( 30 );
+
+    radioSize[EnumSize::FOUR]->setText( "4" );
+    radioSize[EnumSize::FIVE]->setText( "5" );
+    radioSize[EnumSize::SIX]->setText( "6" );
+    radioSize[EnumSize::SEVEN]->setText( "7" );
+    radioSize[EnumSize::FOUR]->setChecked( true );
 
     boxRadioSize = new QGroupBox();
     boxRadioSize->setTitle( "Dimension of Board" );
     boxRadioSize->setLayout( layRadioSize );
 
-    layRadioKind = new QVBoxLayout();
+    // Radio buttons for kind of a board
 
+    layRadioKind = new QVBoxLayout();
     groupRadioKind = new QButtonGroup();
 
-    for ( int i = Radio::NUMERIC; i <= Radio::GRAPHIC; i++)
+    for ( int i = 0; i < EnumKind::COUNT_KIND; i++ )
     {
         layRadioKind->addSpacing( 10 );
-        layRadioKind->addWidget( &radio[i] );
-        radio[i].setStyleSheet( "margin-left:5px;" );
-        groupRadioKind->addButton( &radio[i] );
+        radioKind[i] = new QRadioButton();
+        layRadioKind->addWidget( radioKind[i] );
+        radioKind[i]->setStyleSheet( "margin-left:5px;" );
+        groupRadioKind->addButton( radioKind[i] );
     }
     layRadioKind->addSpacing( 30 );
 
-    radio[Radio::NUMERIC].setChecked(true);
-    radio[Radio::NUMERIC].setText( "Numeric" );
-    radio[Radio::GRAPHIC].setText( "Graphic" );
+    radioKind[EnumKind::NUMERIC]->setChecked(true);
+    radioKind[EnumKind::NUMERIC]->setText( "Numeric" );
+    radioKind[EnumKind::GRAPHIC]->setText( "Graphic" );
 
     boxRadioKind = new QGroupBox();
     boxRadioKind->setTitle( "Kind of Board" );
     boxRadioKind->setLayout( layRadioKind );
+
+    // Right layout
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 30, 0 );
@@ -138,11 +145,11 @@ void MainWindow::createLayouts()
     mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 10 );
 
-    layImageVertical = new QVBoxLayout;
-    layImageVertical->setSpacing( 0 );
+    boardVerticalLayout = new QVBoxLayout;
+    boardVerticalLayout->setSpacing( 0 );
 
     boxImages = new QGroupBox();
-    boxImages->setLayout( layImageVertical );    
+    boxImages->setLayout( boardVerticalLayout );
 
     mainLayout = new QHBoxLayout( mainPanel );
     mainLayout->addWidget( boxImages );
@@ -151,8 +158,8 @@ void MainWindow::createLayouts()
     this->setCentralWidget( mainPanel );
 }
 
-/*************************************************************************************************************/
-/* CREATE SQUARES ********************************************************************************************/
+/*******************************************************************************************************/
+/* CREATE SQUARES **************************************************************************************/
 
 void MainWindow::createSquares()
 {
@@ -175,26 +182,26 @@ void MainWindow::createSquares()
         }
     }
 
-    layImageHorizontal = new QHBoxLayout*[level];
+    boardHorizontalLayout = new QHBoxLayout*[level];
 
     for ( int i = 0; i < level; i++ )
     {
-        layImageHorizontal[i] = new QHBoxLayout();
-        layImageHorizontal[i]->setSpacing(0);
+        boardHorizontalLayout[i] = new QHBoxLayout();
+        boardHorizontalLayout[i]->setSpacing(0);
     }
 
-    layImageVertical->addStretch();
+    boardVerticalLayout->addStretch();
     for ( int i = 0; i < level; i++ )
     {
-        layImageHorizontal[i]->addStretch();
+        boardHorizontalLayout[i]->addStretch();
 
         for ( int j = 0; j < level; j++ )
-            layImageHorizontal[i]->addWidget( &control[i][j] );
+            boardHorizontalLayout[i]->addWidget( &control[i][j] );
 
-        layImageHorizontal[i]->addStretch();
-        layImageVertical->addLayout( layImageHorizontal[i] );
+        boardHorizontalLayout[i]->addStretch();
+        boardVerticalLayout->addLayout( boardHorizontalLayout[i] );
     }
-    layImageVertical->addStretch();
+    boardVerticalLayout->addStretch();
 }
 
 /*********************************************************************************************************/
@@ -205,14 +212,14 @@ void MainWindow::deleteSquares()
     BoardSize level = Options::getBoardSize();
     QLayoutItem* child;
 
-    while ((child = layImageVertical->takeAt(0)) != 0)
-        layImageVertical->removeItem(0);
+    while (( child = boardVerticalLayout->takeAt(0)) != 0 )
+        boardVerticalLayout->removeItem(0);
 
-    for (int i = 0; i < level; i++)
+    for ( int i = 0; i < level; i++ )
         delete[] control[i];
 
     delete[] control;
-    delete[] layImageHorizontal;
+    delete[] boardHorizontalLayout;
 }
 
 /**************************************************************************************************************/
@@ -280,24 +287,24 @@ void MainWindow::slotGenerateBoard()
     BoardSize boardSize = static_cast< BoardSize >( groupRadioSize->checkedId() );
 
     // In case of graphic board check whether there is a proper image loaded
-    if ( radio[Radio::GRAPHIC].isChecked() )
+    if ( radioKind[EnumKind::GRAPHIC]->isChecked() )
     {
-        if ( ( boardSize == BoardSize::FOUR ) && ( images->four.loaded == false ))
+        if (( boardSize == BoardSize::FOUR ) && ( images->four.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
-        if ( ( boardSize == BoardSize::FIVE ) && ( images->five.loaded == false ))
+        if (( boardSize == BoardSize::FIVE ) && ( images->five.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
             return;
         }
-        if ( ( boardSize == BoardSize::SIX ) && ( images->six.loaded == false ))
+        if (( boardSize == BoardSize::SIX ) && ( images->six.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
-        if ( ( boardSize == BoardSize::SEVEN ) && ( images->seven.loaded == false ))
+        if (( boardSize == BoardSize::SEVEN ) && ( images->seven.loaded == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
@@ -308,7 +315,7 @@ void MainWindow::slotGenerateBoard()
     Options::setBoardSize( boardSize );
     board = Board::createBoard( boardSize );
 
-    if ( radio[Radio::NUMERIC].isChecked() )
+    if ( radioKind[EnumKind::NUMERIC]->isChecked() )
     {
         Options::setNumeric( true );
         createSquares();
@@ -487,8 +494,8 @@ void MainWindow::slotRemoveGraphic()
     if ( Options::checkNumeric() == false )
     {
         QLayoutItem *child;
-        while (( child = layImageVertical->takeAt(0)) != 0 )
-            layImageVertical->removeItem( 0 );
+        while (( child = boardVerticalLayout->takeAt(0)) != 0 )
+            boardVerticalLayout->removeItem( 0 );
 
         deleteSquares();
         createSquares();
@@ -561,10 +568,9 @@ void MainWindow::slotReadBoard()
         QDataStream outData( &file );
 
         QLayoutItem *child;
-        while ((child = layImageVertical->takeAt(0)) != 0)
-            layImageVertical->removeItem(0);
+        while (( child = boardVerticalLayout->takeAt(0)) != 0)
+            boardVerticalLayout->removeItem(0);
 
-        //delete board;
         deleteSquares();
 
         bool isNumeric;
@@ -593,7 +599,7 @@ void MainWindow::slotReadBoard()
             Options::setNumeric( true );
             createSquares();
             setSquaresNumber( false );
-            radio[Radio::NUMERIC].setChecked( true );
+            radioKind[EnumKind::NUMERIC]->setChecked( true );
         }
         else
         {
@@ -615,22 +621,22 @@ void MainWindow::slotReadBoard()
                 if ( level == BoardSize::FOUR )
                 {
                     images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::FOUR].setChecked( images->four.loaded );
+                    radioSize[EnumSize::FOUR]->setChecked( images->four.loaded );
                 }
                 else if ( level == BoardSize::FIVE )
                 {
                     images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::FIVE].setChecked( images->five.loaded );
+                    radioSize[EnumSize::FIVE]->setChecked( images->five.loaded );
                 }
                 else if ( level == BoardSize::SIX )
                 {
                     images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::SIX].setChecked( images->six.loaded );
+                    radioSize[EnumSize::SIX]->setChecked( images->six.loaded );
                 }
                 else
                 {
                     images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                    radio[Radio::SEVEN].setChecked( images->seven.loaded );
+                    radioSize[EnumSize::SEVEN]->setChecked( images->seven.loaded );
                 }
 
            }
@@ -643,7 +649,7 @@ void MainWindow::slotReadBoard()
            Options::setNumeric( false );
            createSquares();
            setSquaresGraphic( false );           
-           radio[Radio::GRAPHIC].setChecked( true );
+           radioKind[EnumKind::GRAPHIC]->setChecked( true );
            action[Action::REMGRAPHIC]->setEnabled( true );
         }
 

@@ -20,7 +20,7 @@
 #include <Board.h>
 #include <WindowSetting.h>
 #include <WindowAbout.h>
-#include <GraphicBoard//ImageLoad.h>
+#include <GraphicBoard/ImageLoad.h>
 #include <Types.h>
 #include <Options.h>
 #include <GraphicBoard/ImageProvider.h>
@@ -30,7 +30,11 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum Radio { FOUR, FIVE, SIX, SEVEN, NUMERIC, GRAPHIC };
+    Board* board;
+    ImagesState* images;
+
+    enum EnumSize { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
+    enum EnumKind { NUMERIC, GRAPHIC, COUNT_KIND };
     enum Action { OPENGRAPHIC, REMGRAPHIC, SAVEBOARD, LOADBOARD, SETTINGS, ABOUT, COUNTACTIONS };
 
     QMenuBar* mainMenu;
@@ -44,43 +48,41 @@ class MainWindow : public QMainWindow
     QHBoxLayout* mainLayout;
     QVBoxLayout* rightLayout;
 
-    // Image panel
-    QGridLayout* imageLayout;
-    QVBoxLayout* layImageVertical;
-    QHBoxLayout** layImageHorizontal;
+    // Board panel
+    QVBoxLayout* boardVerticalLayout;
+    QHBoxLayout** boardHorizontalLayout;
     QGroupBox* boxImages;
     QPushButton** control;
 
-    // Right panel
-    QVBoxLayout* layRadioSize;
-    QVBoxLayout* layRadioKind;
+    // Right panel - press buttons
     QPushButton* pushRandom;
     QPushButton* pushSolve;
 
-    QRadioButton radio[6];
-
-    QButtonGroup* groupRadioKind;
-    QButtonGroup* groupRadioSize;
-    QGroupBox* boxRadioKind;
+    // Right panel - radio controls for a size of board
+    QRadioButton* radioSize[EnumSize::COUNT_SIZE];
     QGroupBox* boxRadioSize;
+    QButtonGroup* groupRadioSize;
+    QVBoxLayout* layRadioSize;
 
-    Board* board;
+    // Right panel - radio controls for a kind of board
+    QRadioButton* radioKind[EnumKind::COUNT_KIND];
+    QGroupBox* boxRadioKind;
+    QButtonGroup* groupRadioKind;
+    QVBoxLayout* layRadioKind;
 
     QString styleEmpty { "background-color:white; color:white; font-size:20px; border:1px solid white;" };
-    QString* currentStyle;
-
-    ImagesState* images;
+    QString* currentStyle;   
 
     void createMenu();
 
     // Create right panel with all controls
     void createRightPanel();
-    void createSquares();
-
-    void setSquaresNumber( bool );
-    void setSquaresGraphic( bool );
 
     void createLayouts();
+
+    void createSquares();
+    void setSquaresNumber( bool isRandom );
+    void setSquaresGraphic( bool isRandom );
     void deleteSquares();
 
 private slots:
@@ -93,16 +95,21 @@ private slots:
     void slotSettings();
     void slotAbout();
 
-    // Push slots
+    // Push buttons slots
     void slotGenerateBoard();
     void slotSolveBoard();
 
 public:
+
     explicit MainWindow( QWidget *parent = 0 );
+
+    // Methods setColor and redrawSquares are invoked from WindowSettings
+    // Other solution would be friendship
     void setColor();
     void redrawSquares();
 
 public slots:
+
     void pressSquare();
 };
 
