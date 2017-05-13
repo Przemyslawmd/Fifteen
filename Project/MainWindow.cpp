@@ -411,7 +411,7 @@ void MainWindow::pressSquare()
                 break;
 
             case Move::LEFT:
-                moveNumericSquares( row, col, row, col -1 );
+                moveNumericSquares( row, col, row, col - 1 );
                 break;
             }            
         }
@@ -419,29 +419,24 @@ void MainWindow::pressSquare()
     // An action for a graphic board
     else
     {
-        QPixmap pixmap( images->imageSize, images->imageSize );
-        pixmap.fill( Qt::white );
-        QIcon icon( pixmap );
-
         switch ( move )
         {
              case Move::UP:
-                control[row - 1][col].setIcon( control[row][col].icon() );
+                moveGraphicSquares(row, col, row - 1, col );
                 break;
 
              case Move::RIGHT:
-                control[row][col + 1].setIcon( control[row][col].icon() );
+                moveGraphicSquares(row, col, row, col + 1 );
                 break;
 
              case Move::DOWN:
-                control[row + 1][col].setIcon( control[row][col].icon() );
+                moveGraphicSquares(row, col, row + 1, col );
                 break;
 
              case Move::LEFT:
-                control[row][col - 1].setIcon( control[row][col].icon() );
+                moveGraphicSquares(row, col, row, col - 1 );
                 break;
-         }
-         control[row][col].setIcon( icon );
+         }         
     }
 }
 
@@ -456,16 +451,20 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
     control[rowSource][colSource].setStyleSheet( styleEmpty );
 }
 
+/*********************************************************************************************************/
+/* MOVE GRAPHIC SQUARES **********************************************************************************/
+
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
-
-
+    control[rowDest][colDest].setIcon( control[rowSource][colSource].icon() );
+    QPixmap pixmap( images->imageSize, images->imageSize );
+    pixmap.fill( Qt::white );
+    QIcon nullIcon( pixmap );
+    control[rowSource][colSource].setIcon( nullIcon );
 }
 
-
-
-/****************************************************************************************************************************/
-/* OPEN GRAPHIC *************************************************************************************************************/
+/*********************************************************************************************************/
+/* LOAD GRAPHIC FILE *************************************************************************************/
 
 void MainWindow::slotLoadGraphic()
 {
