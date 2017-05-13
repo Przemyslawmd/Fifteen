@@ -105,86 +105,85 @@ int Board::checkMove( int row, int col )
 
 int** Board::randomBoard()
 {
-    int move = 0;
-    int removedMoves = 0;
-    int nullRow = 0;
-    int nullCol = 0;
-    int const MOVECOUNT = 2000;
-
-    QList<int> moves ( { UP, RIGHT, DOWN, LEFT } );
-
     // Find an empty square
-    for ( int i = 0; i < size; i++ )
-    {
-        for ( int j = 0; j < size; j++ )
-        {
-            if ( square[i][j] == EMPTY )
-            {
-                nullRow = i;
-                nullCol = j;
-                break;
-            }
-        }
-    }
+    int nullSquare = findNullSquare();
 
-    for ( int i = 0; i < MOVECOUNT; i++ )
-    {
-        // Restore list with all directions
-        if ( removedMoves != 0 )
-        {
-            if ( removedMoves < 10 )
-                moves.append( removedMoves );
-            else
-            {
-                moves.append( removedMoves / 10 );
-                moves.append( removedMoves % 10 );
-            }
-            removedMoves = 0;
-        }
+    // Only in case of same error
+    if ( nullSquare == -1 )
+        return nullptr;
 
-        // Increase a chance for move in a left direction
-        if ( i % 5 == 0 )
-           move = LEFT;
-        else
-           move = qrand() % LEFT + 1;  // random from 1 to 4
+    int nullRow = nullSquare / 10;
+    int nullCol = nullSquare % 10;
+
+    Move move;
+    QList<Move> moves;
+
+    // Random 2000 times a direction to move a null square
+    for ( int i = 0; i < 2000; i++ )
+    {
+        // Restore list with all move directions
+        moves.clear();
+        moves.append( Move::UP );
+        moves.append( Move::RIGHT );
+        moves.append( Move::DOWN );
+        moves.append( Move::LEFT );
+
+        move = moves.at( qrand() % moves.size() );
 
         while( true )
         {
-            if (( move == UP ) && ( nullRow > 0 ))
+            if (( move == Move::UP ) && ( nullRow > 0 ))
             {                
                 makeMove( nullRow, nullCol, nullRow - 1, nullCol );
                 nullRow--;
                 break;
             }            
 
-            if (( move == RIGHT ) && ( nullCol < ( size - 1 )))
+            if (( move == Move::RIGHT ) && ( nullCol < ( size - 1 )))
             {                
                 makeMove( nullRow, nullCol, nullRow, nullCol + 1 );
                 nullCol++;
                 break;
             }            
 
-            if (( move == DOWN ) && ( nullRow < (size - 1 )))
+            if (( move == Move::DOWN ) && ( nullRow < (size - 1 )))
             {                
                 makeMove( nullRow, nullCol, nullRow + 1, nullCol );
                 nullRow++;
                 break;
             }            
 
-            if (( move == LEFT ) && ( nullCol > 0 ))
+            if (( move == Move::LEFT ) && ( nullCol > 0 ))
             {                
                 makeMove( nullRow, nullCol, nullRow, nullCol - 1 );
                 nullCol--;
                 break;
             }
 
+            // Remove move which is not allowed and random once again
             moves.removeOne( move );
-            removedMoves = removedMoves * 10 + move;
             move = moves.at( qrand() % moves.size() );
         }
     }
 
     return square;
+}
+
+/******************************************************************************/
+/* FIND AN EMPTY SQUARE *******************************************************/
+
+int Board::findNullSquare()
+{
+    for ( int i = 0; i < size; i++ )
+    {
+        for ( int j = 0; j < size; j++ )
+        {
+            if ( square[i][j] == EMPTY )
+                return i * 10 + j;
+        }
+    }
+
+    return -1;
 }
 
 /*******************************************************************************/
