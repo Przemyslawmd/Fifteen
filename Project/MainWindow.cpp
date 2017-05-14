@@ -330,53 +330,16 @@ void MainWindow::slotGenerateBoard()
 }
 
 /*********************************************************************************************************/
-/* SOLVE SQUARES *****************************************************************************************/
+/* SOLVE BOARD *******************************************************************************************/
 
 void MainWindow::slotSolveBoard()
-{    
-    BoardSize level = Options::getBoardSize();
-    int** values = board->solveBoard();
+{
+    board->solveBoard();
 
     if ( Options::checkNumeric() )
-    {
-        for ( int i = 0; i < level; i++ )
-        {
-            for ( int j = 0; j < level; j++ )
-            {
-                control[i][j].setText( QString::number( values[i][j] ));
-                if ( values[i][j] == 0 )
-                    control[i][j].setStyleSheet( styleEmpty );
-                else
-                    control[i][j].setStyleSheet( *currentStyle );
-            }
-        }
-    }
-
-    else
-    {        
-        QImage** pictures = ImageProvider::getInstance()->getImage( level );
-
-        int k = 1;
-        for ( int i = 0; i < level; i++ )
-        {
-            for ( int j = 0; j < level; j++ )
-            {
-                QPixmap* pixmap = new QPixmap();
-
-                if ( i == ( level - 1 ) && j == ( level - 1 ))
-                    pixmap->convertFromImage( *pictures[0] );
-                else
-                    pixmap->convertFromImage( *pictures[k++] );
-
-                QIcon icon( *pixmap );
-                QSize iconSize( images->imageSize, images->imageSize );
-                control[i][j].setIconSize( iconSize );
-                control[i][j].setIcon( icon );
-                control[i][j].setStyleSheet( "" );
-                control[i][j].setText( "" );
-            }
-        }
-    }
+        setSquaresNumber( false );
+    else         
+        setSquaresGraphic( false );
 }
 
 /*********************************************************************************************************/
@@ -414,7 +377,6 @@ void MainWindow::pressSquare()
             ( this->*moveSquare )( row, col, row, col - 1 );
             break;
     }
-
 }
 
 /*********************************************************************************************************/

@@ -88,7 +88,7 @@ class MainWindow : public QMainWindow
     void moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest );
     void moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest );
 
-    // Pointer to a method which is used to invoke moveNumericSquares or moveGraphicSquares
+    // Pointer to a method which indicates moveNumericSquares or moveGraphicSquares
     void ( MainWindow::*moveSquare ) ( int rowSource, int colSource, int rowDest, int colDest );
 
 private slots:
