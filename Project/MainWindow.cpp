@@ -353,7 +353,7 @@ void MainWindow::pressSquare()
     int col = position % 10;
     Move move = board->checkMove( row, col );
 
-    if ( move == NOT_ALLOWED )
+    if ( move == Move::NOT_ALLOWED )
         return;
 
     // Set pointer to a method for moving squares, according to kind of a board
@@ -438,7 +438,7 @@ void MainWindow::slotLoadGraphic()
 void MainWindow::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
-    action[Action::OPENGRAPHIC]->setEnabled( false );
+    action[Action::REMGRAPHIC]->setEnabled( false );
     images->resetLoaded();
 
     // Graphic board is active
@@ -543,7 +543,6 @@ void MainWindow::slotReadBoard()
         }
 
         board = Board::createBoard( values, level );
-
 
         if ( isNumeric == 1 )
         {
