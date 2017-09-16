@@ -15,6 +15,9 @@
 #include <GraphicBoard/ImageLoad.h>
 #include <Types.h>
 #include <Options.h>
+#include <array>
+
+using std::array;
 
 class MainWindow;
 
@@ -25,15 +28,15 @@ private:
     Q_OBJECT
 
     // Indicators for radio buttons and check boxes
-    enum GraphicMode { scale, crop, countGraphic };
-    enum SquareColor { blue, green, red, countColor };
-    enum BoardSize   { four, five, six, seven, countBoard };
+    enum GraphicMode { SCALE, CROP, COUNT_MODE };
+    enum SquareColor { BLUE, GREEN, RED, COUNT_COLOR };
+    enum BoardSize   { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
 
-    QRadioButton radioColor[countColor];
-    QRadioButton radioGraphic[countGraphic];
-    QCheckBox checkBoardSize[countBoard];
+    array<QRadioButton, COUNT_COLOR> radioColor;
+    array<QRadioButton, COUNT_MODE> radioGraphic;
+    array<QCheckBox, COUNT_SIZE> checkBoardSize;
     QSlider slider;
-    QLabel sliderLabels[5];
+    array<QLabel, 5> sliderLabels;
     QPushButton accept;    
 
     QGroupBox boxRadioColor;

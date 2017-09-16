@@ -7,7 +7,7 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
     groupRadioImage(), groupRadioColor(), images( images ), parent( parent )
 {
     setModal( true );    
-    setWindowTitle( " " );
+    setWindowTitle( "" );
     setGeometry( 100, 100, 400, 560 );
     setMaximumSize( 400, 680 );
     setMinimumSize( 400, 680 );
@@ -16,69 +16,69 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
 
     /* Radio controls **********************************************/
 
-    for ( int i = 0; i < countColor; i++ )
-        radioColor[i].setStyleSheet( "margin-left:5px;" );
+    for ( auto& radio : radioColor )
+        radio.setStyleSheet( "margin-left:5px;" );
 
-    for ( int i = 0; i < countGraphic; i++ )
-        radioGraphic[i].setStyleSheet( "margin-left:5px;" );
+    for ( auto& radio : radioGraphic )
+        radio.setStyleSheet( "margin-left:5px;" );
 
-    radioGraphic[scale].setText( "Graphic is to be scalled" );
-    radioGraphic[crop].setText( "Graphic is to be cropped" );
-    radioColor[blue].setText( "Blue" );
-    radioColor[green].setText( "Green" );
-    radioColor[red].setText( "Red" );
+    radioGraphic[SCALE].setText( "Graphic is to be scalled" );
+    radioGraphic[CROP].setText( "Graphic is to be cropped" );
+    radioColor[BLUE].setText( "Blue" );
+    radioColor[GREEN].setText( "Green" );
+    radioColor[RED].setText( "Red" );
 
-    groupRadioImage.addButton( &radioGraphic[scale] );
-    groupRadioImage.addButton( &radioGraphic[crop] );
+    groupRadioImage.addButton( &radioGraphic[SCALE] );
+    groupRadioImage.addButton( &radioGraphic[CROP] );
 
-    radioGraphic[scale].setChecked( Options::checkScaled() );
-    radioGraphic[crop].setChecked( !Options::checkScaled() );
+    radioGraphic[SCALE].setChecked( Options::checkScaled() );
+    radioGraphic[CROP].setChecked( !Options::checkScaled() );
 
-    groupRadioColor.addButton( &radioColor[blue] );
-    groupRadioColor.addButton( &radioColor[green] );
-    groupRadioColor.addButton( &radioColor[red] );
+    groupRadioColor.addButton( &radioColor[BLUE] );
+    groupRadioColor.addButton( &radioColor[GREEN] );
+    groupRadioColor.addButton( &radioColor[RED] );
 
     radioColor[ Options::getColor() ].setChecked( true );
 
     QVBoxLayout layRadioColor;
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioColor[blue] );
+    layRadioColor.addWidget( &radioColor[BLUE] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioColor[green] );
+    layRadioColor.addWidget( &radioColor[GREEN] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioColor[red] );
+    layRadioColor.addWidget( &radioColor[RED] );
     layRadioColor.addSpacing( 7 );
     boxRadioColor.setLayout( &layRadioColor );
 
 
     /* Checkbox for images praparing  ********************************/
 
-    for ( int i = 0; i < countBoard; i++ )
-        checkBoardSize[i].setStyleSheet( "margin-left:5px;" );
+    for ( auto& check : checkBoardSize )
+        check.setStyleSheet( "margin-left:5px;" );
 
-    checkBoardSize[four].setText( "Graphic is to be loaded for a board 4x4" );
-    checkBoardSize[five].setText( "Graphic is to be loaded for a board 5x5" );
-    checkBoardSize[six].setText( "Graphic is to be loaded for a board 6x6" );
-    checkBoardSize[seven].setText( "Graphic is to be loaded for a board 7x7" );
+    checkBoardSize[FOUR].setText( "Graphic is to be loaded for a board 4x4" );
+    checkBoardSize[FIVE].setText( "Graphic is to be loaded for a board 5x5" );
+    checkBoardSize[SIX].setText( "Graphic is to be loaded for a board 6x6" );
+    checkBoardSize[SEVEN].setText( "Graphic is to be loaded for a board 7x7" );
 
-    checkBoardSize[four].setChecked( images.four.toLoad );
-    checkBoardSize[five].setChecked( images.five.toLoad );
-    checkBoardSize[six].setChecked( images.six.toLoad );
-    checkBoardSize[seven].setChecked( images.seven.toLoad );
+    checkBoardSize[FOUR].setChecked( images.four.toLoad );
+    checkBoardSize[FIVE].setChecked( images.five.toLoad );
+    checkBoardSize[SIX].setChecked( images.six.toLoad );
+    checkBoardSize[SEVEN].setChecked( images.seven.toLoad );
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &radioGraphic[scale] );
+    layRadioImage.addWidget( &radioGraphic[SCALE] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &radioGraphic[crop] );
+    layRadioImage.addWidget( &radioGraphic[CROP] );
     layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( &checkBoardSize[four] );
+    layRadioImage.addWidget( &checkBoardSize[FOUR] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkBoardSize[five] );
+    layRadioImage.addWidget( &checkBoardSize[FIVE] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkBoardSize[six] );
+    layRadioImage.addWidget( &checkBoardSize[SIX] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkBoardSize[seven] );
+    layRadioImage.addWidget( &checkBoardSize[SEVEN] );
     layRadioImage.addSpacing( 15 );
     boxRadioImage.setLayout( &layRadioImage );
 
@@ -135,12 +135,12 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
 
 void WindowSetting::acceptSettings()
 {
-    images.four.toLoad = checkBoardSize[four].isChecked();
-    images.five.toLoad = checkBoardSize[five].isChecked();
-    images.six.toLoad = checkBoardSize[six].isChecked();
-    images.seven.toLoad = checkBoardSize[seven].isChecked();
+    images.four.toLoad = checkBoardSize[FOUR].isChecked();
+    images.five.toLoad = checkBoardSize[FIVE].isChecked();
+    images.six.toLoad = checkBoardSize[SIX].isChecked();
+    images.seven.toLoad = checkBoardSize[SEVEN].isChecked();
 
-    Options::setScaled( radioGraphic[scale].isChecked() );
+    Options::setScaled( radioGraphic[SCALE].isChecked() );
     bool redraw = ( Options::checkNumeric() ) ? true : false;
 
     if ( slider.value() != Options::getSquareSizeIndex() )
@@ -151,17 +151,17 @@ void WindowSetting::acceptSettings()
     }
 
     bool change = false;
-    if ( radioColor[blue].isChecked() && Options::getColor() != Color::BLUE )
+    if ( radioColor[BLUE].isChecked() && Options::getColor() != Color::BLUE )
     {
         Options::setColor( Color::BLUE );
         change = true;
     }
-    else if ( radioColor[green].isChecked() && Options::getColor() != Color::GREEN )
+    else if ( radioColor[GREEN].isChecked() && Options::getColor() != Color::GREEN )
     {
         Options::setColor( Color::GREEN );
         change = true;
     }
-    else if ( radioColor[red].isChecked() && Options::getColor() != Color::RED )
+    else if ( radioColor[RED].isChecked() && Options::getColor() != Color::RED )
     {
         Options::setColor( Color::RED );
         change = true;
