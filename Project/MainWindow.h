@@ -71,7 +71,6 @@ class MainWindow : public QMainWindow
     QVBoxLayout* layRadioKind;
 
     QString styleEmpty { "background-color:white; color:white; font-size:20px; border:1px solid white;" };
-    QString* currentStyle;   
 
     void createMenu();
 

@@ -31,8 +31,8 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
     groupRadioImage.addButton( &radioGraphic[SCALE] );
     groupRadioImage.addButton( &radioGraphic[CROP] );
 
-    radioGraphic[SCALE].setChecked( Options::checkScaled() );
-    radioGraphic[CROP].setChecked( !Options::checkScaled() );
+    radioGraphic[SCALE].setChecked( Options::isScaled() );
+    radioGraphic[CROP].setChecked( !Options::isScaled() );
 
     groupRadioColor.addButton( &radioColor[BLUE] );
     groupRadioColor.addButton( &radioColor[GREEN] );
@@ -141,7 +141,7 @@ void WindowSetting::acceptSettings()
     images.seven.toLoad = checkBoardSize[SEVEN].isChecked();
 
     Options::setScaled( radioGraphic[SCALE].isChecked() );
-    bool redraw = ( Options::checkNumeric() ) ? true : false;
+    bool redraw = ( Options::isNumeric() ) ? true : false;
 
     if ( slider.value() != Options::getSquareSizeIndex() )
     {

@@ -6,7 +6,7 @@
 
 Board* Board::createBoard( int boardSize )
 {
-    if ( board != nullptr )
+    if ( board )
         delete board;
 
     board = new Board( boardSize );
@@ -18,7 +18,7 @@ Board* Board::createBoard( int boardSize )
 
 Board* Board::createBoard( int** squareValues, int boardSize )
 {
-    if ( board != nullptr )
+    if ( board )
         delete board;
 
     board = new Board( squareValues, boardSize );

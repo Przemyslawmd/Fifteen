@@ -20,124 +20,102 @@ void Options::setBoardSize( BoardSize boardSize )
 
 SquareSize Options::getSquareSize()
 {
-    return squareSize;
+    return sizes[currentSquare].squareSize;
 }
 
 
 int Options::getSquareSizeIndex()
 {
-    if ( squareSize == SquareSize::_50 )
-        return 1;
-    else if ( squareSize == SquareSize::_75 )
-        return 2;
-    else if ( squareSize == SquareSize::_100 )
-        return 3;
-    else if ( squareSize == SquareSize::_125 )
-        return 4;
-    else
-        return 5;
+    return currentSquare + 1;
 }
 
 
 void Options::setSquareSize( int value )
 {
-    if ( value == 1 )
-        squareSize = SquareSize::_50;
-    else if ( value == 2 )
-        squareSize = SquareSize::_75;
-    else if ( value == 3 )
-        squareSize = SquareSize::_100;
-    else if ( value == 4 )
-        squareSize = SquareSize::_125;
-    else if ( value == 5 )
-        squareSize = SquareSize::_150;
+    currentSquare = static_cast< SquareSize >( value - 1 );
 }
 
 
-int Options::getFontSquareSize()
+int Options::getSquareSizeFont()
 {
-    if ( squareSize == SquareSize::_50 )
-        return 20;
-    else if ( squareSize == SquareSize::_75 )
-        return 25;
-    else if ( squareSize == SquareSize::_100 )
-        return 30;
-    else if ( squareSize == SquareSize::_125 )
-        return 35;
-    else
-        return 40;
-
+    return sizes[currentSquare].fontSize;
 }
 
 /***********************************************************************/
-/* KIND OF BOARD *******************************************************/
+/* NUMERIC *************************************************************/
 
-bool Options::checkNumeric()
+bool Options::isNumeric()
 {
-    return isNumeric;
+    return numeric;
 }
 
 
 void Options::setNumeric( bool numeric )
 {
-    isNumeric = numeric;
+    Options::numeric = numeric;
 }
 
 /***********************************************************************/
-/* WAY OF PREPARING GRAPHICAL BOARD ************************************/
+/* SCALED **************************************************************/
 
-bool Options::checkScaled()
+bool Options::isScaled()
 {
-    return isScaled;
+    return scaled;
 }
 
 
 void Options::setScaled( bool scaled )
 {
-    isScaled = scaled;
+    Options::scaled = scaled;
 }
 
 /************************************************************************/
-/* BOARD COLOR **********************************************************/
+/* COLOR ****************************************************************/
 
 Color Options::getColor()
 {
-    return color;
+    return currentColor;
 }
 
 
-void Options::setColor( Color requestedColor )
+void Options::setColor( Color color )
 {
-    color = requestedColor;
+    Options::currentColor = color;
 }
 
 
-QString* Options::getStyle()
+QString& Options::getStyle()
 {
-    if ( color == Color::BLUE )
-        return &styleBlue;
-    else if ( color == Color::RED )
-        return &styleRed;
-    return &styleGreen;
+    return styles[currentColor];
 }
 
 /***********************************************************************/
 /***********************************************************************/
 
 BoardSize Options::boardSize = BoardSize::FOUR;
-SquareSize Options::squareSize = SquareSize::_50;
-bool Options::isNumeric = true;
-bool Options::isScaled = true;
-Color Options::color = Color::BLUE;
+bool Options::numeric = true;
+bool Options::scaled = true;
+
+int Options::currentSquare = 0;
+
+Sizes Options::sizes[]
+{
+    { .squareSize = _50,  .sliderIndex = 1, .fontSize = _20 },
+    { .squareSize = _75,  .sliderIndex = 2, .fontSize = _25 },
+    { .squareSize = _100, .sliderIndex = 3, .fontSize = _30 },
+    { .squareSize = _125, .sliderIndex = 4, .fontSize = _35 },
+    { .squareSize = _150, .sliderIndex = 5, .fontSize = _40 }
+};
+
+Color Options::currentColor = Color::BLUE;
 
 #define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
-#define END_STYLE "color:white; border:1px solid white"
+#define END_STYLE   "color:white; border:1px solid white"
 
-QString Options::styleBlue { BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE };
-QString Options::styleRed { BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE  };
-QString Options::styleGreen { BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE };
-
-#undef BEGIN_STYLE
-#undef END_STYLE
-
+QString Options::styles[]
+{
+    { BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE }, // Blue style
+    { BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE }, // Green style
+    { BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE }  // Red style
+};
 

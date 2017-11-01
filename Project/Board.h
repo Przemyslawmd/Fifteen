@@ -4,6 +4,9 @@
 
 #include "Types.h"
 #include <QList>
+#include <array>
+
+using std::array;
 
 class Board
 {

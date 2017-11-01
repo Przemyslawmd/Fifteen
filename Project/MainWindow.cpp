@@ -164,7 +164,7 @@ void MainWindow::createLayouts()
 void MainWindow::createSquares()
 {
     BoardSize level = Options::getBoardSize();
-    SquareSize squareSize = ( Options::checkNumeric() ) ? Options::getSquareSize() : images->imageSize;
+    SquareSize squareSize = ( Options::isNumeric() ) ? Options::getSquareSize() : images->imageSize;
 
     control = new QPushButton*[level];
 
@@ -229,9 +229,9 @@ void MainWindow::setSquaresNumber( bool isRandom )
 {    
     BoardSize level = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
-    currentStyle = Options::getStyle();
+    QString& currentStyle = Options::getStyle();
     QFont font;
-    font.setPixelSize( Options::getFontSquareSize() );
+    font.setPixelSize( Options::getSquareSizeFont() );
 
     for (int i = 0; i < level; i++)
     {
@@ -242,7 +242,7 @@ void MainWindow::setSquaresNumber( bool isRandom )
             if ( values[i][j] == 0 )
                 control[i][j].setStyleSheet( styleEmpty );
             else
-                control[i][j].setStyleSheet( *currentStyle );
+                control[i][j].setStyleSheet( currentStyle );
             control[i][j].setFont( font );
         }
     }
@@ -336,7 +336,7 @@ void MainWindow::slotSolveBoard()
 {
     board->solveBoard();
 
-    if ( Options::checkNumeric() )
+    if ( Options::isNumeric() )
         setSquaresNumber( false );
     else         
         setSquaresGraphic( false );
@@ -357,7 +357,7 @@ void MainWindow::pressSquare()
         return;
 
     // Set pointer to a method for moving squares, according to kind of a board
-    moveSquare = ( Options::checkNumeric() ) ? &MainWindow::moveNumericSquares : &MainWindow::moveGraphicSquares;
+    moveSquare = ( Options::isNumeric() ) ? &MainWindow::moveNumericSquares : &MainWindow::moveGraphicSquares;
 
     switch ( move )
     {
@@ -384,8 +384,9 @@ void MainWindow::pressSquare()
 
 void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
+    QString& currentStyle = Options::getStyle();
     control[rowDest][colDest].setText( control[rowSource][colSource].text() );
-    control[rowDest][colDest].setStyleSheet( *currentStyle );
+    control[rowDest][colDest].setStyleSheet( currentStyle );
     control[rowSource][colSource].setText( "" );
     control[rowSource][colSource].setStyleSheet( styleEmpty );
 }
@@ -407,29 +408,29 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
 
 void MainWindow::slotLoadGraphic()
 {
-  QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
+    QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
 
-  if (!fileName.isEmpty() )
-  {
-        QImage picture;
-        picture.load( fileName );
+    if ( fileName.isEmpty() )
+        return;
 
-        if ( picture.isNull() )
-        {
-            QMessageBox::information( this, "", "Failure of loading an image\t" );
-            return;
-        }
+    QImage picture;
+    picture.load( fileName );
 
-        QString message;        
-        ImageProvider::getInstance()->prepareBoardImage( picture, message, *images, Options::getSquareSize() );
-        QMessageBox::information( this, "", message );
+    if ( picture.isNull() )
+    {
+        QMessageBox::information( this, "", "Failure of loading an image\t" );
+        return;
+    }
 
-        if ( images->four.loaded || images->five.loaded || images->six.loaded || images->seven.loaded )
-        {            
-            action[Action::REMGRAPHIC]->setEnabled( true );
-            images->imageSize = Options::getSquareSize();
-        }
-    }    
+    QString message;
+    ImageProvider::getInstance()->prepareBoardImage( picture, message, *images, Options::getSquareSize() );
+    QMessageBox::information( this, "", message );
+
+    if ( images->four.loaded || images->five.loaded || images->six.loaded || images->seven.loaded )
+    {
+        action[Action::REMGRAPHIC]->setEnabled( true );
+        images->imageSize = Options::getSquareSize();
+    }
 }
 
 /*********************************************************************************************************/
@@ -442,7 +443,7 @@ void MainWindow::slotRemoveGraphic()
     images->resetLoaded();
 
     // Graphic board is active
-    if ( Options::checkNumeric() == false )
+    if ( Options::isNumeric() == false )
     {
         QLayoutItem *child;
         while (( child = boardVerticalLayout->takeAt(0)) != 0 )
@@ -473,7 +474,7 @@ void MainWindow::slotSaveBoard()
         QDataStream inData( &file );
         inData.setVersion( QDataStream::Qt_4_6 );
 
-        inData << Options::checkNumeric();
+        inData << Options::isNumeric();
         inData << boardSize;
 
         // Board state        
@@ -485,7 +486,7 @@ void MainWindow::slotSaveBoard()
         }
 
         // If board to be saved is graphic then bitmaps are being saved as well
-        if ( Options::checkNumeric() == false )
+        if ( Options::isNumeric() == false )
         {
             inData << ( quint32 )images->imageSize;
             QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
@@ -613,14 +614,14 @@ void MainWindow::slotReadBoard()
 void MainWindow::setColor()
 {
     BoardSize boardSize = Options::getBoardSize();
-    currentStyle = Options::getStyle();
+    QString& currentStyle = Options::getStyle();
 
     for ( int i = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
             if ( control[i][j].styleSheet() != styleEmpty )
-                control[i][j].setStyleSheet( *currentStyle );
+                control[i][j].setStyleSheet( currentStyle );
         }
     }    
 }
