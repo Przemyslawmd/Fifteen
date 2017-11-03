@@ -53,7 +53,7 @@ ImageProvider::~ImageProvider()
 
 void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImagesState& imageState, SquareSize squareSize )
 {
-    pPrepareImage = ( Options::checkScaled() ) ? &GraphicBoard::prepareScaledImage : &GraphicBoard::prepareCroppedImage;
+    pPrepareImage = ( Options::isScaled() ) ? &GraphicBoard::prepareScaledImage : &GraphicBoard::prepareCroppedImage;
 
     if (( imageState.four.toLoad ) && ( checkImageSize( image, imageState.four, squareSize, message )))
     {
