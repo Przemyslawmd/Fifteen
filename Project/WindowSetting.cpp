@@ -22,17 +22,17 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
     for ( auto& radio : radioGraphic )
         radio.setStyleSheet( "margin-left:5px;" );
 
-    radioGraphic[SCALE].setText( "Graphic is to be scalled" );
-    radioGraphic[CROP].setText( "Graphic is to be cropped" );
+    radioGraphic[SCALED].setText( "Graphic is to be scalled" );
+    radioGraphic[CROPPED].setText( "Graphic is to be cropped" );
     radioColor[BLUE].setText( "Blue" );
     radioColor[GREEN].setText( "Green" );
     radioColor[RED].setText( "Red" );
 
-    groupRadioImage.addButton( &radioGraphic[SCALE] );
-    groupRadioImage.addButton( &radioGraphic[CROP] );
+    groupRadioImage.addButton( &radioGraphic[SCALED] );
+    groupRadioImage.addButton( &radioGraphic[CROPPED] );
 
-    radioGraphic[SCALE].setChecked( Options::isScaled() );
-    radioGraphic[CROP].setChecked( !Options::isScaled() );
+    radioGraphic[SCALED].setChecked( Options::getGraphicMode() == GraphicMode::SCALED );
+    radioGraphic[CROPPED].setChecked( !radioGraphic[SCALED].isChecked() );
 
     groupRadioColor.addButton( &radioColor[BLUE] );
     groupRadioColor.addButton( &radioColor[GREEN] );
@@ -68,9 +68,9 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &radioGraphic[SCALE] );
+    layRadioImage.addWidget( &radioGraphic[SCALED] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &radioGraphic[CROP] );
+    layRadioImage.addWidget( &radioGraphic[CROPPED] );
     layRadioImage.addSpacing( 15 );
     layRadioImage.addWidget( &checkBoardSize[FOUR] );
     layRadioImage.addSpacing( 8 );
@@ -140,7 +140,7 @@ void WindowSetting::acceptSettings()
     images.six.toLoad = checkBoardSize[SIX].isChecked();
     images.seven.toLoad = checkBoardSize[SEVEN].isChecked();
 
-    Options::setScaled( radioGraphic[SCALE].isChecked() );
+    Options::setGraphicMode(( radioGraphic[SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED ));
     BoardMode boardMode = Options::getBoardMode();
 
     if ( slider.value() != Options::getSquareSizeIndex() )

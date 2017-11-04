@@ -7,6 +7,7 @@
 // Some enums not strongly typed because are used for indexing
 
 enum BoardSize { FOUR = 4, FIVE, SIX, SEVEN };
+enum GraphicMode { SCALED, CROPPED, GRAPHIC_MODE_COUNT };
 enum class BoardMode { NUMERIC, GRAPHIC };
 
 enum Move { UP, RIGHT, DOWN, LEFT, NOT_ALLOWED };

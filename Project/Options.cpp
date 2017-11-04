@@ -10,9 +10,9 @@ BoardSize Options::getBoardSize()
 }
 
 
-void Options::setBoardSize( BoardSize boardSize )
+void Options::setBoardSize( BoardSize size )
 {
-    Options::boardSize = boardSize;
+    boardSize = size;
 }
 
 /**********************************************************************/
@@ -56,17 +56,17 @@ void Options::setBoardMode( BoardMode mode )
 }
 
 /***********************************************************************/
-/* SCALED **************************************************************/
+/* GRAPHIC MODE ********************************************************/
 
-bool Options::isScaled()
+GraphicMode Options::getGraphicMode()
 {
-    return scaled;
+    return graphicMode;
 }
 
 
-void Options::setScaled( bool scaled )
+void Options::setGraphicMode( GraphicMode mode )
 {
-    Options::scaled = scaled;
+    graphicMode = mode;
 }
 
 /************************************************************************/
@@ -80,7 +80,7 @@ Color Options::getColor()
 
 void Options::setColor( Color color )
 {
-    Options::currentColor = color;
+    currentColor = color;
 }
 
 
@@ -94,7 +94,7 @@ QString& Options::getStyle()
 
 BoardSize Options::boardSize = BoardSize::FOUR;
 BoardMode Options::boardMode = BoardMode::NUMERIC;
-bool Options::scaled = true;
+GraphicMode Options::graphicMode = GraphicMode::SCALED;
 
 int Options::currentSquare = 0;
 

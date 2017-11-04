@@ -20,8 +20,8 @@ public:
     static BoardMode getBoardMode();
     static void setBoardMode( BoardMode mode );
 
-    static bool isScaled();
-    static void setScaled( bool );
+    static GraphicMode getGraphicMode();
+    static void setGraphicMode( GraphicMode mode );
 
     static Color getColor();
     static void setColor( Color );
@@ -31,7 +31,7 @@ private:
 
     static BoardSize boardSize;
     static BoardMode boardMode;
-    static bool scaled;
+    static GraphicMode graphicMode;
 
     static int currentSquare;
     static Color currentColor;
