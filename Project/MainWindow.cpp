@@ -459,51 +459,21 @@ void MainWindow::slotRemoveGraphic()
 }
 
 /*********************************************************************************************************/
-/* WRITE BOARD INTO FILE *********************************************************************************/
+/* SLOT SAVE BOARD ***************************************************************************************/
 
 void MainWindow::slotSaveBoard()
 {
-    BoardSize boardSize = Options::getBoardSize();
     QFileDialog dialog;
     QString fileName = dialog.getSaveFileName( this, "", QDir::currentPath() );
 
     if ( fileName.isEmpty() )
         return;
 
-    QFile file( fileName );
-    file.open( QIODevice::WriteOnly );
-    QDataStream inData( &file );
-    inData.setVersion( QDataStream::Qt_4_6 );
-
-    inData << (( Options::getBoardMode() == BoardMode::NUMERIC ) ? 1 : 0 );
-    inData << boardSize;
-
-    // Board state
-    int** values = board->sendBoard();
-    for ( int i = 0; i < boardSize; i++ )
-    {
-        for ( int j = 0; j < boardSize; j++ )
-            inData << values[i][j];
-    }
-
-    // If board to be saved is graphic then bitmaps are being saved as well
-    if ( Options::getBoardMode() == BoardMode::GRAPHIC )
-    {
-        inData << ( quint32 )images->imageSize;
-        QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
-        int byteCount = pictures[0]->byteCount();
-        inData << byteCount;
-        uchar* buffer = new uchar[ byteCount ];
-
-        for (int i = 0; i < boardSize * boardSize; i++)
-        {
-            memcpy( buffer, pictures[i]->bits(), byteCount );
-            inData.writeRawData( (char*)buffer, byteCount );
-        }
-        delete [] buffer;
-    }
-
-    file.close();
+    IOFile ioFile;
+    if ( Options::getBoardMode() == BoardMode::NUMERIC )
+        ioFile.saveNumericBoardInFile( board, fileName );
+    else
+        ioFile.saveGraphicBoardInFile( board, images, fileName );
 }
 
 /*********************************************************************************************************/
@@ -526,7 +496,7 @@ void MainWindow::slotReadBoard()
 
     deleteSquares();
 
-    bool isNumeric;
+    int isNumeric;
     int** values;
     int level;
     int imageSize;

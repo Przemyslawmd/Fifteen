@@ -24,7 +24,7 @@
 #include <Types.h>
 #include <Options.h>
 #include <GraphicBoard/ImageProvider.h>
-
+#include <IOFile.h>
 
 class MainWindow : public QMainWindow
 {
