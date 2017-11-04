@@ -28,11 +28,11 @@ Board* Board::createBoard( int** squareValues, int boardSize )
 /**********************************************************************************/
 /* CONSTRUCTOR ********************************************************************/
 
-Board::Board( int boardSize )
+Board::Board( int size )
 {
-    this->size = boardSize;
-
+    this->size = size;
     square = new int*[size];
+
     for ( int i = 0; i < size; i++ )
         square[i] = new int[size];
 
@@ -45,13 +45,11 @@ Board::Board( int boardSize )
 Board::Board( int** values, int size )
 {
     this->size = size;
-
     square = new int*[size];
-    for ( int i = 0; i < size; i++ )
-        square[i] = new int[size];
 
     for ( int i = 0; i < size; i++ )
     {
+        square[i] = new int[size];
         for ( int j = 0; j < size; j++ )
             square[i][j] = values[i][j];
     }
@@ -79,19 +77,19 @@ Move Board::checkMove( int row, int col )
         return Move::UP;
     }
 
-    if ( col < (size - 1) && (square[row][col + 1] == EMPTY ))
+    if ( col < ( size - 1 ) && ( square[row][col + 1] == EMPTY ))
     {
         makeMove( row, col, row, col + 1 );
         return Move::RIGHT;
     }
 
-    if ( row < (size - 1) && (square[row + 1][col] ==  EMPTY ))
+    if ( row < ( size - 1 ) && ( square[row + 1][col] ==  EMPTY ))
     {
         makeMove( row, col, row + 1, col );
         return Move::DOWN;
     }
 
-    if ( col > 0 && (square[row][col -1] == EMPTY ))
+    if ( col > 0 && ( square[row][col -1] == EMPTY ))
     {
         makeMove( row, col, row, col -1 );
         return Move::LEFT;
@@ -170,7 +168,7 @@ int** Board::randomBoard()
 }
 
 /******************************************************************************/
-/* FIND AN EMPTY SQUARE *******************************************************/
+/* FIND NULL SQUARE ***********************************************************/
 
 int Board::findNullSquare()
 {
@@ -189,7 +187,7 @@ int Board::findNullSquare()
 /*******************************************************************************/
 /* SET A BOARD TO ITS INITIAL STATE ********************************************/
 
-int** Board::solveBoard()
+void Board::solveBoard()
 {    
     for ( int i = 0, k = 1; i < size; i++ )
     {
@@ -197,8 +195,6 @@ int** Board::solveBoard()
             square[i][j] = k++;        
     }
     square[size-1][size-1] = EMPTY;
-
-    return square;
 }
 
 /*******************************************************************************/
