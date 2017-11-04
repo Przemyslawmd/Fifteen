@@ -2,25 +2,19 @@
 #ifndef DATATEST_H
 #define DATATEST_H
 
-// This class has defined values using while running tests
+#include "TestVector.h"
 
-class Data{
+class Data
+{
 
 public:
 
-    static int* getMoves( int dataNumber );
-
-    static int* getExcpectedBoard( int dataNumber );
+    static vector< int > getMoves( int testNumber );
+    static vector< int > getExpectedSquares( int testNumber );
 
 private:
 
-    static int* moves[];
-    static int moves_1[];
-    static int moves_2[];
-
-    static int* expectedBoard[];
-    static int expectedBoard_1[];
-    static int expectedBoard_2[];
+    static vector< TestVector > testData;
 };
 
 #endif // DATATEST_H

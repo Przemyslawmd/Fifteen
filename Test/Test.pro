@@ -15,9 +15,11 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += testfifteen.cpp \
-    Data.cpp
+SOURCES += TestFifteen.cpp \
+    Data.cpp \
+    TestVector.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    Data.h
+    Data.h \
+    TestVector.h
