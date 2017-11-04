@@ -164,7 +164,7 @@ void MainWindow::createLayouts()
 void MainWindow::createSquares()
 {
     BoardSize level = Options::getBoardSize();
-    SquareSize squareSize = ( Options::isNumeric() ) ? Options::getSquareSize() : images->imageSize;
+    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : images->imageSize;
 
     control = new QPushButton*[level];
 
@@ -247,7 +247,7 @@ void MainWindow::setSquaresNumber( bool isRandom )
         }
     }
 
-    Options::setNumeric( true );
+    Options::setBoardMode( BoardMode::NUMERIC );
 }
 
 /*********************************************************************************************************/
@@ -276,7 +276,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
         }
     }
 
-    Options::setNumeric( false );
+    Options::setBoardMode( BoardMode::GRAPHIC );
 }
 
 /*********************************************************************************************************/
@@ -317,13 +317,13 @@ void MainWindow::slotGenerateBoard()
 
     if ( radioKind[EnumKind::NUMERIC]->isChecked() )
     {
-        Options::setNumeric( true );
+        Options::setBoardMode( BoardMode::NUMERIC );
         createSquares();
         setSquaresNumber( true );
     }
     else
     {
-        Options::setNumeric( false );
+        Options::setBoardMode( BoardMode::GRAPHIC );
         createSquares();
         setSquaresGraphic( true );
     }
@@ -336,7 +336,7 @@ void MainWindow::slotSolveBoard()
 {
     board->solveBoard();
 
-    if ( Options::isNumeric() )
+    if ( Options::getBoardMode() == BoardMode::NUMERIC )
         setSquaresNumber( false );
     else         
         setSquaresGraphic( false );
@@ -357,7 +357,7 @@ void MainWindow::pressSquare()
         return;
 
     // Set pointer to a method for moving squares, according to kind of a board
-    moveSquare = ( Options::isNumeric() ) ? &MainWindow::moveNumericSquares : &MainWindow::moveGraphicSquares;
+    moveSquare = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericSquares : &MainWindow::moveGraphicSquares;
 
     switch ( move )
     {
@@ -443,7 +443,7 @@ void MainWindow::slotRemoveGraphic()
     images->resetLoaded();
 
     // Graphic board is active
-    if ( Options::isNumeric() == false )
+    if ( Options::getBoardMode() == BoardMode::GRAPHIC )
     {
         QLayoutItem *child;
         while (( child = boardVerticalLayout->takeAt(0)) != 0 )
@@ -452,7 +452,7 @@ void MainWindow::slotRemoveGraphic()
         deleteSquares();
         createSquares();
         setSquaresNumber( false );
-        Options::setNumeric( true );
+        Options::setBoardMode( BoardMode::NUMERIC );
     }
 
     QMessageBox::information( this, "", "Graphic removed\t");
@@ -467,43 +467,43 @@ void MainWindow::slotSaveBoard()
     QFileDialog dialog;
     QString fileName = dialog.getSaveFileName( this, "", QDir::currentPath() );
 
-    if ( fileName.isEmpty() == false )
-    {                
-        QFile file( fileName );
-        file.open( QIODevice::WriteOnly );
-        QDataStream inData( &file );
-        inData.setVersion( QDataStream::Qt_4_6 );
+    if ( fileName.isEmpty() )
+        return;
 
-        inData << Options::isNumeric();
-        inData << boardSize;
+    QFile file( fileName );
+    file.open( QIODevice::WriteOnly );
+    QDataStream inData( &file );
+    inData.setVersion( QDataStream::Qt_4_6 );
 
-        // Board state        
-        int** values = board->sendBoard();
-        for ( int i = 0; i < boardSize; i++ )
-        {
-            for ( int j = 0; j < boardSize; j++ )
-                inData << values[i][j];
-        }
+    inData << (( Options::getBoardMode() == BoardMode::NUMERIC ) ? 1 : 0 );
+    inData << boardSize;
 
-        // If board to be saved is graphic then bitmaps are being saved as well
-        if ( Options::isNumeric() == false )
-        {
-            inData << ( quint32 )images->imageSize;
-            QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
-            int byteCount = pictures[0]->byteCount();
-            inData << byteCount;
-            uchar* buffer = new uchar[ byteCount ];
-
-            for (int i = 0; i < boardSize * boardSize; i++)
-            {                
-                memcpy( buffer, pictures[i]->bits(), byteCount );
-                inData.writeRawData( (char*)buffer, byteCount );
-            }
-            delete [] buffer;
-        }
-
-        file.close();        
+    // Board state
+    int** values = board->sendBoard();
+    for ( int i = 0; i < boardSize; i++ )
+    {
+        for ( int j = 0; j < boardSize; j++ )
+            inData << values[i][j];
     }
+
+    // If board to be saved is graphic then bitmaps are being saved as well
+    if ( Options::getBoardMode() == BoardMode::GRAPHIC )
+    {
+        inData << ( quint32 )images->imageSize;
+        QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
+        int byteCount = pictures[0]->byteCount();
+        inData << byteCount;
+        uchar* buffer = new uchar[ byteCount ];
+
+        for (int i = 0; i < boardSize * boardSize; i++)
+        {
+            memcpy( buffer, pictures[i]->bits(), byteCount );
+            inData.writeRawData( (char*)buffer, byteCount );
+        }
+        delete [] buffer;
+    }
+
+    file.close();
 }
 
 /*********************************************************************************************************/
@@ -548,7 +548,7 @@ void MainWindow::slotReadBoard()
 
     if ( isNumeric == 1 )
     {
-        Options::setNumeric( true );
+        Options::setBoardMode( BoardMode::NUMERIC );
         createSquares();
         setSquaresNumber( false );
         radioKind[EnumKind::NUMERIC]->setChecked( true );
@@ -597,7 +597,7 @@ void MainWindow::slotReadBoard()
             return;
         }
 
-        Options::setNumeric( false );
+        Options::setBoardMode( BoardMode::GRAPHIC );
         createSquares();
         setSquaresGraphic( false );
         radioKind[EnumKind::GRAPHIC]->setChecked( true );

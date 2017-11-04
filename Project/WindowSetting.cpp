@@ -141,12 +141,12 @@ void WindowSetting::acceptSettings()
     images.seven.toLoad = checkBoardSize[SEVEN].isChecked();
 
     Options::setScaled( radioGraphic[SCALE].isChecked() );
-    bool redraw = ( Options::isNumeric() ) ? true : false;
+    BoardMode boardMode = Options::getBoardMode();
 
     if ( slider.value() != Options::getSquareSizeIndex() )
     {
         Options::setSquareSize( slider.value() );
-        if ( redraw )
+        if ( boardMode == BoardMode::NUMERIC )
             parent.redrawSquares();
     }
 
@@ -167,7 +167,7 @@ void WindowSetting::acceptSettings()
         change = true;
     }
 
-    if ( change == true && redraw == true )
+    if ( change && boardMode == BoardMode::NUMERIC )
         parent.setColor();
 
     close();

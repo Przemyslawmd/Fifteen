@@ -17,8 +17,8 @@ public:
     static int getSquareSizeIndex();
     static int getSquareSizeFont();
 
-    static bool isNumeric();
-    static void setNumeric( bool );
+    static BoardMode getBoardMode();
+    static void setBoardMode( BoardMode mode );
 
     static bool isScaled();
     static void setScaled( bool );
@@ -30,7 +30,7 @@ public:
 private:
 
     static BoardSize boardSize;
-    static bool numeric;
+    static BoardMode boardMode;
     static bool scaled;
 
     static int currentSquare;

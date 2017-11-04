@@ -42,17 +42,17 @@ int Options::getSquareSizeFont()
 }
 
 /***********************************************************************/
-/* NUMERIC *************************************************************/
+/* BOARD MODE **********************************************************/
 
-bool Options::isNumeric()
+BoardMode Options::getBoardMode()
 {
-    return numeric;
+    return boardMode;
 }
 
 
-void Options::setNumeric( bool numeric )
+void Options::setBoardMode( BoardMode mode )
 {
-    Options::numeric = numeric;
+    boardMode = mode;
 }
 
 /***********************************************************************/
@@ -93,7 +93,7 @@ QString& Options::getStyle()
 /***********************************************************************/
 
 BoardSize Options::boardSize = BoardSize::FOUR;
-bool Options::numeric = true;
+BoardMode Options::boardMode = BoardMode::NUMERIC;
 bool Options::scaled = true;
 
 int Options::currentSquare = 0;

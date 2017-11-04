@@ -15,12 +15,13 @@ GraphicBoard::GraphicBoard( int boardSize ) : boardSize( boardSize )
 
 GraphicBoard::~GraphicBoard()
 {
-    if ( image[0] != 0 )
-    {
-        for ( int i = 0; i < ( boardSize * boardSize ); i++ )
-            delete image[i];
-        delete[] image;
-    }    
+    if ( image[0] == nullptr )
+        return;
+
+    for ( int i = 0; i < ( boardSize * boardSize ); i++ )
+        delete image[i];
+
+    delete[] image;
 }
 
 /**************************************************************************************************************************/

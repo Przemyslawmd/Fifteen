@@ -4,9 +4,11 @@
 
 #include <QString>
 
-// Not strongly typed enums because these enums are used for indexing an array
+// Some enums not strongly typed because are used for indexing
 
 enum BoardSize { FOUR = 4, FIVE, SIX, SEVEN };
+enum class BoardMode { NUMERIC, GRAPHIC };
+
 enum Move { UP, RIGHT, DOWN, LEFT, NOT_ALLOWED };
 
 enum SquareSize { _50 = 50, _75 = 75, _100 = 100, _125 = 125, _150 = 150 };
