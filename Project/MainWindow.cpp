@@ -463,8 +463,7 @@ void MainWindow::slotRemoveGraphic()
 
 void MainWindow::slotSaveBoard()
 {
-    QFileDialog dialog;
-    QString fileName = dialog.getSaveFileName( this, "", QDir::currentPath() );
+    QString fileName = QFileDialog::getSaveFileName( this, "", QDir::currentPath() );
 
     if ( fileName.isEmpty() )
         return;
@@ -486,95 +485,39 @@ void MainWindow::slotReadBoard()
     if( fileName.isEmpty() )
         return;
 
-    QFile file( fileName );
-    file.open( QIODevice::ReadOnly );
-    QDataStream outData( &file );
-
     QLayoutItem *child;
     while (( child = boardVerticalLayout->takeAt(0)) != 0)
         boardVerticalLayout->removeItem(0);
 
     deleteSquares();
 
-    int isNumeric;
-    int** values;
-    int level;
-    int imageSize;
+    IOFile ioFile;
+    int** values = ioFile.readBoardFromFile( fileName, images );
+    int boardSize = Options::getBoardSize();
+    board = Board::createBoard( values, boardSize );
 
-    outData >> isNumeric;
-    outData >> level;
-
-    Options::setBoardSize( static_cast< BoardSize >( level ));
-
-    values = new int*[level];
-    for (int i = 0; i < level; i++)
+    if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        values[i] = new int[level];
-        for (int j = 0; j < level; j++)
-             outData >> values[i][j];
-    }
-
-    board = Board::createBoard( values, level );
-
-    if ( isNumeric == 1 )
-    {
-        Options::setBoardMode( BoardMode::NUMERIC );
         createSquares();
         setSquaresNumber( false );
         radioKind[EnumKind::NUMERIC]->setChecked( true );
     }
     else
     {
-        outData >> imageSize;
-        images->imageSize = ( SquareSize )imageSize;
-        int byteCount;
-        outData >> byteCount;
+        if ( boardSize == BoardSize::FOUR )
+            radioSize[EnumSize::FOUR]->setChecked( images->four.loaded );
+        else if ( boardSize == BoardSize::FIVE )
+            radioSize[EnumSize::FIVE]->setChecked( images->five.loaded );
+        else if ( boardSize == BoardSize::SIX )
+            radioSize[EnumSize::SIX]->setChecked( images->six.loaded );
+        else
+            radioSize[EnumSize::SEVEN]->setChecked( images->seven.loaded );
 
-        // This buffer is moved to an Image object which is responsible for release memory
-        // and must exist as long as restored image exists
-        uchar* buffer = new uchar[byteCount * level * level];
-        for ( int i = 0; i < ( level  * level ); i++ )
-            outData.readRawData( (char*)( buffer + i * byteCount ), byteCount );
-
-        ImageProvider::deleteInstance();
-        ImageProvider* imageProvider = ImageProvider::getInstance();
-
-        try {
-            if ( level == BoardSize::FOUR )
-            {
-                images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                radioSize[EnumSize::FOUR]->setChecked( images->four.loaded );
-            }
-            else if ( level == BoardSize::FIVE )
-            {
-                images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                radioSize[EnumSize::FIVE]->setChecked( images->five.loaded );
-            }
-            else if ( level == BoardSize::SIX )
-            {
-                images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                radioSize[EnumSize::SIX]->setChecked( images->six.loaded );
-            }
-            else
-            {
-                images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-                radioSize[EnumSize::SEVEN]->setChecked( images->seven.loaded );
-            }
-        }
-        catch( ... )
-        {
-            file.close();
-            return;
-        }
-
-        Options::setBoardMode( BoardMode::GRAPHIC );
         createSquares();
         setSquaresGraphic( false );
         radioKind[EnumKind::GRAPHIC]->setChecked( true );
         action[Action::REMGRAPHIC]->setEnabled( true );
     }
-
-    file.close();
 }
 
 /*********************************************************************************************************/
