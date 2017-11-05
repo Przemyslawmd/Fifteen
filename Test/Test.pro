@@ -6,7 +6,7 @@
 
 QT       += testlib
 
-QT       -= gui
+#QT       -= gui
 
 TARGET = testfifteen
 CONFIG   += console
@@ -14,12 +14,18 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-
 SOURCES += TestFifteen.cpp \
     Data.cpp \
-    TestVector.cpp
+    TestVector.cpp \
+    ../Project/Options.cpp \
+    ../Project/GraphicBoard/GraphicBoard.cpp \
+    ../Project/GraphicBoard/ImageProvider.cpp \
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     Data.h \
-    TestVector.h
+    TestVector.h \
+    ../Project/Options.h \
+    ../Project/GraphicBoard/GraphicBoard.h \
+    ../Project/GraphicBoard/ImageProvider.h \

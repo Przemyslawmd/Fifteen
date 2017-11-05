@@ -2,8 +2,11 @@
 #include <QString>
 #include <QtTest>
 
+#include <QImage>
 #include "../Project/Board.h"
 #include "../Project/Board.cpp"
+#include "../Project/IOFile.h"
+#include "../Project/IOFile.cpp"
 #include "Data.h"
 
 class TestFifteen : public QObject
@@ -21,8 +24,8 @@ private Q_SLOTS:
     void testCreateBoardSolved( int boardSize );
     void testCreateBoardRandom( int boardSize );
     void testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond );
-    void testMoveSquareDefined( int boardSize, int testNumber );
-    void testSaveAndLoadBoard();
+    void testMoveSquareDefined( int testNumber );
+    void testSaveAndLoadBoard( int testNumber );
 
     void checkSquares( int boardSize, int** squares );
 };
@@ -46,16 +49,15 @@ void TestFifteen::suiteCreateBoardRandom()
 
 void TestFifteen::suiteMoveSquareDefined()
 {
-    testMoveSquareDefined( 4, 0 );
-    testMoveSquareDefined( 5, 1 );
+    testMoveSquareDefined( 0 );
+    testMoveSquareDefined( 1 );
 }
 
 
 void TestFifteen::suiteSaveAndLoadBoard()
 {
-    testSaveAndLoadBoard();
-    testSaveAndLoadBoard();
-
+    testSaveAndLoadBoard( 0 );
+    testSaveAndLoadBoard( 1 );
 }
 
 /*********************************************************************************/
@@ -137,8 +139,9 @@ void TestFifteen::checkSquares( int boardSize, int** squares )
 /*************************************************/
 /* TEST MOVING SQUARE DEFINED ********************/
 
-void TestFifteen::testMoveSquareDefined( int boardSize, int testNumber )
+void TestFifteen::testMoveSquareDefined( int testNumber )
 {
+    int boardSize = Data::getBoardSize( testNumber );
     Board* board = Board::createBoard( boardSize );
 
     vector< int > moves = Data::getMoves( testNumber );
@@ -166,12 +169,49 @@ void TestFifteen::testMoveSquareDefined( int boardSize, int testNumber )
     }
 }
 
-void TestFifteen::testSaveAndLoadBoard()
-{
 
+void TestFifteen::testSaveAndLoadBoard( int testNumber )
+{
+    int boardSize = Data::getBoardSize( testNumber );
+    Board* board = Board::createBoard( boardSize );
+
+    vector< int > moves = Data::getMoves( testNumber );
+    int rowNumber;
+    int colNumber;
+
+    int numberOfMoves = moves[0];
+
+    for( int i = 1; i <= numberOfMoves ; i++ )
+    {
+        rowNumber = moves[i] / 10;
+        colNumber = moves[i] % 10;
+        board->checkMove( rowNumber, colNumber );
+    }
+
+    IOFile ioFile;
+    QString fileName = "/fileData";
+    QString currentDir = QDir::currentPath();
+    QString filePath = currentDir + fileName;
+    ioFile.saveNumericBoardInFile( board, filePath );
+
+    board->randomBoard();
+    board->randomBoard();
+
+    int** readValues = ioFile.readBoardFromFile( filePath, nullptr );
+    board->createBoard( readValues, Options::getBoardSize() );
+    int** squares  = board->sendBoard();
+
+    vector< int > expectedSquares = Data::getExpectedSquares( testNumber );
+    int k = 0;
+
+    for ( int i = 0; i < boardSize; i++ )
+    {
+        for ( int j = 0; j < boardSize; j++ )
+            QCOMPARE( squares[i][j], expectedSquares[k++] );
+    }
 }
 
 QTEST_APPLESS_MAIN(TestFifteen)
 
-#include "testfifteen.moc"
+#include "TestFifteen.moc"
 
