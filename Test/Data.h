@@ -9,6 +9,7 @@ class Data
 
 public:
 
+    static int getBoardSize( int testNumber );
     static vector< int > getMoves( int testNumber );
     static vector< int > getExpectedSquares( int testNumber );
 
