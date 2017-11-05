@@ -2,7 +2,7 @@
 #define IMAGESTATE_H
 
 #include <QString>
-#include <Types.h>
+#include "../Types.h"
 
 class ImagesState;
 

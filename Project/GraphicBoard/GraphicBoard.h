@@ -3,7 +3,7 @@
 #define GRAPHIC_BOARD__H
 
 #include <QImage>
-#include <GraphicBoard/ImageLoad.h>
+#include "ImageLoad.h"
 
 /*
  * This class is responsible for maintaining and preparing
@@ -34,9 +34,8 @@ private:
     // Restore images from a file buffer data, image of one square has 'bytes' bytes
     bool restoreImagesFromFile( uchar* data, SquareSize size , int bytes );
 
-    void prepareScaledImage( QImage&, State&, QString&, SquareSize );
-    void prepareCroppedImage( QImage&, State&, QString&, SquareSize );
+    void createScaled( QImage& picture, State& state, QString& message, SquareSize size );
+    void createCropped( QImage& picture, State& state, QString& message, SquareSize size );
 };
 
 #endif // GRAPHIC_BOARD__H
-

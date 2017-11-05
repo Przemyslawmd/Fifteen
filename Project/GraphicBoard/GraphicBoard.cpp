@@ -1,4 +1,5 @@
-#include "GraphicBoard/GraphicBoard.h"
+
+#include "GraphicBoard.h"
 
 /*************************************************************************************************************************/
 /* CONSTRUCTOR ***********************************************************************************************************/
@@ -35,7 +36,7 @@ QImage** GraphicBoard::getImage()
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A SCALE MODE *******************************************************************/
 
-void GraphicBoard::prepareScaledImage( QImage& picture, State& state, QString& message, SquareSize squareSize )
+void GraphicBoard::createScaled( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
     int boardSizeInPixel = state.size * squareSize;
 
@@ -51,7 +52,7 @@ void GraphicBoard::prepareScaledImage( QImage& picture, State& state, QString& m
 /****************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A CROP MODE *********************************************************************/
 
-void GraphicBoard::prepareCroppedImage( QImage& picture, State& state, QString& message, SquareSize squareSize )
+void GraphicBoard::createCropped( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
     int boardSizeInPixel = state.size * squareSize;
 
