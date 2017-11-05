@@ -3,7 +3,6 @@
 
 IOFile::IOFile(){}
 
-
 /*********************************************************************************/
 /* SAVE NUMERIC BOARD IN FILE ****************************************************/
 
@@ -12,11 +11,10 @@ void IOFile::saveNumericBoardInFile( Board* board, QString fileName )
     QFile file( fileName );
     QDataStream& stream = getDataStream( file, QIODevice::WriteOnly );
 
-    stream << 1;
-    BoardSize boardSize = Options::getBoardSize();
-    stream << boardSize;
+    stream << ( int ) BoardMode::NUMERIC;
+    stream << board->getCurrentSize();
 
-    insertBoardValuesIntoStream( stream, board, boardSize );
+    insertBoardValuesIntoStream( stream, board );
     file.close();
 }
 
@@ -28,11 +26,11 @@ void IOFile::saveGraphicBoardInFile( Board* board, ImagesState* images, QString 
     QFile file( fileName );
     QDataStream& inData = getDataStream( file, QIODevice::WriteOnly );
 
-    inData << 0;
-    BoardSize boardSize = Options::getBoardSize();
+    inData << ( int ) BoardMode::GRAPHIC;
+    int boardSize = board->getCurrentSize();
     inData << boardSize;
 
-    insertBoardValuesIntoStream( inData, board, boardSize );
+    insertBoardValuesIntoStream( inData, board );
 
     inData << ( quint32 )images->imageSize;
     QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
@@ -40,7 +38,7 @@ void IOFile::saveGraphicBoardInFile( Board* board, ImagesState* images, QString 
     inData << byteCount;
     uchar* buffer = new uchar[ byteCount ];
 
-    for (int i = 0; i < boardSize * boardSize; i++)
+    for ( int i = 0; i < boardSize * boardSize; i++ )
     {
         memcpy( buffer, pictures[i]->bits(), byteCount );
         inData.writeRawData( (char*)buffer, byteCount );
@@ -58,10 +56,10 @@ int** IOFile::readBoardFromFile( QString fileName, ImagesState* images )
     QFile file( fileName );
     QDataStream& stream = getDataStream( file, QIODevice::ReadOnly );
 
-    int isNumeric;
+    int boardMode;
     int level;
 
-    stream >> isNumeric;
+    stream >> boardMode;
     stream >> level;
 
     Options::setBoardSize( static_cast< BoardSize >( level ));
@@ -74,7 +72,7 @@ int** IOFile::readBoardFromFile( QString fileName, ImagesState* images )
              stream >> values[i][j];
     }
 
-    if ( isNumeric == 1 )
+    if ( boardMode == ( int )BoardMode::NUMERIC )
     {
         Options::setBoardMode( BoardMode::NUMERIC );
     }
@@ -124,12 +122,14 @@ QDataStream& IOFile::getDataStream( QFile& file, QIODevice::OpenModeFlag mode )
 /*********************************************************************************/
 /* INSERT BOARD VALUES INTO STREAM ***********************************************/
 
-void IOFile::insertBoardValuesIntoStream( QDataStream& stream, Board* board, BoardSize boardSize )
+void IOFile::insertBoardValuesIntoStream( QDataStream& stream, Board* board )
 {
     int** values = board->sendBoard();
-    for ( int i = 0; i < boardSize; i++ )
+    int size = board->getCurrentSize();
+
+    for ( int i = 0; i < size; i++ )
     {
-        for ( int j = 0; j < boardSize; j++ )
+        for ( int j = 0; j < size; j++ )
             stream << values[i][j];
     }
 }

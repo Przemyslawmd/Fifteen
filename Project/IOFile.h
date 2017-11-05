@@ -20,7 +20,7 @@ public:
 private:
 
     QDataStream& getDataStream( QFile& file, QIODevice::OpenModeFlag mode );
-    void insertBoardValuesIntoStream( QDataStream& stream, Board* board, BoardSize boardSize );
+    void insertBoardValuesIntoStream( QDataStream& stream, Board* board );
 };
 
 #endif // IOFILE_H
