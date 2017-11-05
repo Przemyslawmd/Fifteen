@@ -11,10 +11,12 @@ class TestVector
 
 public:
 
-    TestVector( vector< int >, vector< int > );
+    TestVector( int boardSize, vector< int > moves, vector< int > expected );
+
+    int boardSize;
 
     // Each value defines one move.
-    // For example, value 23 means a press square that is in second row and third column.
+    // For example, value 03 means a press square that is in first row and fourth column.
     vector< int > moves;
 
     vector< int > expectedSquares;
