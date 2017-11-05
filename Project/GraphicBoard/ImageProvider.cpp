@@ -1,4 +1,5 @@
-#include "GraphicBoard/ImageProvider.h"
+
+#include "ImageProvider.h"
 
 /********************************************************************************/
 /* GET IMAGE PROVIDER INSTANCE **************************************************/
@@ -53,30 +54,30 @@ ImageProvider::~ImageProvider()
 
 void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImagesState& imageState, SquareSize squareSize )
 {
-    pPrepareImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::prepareScaledImage : &GraphicBoard::prepareCroppedImage;
+    createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled : &GraphicBoard::createCropped;
 
     if (( imageState.four.toLoad ) && ( checkImageSize( image, imageState.four, squareSize, message )))
     {
         images[Index::four] = new GraphicBoard( imageState.four.size );
-        ( images[Index::four]->*pPrepareImage )( image, imageState.four, message, squareSize );
+        ( images[Index::four]->*createImage )( image, imageState.four, message, squareSize );
     }
 
     if (( imageState.five.toLoad  ) && ( checkImageSize( image, imageState.five, squareSize, message )))
     {
         images[Index::five] = new GraphicBoard( imageState.five.size );
-        ( images[Index::five]->*pPrepareImage )( image, imageState.five, message, squareSize );
+        ( images[Index::five]->*createImage )( image, imageState.five, message, squareSize );
     }
 
     if (( imageState.six.toLoad ) && ( checkImageSize( image, imageState.six, squareSize, message )))
     {
         images[Index::six] = new GraphicBoard( imageState.six.size );
-        ( images[Index::six]->*pPrepareImage )( image, imageState.six, message, squareSize );
+        ( images[Index::six]->*createImage )( image, imageState.six, message, squareSize );
     }
 
     if (( imageState.seven.toLoad ) && ( checkImageSize( image, imageState.seven, squareSize, message )))
     {
         images[Index::seven] = new GraphicBoard( imageState.seven.size );
-        ( images[Index::seven]->*pPrepareImage )( image, imageState.seven, message, squareSize );
+        ( images[Index::seven]->*createImage )( image, imageState.seven, message, squareSize );
     }
 }
 
