@@ -10,7 +10,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     createRightPanel();
     createLayouts();
     createSquares();
-    setSquaresNumber( false );    
+    setSquaresNumeric( false );
 }
 
 /******************************************************************************************************/
@@ -35,7 +35,13 @@ void MainWindow::createMenu()
     connect( action[Action::SAVEBOARD], SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
 
     action[Action::LOADBOARD]->setText( "Load Board" );
-    connect( action[Action::LOADBOARD], SIGNAL( triggered()), this, SLOT( slotReadBoard() ));
+    connect( action[Action::LOADBOARD], SIGNAL( triggered()), SLOT( slotReadBoard() ));
+
+    action[Action::SETTINGS]->setText( "Settings" );
+    connect( action[Action::SETTINGS], SIGNAL( triggered()), this, SLOT( slotSettings() ));
+
+    action[Action::ABOUT]->setText( "About" );
+    connect( action[Action::ABOUT], SIGNAL( triggered()), this, SLOT( slotAbout() ));
 
     fileMenu->addAction( action[Action::OPENGRAPHIC] );
     fileMenu->addSeparator();
@@ -44,12 +50,6 @@ void MainWindow::createMenu()
     fileMenu->addAction( action[Action::SAVEBOARD] );
     fileMenu->addSeparator();
     fileMenu->addAction( action[Action::LOADBOARD] );
-
-    action[Action::SETTINGS]->setText( "Settings" );
-    connect( action[Action::SETTINGS], SIGNAL( triggered()), this, SLOT( slotSettings() ));
-
-    action[Action::ABOUT]->setText( "About" );
-    connect( action[Action::ABOUT], SIGNAL( triggered()), this, SLOT( slotAbout() ));
 
     mainMenu = new QMenuBar();
     mainMenu->addMenu( fileMenu );
@@ -64,8 +64,6 @@ void MainWindow::createMenu()
 
 void MainWindow::createRightPanel()
 {
-    // Push buttons
-
     pushRandom = new QPushButton( "Generate Board");
     pushRandom->setStyleSheet( "height:20px;" );
     connect( pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
@@ -73,8 +71,6 @@ void MainWindow::createRightPanel()
     pushSolve = new QPushButton( "Solve Board" );
     pushSolve->setStyleSheet( "height:20px;" );
     connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
-
-    // Radio buttons for size of a board
 
     layRadioSize = new QVBoxLayout();
     groupRadioSize = new QButtonGroup();
@@ -182,24 +178,22 @@ void MainWindow::createSquares()
         }
     }
 
-    boardHorizontalLayout = new QHBoxLayout*[level];
+    boardHorizontalLayout = new QHBoxLayout[level];
 
     for ( int i = 0; i < level; i++ )
-    {
-        boardHorizontalLayout[i] = new QHBoxLayout();
-        boardHorizontalLayout[i]->setSpacing(0);
-    }
+        boardHorizontalLayout[i].setSpacing(0);
 
     boardVerticalLayout->addStretch();
+
     for ( int i = 0; i < level; i++ )
     {
-        boardHorizontalLayout[i]->addStretch();
+        boardHorizontalLayout[i].addStretch();
 
         for ( int j = 0; j < level; j++ )
-            boardHorizontalLayout[i]->addWidget( &control[i][j] );
+            boardHorizontalLayout[i].addWidget( &control[i][j] );
 
-        boardHorizontalLayout[i]->addStretch();
-        boardVerticalLayout->addLayout( boardHorizontalLayout[i] );
+        boardHorizontalLayout[i].addStretch();
+        boardVerticalLayout->addLayout( &boardHorizontalLayout[i] );
     }
     boardVerticalLayout->addStretch();
 }
@@ -223,9 +217,9 @@ void MainWindow::deleteSquares()
 }
 
 /*********************************************************************************************************/
-/* SET NUMERIC SQUARES ***********************************************************************************/
+/* SET SQUARES NUMERIC ***********************************************************************************/
 
-void MainWindow::setSquaresNumber( bool isRandom )
+void MainWindow::setSquaresNumeric( bool isRandom )
 {    
     BoardSize level = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
@@ -233,14 +227,13 @@ void MainWindow::setSquaresNumber( bool isRandom )
     QFont font;
     font.setPixelSize( Options::getSquareSizeFont() );
 
-    for (int i = 0; i < level; i++)
+    for ( int i = 0; i < level; i++ )
     {
-        for (int j = 0; j < level; j++)
+        for ( int j = 0; j < level; j++ )
         {
-            control[i][j].setIcon( QIcon() );
             control[i][j].setText( QString::number( values[i][j] ));
             if ( values[i][j] == 0 )
-                control[i][j].setStyleSheet( styleEmpty );
+                control[i][j].setStyleSheet( Options::getEmptyStyle() );
             else
                 control[i][j].setStyleSheet( currentStyle );
             control[i][j].setFont( font );
@@ -251,7 +244,7 @@ void MainWindow::setSquaresNumber( bool isRandom )
 }
 
 /*********************************************************************************************************/
-/* SET GRAPHIC SQUARES ***********************************************************************************/
+/* SET SQUARES GRAPHIC ***********************************************************************************/
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
@@ -319,7 +312,7 @@ void MainWindow::slotGenerateBoard()
     {
         Options::setBoardMode( BoardMode::NUMERIC );
         createSquares();
-        setSquaresNumber( true );
+        setSquaresNumeric( true );
     }
     else
     {
@@ -337,7 +330,7 @@ void MainWindow::slotSolveBoard()
     board->solveBoard();
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
-        setSquaresNumber( false );
+        setSquaresNumeric( false );
     else         
         setSquaresGraphic( false );
 }
@@ -388,7 +381,7 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
     control[rowDest][colDest].setText( control[rowSource][colSource].text() );
     control[rowDest][colDest].setStyleSheet( currentStyle );
     control[rowSource][colSource].setText( "" );
-    control[rowSource][colSource].setStyleSheet( styleEmpty );
+    control[rowSource][colSource].setStyleSheet( Options::getEmptyStyle() );
 }
 
 /*********************************************************************************************************/
@@ -451,7 +444,7 @@ void MainWindow::slotRemoveGraphic()
 
         deleteSquares();
         createSquares();
-        setSquaresNumber( false );
+        setSquaresNumeric( false );
         Options::setBoardMode( BoardMode::NUMERIC );
     }
 
@@ -499,7 +492,7 @@ void MainWindow::slotReadBoard()
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
         createSquares();
-        setSquaresNumber( false );
+        setSquaresNumeric( false );
         radioKind[EnumKind::NUMERIC]->setChecked( true );
     }
     else
@@ -532,7 +525,7 @@ void MainWindow::setColor()
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            if ( control[i][j].styleSheet() != styleEmpty )
+            if ( control[i][j].styleSheet() != Options::getEmptyStyle() )
                 control[i][j].setStyleSheet( currentStyle );
         }
     }    
@@ -545,17 +538,19 @@ void MainWindow::redrawSquares()
 {
     deleteSquares();
     createSquares();
-    setSquaresNumber( false );
+    setSquaresNumeric( false );
 }
 
 /***********************************************************************************************************/
-/* CHILD WINDOWS *******************************************************************************************/
+/* SLOT SETTINGS *******************************************************************************************/
 
 void MainWindow::slotSettings()
 {
     new WindowSetting( *images, *this );
 }
 
+/***********************************************************************************************************/
+/* SLOT ABOUT **********************************************************************************************/
 
 void MainWindow::slotAbout()
 {

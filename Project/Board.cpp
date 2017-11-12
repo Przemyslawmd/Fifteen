@@ -71,25 +71,25 @@ Board::~Board()
 
 Move Board::checkMove( int row, int col )
 {        
-    if ( row > 0 && ( square[row - 1][col] == EMPTY ))
+    if ( row > 0 && ( square[row - 1][col] == EMPTY_SQUARE ))
     {
         makeMove( row, col, row - 1, col );
         return Move::UP;
     }
 
-    if ( col < ( size - 1 ) && ( square[row][col + 1] == EMPTY ))
+    if ( col < ( size - 1 ) && ( square[row][col + 1] == EMPTY_SQUARE ))
     {
         makeMove( row, col, row, col + 1 );
         return Move::RIGHT;
     }
 
-    if ( row < ( size - 1 ) && ( square[row + 1][col] ==  EMPTY ))
+    if ( row < ( size - 1 ) && ( square[row + 1][col] ==  EMPTY_SQUARE ))
     {
         makeMove( row, col, row + 1, col );
         return Move::DOWN;
     }
 
-    if ( col > 0 && ( square[row][col -1] == EMPTY ))
+    if ( col > 0 && ( square[row][col -1] == EMPTY_SQUARE ))
     {
         makeMove( row, col, row, col -1 );
         return Move::LEFT;
@@ -115,6 +115,7 @@ int** Board::randomBoard()
 
     Move move;
     QList<Move> moves;
+    QTime time = QTime::currentTime();
 
     // Random 2000 times a direction to move a null square
     for ( int i = 0; i < 2000; i++ )
@@ -160,7 +161,7 @@ int** Board::randomBoard()
 
             // Remove move which is not allowed and random once again
             moves.removeOne( move );
-            move = moves.at( qrand() % moves.size() );
+            move = moves.at(( qrand() * static_cast<uint>( time.msec()) ) % moves.size() );
         }
     }
 
@@ -176,7 +177,7 @@ int Board::findNullSquare()
     {
         for ( int j = 0; j < size; j++ )
         {
-            if ( square[i][j] == EMPTY )
+            if ( square[i][j] == EMPTY_SQUARE )
                 return i * 10 + j;
         }
     }
@@ -185,7 +186,7 @@ int Board::findNullSquare()
 }
 
 /*******************************************************************************/
-/* SET A BOARD TO ITS INITIAL STATE ********************************************/
+/* SOLVE BOARD *****************************************************************/
 
 void Board::solveBoard()
 {    
@@ -194,7 +195,7 @@ void Board::solveBoard()
         for ( int j = 0; j < size; j++ )
             square[i][j] = k++;        
     }
-    square[size-1][size-1] = EMPTY;
+    square[size-1][size-1] = EMPTY_SQUARE;
 }
 
 /*******************************************************************************/
@@ -206,7 +207,7 @@ int** Board::sendBoard()
 }
 
 /********************************************************************************/
-/* SUBMIT MOVE ******************************************************************/
+/* MAKE MOVE ********************************************************************/
 
 void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 {    

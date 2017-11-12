@@ -4,9 +4,7 @@
 
 #include "Types.h"
 #include <QList>
-#include <array>
-
-using std::array;
+#include <QTime>
 
 class Board
 {
@@ -17,9 +15,9 @@ public:
 
     // Methods to create a board and to ensure that only one instance of board may exist
     static Board* createBoard( int boardSize );
-    static Board* createBoard( int** squareValues, int boardSize );
+    static Board* createBoard( int** values, int boardSize );
 
-    // Check whether move is allowed, if yes then make move
+    // Check whether move is allowed
     Move checkMove( int row, int col );
 
     int getCurrentSize();
@@ -31,11 +29,11 @@ private:
 
     int size;
     int** square;
-    const int EMPTY = 0;    // Empty square    
+    const int EMPTY_SQUARE = 0;
 
     // Constructors and destructor are invoked via createBoard
     Board( int boardSize );
-    Board( int** squareValues, int boardSize );
+    Board( int** values, int boardSize );
     ~Board();
 
     // Make move by swaping two squares

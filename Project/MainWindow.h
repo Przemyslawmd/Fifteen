@@ -42,7 +42,7 @@ class MainWindow : public QMainWindow
 
     QAction* action[COUNTACTIONS];
 
-    // Main panel, a layout is being created starting form this panel
+    // Main panel
     QWidget* mainPanel;
 
     QHBoxLayout* mainLayout;
@@ -50,7 +50,7 @@ class MainWindow : public QMainWindow
 
     // Board panel
     QVBoxLayout* boardVerticalLayout;
-    QHBoxLayout** boardHorizontalLayout;
+    QHBoxLayout* boardHorizontalLayout;
     QGroupBox* boxImages;
     QPushButton** control;
 
@@ -70,17 +70,13 @@ class MainWindow : public QMainWindow
     QButtonGroup* groupRadioKind;
     QVBoxLayout* layRadioKind;
 
-    QString styleEmpty { "background-color:white; color:white; font-size:20px; border:1px solid white;" };
-
     void createMenu();
 
-    // Create right panel with all controls
     void createRightPanel();
-
     void createLayouts();
 
     void createSquares();
-    void setSquaresNumber( bool isRandom );
+    void setSquaresNumeric( bool isRandom );
     void setSquaresGraphic( bool isRandom );
     void deleteSquares();
 
@@ -109,7 +105,6 @@ public:
     explicit MainWindow( QWidget *parent = 0 );
 
     // Methods setColor and redrawSquares are invoked from WindowSettings
-    // Other solution would be friendship
     void setColor();
     void redrawSquares();
 
