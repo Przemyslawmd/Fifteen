@@ -26,6 +26,7 @@ public:
     static Color getColor();
     static void setColor( Color );
     static QString& getStyle();
+    static QString& getEmptyStyle();
 
 private:
 
@@ -36,7 +37,7 @@ private:
     static int currentSquare;
     static Color currentColor;
     static Sizes sizes[5];
-    static QString styles[3];
+    static QString styles[4];
 };
 
 #endif // OPTIONS_H

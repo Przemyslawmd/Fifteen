@@ -89,6 +89,12 @@ QString& Options::getStyle()
     return styles[currentColor];
 }
 
+
+QString& Options::getEmptyStyle()
+{
+    return styles[Color::EMPTY_STYLE];
+}
+
 /***********************************************************************/
 /***********************************************************************/
 
@@ -116,6 +122,6 @@ QString Options::styles[]
 {
     { BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE }, // Blue style
     { BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE }, // Green style
-    { BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE }  // Red style
+    { BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE }, // Red style
+    { "background-color:white; " END_STYLE }
 };
-
