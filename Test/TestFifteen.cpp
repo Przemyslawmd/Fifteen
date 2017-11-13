@@ -19,6 +19,7 @@ private Q_SLOTS:
     void suiteCreateBoardRandom();
     void suiteMoveSquareDefined();
     void suiteSaveAndLoadBoard();
+    void suiteCreateScaledGraphicBoard();
 
 
     void testCreateBoardSolved( int boardSize );
@@ -26,8 +27,10 @@ private Q_SLOTS:
     void testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond );
     void testMoveSquareDefined( int testNumber );
     void testSaveAndLoadBoard( int testNumber );
+    void testCreateScaledGraphicBoard();
 
     void checkSquares( int boardSize, int** squares );
+    void compareQImage( const QImage& a, const QImage& b );
 };
 
 
@@ -60,8 +63,14 @@ void TestFifteen::suiteSaveAndLoadBoard()
     testSaveAndLoadBoard( 1 );
 }
 
+
+void TestFifteen::suiteCreateScaledGraphicBoard()
+{
+    testCreateScaledGraphicBoard();
+}
+
 /*********************************************************************************/
-/* TEST CREATE BOARD *************************************************************/
+/* TEST CREATE BOARD SOLVED ******************************************************/
 // Test creating initial state of a board, values in a board should be sorted
 
 void TestFifteen::testCreateBoardSolved( int boardSize )
@@ -82,7 +91,7 @@ void TestFifteen::testCreateBoardSolved( int boardSize )
 }
 
 /*********************************************************************************/
-/* TEST RANDOM BOARD *************************************************************/
+/* TEST CREATE RANDOM BOARD ******************************************************/
 // After random board check whether a board has all values
 
 void TestFifteen::testCreateBoardRandom( int boardSize )
@@ -93,7 +102,7 @@ void TestFifteen::testCreateBoardRandom( int boardSize )
 }
 
 /*********************************************************************************/
-/* TEST BOARD WITH CHANGE OF SIZE  ***********************************************/
+/* TEST CREATE BOARD RANDOM WITH CHANGE ******************************************/
 
 void TestFifteen::testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond )
 {
@@ -111,33 +120,8 @@ void TestFifteen::testCreateBoardRandomWithChange( int boardSizeFirst, int board
     checkSquares( boardSizeSecond, squares );
 }
 
-/**************************************************/
-/* CHECK SQUARES **********************************/
-// Helper method to check whether a board has all square values
-
-void TestFifteen::checkSquares( int boardSize, int** squares )
-{
-    QList<int> values;
-
-    for ( int i = 0; i < ( boardSize * boardSize ); i++ )
-        values.append( i );
-
-    for ( int i = 0; i < boardSize; i++ )
-    {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            // Check whether value exists in a list
-            QCOMPARE( values.contains( squares[i][j]), true );
-            values.removeOne( squares[i][j] );
-        }
-    }
-
-    // List should be empty at the end
-    QCOMPARE( values.size(), 0 );
-}
-
-/*************************************************/
-/* TEST MOVING SQUARE DEFINED ********************/
+/*********************************************************************************/
+/* TEST MOVE SQUARE DEFINED ******************************************************/
 
 void TestFifteen::testMoveSquareDefined( int testNumber )
 {
@@ -169,6 +153,8 @@ void TestFifteen::testMoveSquareDefined( int testNumber )
     }
 }
 
+/*********************************************************************************/
+/* TEST SAVE AND LOAD BOARD ******************************************************/
 
 void TestFifteen::testSaveAndLoadBoard( int testNumber )
 {
@@ -209,6 +195,75 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
         for ( int j = 0; j < boardSize; j++ )
             QCOMPARE( squares[i][j], expectedSquares[k++] );
     }
+}
+
+/*********************************************************************************/
+/* TEST CREATE SCALED GRAPHIC BOARD **********************************************/
+
+void TestFifteen::testCreateScaledGraphicBoard()
+{
+    ImagesState imageState;
+    imageState.four.toLoad = false;
+    imageState.five.toLoad = true;
+    imageState.six.toLoad = false;
+    imageState.seven.toLoad = false;
+
+    ImageProvider* imageProvider = ImageProvider::getInstance();
+
+    QDir currentDir = QDir::currentPath();
+    currentDir.cdUp();
+    QImage image( currentDir.absolutePath() + "/Test/Images/initial.jpg" );
+
+    SquareSize size = SquareSize::_50;
+    QString message;
+    imageProvider->prepareBoardImage( image, message, imageState, size );
+    QImage** images = imageProvider->getImage( imageState.five.size );
+
+    for ( int i = 1; i < imageState.five.size * imageState.five.size; i++)
+    {
+        QImage image( currentDir.absolutePath() + "/Test/Images/" + QString::number( i ) + ".bmp" );
+        compareQImage( *images[i], image );
+    }
+}
+
+/***********************************************************************/
+/* COMPARE QIMAGE ******************************************************/
+
+void TestFifteen::compareQImage( const QImage& imageA, const QImage& imageB )
+{
+    QCOMPARE( imageA.width(), imageB.width() );
+    QCOMPARE( imageA.height(), imageB.height() );
+
+    for ( int i = 0; i < imageA.width(); i++ )
+    {
+        for ( int j = 0; j < imageA.height(); j++ )
+            QCOMPARE( imageA.pixel( i, j ), imageB.pixel( i, j ));
+    }
+}
+
+/***********************************************************************/
+/* CHECK SQUARES SIZE **************************************************/
+// Helper method to check whether a board has all square values
+
+void TestFifteen::checkSquares( int boardSize, int** squares )
+{
+    QList<int> values;
+
+    for ( int i = 0; i < ( boardSize * boardSize ); i++ )
+        values.append( i );
+
+    for ( int i = 0; i < boardSize; i++ )
+    {
+        for ( int j = 0; j < boardSize; j++ )
+        {
+            // Check whether value exists in a list
+            QCOMPARE( values.contains( squares[i][j]), true );
+            values.removeOne( squares[i][j] );
+        }
+    }
+
+    // List should be empty at the end
+    QCOMPARE( values.size(), 0 );
 }
 
 QTEST_APPLESS_MAIN(TestFifteen)
