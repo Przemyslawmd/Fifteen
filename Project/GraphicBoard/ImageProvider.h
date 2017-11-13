@@ -2,7 +2,6 @@
 #define IMAGEPROVIDER_H
 
 #include "ImageLoad.h"
-//#include <QImage>
 #include "GraphicBoard.h"
 #include "../Types.h"
 #include "../Options.h"

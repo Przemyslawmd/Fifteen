@@ -1,4 +1,4 @@
-#include "GraphicBoard/ImageLoad.h"
+#include "ImageLoad.h"
 
 ImagesState::ImagesState() :    four( 4, true, false ), five( 5, true, false  ),
                                 six( 6, true, false ), seven( 7, true, false ){}

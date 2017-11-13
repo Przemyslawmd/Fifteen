@@ -17,14 +17,14 @@
 #include <QMessageBox>
 #include <QBuffer>
 #include <memory>
-#include <Board.h>
-#include <WindowSetting.h>
-#include <WindowAbout.h>
-#include <GraphicBoard/ImageLoad.h>
-#include <Types.h>
-#include <Options.h>
-#include <GraphicBoard/ImageProvider.h>
-#include <IOFile.h>
+#include "Board.h"
+#include "WindowSetting.h"
+#include "WindowAbout.h"
+#include "GraphicBoard/ImageLoad.h"
+#include "GraphicBoard/ImageProvider.h"
+#include "Types.h"
+#include "Options.h"
+#include "IOFile.h"
 
 class MainWindow : public QMainWindow
 {
