@@ -19,15 +19,14 @@ private Q_SLOTS:
     void suiteCreateBoardRandom();
     void suiteMoveSquareDefined();
     void suiteSaveAndLoadBoard();
-    void suiteCreateScaledGraphicBoard();
-
+    void suiteCreateGraphicBoard();
 
     void testCreateBoardSolved( int boardSize );
     void testCreateBoardRandom( int boardSize );
     void testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond );
     void testMoveSquareDefined( int testNumber );
     void testSaveAndLoadBoard( int testNumber );
-    void testCreateScaledGraphicBoard();
+    void testCreateGraphicBoard( int testNumber );
 
     void checkSquares( int boardSize, int** squares );
     void compareQImage( const QImage& a, const QImage& b );
@@ -64,9 +63,13 @@ void TestFifteen::suiteSaveAndLoadBoard()
 }
 
 
-void TestFifteen::suiteCreateScaledGraphicBoard()
+void TestFifteen::suiteCreateGraphicBoard()
 {
-    testCreateScaledGraphicBoard();
+    // BoardSize: 5; SquareSize: 50, GraphicMode: Scalled
+    testCreateGraphicBoard( 0 );
+
+    // BoardSize: 6; SquareSize: 75, GraphicMode: Cropped
+    testCreateGraphicBoard( 1 );
 }
 
 /*********************************************************************************/
@@ -198,30 +201,27 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
 }
 
 /*********************************************************************************/
-/* TEST CREATE SCALED GRAPHIC BOARD **********************************************/
+/* TEST CREATE GRAPHIC BOARD *****************************************************/
 
-void TestFifteen::testCreateScaledGraphicBoard()
+void TestFifteen::testCreateGraphicBoard( int testNumber )
 {
-    ImagesState imageState;
-    imageState.four.toLoad = false;
-    imageState.five.toLoad = true;
-    imageState.six.toLoad = false;
-    imageState.seven.toLoad = false;
+    Data::DataInit();
+    TestGraphic testData = Data::getTestGraphic( testNumber );
 
     ImageProvider* imageProvider = ImageProvider::getInstance();
 
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
-    QImage image( currentDir.absolutePath() + "/Test/Images/initial.jpg" );
+    QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + "initial.jpg" );
+    Options::setGraphicMode( testData.mode );
 
-    SquareSize size = SquareSize::_50;
     QString message;
-    imageProvider->prepareBoardImage( image, message, imageState, size );
-    QImage** images = imageProvider->getImage( imageState.five.size );
+    imageProvider->prepareBoardImage( image, message, testData.state, testData.squareSize );
+    QImage** images = imageProvider->getImage( testData.boardSize );
 
-    for ( int i = 1; i < imageState.five.size * imageState.five.size; i++)
+    for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )
     {
-        QImage image( currentDir.absolutePath() + "/Test/Images/" + QString::number( i ) + ".bmp" );
+        QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + QString::number( i ) + ".bmp" );
         compareQImage( *images[i], image );
     }
 }

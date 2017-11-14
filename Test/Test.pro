@@ -21,6 +21,7 @@ SOURCES += TestFifteen.cpp \
     ../Project/GraphicBoard/GraphicBoard.cpp \
     ../Project/GraphicBoard/ImageProvider.cpp \
     ../Project/GraphicBoard/ImageLoad.cpp \
+    TestVectorGraphic.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -31,5 +32,6 @@ HEADERS += \
     ../Project/GraphicBoard/GraphicBoard.h \
     ../Project/GraphicBoard/ImageProvider.h \
     ../Project/GraphicBoard/ImageLoad.h \
+    TestVectorGraphic.h
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
