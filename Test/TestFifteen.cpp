@@ -128,13 +128,14 @@ void TestFifteen::testCreateBoardRandomWithChange( int boardSizeFirst, int board
 
 void TestFifteen::testMoveSquareDefined( int testNumber )
 {
-    int boardSize = Data::getBoardSize( testNumber );
+    Data::DataInit();
+    TestVector dataTest = Data::getTestVector( testNumber );
+    int boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
-    vector< int > moves = Data::getMoves( testNumber );
+    vector< int > moves = dataTest.moves;
     int rowNumber;
     int colNumber;
-
     int numberOfMoves = moves[0];
 
     for( int i = 1; i <= numberOfMoves ; i++ )
@@ -145,11 +146,9 @@ void TestFifteen::testMoveSquareDefined( int testNumber )
     }
 
     int** squares  = board->sendBoard();
-    vector< int > expectedSquares = Data::getExpectedSquares( testNumber );
+    vector< int > expectedSquares = dataTest.expectedSquares;
 
-    int k = 0;
-
-    for ( int i = 0; i < boardSize; i++ )
+    for ( int i = 0, k = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
             QCOMPARE( squares[i][j], expectedSquares[k++] );
@@ -161,13 +160,14 @@ void TestFifteen::testMoveSquareDefined( int testNumber )
 
 void TestFifteen::testSaveAndLoadBoard( int testNumber )
 {
-    int boardSize = Data::getBoardSize( testNumber );
+    Data::DataInit();
+    TestVector dataTest = Data::getTestVector( testNumber );
+    int boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
-    vector< int > moves = Data::getMoves( testNumber );
+    vector< int > moves = dataTest.moves;
     int rowNumber;
     int colNumber;
-
     int numberOfMoves = moves[0];
 
     for( int i = 1; i <= numberOfMoves ; i++ )
@@ -190,7 +190,7 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
     board->createBoard( readValues, Options::getBoardSize() );
     int** squares  = board->sendBoard();
 
-    vector< int > expectedSquares = Data::getExpectedSquares( testNumber );
+    vector< int > expectedSquares = dataTest.expectedSquares;
     int k = 0;
 
     for ( int i = 0; i < boardSize; i++ )
@@ -207,7 +207,6 @@ void TestFifteen::testCreateGraphicBoard( int testNumber )
 {
     Data::DataInit();
     TestGraphic testData = Data::getTestGraphic( testNumber );
-
     ImageProvider* imageProvider = ImageProvider::getInstance();
 
     QDir currentDir = QDir::currentPath();

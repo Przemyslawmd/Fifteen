@@ -12,14 +12,12 @@ public:
 
     static void DataInit();
 
-    static int getBoardSize( int testNumber );
-    static vector< int > getMoves( int testNumber );
-    static vector< int > getExpectedSquares( int testNumber );
-
+    static TestVector& getTestVector( int testNumber );
     static TestGraphic& getTestGraphic( int testNumber );
 
 private:
 
+    static bool isInit;
     static vector< TestVector > testData;
     static vector< TestGraphic > testDataGraphic;
 };
