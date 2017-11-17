@@ -16,4 +16,4 @@ Moreover, a board may be created from an indicated graphic file as well, so ther
 
 Last feature is that a board may be saved into a file and restored later. 
 
-More information with screens on a website : http://www.przemeknet.pl/fifteenEn.aspx
+More information with screens on a website : http://www.przemeknet.pl/fifteen
