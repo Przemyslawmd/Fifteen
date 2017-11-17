@@ -1,11 +1,15 @@
 
 #include "TestVectorGraphic.h"
 
-TestGraphic::TestGraphic( BoardSize boardSize, SquareSize squareSize, GraphicMode mode, ImagesState state, QString path )
-    : state( state )
+TestGraphic::TestGraphic( BoardSize board, SquareSize square, GraphicMode mode, QString path, bool four, bool five, bool six, bool seven )
 {
-    this->boardSize = boardSize;
-    this->squareSize = squareSize;
+    this->boardSize = board;
+    this->squareSize = square;
     this->mode = mode;
-    this->imagesPath = path;
+    imagesPath = path;
+    isFourToBeLoaded = four;
+    isFiveToBeLoaded = five;
+    isSixToBeLoaded = six;
+    isSevenToBeLoaded = seven;
+
 }

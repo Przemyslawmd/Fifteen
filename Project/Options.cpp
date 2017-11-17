@@ -95,6 +95,24 @@ QString& Options::getEmptyStyle()
     return styles[Color::EMPTY_STYLE];
 }
 
+/************************************************************************/
+/* IMAGES TO BE LOADED **************************************************/
+
+
+bool Options::isImageToBeLoaded( BoardSize size )
+{
+    return imagesToBeLoaded[size - ALIGN];
+}
+
+
+void Options::setImagesToBeLoaded( bool four, bool five , bool six , bool seven )
+{
+    imagesToBeLoaded[0] = four;
+    imagesToBeLoaded[1] = five;
+    imagesToBeLoaded[2] = six;
+    imagesToBeLoaded[3] = seven;
+}
+
 /***********************************************************************/
 /***********************************************************************/
 
@@ -125,3 +143,5 @@ QString Options::styles[]
     { BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE }, // Red style
     { "background-color:white; " END_STYLE }
 };
+
+bool Options::imagesToBeLoaded[] = { true, true, true, true };

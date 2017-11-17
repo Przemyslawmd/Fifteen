@@ -1,3 +1,4 @@
+
 #ifndef IMAGESTATE_H
 #define IMAGESTATE_H
 
@@ -11,12 +12,11 @@ class State
     friend class ImagesState;
 
     private:
-        State ( int size, bool toLoad, bool loaded ) :
-                size( size ), toLoad( toLoad ), loaded( loaded ) {}
+        State ( int size, bool loaded ) :
+                size( size ), loaded( loaded ) {}
 
     public:        
         const int size;
-        bool toLoad;
         bool loaded;
 };
 

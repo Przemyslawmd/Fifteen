@@ -6,18 +6,8 @@ void Data::DataInit()
     if ( isInit )
         return;
 
-    ImagesState state;
-    state.four.toLoad = false;
-    state.five.toLoad = true;
-    state.six.toLoad = false;
-    state.seven.toLoad = false;
-    testDataGraphic.push_back( TestGraphic{ BoardSize::FIVE, SquareSize::_50, GraphicMode::SCALED, state, "Scalled_5_50/" });
-
-    state.four.toLoad = false;
-    state.five.toLoad = false;
-    state.six.toLoad = true;
-    state.seven.toLoad = false;
-    testDataGraphic.push_back( TestGraphic{ BoardSize::SIX, SquareSize::_75, GraphicMode::CROPPED, state, "Cropped_6_75/" });
+    testDataGraphic.push_back( TestGraphic{ BoardSize::FIVE, SquareSize::_50, GraphicMode::SCALED, "Scalled_5_50/", false, true, false, false });
+    testDataGraphic.push_back( TestGraphic{ BoardSize::SIX, SquareSize::_75, GraphicMode::CROPPED, "Cropped_6_75/", false, false, true, false });
 
     testData.push_back( TestVector
     {

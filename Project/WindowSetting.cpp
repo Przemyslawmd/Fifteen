@@ -53,18 +53,18 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
 
     /* Checkbox for images praparing  ********************************/
 
-    for ( auto& check : checkBoardSize )
+    for ( auto& check : checkImage )
         check.setStyleSheet( "margin-left:5px;" );
 
-    checkBoardSize[FOUR].setText( "Graphic is to be loaded for a board 4x4" );
-    checkBoardSize[FIVE].setText( "Graphic is to be loaded for a board 5x5" );
-    checkBoardSize[SIX].setText( "Graphic is to be loaded for a board 6x6" );
-    checkBoardSize[SEVEN].setText( "Graphic is to be loaded for a board 7x7" );
+    checkImage[FOUR].setText( "Graphic is to be loaded for a board 4x4" );
+    checkImage[FIVE].setText( "Graphic is to be loaded for a board 5x5" );
+    checkImage[SIX].setText( "Graphic is to be loaded for a board 6x6" );
+    checkImage[SEVEN].setText( "Graphic is to be loaded for a board 7x7" );
 
-    checkBoardSize[FOUR].setChecked( images.four.toLoad );
-    checkBoardSize[FIVE].setChecked( images.five.toLoad );
-    checkBoardSize[SIX].setChecked( images.six.toLoad );
-    checkBoardSize[SEVEN].setChecked( images.seven.toLoad );
+    checkImage[FOUR].setChecked( Options::isImageToBeLoaded( BoardSize::FOUR ));
+    checkImage[FIVE].setChecked( Options::isImageToBeLoaded( BoardSize::FIVE ));
+    checkImage[SIX].setChecked( Options::isImageToBeLoaded( BoardSize::SIX ));
+    checkImage[SEVEN].setChecked( Options::isImageToBeLoaded( BoardSize::SEVEN ));
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -72,13 +72,13 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
     layRadioImage.addSpacing( 8 );
     layRadioImage.addWidget( &radioGraphic[CROPPED] );
     layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( &checkBoardSize[FOUR] );
+    layRadioImage.addWidget( &checkImage[FOUR] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkBoardSize[FIVE] );
+    layRadioImage.addWidget( &checkImage[FIVE] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkBoardSize[SIX] );
+    layRadioImage.addWidget( &checkImage[SIX] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkBoardSize[SEVEN] );
+    layRadioImage.addWidget( &checkImage[SEVEN] );
     layRadioImage.addSpacing( 15 );
     boxRadioImage.setLayout( &layRadioImage );
 
@@ -135,11 +135,7 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
 
 void WindowSetting::acceptSettings()
 {
-    images.four.toLoad = checkBoardSize[FOUR].isChecked();
-    images.five.toLoad = checkBoardSize[FIVE].isChecked();
-    images.six.toLoad = checkBoardSize[SIX].isChecked();
-    images.seven.toLoad = checkBoardSize[SEVEN].isChecked();
-
+    Options::setImagesToBeLoaded( checkImage[FOUR].isChecked(), checkImage[FIVE].isChecked(), checkImage[SIX].isChecked(), checkImage[SEVEN].isChecked());
     Options::setGraphicMode(( radioGraphic[SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED ));
     BoardMode boardMode = Options::getBoardMode();
 

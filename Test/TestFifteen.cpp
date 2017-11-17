@@ -213,9 +213,11 @@ void TestFifteen::testCreateGraphicBoard( int testNumber )
     currentDir.cdUp();
     QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + "initial.jpg" );
     Options::setGraphicMode( testData.mode );
+    Options::setImagesToBeLoaded( testData.isFourToBeLoaded, testData.isFiveToBeLoaded, testData.isSixToBeLoaded, testData.isSevenToBeLoaded );
 
+    ImagesState state;
     QString message;
-    imageProvider->prepareBoardImage( image, message, testData.state, testData.squareSize );
+    imageProvider->prepareBoardImage( image, message, state, testData.squareSize );
     QImage** images = imageProvider->getImage( testData.boardSize );
 
     for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )

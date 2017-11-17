@@ -56,25 +56,25 @@ void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImagesSt
 {
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled : &GraphicBoard::createCropped;
 
-    if (( imageState.four.toLoad ) && ( checkImageSize( image, imageState.four, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, imageState.four, squareSize, message )))
     {
         images[Index::four] = new GraphicBoard( imageState.four.size );
         ( images[Index::four]->*createImage )( image, imageState.four, message, squareSize );
     }
 
-    if (( imageState.five.toLoad  ) && ( checkImageSize( image, imageState.five, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, imageState.five, squareSize, message )))
     {
         images[Index::five] = new GraphicBoard( imageState.five.size );
         ( images[Index::five]->*createImage )( image, imageState.five, message, squareSize );
     }
 
-    if (( imageState.six.toLoad ) && ( checkImageSize( image, imageState.six, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, imageState.six, squareSize, message )))
     {
         images[Index::six] = new GraphicBoard( imageState.six.size );
         ( images[Index::six]->*createImage )( image, imageState.six, message, squareSize );
     }
 
-    if (( imageState.seven.toLoad ) && ( checkImageSize( image, imageState.seven, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, imageState.seven, squareSize, message )))
     {
         images[Index::seven] = new GraphicBoard( imageState.seven.size );
         ( images[Index::seven]->*createImage )( image, imageState.seven, message, squareSize );

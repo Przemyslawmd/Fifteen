@@ -28,6 +28,9 @@ public:
     static QString& getStyle();
     static QString& getEmptyStyle();
 
+    static bool isImageToBeLoaded( BoardSize size );
+    static void setImagesToBeLoaded( bool four, bool five, bool six, bool seven );
+
 private:
 
     static BoardSize boardSize;
@@ -38,6 +41,7 @@ private:
     static Color currentColor;
     static Sizes sizes[5];
     static QString styles[4];
+    static bool imagesToBeLoaded[4];
 };
 
 #endif // OPTIONS_H

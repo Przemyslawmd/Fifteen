@@ -29,11 +29,11 @@ private:
 
     // Indicators for radio buttons and check boxes
     enum SquareColor { BLUE, GREEN, RED, COUNT_COLOR };
-    enum BoardSize   { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
+    enum BoardSize_   { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
 
     array<QRadioButton, COUNT_COLOR> radioColor;
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
-    array<QCheckBox, COUNT_SIZE> checkBoardSize;
+    array<QCheckBox, COUNT_SIZE> checkImage;
     QSlider slider;
     array<QLabel, 5> sliderLabels;
     QPushButton accept;    
