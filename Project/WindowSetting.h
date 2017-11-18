@@ -45,10 +45,6 @@ private:
     QButtonGroup groupRadioImage;
     QButtonGroup groupRadioColor;
 
-    // Reference to a class that stores state of images
-    // This window sets there for what board dimensions an image is to be loaded
-    ImagesState& images;
-
     MainWindow& parent;
 
 private slots:
@@ -57,7 +53,7 @@ private slots:
     void acceptSettings();
 
 public:
-    WindowSetting( ImagesState& imagesState, MainWindow& parentWindow );
+    WindowSetting( MainWindow& parentWindow );
 };
 
 #endif // SETTING_H

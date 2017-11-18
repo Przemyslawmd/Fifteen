@@ -1,3 +1,4 @@
+
 #include "MainWindow.h"
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
@@ -546,7 +547,7 @@ void MainWindow::redrawSquares()
 
 void MainWindow::slotSettings()
 {
-    new WindowSetting( *images, *this );
+    new WindowSetting( *this );
 }
 
 /***********************************************************************************************************/

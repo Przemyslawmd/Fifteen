@@ -1,12 +1,12 @@
 
 #include "WindowSetting.h"
 
-WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
+WindowSetting::WindowSetting( MainWindow& parent ) :
     slider{ Qt::Horizontal, this }, accept{ "Accept" },
     boxRadioColor{ "Color of Numeric Board" }, boxRadioImage{ "Graphic" }, boxSquareSize{ "Size of Square" },
-    groupRadioImage(), groupRadioColor(), images( images ), parent( parent )
+    groupRadioImage(), groupRadioColor(), parent( parent )
 {
-    setModal( true );    
+    setModal( true );
     setWindowTitle( "" );
     setGeometry( 100, 100, 400, 560 );
     setMaximumSize( 400, 680 );
@@ -101,7 +101,7 @@ WindowSetting::WindowSetting( ImagesState& images, MainWindow& parent ) :
     layoutSlider.addWidget( &sliderLabels[1], 1, 1, 1, 1, Qt::AlignLeft );
     layoutSlider.addWidget( &sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
     layoutSlider.addWidget( &sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
-    layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );    
+    layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
     boxSquareSize.setLayout( &layoutSlider );
 
 
