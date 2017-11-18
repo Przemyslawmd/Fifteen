@@ -36,7 +36,7 @@ QImage** GraphicBoard::getImage()
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A SCALE MODE *******************************************************************/
 
-void GraphicBoard::createScaled( QImage& picture, State& state, QString& message, SquareSize squareSize )
+bool GraphicBoard::createScaled( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
     int boardSizeInPixel = state.size * squareSize;
 
@@ -44,15 +44,19 @@ void GraphicBoard::createScaled( QImage& picture, State& state, QString& message
     {
         state.loaded = true;
         message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n").arg( state.size ));
+        return true;
     }
     else
+    {
         message.append( QString( "Failure of loading graphic for a board of size %1 \t\n\n" ).arg( state.size ));
+        return false;
+    }
 }
 
 /****************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A CROP MODE *********************************************************************/
 
-void GraphicBoard::createCropped( QImage& picture, State& state, QString& message, SquareSize squareSize )
+bool GraphicBoard::createCropped( QImage& picture, State& state, QString& message, SquareSize squareSize )
 {
     int boardSizeInPixel = state.size * squareSize;
 
@@ -60,9 +64,13 @@ void GraphicBoard::createCropped( QImage& picture, State& state, QString& messag
     {
         state.loaded = true;
         message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n" ).arg( state.size ));
+        return true;
     }
     else
+    {
         message.append( QString( "Failure of loading graphic for a board of size %1 \t\n\n" ).arg( state.size ));
+        return false;
+    }
 }
 
 /**************************************************************************************************************************/
