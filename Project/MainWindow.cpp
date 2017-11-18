@@ -283,22 +283,24 @@ void MainWindow::slotGenerateBoard()
     // In case of graphic board check whether there is a proper image loaded
     if ( radioKind[EnumKind::GRAPHIC]->isChecked() )
     {
-        if (( boardSize == BoardSize::FOUR ) && ( images->four.loaded == false ))
+        ImageProvider* provider = ImageProvider::getInstance();
+
+        if (( boardSize == BoardSize::FOUR ) && ( provider->isImage( BoardSize::FOUR ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
-        if (( boardSize == BoardSize::FIVE ) && ( images->five.loaded == false ))
+        if (( boardSize == BoardSize::FIVE ) && ( provider->isImage( BoardSize::FIVE)  == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
             return;
         }
-        if (( boardSize == BoardSize::SIX ) && ( images->six.loaded == false ))
+        if (( boardSize == BoardSize::SIX ) && ( provider->isImage( BoardSize::SIX ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
-        if (( boardSize == BoardSize::SEVEN ) && ( images->seven.loaded == false ))
+        if (( boardSize == BoardSize::SEVEN ) && ( provider->isImage( BoardSize::SEVEN ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
@@ -417,10 +419,11 @@ void MainWindow::slotLoadGraphic()
     }
 
     QString message;
-    ImageProvider::getInstance()->prepareBoardImage( picture, message, *images, Options::getSquareSize() );
+    ImageProvider* provider = ImageProvider::getInstance();
+    provider->prepareBoardImage( picture, message, *images, Options::getSquareSize() );
     QMessageBox::information( this, "", message );
 
-    if ( images->four.loaded || images->five.loaded || images->six.loaded || images->seven.loaded )
+    if ( provider->isImage( BoardSize::FOUR ) || provider->isImage( BoardSize::FIVE ) || provider->isImage( BoardSize::SIX ) || provider->isImage( BoardSize::SEVEN ))
     {
         action[Action::REMGRAPHIC]->setEnabled( true );
         images->imageSize = Options::getSquareSize();
@@ -434,7 +437,6 @@ void MainWindow::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
     action[Action::REMGRAPHIC]->setEnabled( false );
-    images->resetLoaded();
 
     // Graphic board is active
     if ( Options::getBoardMode() == BoardMode::GRAPHIC )

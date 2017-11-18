@@ -33,6 +33,11 @@ ImageProvider::ImageProvider()
 
     for ( int i = 0; i < countImages; i++ )
         images[i] = nullptr;
+
+    isImageFour = false;
+    isImageFive = false;
+    isImageSix = false;
+    isImageSeven = false;
 }
 
 /************************************************************************************/
@@ -59,25 +64,25 @@ void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImagesSt
     if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, imageState.four, squareSize, message )))
     {
         images[Index::four] = new GraphicBoard( imageState.four.size );
-        ( images[Index::four]->*createImage )( image, imageState.four, message, squareSize );
+        isImageFour = ( images[Index::four]->*createImage )( image, imageState.four, message, squareSize );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, imageState.five, squareSize, message )))
     {
         images[Index::five] = new GraphicBoard( imageState.five.size );
-        ( images[Index::five]->*createImage )( image, imageState.five, message, squareSize );
+        isImageFive = ( images[Index::five]->*createImage )( image, imageState.five, message, squareSize );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, imageState.six, squareSize, message )))
     {
         images[Index::six] = new GraphicBoard( imageState.six.size );
-        ( images[Index::six]->*createImage )( image, imageState.six, message, squareSize );
+        isImageSix = ( images[Index::six]->*createImage )( image, imageState.six, message, squareSize );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, imageState.seven, squareSize, message )))
     {
         images[Index::seven] = new GraphicBoard( imageState.seven.size );
-        ( images[Index::seven]->*createImage )( image, imageState.seven, message, squareSize );
+        isImageSeven = ( images[Index::seven]->*createImage )( image, imageState.seven, message, squareSize );
     }
 }
 
