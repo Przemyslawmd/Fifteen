@@ -93,15 +93,7 @@ int** IOFile::readBoardFromFile( QString fileName, ImagesState* images )
 
         ImageProvider::deleteInstance();
         ImageProvider* imageProvider = ImageProvider::getInstance();
-
-        if ( level == BoardSize::FOUR )
-            images->four.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-        else if ( level == BoardSize::FIVE )
-            images->five.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-        else if ( level == BoardSize::SIX )
-            images->six.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
-        else
-            images->seven.loaded = imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
+        imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
     }
 
     file.close();

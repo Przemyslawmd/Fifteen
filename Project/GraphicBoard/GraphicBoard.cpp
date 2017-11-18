@@ -42,7 +42,6 @@ bool GraphicBoard::createScaled( QImage& picture, State& state, QString& message
 
     if ( createSquareImage( new QImage( picture.scaled( boardSizeInPixel, boardSizeInPixel )), state.size, squareSize ))
     {
-        state.loaded = true;
         message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n").arg( state.size ));
         return true;
     }
@@ -62,7 +61,6 @@ bool GraphicBoard::createCropped( QImage& picture, State& state, QString& messag
 
     if ( createSquareImage( new QImage( picture.copy(( picture.width() - boardSizeInPixel )/2, ( picture.height() - boardSizeInPixel )/2, boardSizeInPixel, boardSizeInPixel )), state.size, squareSize ))
     {
-        state.loaded = true;
         message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n" ).arg( state.size ));
         return true;
     }

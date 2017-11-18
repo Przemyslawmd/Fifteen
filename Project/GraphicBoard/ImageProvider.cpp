@@ -129,7 +129,16 @@ bool ImageProvider::isImage( BoardSize size )
 bool ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, SquareSize imageSize, int byteCount )
 {
     images[boardSize - countImages] = new GraphicBoard( boardSize * boardSize );
-    return images[boardSize - 4]->restoreImagesFromFile( data, imageSize, byteCount );
+    bool result = images[boardSize - 4]->restoreImagesFromFile( data, imageSize, byteCount );
+
+    if ( boardSize == 4 )
+        isImageFour = result;
+    else if ( boardSize == 5 )
+        isImageFive = result;
+    else if ( boardSize == 6 )
+        isImageSix = result;
+    else
+        isImageSeven = result;
 }
 
 /*********************************************************************************************/

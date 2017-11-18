@@ -12,12 +12,11 @@ class State
     friend class ImagesState;
 
     private:
-        State ( int size, bool loaded ) :
-                size( size ), loaded( loaded ) {}
+        State ( int size ) :
+                size( size ) {}
 
     public:        
         const int size;
-        bool loaded;
 };
 
 class ImagesState

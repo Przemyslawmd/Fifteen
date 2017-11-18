@@ -500,14 +500,16 @@ void MainWindow::slotReadBoard()
     }
     else
     {
+        ImageProvider* provider = ImageProvider::getInstance();
+
         if ( boardSize == BoardSize::FOUR )
-            radioSize[EnumSize::FOUR]->setChecked( images->four.loaded );
+            radioSize[EnumSize::FOUR]->setChecked( provider->isImage( BoardSize::FOUR ));
         else if ( boardSize == BoardSize::FIVE )
-            radioSize[EnumSize::FIVE]->setChecked( images->five.loaded );
+            radioSize[EnumSize::FIVE]->setChecked( provider->isImage( BoardSize::FIVE ));
         else if ( boardSize == BoardSize::SIX )
-            radioSize[EnumSize::SIX]->setChecked( images->six.loaded );
+            radioSize[EnumSize::SIX]->setChecked( provider->isImage( BoardSize::SIX ) );
         else
-            radioSize[EnumSize::SEVEN]->setChecked( images->seven.loaded );
+            radioSize[EnumSize::SEVEN]->setChecked( provider->isImage( BoardSize::SEVEN ) );
 
         createSquares();
         setSquaresGraphic( false );

@@ -1,16 +1,12 @@
 
 #include "ImageLoad.h"
 
-ImagesState::ImagesState() :    four( 4, false ), five( 5, false  ),
-                                six( 6, false ), seven( 7, false ){}
+ImagesState::ImagesState() :    four( 4 ), five( 5 ),
+                                six( 6 ), seven( 7 ){}
 
 /*******************************************************************************************************/
 /* RESET NUMBER OF LOADED IMAGES ***********************************************************************/
 
 void ImagesState::resetLoaded()
 {
-    four.loaded = false;
-    five.loaded = false;
-    six.loaded = false;
-    seven.loaded = false;
 }
