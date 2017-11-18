@@ -103,6 +103,21 @@ QImage** ImageProvider::getImage( int boardSize )
     return images[boardSize - countImages]->getImage();
 }
 
+/*****************************************************************************************/
+/* IS IMAGE ******************************************************************************/
+
+bool ImageProvider::isImage( BoardSize size )
+{
+    if ( size == BoardSize::FOUR )
+        return isImageFour;
+    else if ( size == BoardSize::FIVE )
+        return isImageFive;
+    else if ( size == BoardSize::SIX )
+        return isImageSix;
+    else
+        return isImageSeven;
+}
+
 /*******************************************************************************************/
 /* RESTORE IMAGE FROM BOARD ****************************************************************/
 

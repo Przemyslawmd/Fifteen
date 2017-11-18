@@ -16,6 +16,7 @@ public:
     QImage** getImage( int );
     void prepareBoardImage( QImage&, QString&, ImagesState&, SquareSize );
     bool restoreImageBoardFromFile( uchar*, int, SquareSize, int );
+    bool isImage( BoardSize );
 
 private:
 
@@ -26,6 +27,11 @@ private:
     bool checkImageSize( QImage&, State&, SquareSize, QString& ) ;
 
     enum Index { four = 0, five, six, seven, countImages };
+
+    bool isImageFour;
+    bool isImageFive;
+    bool isImageSix;
+    bool isImageSeven;
 
     GraphicBoard** images;
     static ImageProvider* instance;
