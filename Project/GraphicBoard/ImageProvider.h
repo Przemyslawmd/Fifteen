@@ -1,10 +1,8 @@
 #ifndef IMAGEPROVIDER_H
 #define IMAGEPROVIDER_H
 
-#include "ImageLoad.h"
 #include "GraphicBoard.h"
 #include "../Types.h"
-#include "../Options.h"
 
 class ImageProvider
 {
@@ -17,6 +15,7 @@ public:
     void prepareBoardImage( QImage&, QString&, SquareSize );
     bool restoreImageBoardFromFile( uchar*, int, SquareSize, int );
     bool isImage( BoardSize );
+    SquareSize getImageSquareSize();
 
 private:
 
@@ -32,6 +31,7 @@ private:
     bool isImageFive;
     bool isImageSix;
     bool isImageSeven;
+    SquareSize imageSquareSize;
 
     GraphicBoard** images;
     static ImageProvider* instance;

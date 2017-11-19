@@ -161,7 +161,7 @@ void MainWindow::createLayouts()
 void MainWindow::createSquares()
 {
     BoardSize level = Options::getBoardSize();
-    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : images->imageSize;
+    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance()->getImageSquareSize();
 
     control = new QPushButton*[level];
 
@@ -250,10 +250,11 @@ void MainWindow::setSquaresNumeric( bool isRandom )
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
     BoardSize level = Options::getBoardSize();
-    SquareSize squareSize = images->imageSize;
+    ImageProvider* provider = ImageProvider::getInstance();
+    SquareSize squareSize = provider->getImageSquareSize();
 
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
-    QImage** pictures = ImageProvider::getInstance()->getImage( level );
+    QImage** pictures = provider->getImage( level );
 
     for ( int i = 0; i < level; i++ )
     {
@@ -445,10 +446,10 @@ void MainWindow::slotRemoveGraphic()
         while (( child = boardVerticalLayout->takeAt(0)) != 0 )
             boardVerticalLayout->removeItem( 0 );
 
+        Options::setBoardMode( BoardMode::NUMERIC );
         deleteSquares();
         createSquares();
         setSquaresNumeric( false );
-        Options::setBoardMode( BoardMode::NUMERIC );
     }
 
     QMessageBox::information( this, "", "Graphic removed\t");

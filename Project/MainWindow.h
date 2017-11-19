@@ -20,7 +20,6 @@
 #include "Board.h"
 #include "WindowSetting.h"
 #include "WindowAbout.h"
-#include "GraphicBoard/ImageLoad.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "Types.h"
 #include "Options.h"

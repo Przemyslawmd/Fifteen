@@ -2,8 +2,8 @@
 #ifndef GRAPHIC_BOARD__H
 #define GRAPHIC_BOARD__H
 
+#include "../Types.h"
 #include <QImage>
-#include "ImageLoad.h"
 
 /*
  * This class is responsible for maintaining and preparing

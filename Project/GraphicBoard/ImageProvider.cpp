@@ -1,5 +1,6 @@
 
 #include "ImageProvider.h"
+#include "../Options.h"
 
 /********************************************************************************/
 /* GET IMAGE PROVIDER INSTANCE **************************************************/
@@ -59,6 +60,7 @@ ImageProvider::~ImageProvider()
 
 void ImageProvider::prepareBoardImage( QImage& image, QString& message, SquareSize squareSize )
 {
+    imageSquareSize = squareSize;
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled : &GraphicBoard::createCropped;
 
     if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, BoardSize::FOUR, squareSize, message )))
@@ -121,6 +123,14 @@ bool ImageProvider::isImage( BoardSize size )
         return isImageSix;
     else
         return isImageSeven;
+}
+
+/*****************************************************************************************/
+/* GET IMAGE SQUARE SIZE *****************************************************************/
+
+SquareSize ImageProvider::getImageSquareSize()
+{
+    return imageSquareSize;
 }
 
 /*******************************************************************************************/
