@@ -15,8 +15,8 @@ public:
     IOFile();
 
     void saveNumericBoardInFile( Board* board, QString fileName );
-    void saveGraphicBoardInFile( Board* board, ImagesState* images, QString fileName );
-    int** readBoardFromFile( QString fileName, ImagesState* images );
+    void saveGraphicBoardInFile( Board* board, QString fileName );
+    int** readBoardFromFile( QString fileName );
 
 private:
 

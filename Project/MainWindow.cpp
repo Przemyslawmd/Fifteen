@@ -3,7 +3,6 @@
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
-    images = new ImagesState();
     board = Board::createBoard( Options::getBoardSize() );
 
     resize( 750, 550 );
@@ -394,7 +393,8 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
     control[rowDest][colDest].setIcon( control[rowSource][colSource].icon() );
-    QPixmap pixmap( images->imageSize, images->imageSize );
+    SquareSize imageSize = ImageProvider::getInstance()->getImageSquareSize();
+    QPixmap pixmap( imageSize, imageSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
     control[rowSource][colSource].setIcon( nullIcon );
@@ -466,7 +466,7 @@ void MainWindow::slotSaveBoard()
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
         ioFile.saveNumericBoardInFile( board, fileName );
     else
-        ioFile.saveGraphicBoardInFile( board, images, fileName );
+        ioFile.saveGraphicBoardInFile( board, fileName );
 }
 
 /*********************************************************************************************************/
@@ -486,7 +486,7 @@ void MainWindow::slotReadBoard()
     deleteSquares();
 
     IOFile ioFile;
-    int** values = ioFile.readBoardFromFile( fileName, images );
+    int** values = ioFile.readBoardFromFile( fileName );
     int boardSize = Options::getBoardSize();
     board = Board::createBoard( values, boardSize );
 

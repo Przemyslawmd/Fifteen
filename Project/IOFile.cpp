@@ -21,7 +21,7 @@ void IOFile::saveNumericBoardInFile( Board* board, QString fileName )
 /*********************************************************************************/
 /* SAVE GRAPHIC BOARD IN FILE ****************************************************/
 
-void IOFile::saveGraphicBoardInFile( Board* board, ImagesState* images, QString fileName )
+void IOFile::saveGraphicBoardInFile( Board* board, QString fileName )
 {
     QFile file( fileName );
     QDataStream& inData = getDataStream( file, QIODevice::WriteOnly );
@@ -52,7 +52,7 @@ void IOFile::saveGraphicBoardInFile( Board* board, ImagesState* images, QString 
 /*********************************************************************************/
 /* READ BOARD FROM FILE **********************************************************/
 
-int** IOFile::readBoardFromFile( QString fileName, ImagesState* images )
+int** IOFile::readBoardFromFile( QString fileName )
 {
     QFile file( fileName );
     QDataStream& stream = getDataStream( file, QIODevice::ReadOnly );

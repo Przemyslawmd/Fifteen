@@ -30,7 +30,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     Board* board;
-    ImagesState* images;
 
     enum EnumSize { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
     enum EnumKind { NUMERIC, GRAPHIC, COUNT_KIND };
