@@ -141,6 +141,9 @@ bool ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, Squar
     images[boardSize - countImages] = new GraphicBoard( boardSize * boardSize );
     bool result = images[boardSize - 4]->restoreImagesFromFile( data, imageSize, byteCount );
 
+    if ( result )
+        imageSquareSize = imageSize;
+
     if ( boardSize == 4 )
         isImageFour = result;
     else if ( boardSize == 5 )

@@ -32,8 +32,9 @@ void IOFile::saveGraphicBoardInFile( Board* board, ImagesState* images, QString 
 
     insertBoardValuesIntoStream( inData, board );
 
-    inData << ( quint32 )images->imageSize;
-    QImage** pictures = ImageProvider::getInstance()->getImage( boardSize );
+    ImageProvider* provider = ImageProvider::getInstance();
+    inData << ( int ) provider->getImageSquareSize();
+    QImage** pictures = provider->getImage( boardSize );
     int byteCount = pictures[0]->byteCount();
     inData << byteCount;
     uchar* buffer = new uchar[ byteCount ];
@@ -81,7 +82,6 @@ int** IOFile::readBoardFromFile( QString fileName, ImagesState* images )
         Options::setBoardMode( BoardMode::GRAPHIC );
         int imageSize;
         stream >> imageSize;
-        images->imageSize = ( SquareSize )imageSize;
         int byteCount;
         stream >> byteCount;
 
@@ -93,7 +93,7 @@ int** IOFile::readBoardFromFile( QString fileName, ImagesState* images )
 
         ImageProvider::deleteInstance();
         ImageProvider* imageProvider = ImageProvider::getInstance();
-        imageProvider->restoreImageBoardFromFile( buffer, level, images->imageSize, byteCount );
+        imageProvider->restoreImageBoardFromFile( buffer, level, ( SquareSize ) imageSize, byteCount );
     }
 
     file.close();

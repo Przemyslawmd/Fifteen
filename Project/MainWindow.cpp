@@ -425,10 +425,7 @@ void MainWindow::slotLoadGraphic()
     QMessageBox::information( this, "", message );
 
     if ( provider->isImage( BoardSize::FOUR ) || provider->isImage( BoardSize::FIVE ) || provider->isImage( BoardSize::SIX ) || provider->isImage( BoardSize::SEVEN ))
-    {
         action[Action::REMGRAPHIC]->setEnabled( true );
-        images->imageSize = Options::getSquareSize();
-    }
 }
 
 /*********************************************************************************************************/
