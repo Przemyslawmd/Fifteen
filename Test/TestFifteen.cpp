@@ -207,7 +207,6 @@ void TestFifteen::testCreateGraphicBoard( int testNumber )
 {
     Data::DataInit();
     TestGraphic testData = Data::getTestGraphic( testNumber );
-    ImageProvider* imageProvider = ImageProvider::getInstance();
 
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
@@ -216,8 +215,9 @@ void TestFifteen::testCreateGraphicBoard( int testNumber )
     Options::setImagesToBeLoaded( testData.isFourToBeLoaded, testData.isFiveToBeLoaded, testData.isSixToBeLoaded, testData.isSevenToBeLoaded );
 
     QString message;
-    imageProvider->prepareBoardImage( image, message, testData.squareSize );
-    QImage** images = imageProvider->getImage( testData.boardSize );
+    ImageProvider& imageProvider = ImageProvider::getInstance();
+    imageProvider.prepareBoardImage( image, message, testData.squareSize );
+    QImage** images = imageProvider.getImage( testData.boardSize );
 
     for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )
     {

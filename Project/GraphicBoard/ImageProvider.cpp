@@ -5,12 +5,12 @@
 /********************************************************************************/
 /* GET IMAGE PROVIDER INSTANCE **************************************************/
 
-ImageProvider* ImageProvider::getInstance()
+ImageProvider& ImageProvider::getInstance()
 {
     if ( instance == nullptr )
         instance = new ImageProvider();
 
-    return instance;
+    return *instance;
 }
 
 /*********************************************************************************/
@@ -136,7 +136,7 @@ SquareSize ImageProvider::getImageSquareSize()
 /*******************************************************************************************/
 /* RESTORE IMAGE FROM BOARD ****************************************************************/
 
-bool ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, SquareSize imageSize, int byteCount )
+void ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, SquareSize imageSize, int byteCount )
 {
     images[boardSize - countImages] = new GraphicBoard( boardSize * boardSize );
     bool result = images[boardSize - 4]->restoreImagesFromFile( data, imageSize, byteCount );

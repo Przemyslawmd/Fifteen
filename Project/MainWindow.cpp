@@ -160,7 +160,7 @@ void MainWindow::createLayouts()
 void MainWindow::createSquares()
 {
     BoardSize level = Options::getBoardSize();
-    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance()->getImageSquareSize();
+    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize();
 
     control = new QPushButton*[level];
 
@@ -249,11 +249,11 @@ void MainWindow::setSquaresNumeric( bool isRandom )
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
     BoardSize level = Options::getBoardSize();
-    ImageProvider* provider = ImageProvider::getInstance();
-    SquareSize squareSize = provider->getImageSquareSize();
+    ImageProvider& provider = ImageProvider::getInstance();
+    SquareSize squareSize = provider.getImageSquareSize();
 
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
-    QImage** pictures = provider->getImage( level );
+    QImage** pictures = provider.getImage( level );
 
     for ( int i = 0; i < level; i++ )
     {
@@ -283,24 +283,24 @@ void MainWindow::slotGenerateBoard()
     // In case of graphic board check whether there is a proper image loaded
     if ( radioKind[EnumKind::GRAPHIC]->isChecked() )
     {
-        ImageProvider* provider = ImageProvider::getInstance();
+        ImageProvider& provider = ImageProvider::getInstance();
 
-        if (( boardSize == BoardSize::FOUR ) && ( provider->isImage( BoardSize::FOUR ) == false ))
+        if (( boardSize == BoardSize::FOUR ) && ( provider.isImage( BoardSize::FOUR ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
-        if (( boardSize == BoardSize::FIVE ) && ( provider->isImage( BoardSize::FIVE)  == false ))
+        if (( boardSize == BoardSize::FIVE ) && ( provider.isImage( BoardSize::FIVE)  == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
             return;
         }
-        if (( boardSize == BoardSize::SIX ) && ( provider->isImage( BoardSize::SIX ) == false ))
+        if (( boardSize == BoardSize::SIX ) && ( provider.isImage( BoardSize::SIX ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
-        if (( boardSize == BoardSize::SEVEN ) && ( provider->isImage( BoardSize::SEVEN ) == false ))
+        if (( boardSize == BoardSize::SEVEN ) && ( provider.isImage( BoardSize::SEVEN ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
@@ -393,7 +393,7 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
     control[rowDest][colDest].setIcon( control[rowSource][colSource].icon() );
-    SquareSize imageSize = ImageProvider::getInstance()->getImageSquareSize();
+    SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize();
     QPixmap pixmap( imageSize, imageSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
@@ -420,11 +420,11 @@ void MainWindow::slotLoadGraphic()
     }
 
     QString message;
-    ImageProvider* provider = ImageProvider::getInstance();
-    provider->prepareBoardImage( picture, message, Options::getSquareSize() );
+    ImageProvider& provider = ImageProvider::getInstance();
+    provider.prepareBoardImage( picture, message, Options::getSquareSize() );
     QMessageBox::information( this, "", message );
 
-    if ( provider->isImage( BoardSize::FOUR ) || provider->isImage( BoardSize::FIVE ) || provider->isImage( BoardSize::SIX ) || provider->isImage( BoardSize::SEVEN ))
+    if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) || provider.isImage( BoardSize::SEVEN ))
         action[Action::REMGRAPHIC]->setEnabled( true );
 }
 
@@ -498,16 +498,16 @@ void MainWindow::slotReadBoard()
     }
     else
     {
-        ImageProvider* provider = ImageProvider::getInstance();
+        ImageProvider& provider = ImageProvider::getInstance();
 
         if ( boardSize == BoardSize::FOUR )
-            radioSize[EnumSize::FOUR]->setChecked( provider->isImage( BoardSize::FOUR ));
+            radioSize[EnumSize::FOUR]->setChecked( provider.isImage( BoardSize::FOUR ));
         else if ( boardSize == BoardSize::FIVE )
-            radioSize[EnumSize::FIVE]->setChecked( provider->isImage( BoardSize::FIVE ));
+            radioSize[EnumSize::FIVE]->setChecked( provider.isImage( BoardSize::FIVE ));
         else if ( boardSize == BoardSize::SIX )
-            radioSize[EnumSize::SIX]->setChecked( provider->isImage( BoardSize::SIX ) );
+            radioSize[EnumSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ) );
         else
-            radioSize[EnumSize::SEVEN]->setChecked( provider->isImage( BoardSize::SEVEN ) );
+            radioSize[EnumSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ) );
 
         createSquares();
         setSquaresGraphic( false );

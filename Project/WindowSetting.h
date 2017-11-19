@@ -13,7 +13,6 @@
 #include <QDialog>
 #include <array>
 #include "MainWindow.h"
-#include "GraphicBoard/ImageLoad.h"
 #include "Types.h"
 #include "Options.h"
 

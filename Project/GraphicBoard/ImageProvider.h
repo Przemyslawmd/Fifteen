@@ -8,12 +8,12 @@ class ImageProvider
 {
 public:
 
-    static ImageProvider* getInstance();
+    static ImageProvider& getInstance();
     static void deleteInstance();
 
     QImage** getImage( int );
     void prepareBoardImage( QImage&, QString&, SquareSize );
-    bool restoreImageBoardFromFile( uchar*, int, SquareSize, int );
+    void restoreImageBoardFromFile( uchar*, int, SquareSize, int );
     bool isImage( BoardSize );
     SquareSize getImageSquareSize();
 
