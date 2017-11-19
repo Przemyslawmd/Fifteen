@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QIODevice>
 #include "GraphicBoard/ImageProvider.h"
-#include "GraphicBoard/ImageLoad.h"
 
 class IOFile
 {

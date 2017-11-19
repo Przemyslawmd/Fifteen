@@ -3,7 +3,6 @@
 #define TESTVECTORGRAPHIC_H
 
 #include "../Project/Types.h"
-#include "../Project/GraphicBoard/ImageLoad.h"
 
 class TestGraphic
 {

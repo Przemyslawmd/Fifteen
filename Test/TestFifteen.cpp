@@ -186,7 +186,7 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
     board->randomBoard();
     board->randomBoard();
 
-    int** readValues = ioFile.readBoardFromFile( filePath, nullptr );
+    int** readValues = ioFile.readBoardFromFile( filePath );
     board->createBoard( readValues, Options::getBoardSize() );
     int** squares  = board->sendBoard();
 
@@ -215,9 +215,8 @@ void TestFifteen::testCreateGraphicBoard( int testNumber )
     Options::setGraphicMode( testData.mode );
     Options::setImagesToBeLoaded( testData.isFourToBeLoaded, testData.isFiveToBeLoaded, testData.isSixToBeLoaded, testData.isSevenToBeLoaded );
 
-    ImagesState state;
     QString message;
-    imageProvider->prepareBoardImage( image, message, state, testData.squareSize );
+    imageProvider->prepareBoardImage( image, message, testData.squareSize );
     QImage** images = imageProvider->getImage( testData.boardSize );
 
     for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )

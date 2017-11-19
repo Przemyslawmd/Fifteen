@@ -5,7 +5,6 @@ SOURCES += \
     Board.cpp \
     Entry.cpp \
     WindowAbout.cpp \
-    GraphicBoard/ImageLoad.cpp \
     GraphicBoard/ImageProvider.cpp \
     Options.cpp \
     GraphicBoard/GraphicBoard.cpp \
@@ -17,7 +16,6 @@ HEADERS += \
     Board.h \
     WindowAbout.h \
     Types.h \
-    GraphicBoard/ImageLoad.h \
     GraphicBoard/ImageProvider.h \
     Options.h \
     GraphicBoard/GraphicBoard.h \
