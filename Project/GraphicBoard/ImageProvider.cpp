@@ -57,43 +57,43 @@ ImageProvider::~ImageProvider()
 /**************************************************************************************/
 /* PREPARE BOARD IMAGE ****************************************************************/
 
-void ImageProvider::prepareBoardImage( QImage& image, QString& message, ImagesState& imageState, SquareSize squareSize )
+void ImageProvider::prepareBoardImage( QImage& image, QString& message, SquareSize squareSize )
 {
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled : &GraphicBoard::createCropped;
 
-    if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, imageState.four, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, BoardSize::FOUR, squareSize, message )))
     {
-        images[Index::four] = new GraphicBoard( imageState.four.size );
-        isImageFour = ( images[Index::four]->*createImage )( image, imageState.four, message, squareSize );
+        images[Index::four] = new GraphicBoard( BoardSize::FOUR );
+        isImageFour = ( images[Index::four]->*createImage )( image, BoardSize::FOUR, message, squareSize );
     }
 
-    if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, imageState.five, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, BoardSize::FIVE, squareSize, message )))
     {
-        images[Index::five] = new GraphicBoard( imageState.five.size );
-        isImageFive = ( images[Index::five]->*createImage )( image, imageState.five, message, squareSize );
+        images[Index::five] = new GraphicBoard( BoardSize::FIVE );
+        isImageFive = ( images[Index::five]->*createImage )( image, BoardSize::FIVE, message, squareSize );
     }
 
-    if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, imageState.six, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, BoardSize::SIX, squareSize, message )))
     {
-        images[Index::six] = new GraphicBoard( imageState.six.size );
-        isImageSix = ( images[Index::six]->*createImage )( image, imageState.six, message, squareSize );
+        images[Index::six] = new GraphicBoard( BoardSize::SIX );
+        isImageSix = ( images[Index::six]->*createImage )( image, BoardSize::SIX, message, squareSize );
     }
 
-    if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, imageState.seven, squareSize, message )))
+    if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, BoardSize::SEVEN, squareSize, message )))
     {
-        images[Index::seven] = new GraphicBoard( imageState.seven.size );
-        isImageSeven = ( images[Index::seven]->*createImage )( image, imageState.seven, message, squareSize );
+        images[Index::seven] = new GraphicBoard( BoardSize::SEVEN );
+        isImageSeven = ( images[Index::seven]->*createImage )( image, BoardSize::SEVEN, message, squareSize );
     }
 }
 
 /******************************************************************************************/
 /* CHECK SIZE OF PICTURE BEFORE PREPARING GRAPHIC BOARD ***********************************/
 
-bool ImageProvider::checkImageSize( QImage& picture, State& state, SquareSize squareSize, QString& message )
+bool ImageProvider::checkImageSize( QImage& picture, BoardSize size, SquareSize squareSize, QString& message )
 {
-    if (( picture.height() < state.size * squareSize ) || ( picture.width() < state.size * squareSize ))
+    if (( picture.height() < size * squareSize ) || ( picture.width() < size * squareSize ))
     {
-        message.append( QString ( "Too low size of graphic for a board of size %1 \t\n\n" ).arg( state.size ));
+        message.append( QString ( "Too low size of graphic for a board of size %1 \t\n\n" ).arg( size ));
         return false;
     }
 

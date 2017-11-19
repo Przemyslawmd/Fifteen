@@ -34,8 +34,8 @@ private:
     // Restore images from a file buffer data, image of one square has 'bytes' bytes
     bool restoreImagesFromFile( uchar* data, SquareSize size , int bytes );
 
-    bool createScaled( QImage& picture, State& state, QString& message, SquareSize size );
-    bool createCropped( QImage& picture, State& state, QString& message, SquareSize size );
+    bool createScaled( QImage& picture, BoardSize, QString& message, SquareSize size );
+    bool createCropped( QImage& picture, BoardSize, QString& message, SquareSize size );
 };
 
 #endif // GRAPHIC_BOARD__H

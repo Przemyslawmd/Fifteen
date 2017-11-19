@@ -420,7 +420,7 @@ void MainWindow::slotLoadGraphic()
 
     QString message;
     ImageProvider* provider = ImageProvider::getInstance();
-    provider->prepareBoardImage( picture, message, *images, Options::getSquareSize() );
+    provider->prepareBoardImage( picture, message, Options::getSquareSize() );
     QMessageBox::information( this, "", message );
 
     if ( provider->isImage( BoardSize::FOUR ) || provider->isImage( BoardSize::FIVE ) || provider->isImage( BoardSize::SIX ) || provider->isImage( BoardSize::SEVEN ))
