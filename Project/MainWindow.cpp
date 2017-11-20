@@ -1,5 +1,6 @@
 
 #include "MainWindow.h"
+#include "Message.h"
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
@@ -422,10 +423,11 @@ void MainWindow::slotLoadGraphic()
     QString message;
     ImageProvider& provider = ImageProvider::getInstance();
     provider.prepareBoardImage( picture, message, Options::getSquareSize() );
-    QMessageBox::information( this, "", message );
 
     if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) || provider.isImage( BoardSize::SEVEN ))
         action[Action::REMGRAPHIC]->setEnabled( true );
+
+    QMessageBox::information( this, "", Message::getMessages() );
 }
 
 /*********************************************************************************************************/

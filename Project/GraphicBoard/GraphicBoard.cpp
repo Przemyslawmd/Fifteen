@@ -1,5 +1,6 @@
 
 #include "GraphicBoard.h"
+#include "../Message.h"
 
 /*************************************************************************************************************************/
 /* CONSTRUCTOR ***********************************************************************************************************/
@@ -36,18 +37,18 @@ QImage** GraphicBoard::getImage()
 /***************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A SCALE MODE *******************************************************************/
 
-bool GraphicBoard::createScaled( QImage& picture, BoardSize boardSize, QString& message, SquareSize squareSize )
+bool GraphicBoard::createScaled( QImage& picture, BoardSize boardSize, SquareSize squareSize )
 {
     int boardSizeInPixel = boardSize * squareSize;
 
     if ( createSquareImage( new QImage( picture.scaled( boardSizeInPixel, boardSizeInPixel )), boardSize, squareSize ))
     {
-        message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n").arg( boardSize ));
+        Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
         return true;
     }
     else
     {
-        message.append( QString( "Failure of loading graphic for a board of size %1 \t\n\n" ).arg( boardSize ));
+        Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
         return false;
     }
 }
@@ -55,18 +56,18 @@ bool GraphicBoard::createScaled( QImage& picture, BoardSize boardSize, QString& 
 /****************************************************************************************************************************/
 /* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A CROP MODE *********************************************************************/
 
-bool GraphicBoard::createCropped( QImage& picture, BoardSize boardSize, QString& message, SquareSize squareSize )
+bool GraphicBoard::createCropped( QImage& picture, BoardSize boardSize, SquareSize squareSize )
 {
     int boardSizeInPixel = boardSize * squareSize;
 
     if ( createSquareImage( new QImage( picture.copy(( picture.width() - boardSizeInPixel )/2, ( picture.height() - boardSizeInPixel )/2, boardSizeInPixel, boardSizeInPixel )), boardSize, squareSize ))
     {
-        message.append( QString( "Graphic was loaded for a board of size %1 \t\n\n" ).arg( boardSize ));
+        Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
         return true;
     }
     else
     {
-        message.append( QString( "Failure of loading graphic for a board of size %1 \t\n\n" ).arg( boardSize ));
+        Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
         return false;
     }
 }

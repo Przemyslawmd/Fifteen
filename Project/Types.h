@@ -24,9 +24,5 @@ typedef struct SizeStruct
 
 enum Color { BLUE, GREEN, RED, EMPTY_STYLE };
 
-// Sometimes values of enum BoardSize are treated directly, it means that for example FIVE is 5.
-// But in other cases these values are used for indexing of an array, then FIVE means 1 ( 5 - ALIGN ).
-const int ALIGN = 4;
-
 #endif // TYPES_H
 

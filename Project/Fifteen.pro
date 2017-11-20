@@ -8,7 +8,8 @@ SOURCES += \
     GraphicBoard/ImageProvider.cpp \
     Options.cpp \
     GraphicBoard/GraphicBoard.cpp \
-    IOFile.cpp
+    IOFile.cpp \
+    Message.cpp
 
 HEADERS += \
     WindowSetting.h \
@@ -19,7 +20,8 @@ HEADERS += \
     GraphicBoard/ImageProvider.h \
     Options.h \
     GraphicBoard/GraphicBoard.h \
-    IOFile.h
+    IOFile.h \
+    Message.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11

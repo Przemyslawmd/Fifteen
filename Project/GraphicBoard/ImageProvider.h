@@ -22,7 +22,7 @@ private:
     ImageProvider();
     ~ImageProvider();
 
-    bool ( GraphicBoard::*createImage )( QImage& picture, BoardSize, QString& message, SquareSize size );
+    bool ( GraphicBoard::*createImage )( QImage& picture, BoardSize, SquareSize size );
     bool checkImageSize( QImage&, BoardSize, SquareSize, QString& ) ;
 
     enum Index { four = 0, five, six, seven, countImages };

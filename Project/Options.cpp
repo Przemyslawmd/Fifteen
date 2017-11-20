@@ -101,7 +101,7 @@ QString& Options::getEmptyStyle()
 
 bool Options::isImageToBeLoaded( BoardSize size )
 {
-    return imagesToBeLoaded[size - ALIGN];
+    return imagesToBeLoaded[size - 4];
 }
 
 

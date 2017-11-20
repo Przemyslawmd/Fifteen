@@ -66,25 +66,25 @@ void ImageProvider::prepareBoardImage( QImage& image, QString& message, SquareSi
     if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, BoardSize::FOUR, squareSize, message )))
     {
         images[Index::four] = new GraphicBoard( BoardSize::FOUR );
-        isImageFour = ( images[Index::four]->*createImage )( image, BoardSize::FOUR, message, squareSize );
+        isImageFour = ( images[Index::four]->*createImage )( image, BoardSize::FOUR, squareSize );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, BoardSize::FIVE, squareSize, message )))
     {
         images[Index::five] = new GraphicBoard( BoardSize::FIVE );
-        isImageFive = ( images[Index::five]->*createImage )( image, BoardSize::FIVE, message, squareSize );
+        isImageFive = ( images[Index::five]->*createImage )( image, BoardSize::FIVE, squareSize );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, BoardSize::SIX, squareSize, message )))
     {
         images[Index::six] = new GraphicBoard( BoardSize::SIX );
-        isImageSix = ( images[Index::six]->*createImage )( image, BoardSize::SIX, message, squareSize );
+        isImageSix = ( images[Index::six]->*createImage )( image, BoardSize::SIX, squareSize );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, BoardSize::SEVEN, squareSize, message )))
     {
         images[Index::seven] = new GraphicBoard( BoardSize::SEVEN );
-        isImageSeven = ( images[Index::seven]->*createImage )( image, BoardSize::SEVEN, message, squareSize );
+        isImageSeven = ( images[Index::seven]->*createImage )( image, BoardSize::SEVEN, squareSize );
     }
 }
 
