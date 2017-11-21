@@ -420,9 +420,8 @@ void MainWindow::slotLoadGraphic()
         return;
     }
 
-    QString message;
     ImageProvider& provider = ImageProvider::getInstance();
-    provider.prepareBoardImage( picture, message, Options::getSquareSize() );
+    provider.prepareBoardImage( picture, Options::getSquareSize() );
 
     if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) || provider.isImage( BoardSize::SEVEN ))
         action[Action::REMGRAPHIC]->setEnabled( true );

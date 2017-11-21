@@ -41,5 +41,5 @@ map< MessageCode, QString> Message::message =
 {
     { MessageCode::GRAPHIC_LOAD_OK, "Graphic was loaded for a board " },
     { MessageCode::GRAPHIC_LOAD_FAILURE, "Failure of loading graphic for a board of size " },
-    { MessageCode::GRAPHIC_TOO_LOW_SIZE, "Hello" },
+    { MessageCode::GRAPHIC_TOO_LOW_SIZE, "Too low size of graphic for a board of size " },
 };
