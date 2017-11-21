@@ -214,9 +214,8 @@ void TestFifteen::testCreateGraphicBoard( int testNumber )
     Options::setGraphicMode( testData.mode );
     Options::setImagesToBeLoaded( testData.isFourToBeLoaded, testData.isFiveToBeLoaded, testData.isSixToBeLoaded, testData.isSevenToBeLoaded );
 
-    QString message;
     ImageProvider& imageProvider = ImageProvider::getInstance();
-    imageProvider.prepareBoardImage( image, message, testData.squareSize );
+    imageProvider.prepareBoardImage( image, testData.squareSize );
     QImage** images = imageProvider.getImage( testData.boardSize );
 
     for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )
