@@ -1,3 +1,4 @@
+
 #ifndef IMAGEPROVIDER_H
 #define IMAGEPROVIDER_H
 
@@ -11,9 +12,9 @@ public:
     static ImageProvider& getInstance();
     static void deleteInstance();
 
-    QImage** getImage( int );
+    QImage** getImage( BoardSize );
     void prepareBoardImage( QImage&, SquareSize );
-    void restoreImageBoardFromFile( uchar*, int, SquareSize, int );
+    void restoreImageBoardFromFile( uchar* data, BoardSize, SquareSize, int byteCount );
     bool isImage( BoardSize );
     SquareSize getImageSquareSize();
 
@@ -22,18 +23,21 @@ private:
     ImageProvider();
     ~ImageProvider();
 
-    bool ( GraphicBoard::*createImage )( QImage& picture, BoardSize, SquareSize );
+    bool ( GraphicBoard::*createImage )( QImage&, BoardSize, SquareSize );
     bool checkImageSize( QImage&, BoardSize, SquareSize ) ;
 
-    enum Index { four = 0, five, six, seven, countImages };
+    GraphicBoard* boardFour;
+    GraphicBoard* boardFive;
+    GraphicBoard* boardSix;
+    GraphicBoard* boardSeven;
 
-    bool isImageFour;
-    bool isImageFive;
-    bool isImageSix;
-    bool isImageSeven;
     SquareSize imageSquareSize;
 
-    GraphicBoard** images;
+    GraphicBoard* selectBoard( BoardSize );
+    GraphicBoard** selectBoardPointer( BoardSize );
+
+    void removeBoard( GraphicBoard** );
+
     static ImageProvider* instance;
 };
 

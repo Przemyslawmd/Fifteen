@@ -4,7 +4,7 @@
 #include "../Message.h"
 
 /********************************************************************************/
-/* GET IMAGE PROVIDER INSTANCE **************************************************/
+/* GET INSTANCE *****************************************************************/
 
 ImageProvider& ImageProvider::getInstance()
 {
@@ -15,7 +15,7 @@ ImageProvider& ImageProvider::getInstance()
 }
 
 /*********************************************************************************/
-/* DELETE IMAGE PROVIDER INSTANCE ************************************************/
+/* DELETE INSTANCE ***************************************************************/
 
 void ImageProvider::deleteInstance()
 {
@@ -31,15 +31,10 @@ void ImageProvider::deleteInstance()
 
 ImageProvider::ImageProvider()
 {
-    images = new GraphicBoard*[countImages];
-
-    for ( int i = 0; i < countImages; i++ )
-        images[i] = nullptr;
-
-    isImageFour = false;
-    isImageFive = false;
-    isImageSix = false;
-    isImageSeven = false;
+    boardFour = nullptr;
+    boardFive = nullptr;
+    boardSix = nullptr;
+    boardSeven = nullptr;
 }
 
 /************************************************************************************/
@@ -47,13 +42,6 @@ ImageProvider::ImageProvider()
 
 ImageProvider::~ImageProvider()
 {
-    for ( int i = 0; i < countImages; i++ )
-    {
-        if ( images[i] != nullptr )
-            delete images[i];
-    }
-
-    delete [] images;
 }
 
 /**************************************************************************************/
@@ -66,31 +54,35 @@ void ImageProvider::prepareBoardImage( QImage& image, SquareSize squareSize )
 
     if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, BoardSize::FOUR, squareSize )))
     {
-        images[Index::four] = new GraphicBoard( BoardSize::FOUR );
-        isImageFour = ( images[Index::four]->*createImage )( image, BoardSize::FOUR, squareSize );
+        boardFour = new GraphicBoard( BoardSize::FOUR );
+        if (( boardFour->*createImage )( image, BoardSize::FOUR, squareSize ) == false )
+            removeBoard( &boardFour );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, BoardSize::FIVE, squareSize )))
     {
-        images[Index::five] = new GraphicBoard( BoardSize::FIVE );
-        isImageFive = ( images[Index::five]->*createImage )( image, BoardSize::FIVE, squareSize );
+        boardFive = new GraphicBoard( BoardSize::FIVE );
+        if (( boardFive->*createImage )( image, BoardSize::FIVE, squareSize ) == false )
+            removeBoard( &boardFive );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, BoardSize::SIX, squareSize )))
     {
-        images[Index::six] = new GraphicBoard( BoardSize::SIX );
-        isImageSix = ( images[Index::six]->*createImage )( image, BoardSize::SIX, squareSize );
+        boardSix = new GraphicBoard( BoardSize::SIX );
+        if (( boardSix->*createImage )( image, BoardSize::SIX, squareSize ) == false )
+            removeBoard( &boardSix );
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, BoardSize::SEVEN, squareSize )))
     {
-        images[Index::seven] = new GraphicBoard( BoardSize::SEVEN );
-        isImageSeven = ( images[Index::seven]->*createImage )( image, BoardSize::SEVEN, squareSize );
+        boardSeven = new GraphicBoard( BoardSize::SEVEN );
+        if (( boardSeven->*createImage )( image, BoardSize::SEVEN, squareSize ) == false )
+            removeBoard( &boardSeven );
     }
 }
 
 /******************************************************************************************/
-/* CHECK SIZE OF PICTURE BEFORE PREPARING GRAPHIC BOARD ***********************************/
+/* CHECK IMAGE SIZE ***********************************************************************/
 
 bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, SquareSize squareSize )
 {
@@ -104,26 +96,19 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, Square
 }
 
 /*****************************************************************************************/
-/* GET IMAGES ****************************************************************************/
+/* GET IMAGE *****************************************************************************/
 
-QImage** ImageProvider::getImage( int boardSize )
+QImage** ImageProvider::getImage( BoardSize boardSize )
 {
-    return images[boardSize - countImages]->getImage();
+    return selectBoard( boardSize )->getImage();
 }
 
 /*****************************************************************************************/
 /* IS IMAGE ******************************************************************************/
 
-bool ImageProvider::isImage( BoardSize size )
+bool ImageProvider::isImage( BoardSize boardSize )
 {
-    if ( size == BoardSize::FOUR )
-        return isImageFour;
-    else if ( size == BoardSize::FIVE )
-        return isImageFive;
-    else if ( size == BoardSize::SIX )
-        return isImageSix;
-    else
-        return isImageSeven;
+    return selectBoard( boardSize ) != nullptr;
 }
 
 /*****************************************************************************************/
@@ -135,24 +120,64 @@ SquareSize ImageProvider::getImageSquareSize()
 }
 
 /*******************************************************************************************/
-/* RESTORE IMAGE FROM BOARD ****************************************************************/
+/* RESTORE IMAGE BOARD FROM FILE ***********************************************************/
 
-void ImageProvider::restoreImageBoardFromFile( uchar* data, int boardSize, SquareSize imageSize, int byteCount )
+void ImageProvider::restoreImageBoardFromFile( uchar* data, BoardSize boardSize, SquareSize imageSize, int byteCount )
 {
-    images[boardSize - countImages] = new GraphicBoard( boardSize * boardSize );
-    bool result = images[boardSize - 4]->restoreImagesFromFile( data, imageSize, byteCount );
+    GraphicBoard** board = selectBoardPointer( boardSize );
+    *board = new GraphicBoard( boardSize );
 
-    if ( result )
+    if ( (*board)->restoreImagesFromFile( data, imageSize, byteCount ))
+    {
         imageSquareSize = imageSize;
-
-    if ( boardSize == 4 )
-        isImageFour = result;
-    else if ( boardSize == 5 )
-        isImageFive = result;
-    else if ( boardSize == 6 )
-        isImageSix = result;
+    }
     else
-        isImageSeven = result;
+    {
+        delete *board;
+        *board = nullptr;
+    }
+}
+
+/*********************************************************************************************/
+/* SELECT BOARD ******************************************************************************/
+
+GraphicBoard* ImageProvider::selectBoard( BoardSize size )
+{
+    if ( size == BoardSize::FOUR )
+        return boardFour;
+    else if ( size == BoardSize::FIVE )
+        return boardFive;
+    else if ( size == BoardSize::SIX )
+        return boardSix;
+    else
+        return boardSeven;
+}
+
+/*********************************************************************************************/
+/* SELECT BOARD POINTER **********************************************************************/
+
+GraphicBoard** ImageProvider::selectBoardPointer( BoardSize size )
+{
+    if ( size == BoardSize::FOUR )
+        return &boardFour;
+    else if ( size == BoardSize::FIVE )
+        return &boardFive;
+    else if ( size == BoardSize::SIX )
+        return &boardSix;
+    else
+        return &boardSeven;
+}
+
+/*********************************************************************************************/
+/* REMOVE BOARD ******************************************************************************/
+
+void ImageProvider::removeBoard( GraphicBoard** board )
+{
+    if ( board != nullptr && *board != nullptr )
+    {
+        delete *board;
+        *board = nullptr;
+    }
 }
 
 /*********************************************************************************************/
