@@ -21,31 +21,31 @@ private Q_SLOTS:
     void suiteSaveAndLoadBoard();
     void suiteCreateGraphicBoard();
 
-    void testCreateBoardSolved( int boardSize );
-    void testCreateBoardRandom( int boardSize );
-    void testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond );
+    void testCreateBoardSolved( BoardSize );
+    void testCreateBoardRandom( BoardSize );
+    void testCreateBoardRandomWithChange( BoardSize sizeFirst, BoardSize sizeSecond );
     void testMoveSquareDefined( int testNumber );
     void testSaveAndLoadBoard( int testNumber );
     void testCreateGraphicBoard( int testNumber );
 
-    void checkSquares( int boardSize, int** squares );
+    void checkSquares( BoardSize, int** squares );
     void compareQImage( const QImage& a, const QImage& b );
 };
 
 
 void TestFifteen::suiteCreateBoardSolved()
 {
-    testCreateBoardSolved( 4 );
-    testCreateBoardSolved( 6 );
+    testCreateBoardSolved( BoardSize::FOUR );
+    testCreateBoardSolved( BoardSize::SIX );
 }
 
 
 void TestFifteen::suiteCreateBoardRandom()
 {
-    testCreateBoardRandom( 5 );
-    testCreateBoardRandom( 7 );
-    testCreateBoardRandomWithChange( 5, 6 );
-    testCreateBoardRandomWithChange( 7, 4 );
+    testCreateBoardRandom( BoardSize::FIVE );
+    testCreateBoardRandom( BoardSize::SEVEN );
+    testCreateBoardRandomWithChange( BoardSize::FIVE, BoardSize::SIX );
+    testCreateBoardRandomWithChange( BoardSize::SEVEN, BoardSize::FOUR );
 }
 
 
@@ -76,16 +76,16 @@ void TestFifteen::suiteCreateGraphicBoard()
 /* TEST CREATE BOARD SOLVED ******************************************************/
 // Test creating initial state of a board, values in a board should be sorted
 
-void TestFifteen::testCreateBoardSolved( int boardSize )
+void TestFifteen::testCreateBoardSolved( BoardSize size )
 {
-    Board* board = Board::createBoard( boardSize );
+    Board* board = Board::createBoard( size );
     int** squares = board->sendBoard();
 
-    for ( int i = 0, k = 1; i < boardSize; i++)
+    for ( int i = 0, k = 1; i < size; i++)
     {
-        for ( int j = 0; j < boardSize; j++)
+        for ( int j = 0; j < size; j++)
         {
-            if ( i != ( boardSize - 1 ) || j != ( boardSize - 1 ) )
+            if ( i != ( size - 1 ) || j != ( size - 1 ) )
                 QCOMPARE( squares[i][j], k++ );
             else
                 QCOMPARE( squares[i][j], 0 );
@@ -97,30 +97,30 @@ void TestFifteen::testCreateBoardSolved( int boardSize )
 /* TEST CREATE RANDOM BOARD ******************************************************/
 // After random board check whether a board has all values
 
-void TestFifteen::testCreateBoardRandom( int boardSize )
+void TestFifteen::testCreateBoardRandom( BoardSize size )
 {
-    Board* board = Board::createBoard( boardSize );
+    Board* board = Board::createBoard( size );
     int** squares = board->randomBoard();
-    checkSquares( boardSize, squares );
+    checkSquares( size, squares );
 }
 
 /*********************************************************************************/
 /* TEST CREATE BOARD RANDOM WITH CHANGE ******************************************/
 
-void TestFifteen::testCreateBoardRandomWithChange( int boardSizeFirst, int boardSizeSecond )
+void TestFifteen::testCreateBoardRandomWithChange( BoardSize sizeFirst, BoardSize sizeSecond )
 {
-    Board* board = Board::createBoard( boardSizeFirst );
+    Board* board = Board::createBoard( sizeFirst );
     board->randomBoard();
     board->randomBoard();
     int** squares = board->randomBoard();
 
-    checkSquares( boardSizeFirst, squares );
+    checkSquares( sizeFirst, squares );
 
-    board = Board::createBoard( boardSizeSecond );
+    board = Board::createBoard( sizeSecond );
     board->randomBoard();
     squares = board->randomBoard();
 
-    checkSquares( boardSizeSecond, squares );
+    checkSquares( sizeSecond, squares );
 }
 
 /*********************************************************************************/
@@ -130,7 +130,7 @@ void TestFifteen::testMoveSquareDefined( int testNumber )
 {
     Data::DataInit();
     TestVector dataTest = Data::getTestVector( testNumber );
-    int boardSize = dataTest.boardSize;
+    BoardSize boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
     vector< int > moves = dataTest.moves;
@@ -162,7 +162,7 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
 {
     Data::DataInit();
     TestVector dataTest = Data::getTestVector( testNumber );
-    int boardSize = dataTest.boardSize;
+    BoardSize boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
     vector< int > moves = dataTest.moves;
@@ -244,7 +244,7 @@ void TestFifteen::compareQImage( const QImage& imageA, const QImage& imageB )
 /* CHECK SQUARES SIZE **************************************************/
 // Helper method to check whether a board has all square values
 
-void TestFifteen::checkSquares( int boardSize, int** squares )
+void TestFifteen::checkSquares( BoardSize boardSize, int** squares )
 {
     QList<int> values;
 

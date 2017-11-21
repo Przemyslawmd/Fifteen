@@ -14,8 +14,8 @@ public:
     static Board* board;
 
     // Methods to create a board and to ensure that only one instance of board may exist
-    static Board* createBoard( int boardSize );
-    static Board* createBoard( int** values, int boardSize );
+    static Board* createBoard( BoardSize );
+    static Board* createBoard( int** values, BoardSize );
 
     // Check whether move is allowed
     Move checkMove( int row, int col );
@@ -27,13 +27,12 @@ public:
 
 private:
 
-    int size;
+    BoardSize size;
     int** square;
     const int EMPTY_SQUARE = 0;
 
-    // Constructors and destructor are invoked via createBoard
-    Board( int boardSize );
-    Board( int** values, int boardSize );
+    Board( BoardSize );
+    Board( int** values, BoardSize );
     ~Board();
 
     // Make move by swaping two squares

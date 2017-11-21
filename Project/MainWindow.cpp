@@ -488,7 +488,7 @@ void MainWindow::slotReadBoard()
 
     IOFile ioFile;
     int** values = ioFile.readBoardFromFile( fileName );
-    int boardSize = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     board = Board::createBoard( values, boardSize );
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )

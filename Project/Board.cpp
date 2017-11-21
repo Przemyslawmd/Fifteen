@@ -4,7 +4,7 @@
 /*********************************************************************************/
 /* CREATE BOARD ******************************************************************/
 
-Board* Board::createBoard( int boardSize )
+Board* Board::createBoard( BoardSize boardSize )
 {
     if ( board )
         delete board;
@@ -16,7 +16,7 @@ Board* Board::createBoard( int boardSize )
 /*********************************************************************************/
 /* CREATE BOARD FROM FILE ********************************************************/
 
-Board* Board::createBoard( int** squareValues, int boardSize )
+Board* Board::createBoard( int** squareValues, BoardSize boardSize )
 {
     if ( board )
         delete board;
@@ -28,7 +28,7 @@ Board* Board::createBoard( int** squareValues, int boardSize )
 /**********************************************************************************/
 /* CONSTRUCTOR ********************************************************************/
 
-Board::Board( int size )
+Board::Board( BoardSize size )
 {
     this->size = size;
     square = new int*[size];
@@ -42,7 +42,7 @@ Board::Board( int size )
 /**********************************************************************************/
 /* CONSTRUCTOR FOR A BOARD FROM A FILE ********************************************/
 
-Board::Board( int** values, int size )
+Board::Board( int** values, BoardSize size )
 {
     this->size = size;
     square = new int*[size];
