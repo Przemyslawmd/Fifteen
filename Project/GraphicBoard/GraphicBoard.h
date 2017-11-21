@@ -18,24 +18,24 @@ private:
 
     friend class ImageProvider;
 
-    GraphicBoard( int boardSize );
+    GraphicBoard( BoardSize );
     ~GraphicBoard();
 
     QImage** getImage();
 
-    int boardSize;
+    BoardSize boardSize;
 
     // Prepared images for graphical board
     QImage** image;
 
     // Create final images for each square
-    bool createSquareImage( QImage* picture, int boardSize, SquareSize size );
+    bool createSquareImage( QImage*, BoardSize, SquareSize );
 
     // Restore images from a file buffer data, image of one square has 'bytes' bytes
-    bool restoreImagesFromFile( uchar* data, SquareSize size , int bytes );
+    bool restoreImagesFromFile( uchar* buffer, SquareSize, int countOfBytes );
 
-    bool createScaled( QImage& picture, BoardSize, SquareSize size );
-    bool createCropped( QImage& picture, BoardSize, SquareSize size );
+    bool createScaled( QImage&, BoardSize, SquareSize );
+    bool createCropped( QImage&, BoardSize, SquareSize );
 };
 
 #endif // GRAPHIC_BOARD__H

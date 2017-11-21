@@ -5,7 +5,7 @@
 /*************************************************************************************************************************/
 /* CONSTRUCTOR ***********************************************************************************************************/
 
-GraphicBoard::GraphicBoard( int boardSize ) : boardSize( boardSize )
+GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize )
 {
     image = new QImage*[boardSize  * boardSize];
     for ( int i = 0; i < ( boardSize * boardSize ); i++ )
@@ -75,7 +75,7 @@ bool GraphicBoard::createCropped( QImage& picture, BoardSize boardSize, SquareSi
 /**************************************************************************************************************************/
 /* CREATE SQUARE IMAGE ****************************************************************************************************/
 
-bool GraphicBoard::createSquareImage( QImage* picture, int size, SquareSize squareSize )
+bool GraphicBoard::createSquareImage( QImage* picture, BoardSize size, SquareSize squareSize )
 {
     // Prepare an empty square
     image[0] = new QImage( squareSize, squareSize, QImage::Format_RGB32 );
