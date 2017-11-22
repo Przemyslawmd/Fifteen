@@ -437,20 +437,13 @@ void MainWindow::slotRemoveGraphic()
     ImageProvider::deleteInstance();    
     action[Action::REMGRAPHIC]->setEnabled( false );
 
-    // Graphic board is active
     if ( Options::getBoardMode() == BoardMode::GRAPHIC )
     {
-        QLayoutItem *child;
-        while (( child = boardVerticalLayout->takeAt(0)) != 0 )
-            boardVerticalLayout->removeItem( 0 );
-
         Options::setBoardMode( BoardMode::NUMERIC );
         deleteSquares();
         createSquares();
         setSquaresNumeric( false );
     }
-
-    QMessageBox::information( this, "", "Graphic removed\t");
 }
 
 /*********************************************************************************************************/
@@ -480,16 +473,12 @@ void MainWindow::slotReadBoard()
     if( fileName.isEmpty() )
         return;
 
-    QLayoutItem *child;
-    while (( child = boardVerticalLayout->takeAt(0)) != 0)
-        boardVerticalLayout->removeItem(0);
-
-    deleteSquares();
-
     IOFile ioFile;
     int** values = ioFile.readBoardFromFile( fileName );
     BoardSize boardSize = Options::getBoardSize();
     board = Board::createBoard( values, boardSize );
+
+    deleteSquares();
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
@@ -506,9 +495,9 @@ void MainWindow::slotReadBoard()
         else if ( boardSize == BoardSize::FIVE )
             radioSize[EnumSize::FIVE]->setChecked( provider.isImage( BoardSize::FIVE ));
         else if ( boardSize == BoardSize::SIX )
-            radioSize[EnumSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ) );
+            radioSize[EnumSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ));
         else
-            radioSize[EnumSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ) );
+            radioSize[EnumSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ));
 
         createSquares();
         setSquaresGraphic( false );
