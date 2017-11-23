@@ -97,7 +97,6 @@ void MainWindow::createRightPanel()
     boxRadioSize->setTitle( "Dimension of Board" );
     boxRadioSize->setLayout( layRadioSize );
 
-    // Radio buttons for kind of a board
 
     layRadioKind = new QVBoxLayout();
     groupRadioKind = new QButtonGroup();
@@ -119,8 +118,6 @@ void MainWindow::createRightPanel()
     boxRadioKind = new QGroupBox();
     boxRadioKind->setTitle( "Kind of Board" );
     boxRadioKind->setLayout( layRadioKind );
-
-    // Right layout
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 30, 0 );
@@ -160,17 +157,17 @@ void MainWindow::createLayouts()
 
 void MainWindow::createSquares()
 {
-    BoardSize level = Options::getBoardSize();
+    BoardSize boardSize = Options::getBoardSize();
     SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize();
 
-    control = new QPushButton*[level];
+    control = new QPushButton*[boardSize];
 
-    for (int i = 0; i < level; i++)
-        control[i] = new QPushButton[level];
+    for (int i = 0; i < boardSize; i++)
+        control[i] = new QPushButton[boardSize];
 
-    for ( int i = 0; i < level ; i++ )
+    for ( int i = 0; i < boardSize ; i++ )
     {
-        for ( int j = 0; j < level; j++ )
+        for ( int j = 0; j < boardSize; j++ )
         {
             control[i][j].setAccessibleName( QString::number(i) + QString::number( j ));
             control[i][j].setMaximumSize( squareSize, squareSize );
@@ -179,18 +176,18 @@ void MainWindow::createSquares()
         }
     }
 
-    boardHorizontalLayout = new QHBoxLayout[level];
+    boardHorizontalLayout = new QHBoxLayout[boardSize];
 
-    for ( int i = 0; i < level; i++ )
+    for ( int i = 0; i < boardSize; i++ )
         boardHorizontalLayout[i].setSpacing(0);
 
     boardVerticalLayout->addStretch();
 
-    for ( int i = 0; i < level; i++ )
+    for ( int i = 0; i < boardSize; i++ )
     {
         boardHorizontalLayout[i].addStretch();
 
-        for ( int j = 0; j < level; j++ )
+        for ( int j = 0; j < boardSize; j++ )
             boardHorizontalLayout[i].addWidget( &control[i][j] );
 
         boardHorizontalLayout[i].addStretch();
@@ -204,16 +201,15 @@ void MainWindow::createSquares()
 
 void MainWindow::deleteSquares()
 {
-    BoardSize level = Options::getBoardSize();
-    QLayoutItem* child;
-
-    while (( child = boardVerticalLayout->takeAt(0)) != 0 )
-        boardVerticalLayout->removeItem(0);
-
-    for ( int i = 0; i < level; i++ )
+    for ( int i = 0; i < board->getCurrentSize(); i++ )
         delete[] control[i];
 
     delete[] control;
+
+    QLayoutItem* child;
+    while (( child = boardVerticalLayout->takeAt( 0 )))
+        boardVerticalLayout->removeItem( 0 );
+
     delete[] boardHorizontalLayout;
 }
 
@@ -222,15 +218,14 @@ void MainWindow::deleteSquares()
 
 void MainWindow::setSquaresNumeric( bool isRandom )
 {    
-    BoardSize level = Options::getBoardSize();
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
     QString& currentStyle = Options::getStyle();
     QFont font;
     font.setPixelSize( Options::getSquareSizeFont() );
-
-    for ( int i = 0; i < level; i++ )
+    BoardSize boardSize = board->getCurrentSize();
+    for ( int i = 0; i < boardSize; i++ )
     {
-        for ( int j = 0; j < level; j++ )
+        for ( int j = 0; j < boardSize; j++ )
         {
             control[i][j].setText( QString::number( values[i][j] ));
             if ( values[i][j] == 0 )
@@ -249,16 +244,16 @@ void MainWindow::setSquaresNumeric( bool isRandom )
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
-    BoardSize level = Options::getBoardSize();
     ImageProvider& provider = ImageProvider::getInstance();
     SquareSize squareSize = provider.getImageSquareSize();
 
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
-    QImage** pictures = provider.getImage( level );
+    BoardSize boardSize = board->getCurrentSize();
+    QImage** pictures = provider.getImage( boardSize );
 
-    for ( int i = 0; i < level; i++ )
+    for ( int i = 0; i < boardSize; i++ )
     {
-        for ( int j = 0; j < level; j++ )
+        for ( int j = 0; j < boardSize; j++ )
         {
             QPixmap* pixmap = new QPixmap();
             pixmap->convertFromImage( *pictures[values[i][j]] );

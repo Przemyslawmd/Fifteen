@@ -219,7 +219,7 @@ void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 /********************************************************************************/
 /* GET CURRENT SIZE *************************************************************/
 
-int Board::getCurrentSize()
+BoardSize Board::getCurrentSize()
 {
     return size;
 }

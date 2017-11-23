@@ -20,7 +20,7 @@ public:
     // Check whether move is allowed
     Move checkMove( int row, int col );
 
-    int getCurrentSize();
+    BoardSize getCurrentSize();
     int** randomBoard();
     int** sendBoard();
     void solveBoard();
