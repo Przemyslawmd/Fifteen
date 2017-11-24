@@ -37,12 +37,12 @@ QImage** GraphicBoard::getImage()
 /***************************************************************************************************************************/
 /* CREATE SCALED ***********************************************************************************************************/
 
-bool GraphicBoard::createScaled( QImage& picture, BoardSize boardSize, SquareSize squareSize )
+bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
     int boardSizePixel = boardSize * squareSize;
-    QImage scaledPicture = picture.scaled( boardSizePixel, boardSizePixel );
+    QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
 
-    if ( createSquareImage( &scaledPicture, boardSize, squareSize ))
+    if ( createSquareImage( &scaledImage, boardSize, squareSize ))
     {
         Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
         return true;
@@ -57,10 +57,10 @@ bool GraphicBoard::createScaled( QImage& picture, BoardSize boardSize, SquareSiz
 /****************************************************************************************************************************/
 /* CREATE CROPPED ***********************************************************************************************************/
 
-bool GraphicBoard::createCropped( QImage& picture, BoardSize boardSize, SquareSize squareSize )
+bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
     int boardSizePixel = boardSize * squareSize;
-    QImage croppedImage = picture.copy(( picture.width() - boardSizePixel ) / 2, ( picture.height() - boardSizePixel ) / 2, boardSizePixel, boardSizePixel );
+    QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2, boardSizePixel, boardSizePixel );
 
     if ( createSquareImage( &croppedImage, boardSize, squareSize ))
     {
