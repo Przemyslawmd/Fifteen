@@ -27,7 +27,7 @@ GraphicBoard::~GraphicBoard()
 }
 
 /**************************************************************************************************************************/
-/* SEND IMAGE *************************************************************************************************************/
+/* GET IMAGE *************************************************************************************************************/
 
 QImage** GraphicBoard::getImage()
 {
@@ -35,13 +35,14 @@ QImage** GraphicBoard::getImage()
 }
 
 /***************************************************************************************************************************/
-/* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A SCALE MODE *******************************************************************/
+/* CREATE SCALED ***********************************************************************************************************/
 
 bool GraphicBoard::createScaled( QImage& picture, BoardSize boardSize, SquareSize squareSize )
 {
-    int boardSizeInPixel = boardSize * squareSize;
+    int boardSizePixel = boardSize * squareSize;
+    QImage scaledPicture = picture.scaled( boardSizePixel, boardSizePixel );
 
-    if ( createSquareImage( new QImage( picture.scaled( boardSizeInPixel, boardSizeInPixel )), boardSize, squareSize ))
+    if ( createSquareImage( &scaledPicture, boardSize, squareSize ))
     {
         Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
         return true;
@@ -54,13 +55,14 @@ bool GraphicBoard::createScaled( QImage& picture, BoardSize boardSize, SquareSiz
 }
 
 /****************************************************************************************************************************/
-/* CHECK WHETHER AN IMAGE CAN BE LOADED FOR A CROP MODE *********************************************************************/
+/* CREATE CROPPED ***********************************************************************************************************/
 
 bool GraphicBoard::createCropped( QImage& picture, BoardSize boardSize, SquareSize squareSize )
 {
-    int boardSizeInPixel = boardSize * squareSize;
+    int boardSizePixel = boardSize * squareSize;
+    QImage croppedImage = picture.copy(( picture.width() - boardSizePixel ) / 2, ( picture.height() - boardSizePixel ) / 2, boardSizePixel, boardSizePixel );
 
-    if ( createSquareImage( new QImage( picture.copy(( picture.width() - boardSizeInPixel )/2, ( picture.height() - boardSizeInPixel )/2, boardSizeInPixel, boardSizeInPixel )), boardSize, squareSize ))
+    if ( createSquareImage( &croppedImage, boardSize, squareSize ))
     {
         Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
         return true;
@@ -75,23 +77,20 @@ bool GraphicBoard::createCropped( QImage& picture, BoardSize boardSize, SquareSi
 /**************************************************************************************************************************/
 /* CREATE SQUARE IMAGE ****************************************************************************************************/
 
-bool GraphicBoard::createSquareImage( QImage* picture, BoardSize size, SquareSize squareSize )
+bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize squareSize )
 {
     // Prepare an empty square
     image[0] = new QImage( squareSize, squareSize, QImage::Format_RGB32 );
-    for (int i = 0; i < squareSize; i++)
-    {
-        for (int j = 0; j < squareSize; j++)
-            image[0]->setPixel( i, j, qRgb( 255, 255, 255 ));
-    }
+    image[0]->fill( Qt::GlobalColor::white );
 
     int x = 0;
+    int pictureSize = boardSize * squareSize;
 
-    for ( int i = 0; i < size * squareSize; i += squareSize )
+    for ( int i = 0; i < pictureSize; i += squareSize )
     {
-        for ( int j = 0; j < size * squareSize; j += squareSize )
+        for ( int j = 0; j < pictureSize; j += squareSize )
         {
-            if (( i == size * squareSize - squareSize ) && ( j == size * squareSize - squareSize ))
+            if (( i == pictureSize - squareSize ) && ( j == pictureSize - squareSize ))
                 return true;
 
             try
