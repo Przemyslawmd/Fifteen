@@ -250,14 +250,14 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
     BoardSize boardSize = board->getCurrentSize();
     QImage** pictures = provider.getImage( boardSize );
+    QPixmap pixmap;
 
     for ( int i = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            QPixmap* pixmap = new QPixmap();
-            pixmap->convertFromImage( *pictures[values[i][j]] );
-            QIcon icon( *pixmap );
+            pixmap.convertFromImage( *pictures[values[i][j]] );
+            QIcon icon( pixmap );
             QSize iconSize( squareSize, squareSize );
             control[i][j].setIconSize( iconSize );
             control[i][j].setIcon( icon );
