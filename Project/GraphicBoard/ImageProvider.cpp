@@ -42,6 +42,10 @@ ImageProvider::ImageProvider()
 
 ImageProvider::~ImageProvider()
 {
+    removeBoard( &boardFour );
+    removeBoard( &boardFive );
+    removeBoard( &boardSix );
+    removeBoard( &boardSeven );
 }
 
 /**************************************************************************************/
