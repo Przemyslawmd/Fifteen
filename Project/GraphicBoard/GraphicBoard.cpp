@@ -41,17 +41,7 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize 
 {
     int boardSizePixel = boardSize * squareSize;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
-
-    if ( createSquareImage( &scaledImage, boardSize, squareSize ))
-    {
-        Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
-        return true;
-    }
-    else
-    {
-        Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
-        return false;
-    }
+    return createSquareImage( &scaledImage, boardSize, squareSize );
 }
 
 /****************************************************************************************************************************/
@@ -61,17 +51,7 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
 {
     int boardSizePixel = boardSize * squareSize;
     QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2, boardSizePixel, boardSizePixel );
-
-    if ( createSquareImage( &croppedImage, boardSize, squareSize ))
-    {
-        Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
-        return true;
-    }
-    else
-    {
-        Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
-        return false;
-    }
+    return createSquareImage( &croppedImage, boardSize, squareSize );
 }
 
 /**************************************************************************************************************************/
@@ -83,7 +63,10 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
     image[0] = new (std::nothrow) QImage( squareSize, squareSize, QImage::Format_RGB32 );
 
     if ( image[0] == nullptr )
+    {
+        Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
         return false;
+    }
 
     image[0]->fill( Qt::GlobalColor::white );
 
@@ -95,14 +78,19 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
         for ( int xPos = 0; xPos < pictureSize; xPos += squareSize )
         {
             if (( yPos == pictureSize - squareSize ) && ( xPos == pictureSize - squareSize ))
-                return true;
+                break;
 
             image[++x] = new (std::nothrow) QImage( picture->copy( xPos, yPos, squareSize, squareSize ));
 
             if ( image[x] == nullptr )
+            {
+                Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
                 return false;
+            }
         }
     }
+
+    Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
     return true;
 }
 
