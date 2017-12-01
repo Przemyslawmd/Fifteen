@@ -80,33 +80,27 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
 bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize squareSize )
 {
     // Prepare an empty square
-    image[0] = new QImage( squareSize, squareSize, QImage::Format_RGB32 );
+    image[0] = new (std::nothrow) QImage( squareSize, squareSize, QImage::Format_RGB32 );
+
+    if ( image[0] == nullptr )
+        return false;
+
     image[0]->fill( Qt::GlobalColor::white );
 
     int x = 0;
     int pictureSize = boardSize * squareSize;
 
-    for ( int i = 0; i < pictureSize; i += squareSize )
+    for ( int yPos = 0; yPos < pictureSize; yPos += squareSize )
     {
-        for ( int j = 0; j < pictureSize; j += squareSize )
+        for ( int xPos = 0; xPos < pictureSize; xPos += squareSize )
         {
-            if (( i == pictureSize - squareSize ) && ( j == pictureSize - squareSize ))
+            if (( yPos == pictureSize - squareSize ) && ( xPos == pictureSize - squareSize ))
                 return true;
 
-            try
-            {
-                image[++x] = new QImage( squareSize, squareSize, QImage::Format_RGB32 );
+            image[++x] = new (std::nothrow) QImage( picture->copy( xPos, yPos, squareSize, squareSize ));
 
-                for ( int k = 0; k < squareSize; k++ )
-                {
-                    for ( int l = 0; l < squareSize; l++ )
-                        image[x]->setPixel( k, l, picture->pixel( k + j, l + i ));
-                }
-            }
-            catch (...)
-            {
+            if ( image[x] == nullptr )
                 return false;
-            }
         }
     }
     return true;
@@ -119,14 +113,13 @@ bool GraphicBoard::restoreImagesFromFile( uchar* data, SquareSize squareSize, in
 {
     uchar* bufferRestored = std::move( data );
 
-    try
+    for ( int i = 0; i < boardSize * boardSize; i++ )
     {
-        for ( int i = 0; i < boardSize * boardSize; i++ )
-            image[i] = new QImage( bufferRestored + i * bytes, squareSize, squareSize, QImage::Format_RGB32 );
-    }
-    catch(...)
-    {
-        return false;
+        image[i] = new (std::nothrow) QImage( bufferRestored + i * bytes, squareSize, squareSize, QImage::Format_RGB32 );
+
+        if ( image[i] == nullptr )
+            return false;
+
     }
     return true;
 }
