@@ -13,7 +13,12 @@ enum class MessageCode
 {
     GRAPHIC_LOAD_OK,
     GRAPHIC_LOAD_FAILURE,
-    GRAPHIC_TOO_LOW_SIZE
+    GRAPHIC_TOO_LOW_SIZE,
+    READ_BOARD_SIZE_ERROR,
+    READ_BOARD_TYPE_ERROR,
+    READ_BOARD_VALUES_ERROR,
+    READ_BOARD_IMAGES_ERROR,
+    READ_BOARD_OK
 };
 
 class Message
@@ -26,8 +31,8 @@ public:
 
 private:
 
-    static queue<QString> messageQueue;
-    static map< MessageCode, QString> message;
+    static queue< QString > messageQueue;
+    static map< MessageCode, QString > message;
 };
 
 #endif // MESSAGE_H
