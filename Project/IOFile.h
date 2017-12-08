@@ -3,10 +3,11 @@
 #define IOFILE_H
 
 #include "Board.h"
-#include "Options.h"
 #include <QFile>
 #include <QIODevice>
-#include "GraphicBoard/ImageProvider.h"
+#include <memory>
+
+using std::unique_ptr;
 
 class IOFile
 {
@@ -19,8 +20,8 @@ public:
 
 private:
 
-    QDataStream& getDataStream( QFile& file, QIODevice::OpenModeFlag mode );
-    void insertBoardValuesIntoStream( QDataStream& stream, Board* board );
+    unique_ptr< QDataStream > getDataStream( QFile& file, QIODevice::OpenModeFlag mode );
+    unique_ptr< QDataStream > insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board* board );
 };
 
 #endif // IOFILE_H
