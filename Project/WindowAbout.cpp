@@ -4,16 +4,16 @@
 WindowAbout::WindowAbout()
 {
     setModal( true );
-    setGeometry( 100, 100, 520, 200 );
-    setMaximumSize( 520, 200 );
+    setMinimumSize( 500, 200 );
+    setMaximumSize( 500, 200 );
     setWindowTitle( " " );
 
     QVBoxLayout layout( this );
     QString html;
 
-    html.append( "<br/><pre>  Version:      1.2.1" );
+    html.append( "<br/><pre>  Version:      1.3.0" );
     html.append( "<pre>  Author:       Przemyslaw Madej, Warsaw 2017</pre>" );
-    html.append( "<pre>  Page:         http://przemeknet.pl/fifteenEn.aspx</pre>" );
+    html.append( "<pre>  Page:         http://przemeknet.pl/fifteen</pre>" );
 
     doc.setHtml( html );
     browser.setDocument( &doc );
