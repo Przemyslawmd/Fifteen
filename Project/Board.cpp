@@ -44,6 +44,7 @@ Board::Board( BoardSize size )
 
 Board::Board( int** values, BoardSize size )
 {
+    this->values.clear();
     this->size = size;
     square = new int*[size];
 
@@ -51,7 +52,10 @@ Board::Board( int** values, BoardSize size )
     {
         square[i] = new int[size];
         for ( int j = 0; j < size; j++ )
+        {
             square[i][j] = values[i][j];
+            this->values.push_back( values[i][j] );
+        }
     }
 }
 
@@ -64,6 +68,7 @@ Board::~Board()
         delete[] square[i];
 
     delete[] square;
+    values.clear();
 }
 
 /*************************************************************************************/
@@ -190,16 +195,18 @@ int Board::findNullSquare()
 
 void Board::solveBoard()
 {    
+    values.clear();
     for ( int i = 0, k = 1; i < size; i++ )
     {
         for ( int j = 0; j < size; j++ )
         {
-            square[i][j] = k++;
             values.push_back( k );
+            square[i][j] = k++;
         }
     }
+
     square[size-1][size-1] = EMPTY_SQUARE;
-    values.push_back( EMPTY_SQUARE );
+    values.at( size * size - 1 ) = EMPTY_SQUARE;
 }
 
 /*******************************************************************************/
@@ -207,6 +214,15 @@ void Board::solveBoard()
 
 int** Board::sendBoard()
 {
+    int k = 0;
+    for ( int i = 0; i < size; i++ )
+    {
+        for ( int j = 0; j < size; j++ )
+        {
+            square[i][j] = values.at( k++ );
+        }
+    }
+
     return square;
 }
 
@@ -218,6 +234,10 @@ void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
     square[dstRow][dstCol] += square[srcRow][srcCol];
     square[srcRow][srcCol] = square[dstRow][dstCol] - square[srcRow][srcCol];
     square[dstRow][dstCol] -= square[srcRow][srcCol];
+
+    values.at( dstRow * size + dstCol ) += values.at( srcRow * size + srcCol );
+    values.at( srcRow * size + srcCol ) = values.at( dstRow * size + dstCol ) - values.at( srcRow * size + srcCol );
+    values.at( dstRow * size + dstCol ) -= values.at( srcRow * size + srcCol );
 }
 
 /********************************************************************************/
