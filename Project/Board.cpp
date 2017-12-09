@@ -82,25 +82,25 @@ Board::~Board()
 
 Move Board::checkMove( int row, int col )
 {        
-    if ( row > 0 && ( square[row - 1][col] == EMPTY_SQUARE ))
+    if ( row > 0 && ( values.at((row - 1 ) * size + col ) == EMPTY_SQUARE ))
     {
         makeMove( row, col, row - 1, col );
         return Move::UP;
     }
 
-    if ( col < ( size - 1 ) && ( square[row][col + 1] == EMPTY_SQUARE ))
+    if ( col < ( size - 1 ) && ( values.at( row * size + col + 1 ) == EMPTY_SQUARE ))
     {
         makeMove( row, col, row, col + 1 );
         return Move::RIGHT;
     }
 
-    if ( row < ( size - 1 ) && ( square[row + 1][col] ==  EMPTY_SQUARE ))
+    if ( row < ( size - 1 ) && ( values.at(( row + 1 ) * size + col )  ==  EMPTY_SQUARE ))
     {
         makeMove( row, col, row + 1, col );
         return Move::DOWN;
     }
 
-    if ( col > 0 && ( square[row][col -1] == EMPTY_SQUARE ))
+    if ( col > 0 && ( values.at( row * size + col - 1 ) == EMPTY_SQUARE ))
     {
         makeMove( row, col, row, col -1 );
         return Move::LEFT;
