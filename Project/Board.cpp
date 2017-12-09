@@ -193,9 +193,13 @@ void Board::solveBoard()
     for ( int i = 0, k = 1; i < size; i++ )
     {
         for ( int j = 0; j < size; j++ )
-            square[i][j] = k++;        
+        {
+            square[i][j] = k++;
+            values.push_back( k );
+        }
     }
     square[size-1][size-1] = EMPTY_SQUARE;
+    values.push_back( EMPTY_SQUARE );
 }
 
 /*******************************************************************************/

@@ -5,6 +5,9 @@
 #include "Types.h"
 #include <QList>
 #include <QTime>
+#include <vector>
+
+using std::vector;
 
 class Board
 {
@@ -29,6 +32,7 @@ private:
 
     BoardSize size;
     int** square;
+    vector<int> values;
     const int EMPTY_SQUARE = 0;
 
     Board( BoardSize );
