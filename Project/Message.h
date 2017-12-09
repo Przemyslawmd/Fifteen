@@ -18,7 +18,7 @@ enum class MessageCode
     READ_BOARD_TYPE_ERROR,
     READ_BOARD_VALUES_ERROR,
     READ_BOARD_IMAGES_ERROR,
-    READ_BOARD_OK
+    READ_BOARD_ERROR
 };
 
 class Message

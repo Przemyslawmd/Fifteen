@@ -46,5 +46,6 @@ map< MessageCode, QString> Message::message =
     { MessageCode::READ_BOARD_TYPE_ERROR,   "Error while reading kind of a board from a file" },
     { MessageCode::READ_BOARD_VALUES_ERROR, "Error while reading board values from a file" },
     { MessageCode::READ_BOARD_IMAGES_ERROR, "Error while reading board images from a file" },
+    { MessageCode::READ_BOARD_ERROR,        "Error while reading board from a file" },
 };
 
