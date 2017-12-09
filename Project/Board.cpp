@@ -1,5 +1,11 @@
 
 #include "Board.h"
+#include <iterator>
+
+using std::begin;
+using std::end;
+using std::distance;
+using std::find;
 
 /*********************************************************************************/
 /* CREATE BOARD ******************************************************************/
@@ -178,16 +184,14 @@ int** Board::randomBoard()
 
 int Board::findNullSquare()
 {
-    for ( int i = 0; i < size; i++ )
+    auto result = find( begin( values ), end( values ), EMPTY_SQUARE );
+    if ( result == end( values ))
     {
-        for ( int j = 0; j < size; j++ )
-        {
-            if ( square[i][j] == EMPTY_SQUARE )
-                return i * 10 + j;
-        }
+        return -1;
     }
 
-    return -1;
+    int pos =  distance( begin( values ), result );
+    return pos / size * 10 + pos % size;;
 }
 
 /*******************************************************************************/
