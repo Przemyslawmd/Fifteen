@@ -82,7 +82,7 @@ Board::~Board()
 
 Move Board::checkMove( int row, int col )
 {        
-    if ( row > 0 && ( values.at((row - 1 ) * size + col ) == EMPTY_SQUARE ))
+    if ( row > 0 && ( values.at(( row - 1 ) * size + col ) == EMPTY_SQUARE ))
     {
         makeMove( row, col, row - 1, col );
         return Move::UP;
@@ -176,7 +176,7 @@ int** Board::randomBoard()
         }
     }
 
-    return square;
+    return sendBoard();
 }
 
 /******************************************************************************/
@@ -235,10 +235,6 @@ int** Board::sendBoard()
 
 void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 {    
-    square[dstRow][dstCol] += square[srcRow][srcCol];
-    square[srcRow][srcCol] = square[dstRow][dstCol] - square[srcRow][srcCol];
-    square[dstRow][dstCol] -= square[srcRow][srcCol];
-
     values.at( dstRow * size + dstCol ) += values.at( srcRow * size + srcCol );
     values.at( srcRow * size + srcCol ) = values.at( dstRow * size + dstCol ) - values.at( srcRow * size + srcCol );
     values.at( dstRow * size + dstCol ) -= values.at( srcRow * size + srcCol );
