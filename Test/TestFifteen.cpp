@@ -185,8 +185,8 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
     board->randomBoard();
     board->randomBoard();
 
-    int** readValues = ioFile.readBoardFromFile( filePath );
-    board->createBoard( readValues, Options::getBoardSize() );
+    unique_ptr< vector<int> > readValues = ioFile.readBoardFromFile( filePath );
+    board->createBoard( std::move( readValues ), Options::getBoardSize() );
     vector<int>& values  = board->sendBoard();
 
     vector< int > expectedSquares = dataTest.expectedSquares;

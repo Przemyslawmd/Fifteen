@@ -470,10 +470,10 @@ void MainWindow::slotReadBoard()
         return;
 
     IOFile ioFile;
-    int** values = ioFile.readBoardFromFile( fileName );
+    unique_ptr< vector<int> > values = ioFile.readBoardFromFile( fileName );
     deleteSquares();
     BoardSize boardSize = Options::getBoardSize();
-    board = Board::createBoard( values, boardSize );
+    board = Board::createBoard( std::move( values ), boardSize );
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {

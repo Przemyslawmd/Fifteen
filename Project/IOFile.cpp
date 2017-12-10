@@ -57,25 +57,24 @@ void IOFile::saveGraphicBoardInFile( Board* board, QString fileName )
 /*********************************************************************************/
 /* READ BOARD FROM FILE **********************************************************/
 
-int** IOFile::readBoardFromFile( QString fileName )
+unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
 {
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::ReadOnly );
 
     int boardMode;
-    int level;
-
     *stream >> boardMode;
+    int level;
     *stream >> level;
 
     Options::setBoardSize( static_cast< BoardSize >( level ));
 
-    int** values = new int*[level];
-    for (int i = 0; i < level; i++)
+    unique_ptr< vector<int> > values( new vector<int> );
+    int temp;
+    for ( int i = 0; i < level * level ; i++ )
     {
-        values[i] = new int[level];
-        for (int j = 0; j < level; j++)
-             *stream >> values[i][j];
+        *stream >> temp;
+        values->push_back( temp );
     }
 
     if ( boardMode == (int) BoardMode::NUMERIC )
