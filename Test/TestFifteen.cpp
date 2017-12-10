@@ -28,7 +28,7 @@ private Q_SLOTS:
     void testSaveAndLoadBoard( int testNumber );
     void testCreateGraphicBoard( int testNumber );
 
-    void checkSquares( BoardSize, int** squares );
+    void checkSquares( BoardSize, vector<int>& values );
     void compareQImage( const QImage& a, const QImage& b );
 };
 
@@ -79,18 +79,14 @@ void TestFifteen::suiteCreateGraphicBoard()
 void TestFifteen::testCreateBoardSolved( BoardSize size )
 {
     Board* board = Board::createBoard( size );
-    int** squares = board->sendBoard();
+    vector<int>& values = board->sendBoard();
 
-    for ( int i = 0, k = 1; i < size; i++)
+    for ( int i = 0; i < size * size - 1; i++)
     {
-        for ( int j = 0; j < size; j++)
-        {
-            if ( i != ( size - 1 ) || j != ( size - 1 ) )
-                QCOMPARE( squares[i][j], k++ );
-            else
-                QCOMPARE( squares[i][j], 0 );
-        }
+        QCOMPARE( values[i], i + 1 );
     }
+
+    QCOMPARE( values[size * size - 1], 0 );
 }
 
 /*********************************************************************************/
@@ -100,8 +96,8 @@ void TestFifteen::testCreateBoardSolved( BoardSize size )
 void TestFifteen::testCreateBoardRandom( BoardSize size )
 {
     Board* board = Board::createBoard( size );
-    int** squares = board->randomBoard();
-    checkSquares( size, squares );
+    vector<int>& values = board->randomBoard();
+    checkSquares( size, values );
 }
 
 /*********************************************************************************/
@@ -112,15 +108,15 @@ void TestFifteen::testCreateBoardRandomWithChange( BoardSize sizeFirst, BoardSiz
     Board* board = Board::createBoard( sizeFirst );
     board->randomBoard();
     board->randomBoard();
-    int** squares = board->randomBoard();
+    vector<int>& values = board->randomBoard();
 
-    checkSquares( sizeFirst, squares );
+    checkSquares( sizeFirst, values );
 
     board = Board::createBoard( sizeSecond );
     board->randomBoard();
-    squares = board->randomBoard();
+    values = board->randomBoard();
 
-    checkSquares( sizeSecond, squares );
+    checkSquares( sizeSecond, values );
 }
 
 /*********************************************************************************/
@@ -145,13 +141,16 @@ void TestFifteen::testMoveSquareDefined( int testNumber )
         board->checkMove( rowNumber, colNumber );
     }
 
-    int** squares  = board->sendBoard();
-    vector< int > expectedSquares = dataTest.expectedSquares;
+    vector<int>& values  = board->sendBoard();
+    vector<int> expectedSquares = dataTest.expectedSquares;
 
     for ( int i = 0, k = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
-            QCOMPARE( squares[i][j], expectedSquares[k++] );
+        {
+            QCOMPARE( values[k], expectedSquares[k] );
+            k++;
+        }
     }
 }
 
@@ -188,7 +187,7 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
 
     int** readValues = ioFile.readBoardFromFile( filePath );
     board->createBoard( readValues, Options::getBoardSize() );
-    int** squares  = board->sendBoard();
+    vector<int>& values  = board->sendBoard();
 
     vector< int > expectedSquares = dataTest.expectedSquares;
     int k = 0;
@@ -196,7 +195,10 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
     for ( int i = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
-            QCOMPARE( squares[i][j], expectedSquares[k++] );
+        {
+            QCOMPARE( values[k], expectedSquares[k] );
+            k++;
+        }
     }
 }
 
@@ -244,21 +246,17 @@ void TestFifteen::compareQImage( const QImage& imageA, const QImage& imageB )
 /* CHECK SQUARES SIZE **************************************************/
 // Helper method to check whether a board has all square values
 
-void TestFifteen::checkSquares( BoardSize boardSize, int** squares )
+void TestFifteen::checkSquares( BoardSize boardSize, vector<int>& squares )
 {
     QList<int> values;
 
-    for ( int i = 0; i < ( boardSize * boardSize ); i++ )
+    for ( int i = 0; i < boardSize * boardSize; i++ )
         values.append( i );
 
-    for ( int i = 0; i < boardSize; i++ )
+    for ( int i = 0; i < boardSize * boardSize; i++ )
     {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            // Check whether value exists in a list
-            QCOMPARE( values.contains( squares[i][j]), true );
-            values.removeOne( squares[i][j] );
-        }
+        QCOMPARE( values.contains( squares[i] ), true );
+        values.removeOne( squares[i] );
     }
 
     // List should be empty at the end

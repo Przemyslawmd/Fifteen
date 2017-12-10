@@ -57,13 +57,6 @@ Board::Board( int** values, BoardSize size )
     }
 }
 
-/************************************************************************************/
-/* DESTRUCTOR ***********************************************************************/
-
-Board::~Board()
-{
-}
-
 /*************************************************************************************/
 /* CHECK WHETHER MOVE IS POSSIBLE ****************************************************/
 
@@ -99,14 +92,14 @@ Move Board::checkMove( int row, int col )
 /***************************************************************************************/
 /* RANDOM BOARD ************************************************************************/
 
-int** Board::randomBoard()
+vector<int>& Board::randomBoard()
 {
     // Find an empty square
     int nullSquare = findNullSquare();
 
-    // Only in case of same error
+    // TODO - handle this exception
     if ( nullSquare == -1 )
-        return nullptr;
+        return values;
 
     int nullRow = nullSquare / 10;
     int nullCol = nullSquare % 10;
@@ -163,7 +156,7 @@ int** Board::randomBoard()
         }
     }
 
-    return sendBoard();
+    return values;
 }
 
 /******************************************************************************/
@@ -197,28 +190,9 @@ void Board::solveBoard()
 }
 
 /*******************************************************************************/
-/* SEND BOARD VALUES ***********************************************************/
+/* SEND BOARD ******************************************************************/
 
-int** Board::sendBoard()
-{
-    int** square = new int*[size];
-
-    for ( int i = 0; i < size; i++ )
-        square[i] = new int[size];
-
-    int k = 0;
-    for ( int i = 0; i < size; i++ )
-    {
-        for ( int j = 0; j < size; j++ )
-        {
-            square[i][j] = values.at( k++ );
-        }
-    }
-
-    return square;
-}
-
-vector< int >& Board::sendBoardValues()
+vector<int>& Board::sendBoard()
 {
     return values;
 }

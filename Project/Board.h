@@ -24,21 +24,18 @@ public:
     Move checkMove( int row, int col );
 
     BoardSize getCurrentSize();
-    int** randomBoard();
-    int** sendBoard();
-    vector< int >& sendBoardValues();
+    vector<int>& sendBoard();
+    vector<int>& randomBoard();
     void solveBoard();
 
 private:
 
     BoardSize size;
-    int** square;
     vector<int> values;
     const int EMPTY_SQUARE = 0;
 
     Board( BoardSize );
     Board( int** values, BoardSize );
-    ~Board();
 
     // Make move by swaping two squares
     void makeMove( int sourceRow, int sourceColumn, int destRow, int destColumn );

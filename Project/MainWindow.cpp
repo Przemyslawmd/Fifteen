@@ -218,21 +218,23 @@ void MainWindow::deleteSquares()
 
 void MainWindow::setSquaresNumeric( bool isRandom )
 {    
-    int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
+    vector<int>& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     QString& currentStyle = Options::getStyle();
     QFont font;
     font.setPixelSize( Options::getSquareSizeFont() );
     BoardSize boardSize = board->getCurrentSize();
-    for ( int i = 0; i < boardSize; i++ )
+
+    for ( int i = 0, v = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            control[i][j].setText( QString::number( values[i][j] ));
-            if ( values[i][j] == 0 )
+            control[i][j].setText( QString::number( values.at( v )));
+            if ( values.at( v ) == 0 )
                 control[i][j].setStyleSheet( Options::getEmptyStyle() );
             else
                 control[i][j].setStyleSheet( currentStyle );
             control[i][j].setFont( font );
+            v++;
         }
     }
 
@@ -246,17 +248,16 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 {
     ImageProvider& provider = ImageProvider::getInstance();
     SquareSize squareSize = provider.getImageSquareSize();
-
-    int** values = ( isRandom == false ) ? board->sendBoard() : board->randomBoard();
+    vector<int>& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     BoardSize boardSize = board->getCurrentSize();
     QImage** pictures = provider.getImage( boardSize );
     QPixmap pixmap;
 
-    for ( int i = 0; i < boardSize; i++ )
+    for ( int i = 0, v = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            pixmap.convertFromImage( *pictures[values[i][j]] );
+            pixmap.convertFromImage( *pictures[values.at( v++ )]);
             QIcon icon( pixmap );
             QSize iconSize( squareSize, squareSize );
             control[i][j].setIconSize( iconSize );
