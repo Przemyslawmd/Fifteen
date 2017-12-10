@@ -37,11 +37,6 @@ Board* Board::createBoard( int** squareValues, BoardSize boardSize )
 Board::Board( BoardSize size )
 {
     this->size = size;
-    square = new int*[size];
-
-    for ( int i = 0; i < size; i++ )
-        square[i] = new int[size];
-
     solveBoard();
 }
 
@@ -52,14 +47,11 @@ Board::Board( int** values, BoardSize size )
 {
     this->values.clear();
     this->size = size;
-    square = new int*[size];
 
     for ( int i = 0; i < size; i++ )
     {
-        square[i] = new int[size];
         for ( int j = 0; j < size; j++ )
         {
-            square[i][j] = values[i][j];
             this->values.push_back( values[i][j] );
         }
     }
@@ -70,11 +62,6 @@ Board::Board( int** values, BoardSize size )
 
 Board::~Board()
 {
-    for ( int i = 0; i < size; i++ )
-        delete[] square[i];
-
-    delete[] square;
-    values.clear();
 }
 
 /*************************************************************************************/
@@ -200,16 +187,12 @@ int Board::findNullSquare()
 void Board::solveBoard()
 {    
     values.clear();
-    for ( int i = 0, k = 1; i < size; i++ )
+
+    for ( int i = 1; i <= size * size; i++ )
     {
-        for ( int j = 0; j < size; j++ )
-        {
-            values.push_back( k );
-            square[i][j] = k++;
-        }
+        values.push_back( i );
     }
 
-    square[size-1][size-1] = EMPTY_SQUARE;
     values.at( size * size - 1 ) = EMPTY_SQUARE;
 }
 
@@ -218,6 +201,11 @@ void Board::solveBoard()
 
 int** Board::sendBoard()
 {
+    int** square = new int*[size];
+
+    for ( int i = 0; i < size; i++ )
+        square[i] = new int[size];
+
     int k = 0;
     for ( int i = 0; i < size; i++ )
     {
