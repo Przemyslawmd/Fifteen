@@ -22,16 +22,6 @@ Board* Board::createBoard( BoardSize boardSize )
 /*********************************************************************************/
 /* CREATE BOARD FROM FILE ********************************************************/
 
-Board* Board::createBoard( int** squareValues, BoardSize boardSize )
-{
-    if ( board )
-        delete board;
-
-    board = new Board( squareValues, boardSize );
-    return board;
-}
-
-
 Board* Board::createBoard( unique_ptr< vector<int> > squareValues, BoardSize boardSize )
 {
     if ( board )
@@ -52,20 +42,6 @@ Board::Board( BoardSize size )
 
 /**********************************************************************************/
 /* CONSTRUCTOR FOR A BOARD FROM A FILE ********************************************/
-
-Board::Board( int** values, BoardSize size )
-{
-    this->values.clear();
-    this->size = size;
-
-    for ( int i = 0; i < size; i++ )
-    {
-        for ( int j = 0; j < size; j++ )
-        {
-            this->values.push_back( values[i][j] );
-        }
-    }
-}
 
 Board::Board( unique_ptr< vector<int> > values, BoardSize size )
 {

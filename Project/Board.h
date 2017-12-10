@@ -20,8 +20,8 @@ public:
 
     // Methods to create a board and to ensure that only one instance of board may exist
     static Board* createBoard( BoardSize );
-    static Board* createBoard( int** values, BoardSize );
     static Board* createBoard( unique_ptr< vector<int> > values, BoardSize );
+
     // Check whether move is allowed
     Move checkMove( int row, int col );
 
@@ -37,7 +37,6 @@ private:
     const int EMPTY_SQUARE = 0;
 
     Board( BoardSize );
-    Board( int** values, BoardSize );
     Board( unique_ptr< vector<int> > values, BoardSize );
 
     // Make move by swaping two squares
