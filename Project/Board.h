@@ -26,6 +26,7 @@ public:
     BoardSize getCurrentSize();
     int** randomBoard();
     int** sendBoard();
+    vector< int >& sendBoardValues();
     void solveBoard();
 
 private:

@@ -121,16 +121,13 @@ unique_ptr<QDataStream> IOFile::getDataStream( QFile& file, QIODevice::OpenModeF
 
 unique_ptr< QDataStream > IOFile::insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board* board )
 {
-    int** values = board->sendBoard();
+    vector<int>& values = board->sendBoardValues();
     int size = board->getCurrentSize();
 
-    for ( int i = 0; i < size; i++ )
+    for ( int i = 0; i < size * size; i++ )
     {
-        for ( int j = 0; j < size; j++ )
-            *stream << values[i][j];
+        *stream << values.at( i );
     }
+
     return stream;
 }
-
-
-
