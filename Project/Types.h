@@ -22,7 +22,8 @@ typedef struct SizeStruct
     FontSize fontSize;
 } Sizes;
 
-enum Color { BLUE, GREEN, RED, EMPTY_STYLE };
+enum Color           { BLUE, GREEN, RED, EMPTY_STYLE };
+enum class ColorText { BLUE, WHITE, BLACK };
 
 #endif // TYPES_H
 

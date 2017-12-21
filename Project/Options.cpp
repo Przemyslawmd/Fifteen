@@ -113,6 +113,32 @@ void Options::setImagesToBeLoaded( bool four, bool five , bool six , bool seven 
     imagesToBeLoaded[3] = seven;
 }
 
+/************************************************************************/
+/* TEXT ON IMAGE ********************************************************/
+
+bool Options::isTextOnImage()
+{
+    return textOnImage;
+}
+
+
+void Options::setTextOnImage( bool text )
+{
+    textOnImage = text;
+}
+
+
+ColorText Options::getTextOnImageColor()
+{
+    return textOnImageColor;
+}
+
+
+void Options::setTextOnImageColor( ColorText color )
+{
+    textOnImageColor = color;
+}
+
 /***********************************************************************/
 /***********************************************************************/
 
@@ -145,3 +171,7 @@ QString Options::styles[]
 };
 
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
+
+bool Options::textOnImage = false;
+ColorText Options::textOnImageColor = ColorText::BLACK;
+

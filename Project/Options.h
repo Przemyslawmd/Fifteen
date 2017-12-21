@@ -31,6 +31,11 @@ public:
     static bool isImageToBeLoaded( BoardSize size );
     static void setImagesToBeLoaded( bool four, bool five, bool six, bool seven );
 
+    static bool isTextOnImage();
+    static void setTextOnImage( bool );
+    static ColorText getTextOnImageColor();
+    static void setTextOnImageColor( ColorText );
+
 private:
 
     static BoardSize boardSize;
@@ -42,6 +47,9 @@ private:
     static Sizes sizes[5];
     static QString styles[4];
     static bool imagesToBeLoaded[4];
+
+    static bool textOnImage;
+    static ColorText textOnImageColor;
 };
 
 #endif // OPTIONS_H
