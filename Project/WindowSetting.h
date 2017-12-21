@@ -30,20 +30,25 @@ private:
     enum SquareColor { BLUE, GREEN, RED, COUNT_COLOR };
     enum BoardSize_   { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
 
-    array<QRadioButton, COUNT_COLOR> radioColor;
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
     array<QCheckBox, COUNT_SIZE> checkImage;
+    QButtonGroup groupRadioImage;
+    QGroupBox boxRadioImage;
+
+    QCheckBox checkImageText;
+    array<QRadioButton, 3> radioImageTextColor;
+    QButtonGroup groupRadioImageTextColor;
+    QGroupBox boxRadioImageText;
+
+    array<QRadioButton, COUNT_COLOR> radioColor;
+    QButtonGroup groupRadioColor;
+    QGroupBox boxRadioColor;
+
     QSlider slider;
     array<QLabel, 5> sliderLabels;
-    QPushButton accept;    
-
-    QGroupBox boxRadioColor;
-    QGroupBox boxRadioImage;
     QGroupBox boxSquareSize;
 
-    QButtonGroup groupRadioImage;
-    QButtonGroup groupRadioColor;
-
+    QPushButton accept;
     MainWindow& parent;
 
 private slots:

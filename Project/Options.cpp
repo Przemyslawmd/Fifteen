@@ -140,6 +140,30 @@ void Options::setTextOnImageColor( ColorText color )
 }
 
 /***********************************************************************/
+/* MESSAGE DATA ********************************************************/
+
+unique_ptr< OptionsData > Options::sendData()
+{
+    unique_ptr< OptionsData > messageData( new OptionsData );
+    messageData->mode = graphicMode;
+    messageData->fourImageToBeLoaded = imagesToBeLoaded[0];
+    messageData->fiveImageToBeLoaded = imagesToBeLoaded[1];
+    messageData->sixImageToBeLoaded = imagesToBeLoaded[2];
+    messageData->sevenImageToBeLoaded = imagesToBeLoaded[3];
+    return messageData;
+}
+
+
+void Options::receiveData( unique_ptr< OptionsData >  messageData )
+{
+    graphicMode = messageData->mode;
+    imagesToBeLoaded[0] = messageData->fourImageToBeLoaded;
+    imagesToBeLoaded[1] = messageData->fiveImageToBeLoaded;
+    imagesToBeLoaded[2] = messageData->sixImageToBeLoaded;
+    imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
+}
+
+/***********************************************************************/
 /***********************************************************************/
 
 BoardSize Options::boardSize = BoardSize::FOUR;

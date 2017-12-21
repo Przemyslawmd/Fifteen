@@ -22,6 +22,16 @@ typedef struct SizeStruct
     FontSize fontSize;
 } Sizes;
 
+typedef struct OptionsData_
+{
+    GraphicMode mode;
+    bool fourImageToBeLoaded;
+    bool fiveImageToBeLoaded;
+    bool sixImageToBeLoaded;
+    bool sevenImageToBeLoaded;
+
+} OptionsData;
+
 enum Color           { BLUE, GREEN, RED, EMPTY_STYLE };
 enum class ColorText { BLUE, WHITE, BLACK };
 

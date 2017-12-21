@@ -4,6 +4,9 @@
 
 #include "Types.h"
 #include <QString>
+#include <memory>
+
+using std::unique_ptr;
 
 class Options
 {
@@ -35,6 +38,9 @@ public:
     static void setTextOnImage( bool );
     static ColorText getTextOnImageColor();
     static void setTextOnImageColor( ColorText );
+
+    static unique_ptr< OptionsData > sendData();
+    static void receiveData( unique_ptr< OptionsData > messageData );
 
 private:
 
