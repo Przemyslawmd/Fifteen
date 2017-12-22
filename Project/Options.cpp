@@ -30,12 +30,6 @@ int Options::getSquareSizeIndex()
 }
 
 
-void Options::setSquareSize( int value )
-{
-    currentSquare = static_cast< SquareSize >( value - 1 );
-}
-
-
 int Options::getSquareSizeFont()
 {
     return sizes[currentSquare].fontSize;
@@ -63,24 +57,12 @@ GraphicMode Options::getGraphicMode()
     return graphicMode;
 }
 
-
-void Options::setGraphicMode( GraphicMode mode )
-{
-    graphicMode = mode;
-}
-
 /************************************************************************/
 /* COLOR ****************************************************************/
 
 Color Options::getColor()
 {
     return currentColor;
-}
-
-
-void Options::setColor( Color color )
-{
-    currentColor = color;
 }
 
 
@@ -102,15 +84,6 @@ QString& Options::getEmptyStyle()
 bool Options::isImageToBeLoaded( BoardSize size )
 {
     return imagesToBeLoaded[size - 4];
-}
-
-
-void Options::setImagesToBeLoaded( bool four, bool five , bool six , bool seven )
-{
-    imagesToBeLoaded[0] = four;
-    imagesToBeLoaded[1] = five;
-    imagesToBeLoaded[2] = six;
-    imagesToBeLoaded[3] = seven;
 }
 
 /************************************************************************/
@@ -145,7 +118,8 @@ void Options::setTextOnImageColor( ColorText color )
 unique_ptr< OptionsData > Options::sendData()
 {
     unique_ptr< OptionsData > messageData( new OptionsData );
-    messageData->mode = graphicMode;
+    messageData->boardMode = boardMode;
+    messageData->graphicMode = graphicMode;
     messageData->fourImageToBeLoaded = imagesToBeLoaded[0];
     messageData->fiveImageToBeLoaded = imagesToBeLoaded[1];
     messageData->sixImageToBeLoaded = imagesToBeLoaded[2];
@@ -158,13 +132,13 @@ unique_ptr< OptionsData > Options::sendData()
 
 void Options::receiveData( unique_ptr< OptionsData >  messageData )
 {
-    graphicMode = messageData->mode;
+    graphicMode = messageData->graphicMode;
     imagesToBeLoaded[0] = messageData->fourImageToBeLoaded;
     imagesToBeLoaded[1] = messageData->fiveImageToBeLoaded;
     imagesToBeLoaded[2] = messageData->sixImageToBeLoaded;
     imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
     currentColor = messageData->squareColor;
-    setSquareSize( messageData->squareSizeIndex );
+    currentSquare = static_cast< SquareSize >( messageData->squareSizeIndex - 1 );
 }
 
 /***********************************************************************/

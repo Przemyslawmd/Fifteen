@@ -4,10 +4,7 @@
 
 using std::unique_ptr;
 
-WindowSetting::WindowSetting( MainWindow& parent ) :
-    slider{ Qt::Horizontal, this }, accept{ "Accept" },
-    boxRadioColor{ "Color of Numeric Board" }, boxSquareSize{ "Size of Square" },
-    parent( parent )
+WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, this }, parent( parent )
 {
     setModal( true );
     setWindowTitle( "" );
@@ -25,7 +22,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) :
         radio.setStyleSheet( "margin-left:5px;" );
 
     radioGraphic[SCALED].setText( "Graphic is to be scalled" );
-    radioGraphic[SCALED].setChecked( messageData->mode == GraphicMode::SCALED );
+    radioGraphic[SCALED].setChecked( messageData->graphicMode == GraphicMode::SCALED );
     radioGraphic[CROPPED].setText( "Graphic is to be cropped" );
     radioGraphic[CROPPED].setChecked( !radioGraphic[SCALED].isChecked() );
 
@@ -106,6 +103,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) :
     layRadioColor.addWidget( &radioColor[RED] );
     layRadioColor.addSpacing( 7 );
     boxRadioColor.setLayout( &layRadioColor );
+    boxRadioColor.setTitle( "Color of Numeric Board" );
 
     radioColor[BLUE].setText( "Blue" );
     radioColor[GREEN].setText( "Green" );
@@ -132,12 +130,14 @@ WindowSetting::WindowSetting( MainWindow& parent ) :
     layoutSlider.addWidget( &sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
     layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
     boxSquareSize.setLayout( &layoutSlider );
+    boxSquareSize.setTitle( "Size of Square" );
 
     /***************************************************************/
     /* General layout **********************************************/
 
     QHBoxLayout layControls;
     accept.setStyleSheet( "height:20px;" );
+    accept.setText( "Accept ");
     connect( &accept, SIGNAL( clicked() ), this, SLOT( acceptSettings() ));
 
     layControls.addSpacing( 120 );
@@ -167,15 +167,13 @@ WindowSetting::WindowSetting( MainWindow& parent ) :
 void WindowSetting::acceptSettings()
 {
     unique_ptr< OptionsData > messageDataToSent ( new OptionsData );
-    messageDataToSent->mode = radioGraphic[SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
+    messageDataToSent->graphicMode = radioGraphic[SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
     messageDataToSent->fourImageToBeLoaded = checkImage[FOUR].isChecked();
     messageDataToSent->fiveImageToBeLoaded = checkImage[FIVE].isChecked();
     messageDataToSent->sixImageToBeLoaded = checkImage[SIX].isChecked();
     messageDataToSent->sevenImageToBeLoaded = checkImage[SEVEN].isChecked();
-
-    BoardMode boardMode = Options::getBoardMode();
-
     messageDataToSent->squareSizeIndex = slider.value();
+
     bool squareSizeChanged = messageDataToSent->squareSizeIndex != messageData->squareSizeIndex;
 
     if ( radioColor[BLUE].isChecked() )
@@ -194,10 +192,10 @@ void WindowSetting::acceptSettings()
 
     Options::receiveData( std::move( messageDataToSent ));
 
-    if ( squareSizeChanged && boardMode == BoardMode::NUMERIC )
+    if ( squareSizeChanged && messageData->boardMode == BoardMode::NUMERIC )
         parent.redrawSquares();
 
-    if ( colorChanged && boardMode == BoardMode::NUMERIC )
+    if ( colorChanged && messageData->boardMode == BoardMode::NUMERIC )
         parent.setColor();
 
     close();

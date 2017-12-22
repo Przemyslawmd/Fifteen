@@ -16,7 +16,6 @@ public:
     static void setBoardSize( BoardSize );
 
     static SquareSize getSquareSize();
-    static void setSquareSize( int );
     static int getSquareSizeIndex();
     static int getSquareSizeFont();
 
@@ -24,15 +23,12 @@ public:
     static void setBoardMode( BoardMode mode );
 
     static GraphicMode getGraphicMode();
-    static void setGraphicMode( GraphicMode mode );
 
     static Color getColor();
-    static void setColor( Color );
     static QString& getStyle();
     static QString& getEmptyStyle();
 
     static bool isImageToBeLoaded( BoardSize size );
-    static void setImagesToBeLoaded( bool four, bool five, bool six, bool seven );
 
     static bool isTextOnImage();
     static void setTextOnImage( bool );

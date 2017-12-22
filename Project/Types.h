@@ -25,14 +25,14 @@ typedef struct SizeStruct
 
 typedef struct OptionsData_
 {
-    GraphicMode mode;
+    BoardMode boardMode;
+    GraphicMode graphicMode;
     bool fourImageToBeLoaded;
     bool fiveImageToBeLoaded;
     bool sixImageToBeLoaded;
     bool sevenImageToBeLoaded;
     Color squareColor;
     int squareSizeIndex;
-
 } OptionsData;
 
 #endif // TYPES_H
