@@ -48,6 +48,7 @@ private:
     array<QLabel, 5> sliderLabels;
     QGroupBox boxSquareSize;
 
+    unique_ptr< OptionsData > messageData;
     QPushButton accept;
     MainWindow& parent;
 

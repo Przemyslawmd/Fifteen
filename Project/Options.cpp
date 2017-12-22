@@ -150,6 +150,8 @@ unique_ptr< OptionsData > Options::sendData()
     messageData->fiveImageToBeLoaded = imagesToBeLoaded[1];
     messageData->sixImageToBeLoaded = imagesToBeLoaded[2];
     messageData->sevenImageToBeLoaded = imagesToBeLoaded[3];
+    messageData->squareColor = currentColor;
+    messageData->squareSizeIndex = currentSquare + 1;
     return messageData;
 }
 
@@ -161,6 +163,8 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
     imagesToBeLoaded[1] = messageData->fiveImageToBeLoaded;
     imagesToBeLoaded[2] = messageData->sixImageToBeLoaded;
     imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
+    currentColor = messageData->squareColor;
+    setSquareSize( messageData->squareSizeIndex );
 }
 
 /***********************************************************************/
