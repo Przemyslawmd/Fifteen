@@ -4,6 +4,7 @@
 
 #include "Types.h"
 #include <QString>
+#include <QColor>
 #include <memory>
 
 using std::unique_ptr;
@@ -30,10 +31,7 @@ public:
 
     static bool isImageToBeLoaded( BoardSize size );
 
-    static bool isTextOnImage();
-    static void setTextOnImage( bool );
-    static ColorText getTextOnImageColor();
-    static void setTextOnImageColor( ColorText );
+    static bool isNumberOnImage();
 
     static unique_ptr< OptionsData > sendData();
     static void receiveData( unique_ptr< OptionsData > messageData );
@@ -50,8 +48,7 @@ private:
     static QString styles[4];
     static bool imagesToBeLoaded[4];
 
-    static bool textOnImage;
-    static ColorText textOnImageColor;
+    static bool numberOnImage;
 };
 
 #endif // OPTIONS_H

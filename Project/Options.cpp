@@ -1,5 +1,6 @@
 
 #include "Options.h"
+#include <QtGlobal>
 
 /***********************************************************************/
 /* BOARD SIZE **********************************************************/
@@ -89,27 +90,9 @@ bool Options::isImageToBeLoaded( BoardSize size )
 /************************************************************************/
 /* TEXT ON IMAGE ********************************************************/
 
-bool Options::isTextOnImage()
+bool Options::isNumberOnImage()
 {
-    return textOnImage;
-}
-
-
-void Options::setTextOnImage( bool text )
-{
-    textOnImage = text;
-}
-
-
-ColorText Options::getTextOnImageColor()
-{
-    return textOnImageColor;
-}
-
-
-void Options::setTextOnImageColor( ColorText color )
-{
-    textOnImageColor = color;
+    return numberOnImage;
 }
 
 /***********************************************************************/
@@ -126,6 +109,7 @@ unique_ptr< OptionsData > Options::sendData()
     messageData->sevenImageToBeLoaded = imagesToBeLoaded[3];
     messageData->squareColor = currentColor;
     messageData->squareSizeIndex = currentSquare + 1;
+    messageData->numberOnImage = numberOnImage;
     return messageData;
 }
 
@@ -139,6 +123,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
     imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
     currentColor = messageData->squareColor;
     currentSquare = static_cast< SquareSize >( messageData->squareSizeIndex - 1 );
+    numberOnImage = messageData->numberOnImage;
 }
 
 /***********************************************************************/
@@ -174,6 +159,5 @@ QString Options::styles[]
 
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
 
-bool Options::textOnImage = false;
-ColorText Options::textOnImageColor = ColorText::BLACK;
+bool Options::numberOnImage = false;
 

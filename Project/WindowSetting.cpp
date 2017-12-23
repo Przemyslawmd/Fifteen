@@ -13,16 +13,16 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     setMinimumSize( 400, 830 );
 
     QVBoxLayout layWindow;
-    messageData = Options::sendData();
+    optionsCurrent = Options::sendData();
 
     /***************************************************************/
     /* Graphic loading box *****************************************/
 
     for ( auto& radio : radioGraphic )
-        radio.setStyleSheet( "margin-left:5px;" );
+        radio.setStyleSheet( "margin-left: 5px;" );
 
     radioGraphic[SCALED].setText( "Graphic is to be scalled" );
-    radioGraphic[SCALED].setChecked( messageData->graphicMode == GraphicMode::SCALED );
+    radioGraphic[SCALED].setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
     radioGraphic[CROPPED].setText( "Graphic is to be cropped" );
     radioGraphic[CROPPED].setChecked( !radioGraphic[SCALED].isChecked() );
 
@@ -30,16 +30,20 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     groupRadioImage.addButton( &radioGraphic[CROPPED] );
 
     for ( auto& check : checkImage )
-        check.setStyleSheet( "margin-left:5px;" );
+        check.setStyleSheet( "margin-left: 5px;" );
 
     checkImage[FOUR].setText( "Graphic is to be loaded for a board  4x4" );
-    checkImage[FOUR].setChecked( messageData->fourImageToBeLoaded );
+    checkImage[FOUR].setChecked( optionsCurrent->fourImageToBeLoaded );
     checkImage[FIVE].setText( "Graphic is to be loaded for a board  5x5" );
-    checkImage[FIVE].setChecked( messageData->fiveImageToBeLoaded );
+    checkImage[FIVE].setChecked( optionsCurrent->fiveImageToBeLoaded );
     checkImage[SIX].setText( "Graphic is to be loaded for a board  6x6" );
-    checkImage[SIX].setChecked( messageData->sixImageToBeLoaded );
+    checkImage[SIX].setChecked( optionsCurrent->sixImageToBeLoaded );
     checkImage[SEVEN].setText( "Graphic is to be loaded for a board  7x7" );
-    checkImage[SEVEN].setChecked( messageData->sevenImageToBeLoaded );
+    checkImage[SEVEN].setChecked( optionsCurrent->sevenImageToBeLoaded );
+
+    checkImageText.setText( "Text with a number on a graphic square" );
+    checkImageText.setChecked( optionsCurrent->numberOnImage );
+    checkImageText.setStyleSheet( "margin-left: 5px" );
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -54,33 +58,11 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layRadioImage.addWidget( &checkImage[SIX] );
     layRadioImage.addSpacing( 8 );
     layRadioImage.addWidget( &checkImage[SEVEN] );
+    layRadioImage.addSpacing( 12 );
+    layRadioImage.addWidget( &checkImageText );
     layRadioImage.addSpacing( 15 );
     boxRadioImage.setLayout( &layRadioImage );
-    boxRadioImage.setTitle( "Graphic loading" );
-
-    /***************************************************************/
-    /* Image text box **********************************************/
-
-    checkImageText.setText( " Number on a graphic square" );
-    radioImageTextColor[0].setText(" Blue ");
-    radioImageTextColor[1].setText(" White ");
-    radioImageTextColor[2].setText(" Black ");
-
-    groupRadioImageTextColor.addButton( &radioImageTextColor[0] );
-    groupRadioImageTextColor.addButton( &radioImageTextColor[1] );
-    groupRadioImageTextColor.addButton( &radioImageTextColor[2] );
-
-    QVBoxLayout layRadioImageText;
-    layRadioImageText.addSpacing( 8 );
-    layRadioImageText.addWidget( &checkImageText );
-    layRadioImageText.addSpacing( 8 );
-    layRadioImageText.addWidget( &radioImageTextColor[0] );
-    layRadioImageText.addSpacing( 8 );
-    layRadioImageText.addWidget( &radioImageTextColor[1] );
-    layRadioImageText.addSpacing( 8 );
-    layRadioImageText.addWidget( &radioImageTextColor[2] );
-    layRadioImageText.addSpacing( 15 );
-    boxRadioImageText.setLayout( &layRadioImageText );
+    boxRadioImage.setTitle( "Image fof graphic board" );
 
     /***************************************************************/
     /* Color of numeric board **************************************/
@@ -92,7 +74,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     groupRadioColor.addButton( &radioColor[GREEN] );
     groupRadioColor.addButton( &radioColor[RED] );
 
-    radioColor[ messageData->squareColor ].setChecked( true );
+    radioColor[ optionsCurrent->squareColor ].setChecked( true );
 
     QVBoxLayout layRadioColor;
     layRadioColor.addSpacing( 7 );
@@ -119,7 +101,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     sliderLabels[2].setText( "150" );
     sliderLabels[3].setText( "200  " );
     sliderLabels[4].setText( "250" );
-    slider.setValue( messageData->squareSizeIndex );
+    slider.setValue( optionsCurrent->squareSizeIndex );
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 30, 20, 30, 20 );
@@ -147,8 +129,6 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layWindow.addSpacing( 20 );
     layWindow.addWidget( &boxRadioImage );
     layWindow.addSpacing( 20 );
-    layWindow.addWidget( &boxRadioImageText );
-    layWindow.addSpacing( 20 );
     layWindow.addWidget( &boxRadioColor);
     layWindow.addSpacing( 20 );
     layWindow.addWidget( &boxSquareSize );
@@ -166,36 +146,41 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
 void WindowSetting::acceptSettings()
 {
-    unique_ptr< OptionsData > messageDataToSent ( new OptionsData );
-    messageDataToSent->graphicMode = radioGraphic[SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
-    messageDataToSent->fourImageToBeLoaded = checkImage[FOUR].isChecked();
-    messageDataToSent->fiveImageToBeLoaded = checkImage[FIVE].isChecked();
-    messageDataToSent->sixImageToBeLoaded = checkImage[SIX].isChecked();
-    messageDataToSent->sevenImageToBeLoaded = checkImage[SEVEN].isChecked();
-    messageDataToSent->squareSizeIndex = slider.value();
+    unique_ptr< OptionsData > optionsNew ( new OptionsData );
+    optionsNew->graphicMode = radioGraphic[SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
+    optionsNew->fourImageToBeLoaded = checkImage[FOUR].isChecked();
+    optionsNew->fiveImageToBeLoaded = checkImage[FIVE].isChecked();
+    optionsNew->sixImageToBeLoaded = checkImage[SIX].isChecked();
+    optionsNew->sevenImageToBeLoaded = checkImage[SEVEN].isChecked();
+    optionsNew->squareSizeIndex = slider.value();
+    optionsNew->numberOnImage = checkImageText.isChecked();
 
-    bool squareSizeChanged = messageDataToSent->squareSizeIndex != messageData->squareSizeIndex;
+    bool numberImageChanged = optionsNew->numberOnImage != optionsCurrent->numberOnImage;
+    bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;
 
     if ( radioColor[BLUE].isChecked() )
     {
-        messageDataToSent->squareColor = Color::BLUE;
+        optionsNew->squareColor = Color::BLUE;
     }
     else if ( radioColor[GREEN].isChecked() )
     {
-        messageDataToSent->squareColor = Color::GREEN;
+        optionsNew->squareColor = Color::GREEN;
     }
     else if ( radioColor[RED].isChecked() )
     {
-        messageDataToSent->squareColor = Color::RED;
+        optionsNew->squareColor = Color::RED;
     }
-    bool colorChanged = messageDataToSent->squareColor != messageData->squareColor;
+    bool colorChanged = optionsNew->squareColor != optionsCurrent->squareColor;
 
-    Options::receiveData( std::move( messageDataToSent ));
+    Options::receiveData( std::move( optionsNew ));
 
-    if ( squareSizeChanged && messageData->boardMode == BoardMode::NUMERIC )
+    if ( squareSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
         parent.redrawSquares();
 
-    if ( colorChanged && messageData->boardMode == BoardMode::NUMERIC )
+    if ( numberImageChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC )
+        parent.redrawSquares();
+
+    if ( colorChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
         parent.setColor();
 
     close();

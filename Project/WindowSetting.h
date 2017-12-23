@@ -32,13 +32,9 @@ private:
 
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
     array<QCheckBox, COUNT_SIZE> checkImage;
+    QCheckBox checkImageText;
     QButtonGroup groupRadioImage;
     QGroupBox boxRadioImage;
-
-    QCheckBox checkImageText;
-    array<QRadioButton, 3> radioImageTextColor;
-    QButtonGroup groupRadioImageTextColor;
-    QGroupBox boxRadioImageText;
 
     array<QRadioButton, COUNT_COLOR> radioColor;
     QButtonGroup groupRadioColor;
@@ -48,7 +44,7 @@ private:
     array<QLabel, 5> sliderLabels;
     QGroupBox boxSquareSize;
 
-    unique_ptr< OptionsData > messageData;
+    unique_ptr< OptionsData > optionsCurrent;
     QPushButton accept;
     MainWindow& parent;
 
