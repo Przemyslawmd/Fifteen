@@ -74,9 +74,10 @@ class MainWindow : public QMainWindow
     void createLayouts();
 
     void createSquares();
+    void deleteSquares();
     void setSquaresNumeric( bool isRandom );
     void setSquaresGraphic( bool isRandom );
-    void deleteSquares();
+    void drawNumberOnGraphicSquare( QPixmap& pixmap, int number );
 
     void moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest );
     void moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest );

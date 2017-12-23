@@ -1,6 +1,7 @@
 
 #include "MainWindow.h"
 #include "Message.h"
+#include <QPainter>
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
@@ -14,8 +15,8 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     setSquaresNumeric( false );
 }
 
-/******************************************************************************************************/
-/* CREATE MENU BAR ************************************************************************************/
+/******************************************************************************************/
+/* CREATE MENU BAR ************************************************************************/
 
 void MainWindow::createMenu()
 {    
@@ -60,8 +61,8 @@ void MainWindow::createMenu()
     this->setMenuBar( mainMenu );
 }
 
-/*************************************************************************************************************/
-/* CREATE RIGHT PANEL ****************************************************************************************/
+/********************************************************************************************/
+/* CREATE RIGHT PANEL ***********************************************************************/
 
 void MainWindow::createRightPanel()
 {
@@ -131,8 +132,8 @@ void MainWindow::createRightPanel()
     rightLayout->addStretch();
 }
 
-/***********************************************************************************************************/
-/* CREATE A LAYOUT FOR SQUARES *****************************************************************************/
+/*********************************************************************************/
+/* CREATE A LAYOUT FOR SQUARES ***************************************************/
 
 void MainWindow::createLayouts()
 {
@@ -152,8 +153,8 @@ void MainWindow::createLayouts()
     this->setCentralWidget( mainPanel );
 }
 
-/*******************************************************************************************************/
-/* CREATE SQUARES **************************************************************************************/
+/***********************************************************************************/
+/* CREATE SQUARES ******************************************************************/
 
 void MainWindow::createSquares()
 {
@@ -196,8 +197,8 @@ void MainWindow::createSquares()
     boardVerticalLayout->addStretch();
 }
 
-/*********************************************************************************************************/
-/* DELETE SQUARES ****************************************************************************************/
+/*********************************************************************************/
+/* DELETE SQUARES ****************************************************************/
 
 void MainWindow::deleteSquares()
 {
@@ -213,8 +214,8 @@ void MainWindow::deleteSquares()
     delete[] boardHorizontalLayout;
 }
 
-/*********************************************************************************************************/
-/* SET SQUARES NUMERIC ***********************************************************************************/
+/*************************************************************************************/
+/* SET SQUARES NUMERIC ***************************************************************/
 
 void MainWindow::setSquaresNumeric( bool isRandom )
 {    
@@ -241,8 +242,8 @@ void MainWindow::setSquaresNumeric( bool isRandom )
     Options::setBoardMode( BoardMode::NUMERIC );
 }
 
-/*********************************************************************************************************/
-/* SET SQUARES GRAPHIC ***********************************************************************************/
+/*******************************************************************************************/
+/* SET SQUARES GRAPHIC *********************************************************************/
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
@@ -253,25 +254,43 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     QImage** pictures = provider.getImage( boardSize );
     QPixmap pixmap;
 
+    bool numberOnImage = Options::isNumberOnImage();
+
     for ( int i = 0, v = 0; i < boardSize; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            pixmap.convertFromImage( *pictures[values.at( v++ )]);
+            pixmap = QPixmap::fromImage( *pictures[values.at( v++ )]);
+
+            if ( numberOnImage )
+                drawNumberOnGraphicSquare( pixmap, values.at( v - 1 ));
+
             QIcon icon( pixmap );
             QSize iconSize( squareSize, squareSize );
             control[i][j].setIconSize( iconSize );
             control[i][j].setIcon( icon );
             control[i][j].setStyleSheet( "" );
-            control[i][j].setText( "" );
         }
     }
 
     Options::setBoardMode( BoardMode::GRAPHIC );
 }
 
-/*********************************************************************************************************/
-/* GENERATE BOARD ****************************************************************************************/
+/*******************************************************************************************/
+/* DRAW NUMBER ON GRAPHIC SQUARE ***********************************************************/
+
+void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
+{
+    QPainter painter( &pixmap );
+    QColor penColor( 0, 0, 0 );
+    painter.setPen( QPen( penColor ));
+    int font = Options::getSquareSizeFont();
+    painter.setFont( QFont("Times", font, QFont::Bold ));
+    painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
+}
+
+/*******************************************************************************************/
+/* GENERATE BOARD **************************************************************************/
 
 void MainWindow::slotGenerateBoard()
 {
@@ -322,8 +341,8 @@ void MainWindow::slotGenerateBoard()
     }
 }
 
-/*********************************************************************************************************/
-/* SOLVE BOARD *******************************************************************************************/
+/*******************************************************************************************/
+/* SOLVE BOARD *****************************************************************************/
 
 void MainWindow::slotSolveBoard()
 {
@@ -335,8 +354,8 @@ void MainWindow::slotSolveBoard()
         setSquaresGraphic( false );
 }
 
-/*********************************************************************************************************/
-/* MOVE SQUARE IF POSSIBLE *******************************************************************************/
+/*******************************************************************************************/
+/* MOVE SQUARE IF POSSIBLE *****************************************************************/
 
 void MainWindow::pressSquare()
 {
@@ -372,8 +391,8 @@ void MainWindow::pressSquare()
     }
 }
 
-/*********************************************************************************************************/
-/* MOVE NUMERIC SQUARES **********************************************************************************/
+/*******************************************************************************************/
+/* MOVE NUMERIC SQUARES ********************************************************************/
 
 void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
@@ -384,8 +403,8 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
     control[rowSource][colSource].setStyleSheet( Options::getEmptyStyle() );
 }
 
-/*********************************************************************************************************/
-/* MOVE GRAPHIC SQUARES **********************************************************************************/
+/*******************************************************************************************/
+/* MOVE GRAPHIC SQUARES ********************************************************************/
 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
@@ -397,8 +416,8 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
     control[rowSource][colSource].setIcon( nullIcon );
 }
 
-/*********************************************************************************************************/
-/* LOAD GRAPHIC FILE *************************************************************************************/
+/*******************************************************************************************/
+/* LOAD GRAPHIC FILE ***********************************************************************/
 
 void MainWindow::slotLoadGraphic()
 {
@@ -425,8 +444,8 @@ void MainWindow::slotLoadGraphic()
     QMessageBox::information( this, "", Message::getMessages() );
 }
 
-/*********************************************************************************************************/
-/* REMOVE GRAPHIC ****************************************************************************************/
+/*******************************************************************************************/
+/* REMOVE GRAPHIC **************************************************************************/
 
 void MainWindow::slotRemoveGraphic()
 {
@@ -442,8 +461,8 @@ void MainWindow::slotRemoveGraphic()
     }
 }
 
-/*********************************************************************************************************/
-/* SLOT SAVE BOARD ***************************************************************************************/
+/*******************************************************************************************/
+/* SLOT SAVE BOARD *************************************************************************/
 
 void MainWindow::slotSaveBoard()
 {
@@ -459,8 +478,8 @@ void MainWindow::slotSaveBoard()
         ioFile.saveGraphicBoardInFile( board, fileName );
 }
 
-/*********************************************************************************************************/
-/* RESTORE BOARD FROM FILE *******************************************************************************/
+/*******************************************************************************************/
+/* RESTORE BOARD FROM FILE *****************************************************************/
 
 void MainWindow::slotReadBoard()
 {    
@@ -526,7 +545,11 @@ void MainWindow::redrawSquares()
 {
     deleteSquares();
     createSquares();
-    setSquaresNumeric( false );
+
+    if ( Options::getBoardMode() == BoardMode::NUMERIC)
+        setSquaresNumeric( false );
+    else
+        setSquaresGraphic( false );
 }
 
 /***********************************************************************************************************/
