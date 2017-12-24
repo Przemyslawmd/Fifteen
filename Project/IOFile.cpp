@@ -67,8 +67,6 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     int level;
     *stream >> level;
 
-    Options::setBoardSize( static_cast< BoardSize >( level ));
-
     unique_ptr< vector<int> > values( new vector<int> );
     int temp;
     for ( int i = 0; i < level * level ; i++ )
@@ -101,6 +99,7 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     }
 
     file.close();
+    values->push_back( level );
     return values;
 }
 

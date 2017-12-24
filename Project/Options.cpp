@@ -2,20 +2,6 @@
 #include "Options.h"
 #include <QtGlobal>
 
-/***********************************************************************/
-/* BOARD SIZE **********************************************************/
-
-BoardSize Options::getBoardSize()
-{
-    return boardSize;
-}
-
-
-void Options::setBoardSize( BoardSize size )
-{
-    boardSize = size;
-}
-
 /**********************************************************************/
 /* SQUARE SIZE ********************************************************/
 
@@ -129,7 +115,6 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
 /***********************************************************************/
 /***********************************************************************/
 
-BoardSize Options::boardSize = BoardSize::FOUR;
 BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 

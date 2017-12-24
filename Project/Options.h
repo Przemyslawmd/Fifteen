@@ -13,9 +13,6 @@ class Options
 {
 public:
 
-    static BoardSize getBoardSize();
-    static void setBoardSize( BoardSize );
-
     static SquareSize getSquareSize();
     static int getSquareSizeIndex();
     static int getSquareSizeFont();
@@ -38,7 +35,6 @@ public:
 
 private:
 
-    static BoardSize boardSize;
     static BoardMode boardMode;
     static GraphicMode graphicMode;
 

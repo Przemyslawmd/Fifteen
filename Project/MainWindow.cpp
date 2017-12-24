@@ -5,7 +5,7 @@
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
-    board = Board::createBoard( Options::getBoardSize() );
+    board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
     createMenu();
     createRightPanel();
@@ -158,15 +158,14 @@ void MainWindow::createLayouts()
 void MainWindow::createSquares()
 {
     deleteSquares();
-
-    BoardSize boardSize = Options::getBoardSize();
+    BoardSize boardSize = board->getCurrentSize();
     SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize();
 
     for ( int i = 0; i < boardSize; i++ )
     {
         squares.push_back( vector< QPushButton* >() );
 
-        for (int j = 0; j < boardSize; j++)
+        for ( int j = 0; j < boardSize; j++ )
             squares[i].push_back( new QPushButton() );
     }
 
@@ -335,7 +334,6 @@ void MainWindow::slotGenerateBoard()
         }
     }
 
-    Options::setBoardSize( boardSize );
     board = Board::createBoard( boardSize );
 
     if ( radioKind[EnumKind::NUMERIC]->isChecked() )
@@ -500,7 +498,8 @@ void MainWindow::slotReadBoard()
 
     IOFile ioFile;
     unique_ptr< vector<int> > values = ioFile.readBoardFromFile( fileName );
-    BoardSize boardSize = Options::getBoardSize();
+    BoardSize boardSize = ( BoardSize ) values->back();
+    values->pop_back();
     board = Board::createBoard( std::move( values ), boardSize );
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
@@ -534,7 +533,7 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setColor()
 {
-    BoardSize boardSize = Options::getBoardSize();
+    BoardSize boardSize = board->getCurrentSize();
     QString& currentStyle = Options::getStyle();
 
     for ( int i = 0; i < boardSize; i++ )
