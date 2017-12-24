@@ -6,7 +6,6 @@
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
     board = Board::createBoard( Options::getBoardSize() );
-
     resize( 750, 550 );
     createMenu();
     createRightPanel();
@@ -158,22 +157,27 @@ void MainWindow::createLayouts()
 
 void MainWindow::createSquares()
 {
+    deleteSquares();
+
     BoardSize boardSize = Options::getBoardSize();
     SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize();
 
-    control = new QPushButton*[boardSize];
+    for ( int i = 0; i < boardSize; i++ )
+    {
+        squares.push_back( vector< QPushButton* >() );
 
-    for (int i = 0; i < boardSize; i++)
-        control[i] = new QPushButton[boardSize];
+        for (int j = 0; j < boardSize; j++)
+            squares[i].push_back( new QPushButton() );
+    }
 
     for ( int i = 0; i < boardSize ; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            control[i][j].setAccessibleName( QString::number(i) + QString::number( j ));
-            control[i][j].setMaximumSize( squareSize, squareSize );
-            control[i][j].setMinimumSize( squareSize, squareSize );
-            connect( &control[i][j], SIGNAL( clicked() ), this, SLOT( pressSquare() ));
+            squares[i][j]->setAccessibleName( QString::number(i) + QString::number( j ));
+            squares[i][j]->setMaximumSize( squareSize, squareSize );
+            squares[i][j]->setMinimumSize( squareSize, squareSize );
+            connect( squares[i][j], SIGNAL( clicked() ), this, SLOT( pressSquare() ));
         }
     }
 
@@ -189,7 +193,7 @@ void MainWindow::createSquares()
         boardHorizontalLayout[i].addStretch();
 
         for ( int j = 0; j < boardSize; j++ )
-            boardHorizontalLayout[i].addWidget( &control[i][j] );
+            boardHorizontalLayout[i].addWidget( squares[i][j] );
 
         boardHorizontalLayout[i].addStretch();
         boardVerticalLayout->addLayout( &boardHorizontalLayout[i] );
@@ -202,13 +206,21 @@ void MainWindow::createSquares()
 
 void MainWindow::deleteSquares()
 {
-    for ( int i = 0; i < board->getCurrentSize(); i++ )
-        delete[] control[i];
+    if ( squares.empty() )
+        return;
 
-    delete[] control;
+    for ( auto rowSquares : squares )
+    {
+        for ( auto button : rowSquares )
+            delete button;
+
+        rowSquares.clear();
+    }
+
+    squares.clear();
 
     QLayoutItem* child;
-    while (( child = boardVerticalLayout->takeAt( 0 )))
+    while ((  child = boardVerticalLayout->takeAt( 0 )))
         boardVerticalLayout->removeItem( 0 );
 
     delete[] boardHorizontalLayout;
@@ -229,12 +241,12 @@ void MainWindow::setSquaresNumeric( bool isRandom )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            control[i][j].setText( QString::number( values.at( v )));
+            squares[i][j]->setText( QString::number( values.at( v )));
             if ( values.at( v ) == 0 )
-                control[i][j].setStyleSheet( Options::getEmptyStyle() );
+                squares[i][j]->setStyleSheet( Options::getEmptyStyle() );
             else
-                control[i][j].setStyleSheet( currentStyle );
-            control[i][j].setFont( font );
+                squares[i][j]->setStyleSheet( currentStyle );
+            squares[i][j]->setFont( font );
             v++;
         }
     }
@@ -267,9 +279,9 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
             QIcon icon( pixmap );
             QSize iconSize( squareSize, squareSize );
-            control[i][j].setIconSize( iconSize );
-            control[i][j].setIcon( icon );
-            control[i][j].setStyleSheet( "" );
+            squares[i][j]->setIconSize( iconSize );
+            squares[i][j]->setIcon( icon );
+            squares[i][j]->setStyleSheet( "" );
         }
     }
 
@@ -323,7 +335,6 @@ void MainWindow::slotGenerateBoard()
         }
     }
 
-    deleteSquares();
     Options::setBoardSize( boardSize );
     board = Board::createBoard( boardSize );
 
@@ -397,10 +408,10 @@ void MainWindow::pressSquare()
 void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
     QString& currentStyle = Options::getStyle();
-    control[rowDest][colDest].setText( control[rowSource][colSource].text() );
-    control[rowDest][colDest].setStyleSheet( currentStyle );
-    control[rowSource][colSource].setText( "" );
-    control[rowSource][colSource].setStyleSheet( Options::getEmptyStyle() );
+    squares[rowDest][colDest]->setText( squares[rowSource][colSource]->text() );
+    squares[rowDest][colDest]->setStyleSheet( currentStyle );
+    squares[rowSource][colSource]->setText( "" );
+    squares[rowSource][colSource]->setStyleSheet( Options::getEmptyStyle() );
 }
 
 /*******************************************************************************************/
@@ -408,12 +419,12 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
-    control[rowDest][colDest].setIcon( control[rowSource][colSource].icon() );
+    squares[rowDest][colDest]->setIcon( squares[rowSource][colSource]->icon() );
     SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize();
     QPixmap pixmap( imageSize, imageSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
-    control[rowSource][colSource].setIcon( nullIcon );
+    squares[rowSource][colSource]->setIcon( nullIcon );
 }
 
 /*******************************************************************************************/
@@ -455,7 +466,6 @@ void MainWindow::slotRemoveGraphic()
     if ( Options::getBoardMode() == BoardMode::GRAPHIC )
     {
         Options::setBoardMode( BoardMode::NUMERIC );
-        deleteSquares();
         createSquares();
         setSquaresNumeric( false );
     }
@@ -490,7 +500,6 @@ void MainWindow::slotReadBoard()
 
     IOFile ioFile;
     unique_ptr< vector<int> > values = ioFile.readBoardFromFile( fileName );
-    deleteSquares();
     BoardSize boardSize = Options::getBoardSize();
     board = Board::createBoard( std::move( values ), boardSize );
 
@@ -532,8 +541,8 @@ void MainWindow::setColor()
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            if ( control[i][j].styleSheet() != Options::getEmptyStyle() )
-                control[i][j].setStyleSheet( currentStyle );
+            if ( squares[i][j]->styleSheet() != Options::getEmptyStyle() )
+                squares[i][j]->setStyleSheet( currentStyle );
         }
     }    
 }
@@ -543,7 +552,6 @@ void MainWindow::setColor()
 
 void MainWindow::redrawSquares()
 {
-    deleteSquares();
     createSquares();
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC)

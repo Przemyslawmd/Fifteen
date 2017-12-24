@@ -50,7 +50,7 @@ class MainWindow : public QMainWindow
     QVBoxLayout* boardVerticalLayout;
     QHBoxLayout* boardHorizontalLayout;
     QGroupBox* boxImages;
-    QPushButton** control;
+    vector< vector< QPushButton* >> squares;
 
     // Right panel - press buttons
     QPushButton* pushRandom;
