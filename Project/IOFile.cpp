@@ -1,6 +1,7 @@
 
 #include "IOFile.h"
 #include "Options.h"
+#include "Message.h"
 #include "GraphicBoard/ImageProvider.h"
 #include <memory>
 
@@ -64,8 +65,19 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
 
     int boardMode;
     *stream >> boardMode;
+    if ( boardMode != (int) BoardMode::GRAPHIC && boardMode != (int) BoardMode::NUMERIC )
+    {
+        Message::putMessage( MessageCode::READ_BOARD_TYPE_ERROR );
+        return nullptr;
+    }
+
     int level;
     *stream >> level;
+    if ( level < (int) BoardSize::FOUR || level > (int) BoardSize::SEVEN )
+    {
+        Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
+        return nullptr;
+    }
 
     unique_ptr< vector<int> > values( new vector<int> );
     int temp;
@@ -73,6 +85,13 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     {
         *stream >> temp;
         values->push_back( temp );
+    }
+
+    values = checkReadValues( std::move( values ), (BoardSize) level );
+    if ( values == nullptr )
+    {
+        Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
+        return nullptr;
     }
 
     if ( boardMode == (int) BoardMode::NUMERIC )
@@ -117,3 +136,26 @@ unique_ptr< QDataStream > IOFile::insertBoardValuesIntoStream( unique_ptr< QData
 
     return stream;
 }
+
+/*********************************************************************************/
+/* CHECK READ VALUES *************************************************************/
+
+unique_ptr< vector<int> > IOFile::checkReadValues( unique_ptr< vector<int> > valuesRead, BoardSize boardSize )
+{
+    vector<int> valuesToCompare;
+
+    for ( int i = 0; i < boardSize * boardSize; i++ )
+        valuesToCompare.push_back( i );
+
+    for ( int value : *valuesRead )
+    {
+        auto it = std::find( std::begin( valuesToCompare ), std::end( valuesToCompare ), value );
+
+        if ( it == std::end( valuesToCompare ))
+            return nullptr;
+        else
+            valuesToCompare.erase( it );
+    }
+    return valuesRead;
+}
+

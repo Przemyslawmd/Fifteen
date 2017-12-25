@@ -498,6 +498,13 @@ void MainWindow::slotReadBoard()
 
     IOFile ioFile;
     unique_ptr< vector<int> > values = ioFile.readBoardFromFile( fileName );
+
+    if ( values == nullptr )
+    {
+        QMessageBox::information( this, "", Message::getMessages() );
+        return;
+    }
+
     BoardSize boardSize = ( BoardSize ) values->back();
     values->pop_back();
     board = Board::createBoard( std::move( values ), boardSize );

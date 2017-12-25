@@ -22,6 +22,8 @@ private:
 
     unique_ptr< QDataStream > getDataStream( QFile& file, QIODevice::OpenModeFlag mode );
     unique_ptr< QDataStream > insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board* board );
+    unique_ptr< vector<int> > checkReadValues( unique_ptr< vector<int> >, BoardSize );
 };
 
 #endif // IOFILE_H
+
