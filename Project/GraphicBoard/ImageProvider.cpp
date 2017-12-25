@@ -102,9 +102,9 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, Square
 /*****************************************************************************************/
 /* GET IMAGE *****************************************************************************/
 
-QImage** ImageProvider::getImage( BoardSize boardSize )
+vector< QImage* >* ImageProvider::getImages( BoardSize boardSize )
 {
-    return selectBoard( boardSize )->getImage();
+    return selectBoard( boardSize )->getImages();
 }
 
 /*****************************************************************************************/
@@ -129,6 +129,7 @@ SquareSize ImageProvider::getImageSquareSize()
 void ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
 {
     GraphicBoard** board = selectBoardPointer( boardSize );
+    removeBoard( board );
     *board = new GraphicBoard( boardSize );
 
     int imageSize;

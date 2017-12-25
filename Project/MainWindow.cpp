@@ -262,7 +262,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     SquareSize squareSize = provider.getImageSquareSize();
     vector<int>& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     BoardSize boardSize = board->getCurrentSize();
-    QImage** pictures = provider.getImage( boardSize );
+    vector< QImage* >* pictures = provider.getImages( boardSize );
     QPixmap pixmap;
 
     bool numberOnImage = Options::isNumberOnImage();
@@ -271,7 +271,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            pixmap = QPixmap::fromImage( *pictures[values.at( v++ )]);
+            pixmap = QPixmap::fromImage( *pictures->at( values.at( v++ )));
 
             if ( numberOnImage )
                 drawNumberOnGraphicSquare( pixmap, values.at( v - 1 ));

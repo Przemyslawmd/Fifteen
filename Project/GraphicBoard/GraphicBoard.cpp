@@ -2,40 +2,30 @@
 #include "GraphicBoard.h"
 #include "../Message.h"
 
-/*************************************************************************************************************************/
-/* CONSTRUCTOR ***********************************************************************************************************/
+/*******************************************************************************************/
+/* CONSTRUCTOR *****************************************************************************/
 
-GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize )
-{
-    image = new QImage*[boardSize  * boardSize];
-    for ( int i = 0; i < ( boardSize * boardSize ); i++ )
-        image[i] = 0;    
-}
+GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize ) {}
 
-/**************************************************************************************************************************/
-/* DESTRUCTOR *************************************************************************************************************/
+/*******************************************************************************************/
+/* DESTRUCTOR ******************************************************************************/
 
 GraphicBoard::~GraphicBoard()
 {
-    if ( image[0] == nullptr )
-        return;
-
-    for ( int i = 0; i < ( boardSize * boardSize ); i++ )
-        delete image[i];
-
-    delete[] image;
+    for ( QImage* image : images )
+        delete image;
 }
 
-/**************************************************************************************************************************/
-/* GET IMAGE *************************************************************************************************************/
+/*******************************************************************************************/
+/* GET IMAGES ******************************************************************************/
 
-QImage** GraphicBoard::getImage()
+vector< QImage* >* GraphicBoard::getImages()
 {
-    return image;
+    return &images;
 }
 
-/***************************************************************************************************************************/
-/* CREATE SCALED ***********************************************************************************************************/
+/*******************************************************************************************/
+/* CREATE SCALED ***************************************************************************/
 
 bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
@@ -44,8 +34,8 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize 
     return createSquareImage( &scaledImage, boardSize, squareSize );
 }
 
-/****************************************************************************************************************************/
-/* CREATE CROPPED ***********************************************************************************************************/
+/*******************************************************************************************/
+/* CREATE CROPPED **************************************************************************/
 
 bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
@@ -54,23 +44,23 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
     return createSquareImage( &croppedImage, boardSize, squareSize );
 }
 
-/**************************************************************************************************************************/
-/* CREATE SQUARE IMAGE ****************************************************************************************************/
+/*******************************************************************************************/
+/* CREATE SQUARE IMAGE *********************************************************************/
 
 bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize squareSize )
 {
-    // Prepare an empty square
-    image[0] = new (std::nothrow) QImage( squareSize, squareSize, QImage::Format_RGB32 );
+    QImage* image;
+    image = new (std::nothrow) QImage( squareSize, squareSize, QImage::Format_RGB32 );
 
-    if ( image[0] == nullptr )
+    if ( image == nullptr )
     {
         Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
         return false;
     }
 
-    image[0]->fill( Qt::GlobalColor::white );
+    image->fill( Qt::GlobalColor::white );
+    images.push_back( image );
 
-    int x = 0;
     int pictureSize = boardSize * squareSize;
 
     for ( int yPos = 0; yPos < pictureSize; yPos += squareSize )
@@ -80,13 +70,14 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
             if (( yPos == pictureSize - squareSize ) && ( xPos == pictureSize - squareSize ))
                 break;
 
-            image[++x] = new (std::nothrow) QImage( picture->copy( xPos, yPos, squareSize, squareSize ));
+            image = new (std::nothrow) QImage( picture->copy( xPos, yPos, squareSize, squareSize ));
 
-            if ( image[x] == nullptr )
+            if ( image == nullptr )
             {
                 Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
                 return false;
             }
+            images.push_back( image );
         }
     }
 
@@ -94,25 +85,27 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
     return true;
 }
 
-/*****************************************************************************************************/
-/* RESTORE IMAGES FROM FILE **************************************************************************/
+/*******************************************************************************************/
+/* RESTORE IMAGES FROM FILE ****************************************************************/
 
 bool GraphicBoard::restoreImagesFromFile( unique_ptr< QDataStream > stream, SquareSize squareSize )
 {
     int bytesForSquare;
     *stream >> bytesForSquare;
     uchar* buffer = new uchar[bytesForSquare * boardSize * boardSize];
+    QImage* image;
 
     for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
     {
         stream->readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare );
-        image[i] = new (std::nothrow) QImage( buffer + i * bytesForSquare, squareSize, squareSize, QImage::Format_RGB32 );
+        image = new (std::nothrow) QImage( buffer + i * bytesForSquare, squareSize, squareSize, QImage::Format_RGB32 );
 
-        if ( image[i] == nullptr )
+        if ( image == nullptr )
         {
             delete buffer;
             return false;
         }
+        images.push_back( image );
     }
     return true;
 }
