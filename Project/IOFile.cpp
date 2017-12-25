@@ -82,20 +82,9 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     else
     {
         Options::setBoardMode( BoardMode::GRAPHIC );
-        int imageSize;
-        *stream >> imageSize;
-        int byteCount;
-        *stream >> byteCount;
-
-        // This buffer is moved to an Image object which is responsible for release memory
-        // and must exist as long as restored image exists
-        uchar* buffer = new uchar[byteCount * level * level];
-        for ( int i = 0; i < ( level  * level ); i++ )
-            stream->readRawData( (char*) ( buffer + i * byteCount ), byteCount );
-
         ImageProvider::deleteInstance();
         ImageProvider& imageProvider = ImageProvider::getInstance();
-        imageProvider.restoreImageBoardFromFile( buffer, (BoardSize) level, (SquareSize) imageSize, byteCount );
+        imageProvider.restoreImageBoardFromFile( std::move( stream ), (BoardSize) level );
     }
 
     file.close();

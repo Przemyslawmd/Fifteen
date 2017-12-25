@@ -126,14 +126,23 @@ SquareSize ImageProvider::getImageSquareSize()
 /*******************************************************************************************/
 /* RESTORE IMAGE BOARD FROM FILE ***********************************************************/
 
-void ImageProvider::restoreImageBoardFromFile( uchar* data, BoardSize boardSize, SquareSize imageSize, int byteCount )
+void ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
 {
     GraphicBoard** board = selectBoardPointer( boardSize );
     *board = new GraphicBoard( boardSize );
 
-    if ( (*board)->restoreImagesFromFile( data, imageSize, byteCount ))
+    int imageSize;
+    *stream >> imageSize;
+    int byteCount;
+    *stream >> byteCount;
+
+    uchar* buffer = new uchar[byteCount * boardSize * boardSize];
+    for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
+        stream->readRawData( (char*) ( buffer + i * byteCount ), byteCount );
+
+    if ( (*board)->restoreImagesFromFile( buffer, (SquareSize) imageSize, byteCount ))
     {
-        imageSquareSize = imageSize;
+        imageSquareSize = (SquareSize) imageSize;
     }
     else
     {

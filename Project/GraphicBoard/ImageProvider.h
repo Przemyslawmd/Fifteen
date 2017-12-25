@@ -4,6 +4,9 @@
 
 #include "GraphicBoard.h"
 #include "../Types.h"
+#include <memory>
+
+using std::unique_ptr;
 
 class ImageProvider
 {
@@ -14,7 +17,7 @@ public:
 
     QImage** getImage( BoardSize );
     void prepareBoardImage( QImage&, SquareSize );
-    void restoreImageBoardFromFile( uchar* data, BoardSize, SquareSize, int byteCount );
+    void restoreImageBoardFromFile( unique_ptr< QDataStream >, BoardSize );
     bool isImage( BoardSize );
     SquareSize getImageSquareSize();
 
