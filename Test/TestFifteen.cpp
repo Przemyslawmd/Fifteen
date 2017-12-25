@@ -185,8 +185,10 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
     board->randomBoard();
     board->randomBoard();
 
-    unique_ptr< vector<int> > readValues = ioFile.readBoardFromFile( filePath );
-    board->createBoard( std::move( readValues ), Options::getBoardSize() );
+    unique_ptr< vector<int> > valuesFromFile = ioFile.readBoardFromFile( filePath );
+    boardSize = (BoardSize) valuesFromFile->back();
+    valuesFromFile->pop_back();
+    board->createBoard( std::move( valuesFromFile ), boardSize );
     vector<int>& values  = board->sendBoard();
 
     vector< int > expectedSquares = dataTest.expectedSquares;
@@ -213,17 +215,23 @@ void TestFifteen::testCreateGraphicBoard( int testNumber )
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
     QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + "initial.jpg" );
-    Options::setGraphicMode( testData.mode );
-    Options::setImagesToBeLoaded( testData.isFourToBeLoaded, testData.isFiveToBeLoaded, testData.isSixToBeLoaded, testData.isSevenToBeLoaded );
+
+    unique_ptr< OptionsData > options ( new OptionsData );
+    options->graphicMode = testData.mode;
+    options->fourImageToBeLoaded = testData.isFourToBeLoaded;
+    options->fiveImageToBeLoaded = testData.isFiveToBeLoaded;
+    options->sixImageToBeLoaded = testData.isSixToBeLoaded;
+    options->sevenImageToBeLoaded = testData.isSevenToBeLoaded;
+    Options::receiveData( move( options ));
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
     imageProvider.prepareBoardImage( image, testData.squareSize );
-    QImage** images = imageProvider.getImage( testData.boardSize );
+    vector< QImage* >* images = imageProvider.getImages( testData.boardSize );
 
     for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )
     {
         QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + QString::number( i ) + ".bmp" );
-        compareQImage( *images[i], image );
+        compareQImage( *images->at( i ), image );
     }
 }
 
