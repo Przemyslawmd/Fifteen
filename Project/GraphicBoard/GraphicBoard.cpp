@@ -49,8 +49,8 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize 
 
 bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
-    int boardSizePixel = boardSize * squareSize;
-    QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2, boardSizePixel, boardSizePixel );
+    int boardPixels = boardSize * squareSize;
+    QImage croppedImage = image.copy(( image.width() - boardPixels ) / 2, ( image.height() - boardPixels ) / 2, boardPixels, boardPixels );
     return createSquareImage( &croppedImage, boardSize, squareSize );
 }
 
@@ -97,13 +97,18 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
 /*****************************************************************************************************/
 /* RESTORE IMAGES FROM FILE **************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( uchar* data, SquareSize squareSize, int bytes )
+bool GraphicBoard::restoreImagesFromFile( unique_ptr< QDataStream > stream, SquareSize squareSize )
 {
-    uchar* bufferRestored = std::move( data );
+    int bytesOfSquare;
+    *stream >> bytesOfSquare;
+
+    uchar* buffer = new uchar[bytesOfSquare * boardSize * boardSize];
+    for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
+        stream->readRawData( (char*) ( buffer + i * bytesOfSquare ), bytesOfSquare );
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {
-        image[i] = new (std::nothrow) QImage( bufferRestored + i * bytes, squareSize, squareSize, QImage::Format_RGB32 );
+        image[i] = new (std::nothrow) QImage( buffer + i * bytesOfSquare, squareSize, squareSize, QImage::Format_RGB32 );
 
         if ( image[i] == nullptr )
             return false;

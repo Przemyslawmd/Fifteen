@@ -133,14 +133,8 @@ void ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream,
 
     int imageSize;
     *stream >> imageSize;
-    int byteCount;
-    *stream >> byteCount;
 
-    uchar* buffer = new uchar[byteCount * boardSize * boardSize];
-    for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
-        stream->readRawData( (char*) ( buffer + i * byteCount ), byteCount );
-
-    if ( (*board)->restoreImagesFromFile( buffer, (SquareSize) imageSize, byteCount ))
+    if ( (*board)->restoreImagesFromFile( std::move( stream ), (SquareSize) imageSize ))
     {
         imageSquareSize = (SquareSize) imageSize;
     }
