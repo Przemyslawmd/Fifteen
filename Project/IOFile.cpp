@@ -76,6 +76,7 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     if ( level < (int) BoardSize::FOUR || level > (int) BoardSize::SEVEN )
     {
         Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
+        file.close();
         return nullptr;
     }
 
@@ -91,6 +92,7 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     if ( values == nullptr )
     {
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
+        file.close();
         return nullptr;
     }
 
@@ -102,7 +104,12 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     {
         Options::setBoardMode( BoardMode::GRAPHIC );
         ImageProvider& imageProvider = ImageProvider::getInstance();
-        imageProvider.restoreImageBoardFromFile( std::move( stream ), (BoardSize) level );
+
+        if ( imageProvider.restoreImageBoardFromFile( std::move( stream ), (BoardSize) level ) == false )
+        {
+            file.close();
+            return nullptr;
+        }
     }
 
     file.close();

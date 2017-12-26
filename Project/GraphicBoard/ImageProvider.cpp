@@ -126,7 +126,7 @@ SquareSize ImageProvider::getImageSquareSize()
 /*******************************************************************************************/
 /* RESTORE IMAGE BOARD FROM FILE ***********************************************************/
 
-void ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
+bool ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
 {
     GraphicBoard** board = selectBoardPointer( boardSize );
     removeBoard( board );
@@ -135,15 +135,19 @@ void ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream,
     int imageSize;
     *stream >> imageSize;
 
+    if ( imageSize != (int) SquareSize::_50  && imageSize != (int) SquareSize::_75 && imageSize != (int) SquareSize::_100 &&
+         imageSize != (int) SquareSize::_125 && imageSize != (int) SquareSize::_150 )
+    {
+        Message::putMessage( MessageCode::READ_BOARD_IMAGES_ERROR );
+        return false;
+    }
+
     if ( (*board)->restoreImagesFromFile( std::move( stream ), (SquareSize) imageSize ))
-    {
         imageSquareSize = (SquareSize) imageSize;
-    }
     else
-    {
-        delete *board;
-        *board = nullptr;
-    }
+        removeBoard( board );
+
+    return true;
 }
 
 /*********************************************************************************************/
