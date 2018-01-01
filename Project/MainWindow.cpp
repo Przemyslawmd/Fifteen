@@ -292,6 +292,9 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
 void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
 {
+    if ( number == 0 )
+        return;
+
     QPainter painter( &pixmap );
     QColor penColor( 0, 0, 0 );
     painter.setPen( QPen( penColor ));
