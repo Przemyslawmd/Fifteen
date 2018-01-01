@@ -122,7 +122,7 @@ void MainWindow::createRightPanel()
     boxRadioKind->setLayout( layRadioKind );
 
     rightLayout = new QVBoxLayout();
-    rightLayout->setContentsMargins( 30, 0, 30, 0 );
+    rightLayout->setContentsMargins( 30, 0, 20, 0 );
     rightLayout->addWidget( pushRandom );
     rightLayout->addSpacing( 15 );
     rightLayout->addWidget( pushSolve );
