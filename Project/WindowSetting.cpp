@@ -9,8 +9,8 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     setModal( true );
     setWindowTitle( "" );
     setGeometry( 100, 100, 400, 560 );
-    setMaximumSize( 400, 830 );
-    setMinimumSize( 400, 830 );
+    setMaximumSize( 400, 730 );
+    setMinimumSize( 400, 730 );
 
     QVBoxLayout layWindow;
     optionsCurrent = Options::sendData();

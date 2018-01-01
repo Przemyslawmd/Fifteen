@@ -21,6 +21,7 @@ void MainWindow::createMenu()
 {    
     fileMenu = new QMenu();
     fileMenu->setTitle( "File" );
+    fileMenu->setStyleSheet( "padding-left:10px;" );
 
     for ( int i = 0; i < Action::COUNTACTIONS; i++ )
       action[i] = new QAction( this );
@@ -56,6 +57,7 @@ void MainWindow::createMenu()
     mainMenu->addMenu( fileMenu );
     mainMenu->addAction( action[Action::SETTINGS] );
     mainMenu->addAction( action[Action::ABOUT] );
+    mainMenu->setStyleSheet( "padding-left: 5px; margin: 3px;" );
 
     this->setMenuBar( mainMenu );
 }
