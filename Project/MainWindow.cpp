@@ -163,22 +163,17 @@ void MainWindow::createSquares()
     BoardSize boardSize = board->getCurrentSize();
     SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize();
 
-    for ( int i = 0; i < boardSize; i++ )
-    {
-        squares.push_back( vector< QPushButton* >() );
-
-        for ( int j = 0; j < boardSize; j++ )
-            squares[i].push_back( new QPushButton() );
-    }
+    for ( int i = 0; i < boardSize * boardSize; i++ )
+        squares.push_back( new QPushButton() );
 
     for ( int i = 0; i < boardSize ; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
-            squares[i][j]->setAccessibleName( QString::number(i) + QString::number( j ));
-            squares[i][j]->setMaximumSize( squareSize, squareSize );
-            squares[i][j]->setMinimumSize( squareSize, squareSize );
-            connect( squares[i][j], SIGNAL( clicked() ), this, SLOT( pressSquare() ));
+            squares.at( i * boardSize + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
+            squares.at( i * boardSize + j )->setMaximumSize( squareSize, squareSize );
+            squares.at( i * boardSize + j )->setMinimumSize( squareSize, squareSize );
+            connect( squares.at( i * boardSize + j ), SIGNAL( clicked() ), this, SLOT( pressSquare() ));
         }
     }
 
@@ -194,7 +189,7 @@ void MainWindow::createSquares()
         boardHorizontalLayout[i].addStretch();
 
         for ( int j = 0; j < boardSize; j++ )
-            boardHorizontalLayout[i].addWidget( squares[i][j] );
+            boardHorizontalLayout[i].addWidget( squares.at( i * boardSize + j ));
 
         boardHorizontalLayout[i].addStretch();
         boardVerticalLayout->addLayout( &boardHorizontalLayout[i] );
@@ -210,13 +205,8 @@ void MainWindow::deleteSquares()
     if ( squares.empty() )
         return;
 
-    for ( auto rowSquares : squares )
-    {
-        for ( auto button : rowSquares )
-            delete button;
-
-        rowSquares.clear();
-    }
+    for ( auto square : squares )
+        delete square;
 
     squares.clear();
 
@@ -236,20 +226,17 @@ void MainWindow::setSquaresNumeric( bool isRandom )
     QString& currentStyle = Options::getStyle();
     QFont font;
     font.setPixelSize( Options::getSquareSizeFont() );
-    BoardSize boardSize = board->getCurrentSize();
 
-    for ( int i = 0, v = 0; i < boardSize; i++ )
+    int i = 0;
+    for ( auto square : squares )
     {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            squares[i][j]->setText( QString::number( values.at( v )));
-            if ( values.at( v ) == 0 )
-                squares[i][j]->setStyleSheet( Options::getEmptyStyle() );
-            else
-                squares[i][j]->setStyleSheet( currentStyle );
-            squares[i][j]->setFont( font );
-            v++;
-        }
+        square->setText( QString::number( values.at( i )));
+        if ( values.at( i ) == 0 )
+            square->setStyleSheet( Options::getEmptyStyle() );
+        else
+            square->setStyleSheet( currentStyle );
+        square->setFont( font );
+        i++;
     }
 
     Options::setBoardMode( BoardMode::NUMERIC );
@@ -269,21 +256,19 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 
     bool numberOnImage = Options::isNumberOnImage();
 
-    for ( int i = 0, v = 0; i < boardSize; i++ )
+    int i = 0;
+    for ( auto square : squares )
     {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            pixmap = QPixmap::fromImage( *pictures->at( values.at( v++ )));
+        pixmap = QPixmap::fromImage( *pictures->at( values.at( i++ )));
 
-            if ( numberOnImage )
-                drawNumberOnGraphicSquare( pixmap, values.at( v - 1 ));
+        if ( numberOnImage )
+            drawNumberOnGraphicSquare( pixmap, values.at( i - 1 ));
 
-            QIcon icon( pixmap );
-            QSize iconSize( squareSize, squareSize );
-            squares[i][j]->setIconSize( iconSize );
-            squares[i][j]->setIcon( icon );
-            squares[i][j]->setStyleSheet( "" );
-        }
+        QIcon icon( pixmap );
+        QSize iconSize( squareSize, squareSize );
+        square->setIconSize( iconSize );
+        square->setIcon( icon );
+        square->setStyleSheet( "" );
     }
 
     Options::setBoardMode( BoardMode::GRAPHIC );
@@ -373,7 +358,7 @@ void MainWindow::slotSolveBoard()
 
 void MainWindow::pressSquare()
 {
-    int position = ( (QPushButton*)sender() )->accessibleName().toInt();
+    int position = ( (QPushButton*) sender() )->accessibleName().toInt();
 
     int row = position / 10;
     int col = position % 10;
@@ -411,10 +396,12 @@ void MainWindow::pressSquare()
 void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
     QString& currentStyle = Options::getStyle();
-    squares[rowDest][colDest]->setText( squares[rowSource][colSource]->text() );
-    squares[rowDest][colDest]->setStyleSheet( currentStyle );
-    squares[rowSource][colSource]->setText( "" );
-    squares[rowSource][colSource]->setStyleSheet( Options::getEmptyStyle() );
+    BoardSize boardSize = board->getCurrentSize();
+
+    squares.at( rowDest * boardSize + colDest )->setText( squares.at( rowSource * boardSize + colSource )->text() );
+    squares.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
+    squares.at( rowSource * boardSize + colSource )->setText( "" );
+    squares.at( rowSource * boardSize + colSource )->setStyleSheet( Options::getEmptyStyle() );
 }
 
 /*******************************************************************************************/
@@ -422,12 +409,13 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
-    squares[rowDest][colDest]->setIcon( squares[rowSource][colSource]->icon() );
+    BoardSize boardSize = board->getCurrentSize();
+    squares.at( rowDest * boardSize + colDest )->setIcon( squares.at( rowSource * boardSize + colSource )->icon() );
     SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize();
     QPixmap pixmap( imageSize, imageSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
-    squares[rowSource][colSource]->setIcon( nullIcon );
+    squares.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
 }
 
 /*******************************************************************************************/
@@ -545,16 +533,12 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setColor()
 {
-    BoardSize boardSize = board->getCurrentSize();
     QString& currentStyle = Options::getStyle();
 
-    for ( int i = 0; i < boardSize; i++ )
+    for ( auto square : squares )
     {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            if ( squares[i][j]->styleSheet() != Options::getEmptyStyle() )
-                squares[i][j]->setStyleSheet( currentStyle );
-        }
+        if ( square->styleSheet() != Options::getEmptyStyle() )
+            square->setStyleSheet( currentStyle );
     }    
 }
 
