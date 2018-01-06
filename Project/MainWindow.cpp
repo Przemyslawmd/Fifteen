@@ -5,7 +5,12 @@
 #include "WindowAbout.h"
 #include "IOFile.h"
 #include "Options.h"
+#include "GraphicBoard/ImageProvider.h"
 #include <QPainter>
+#include <QBuffer>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QFont>
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
@@ -19,7 +24,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 }
 
 /******************************************************************************************/
-/* CREATE MENU BAR ************************************************************************/
+/* CREATE MENU ****************************************************************************/
 
 void MainWindow::createMenu()
 {    
@@ -85,22 +90,26 @@ void MainWindow::createRightPanel()
     layRadioSize = new QVBoxLayout();
     groupRadioSize = new QButtonGroup();
 
-    for( int i = EnumSize::FOUR, j = 4; i <= EnumSize::SEVEN; i++, j++ )
+    radioSize[BoardSize::FOUR] = new QRadioButton();
+    radioSize[BoardSize::FIVE] = new QRadioButton();
+    radioSize[BoardSize::SIX] = new QRadioButton();
+    radioSize[BoardSize::SEVEN] = new QRadioButton();
+
+    for( std::pair< BoardSize, QRadioButton* > radioSizePair : radioSize )
     {
-       radioSize[i] = new QRadioButton();
-       layRadioSize->addSpacing( 10 );
-       layRadioSize->addWidget( radioSize[i] );
-       radioSize[i]->setStyleSheet( "margin-left: 5px" );
-       groupRadioSize->addButton( radioSize[i] );
-       groupRadioSize->setId( radioSize[i], j );
+        layRadioSize->addSpacing( 10 );
+        layRadioSize->addWidget( radioSizePair.second );
+        radioSizePair.second->setStyleSheet( "margin-left:5px;" );
+        groupRadioSize->addButton( radioSizePair.second );
+        groupRadioSize->setId( radioSizePair.second, radioSizePair.first );
     }
     layRadioSize->addSpacing( 30 );
 
-    radioSize[EnumSize::FOUR]->setText( "4" );
-    radioSize[EnumSize::FIVE]->setText( "5" );
-    radioSize[EnumSize::SIX]->setText( "6" );
-    radioSize[EnumSize::SEVEN]->setText( "7" );
-    radioSize[EnumSize::FOUR]->setChecked( true );
+    radioSize[BoardSize::FOUR]->setText( "4" );
+    radioSize[BoardSize::FIVE]->setText( "5" );
+    radioSize[BoardSize::SIX]->setText( "6" );
+    radioSize[BoardSize::SEVEN]->setText( "7" );
+    radioSize[BoardSize::FOUR]->setChecked( true );
 
     boxRadioSize = new QGroupBox();
     boxRadioSize->setTitle( "Dimension of Board" );
@@ -142,7 +151,7 @@ void MainWindow::createRightPanel()
 }
 
 /*********************************************************************************/
-/* CREATE A LAYOUT FOR SQUARES ***************************************************/
+/* CREATE LAYOUTS ****************************************************************/
 
 void MainWindow::createLayouts()
 {
@@ -303,7 +312,7 @@ void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize->checkedId() );
+    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize->checkedId());
 
     // In case of graphic board check whether there is a proper image loaded
     if ( radioKind[BoardMode::GRAPHIC]->isChecked() )
@@ -317,7 +326,7 @@ void MainWindow::slotGenerateBoard()
         }
         if (( boardSize == BoardSize::FIVE ) && ( provider.isImage( BoardSize::FIVE)  == false ))
         {
-            QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t");
+            QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t" );
             return;
         }
         if (( boardSize == BoardSize::SIX ) && ( provider.isImage( BoardSize::SIX ) == false ))
@@ -521,13 +530,13 @@ void MainWindow::slotReadBoard()
         ImageProvider& provider = ImageProvider::getInstance();
 
         if ( boardSize == BoardSize::FOUR )
-            radioSize[EnumSize::FOUR]->setChecked( provider.isImage( BoardSize::FOUR ));
+            radioSize[BoardSize::FOUR]->setChecked( provider.isImage( BoardSize::FOUR ));
         else if ( boardSize == BoardSize::FIVE )
-            radioSize[EnumSize::FIVE]->setChecked( provider.isImage( BoardSize::FIVE ));
+            radioSize[BoardSize::FIVE]->setChecked( provider.isImage( BoardSize::FIVE ));
         else if ( boardSize == BoardSize::SIX )
-            radioSize[EnumSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ));
+            radioSize[BoardSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ));
         else
-            radioSize[EnumSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ));
+            radioSize[BoardSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ));
 
         createSquares();
         setSquaresGraphic( false );

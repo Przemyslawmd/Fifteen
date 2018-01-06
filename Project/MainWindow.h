@@ -3,6 +3,7 @@
 #define MAINWINDOW_H
 
 #include "Board.h"
+#include "Types.h"
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
@@ -13,13 +14,7 @@
 #include <QRadioButton>
 #include <QGroupBox>
 #include <QLabel>
-#include <QFont>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QBuffer>
 #include <memory>
-#include "GraphicBoard/ImageProvider.h"
-#include "Types.h"
 #include <array>
 #include <map>
 
@@ -30,16 +25,14 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum EnumSize { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
     enum class Action { OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT };
 
     Board* board;
+    map< Action, QAction* > action;
 
     QWidget* mainPanel;
     QMenuBar* mainMenu;
     QMenu* fileMenu;
-
-    map< Action, QAction* > action;
 
     QHBoxLayout* mainLayout;
     QVBoxLayout* rightLayout;
@@ -52,7 +45,7 @@ class MainWindow : public QMainWindow
     QPushButton* pushRandom;
     QPushButton* pushSolve;
 
-    array< QRadioButton* , EnumSize::COUNT_SIZE > radioSize;
+    map< BoardSize, QRadioButton* > radioSize;
     QGroupBox* boxRadioSize;
     QButtonGroup* groupRadioSize;
     QVBoxLayout* layRadioSize;
