@@ -2,6 +2,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "Board.h"
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
@@ -17,53 +18,46 @@
 #include <QMessageBox>
 #include <QBuffer>
 #include <memory>
-#include "Board.h"
-#include "WindowSetting.h"
-#include "WindowAbout.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "Types.h"
-#include "Options.h"
-#include "IOFile.h"
+#include <array>
+#include <map>
+
+using std::array;
+using std::map;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    enum EnumSize { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
+    enum class Action { OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT };
+
     Board* board;
 
-    enum EnumSize { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
-    enum EnumKind { NUMERIC, GRAPHIC, COUNT_KIND };
-    enum Action { OPENGRAPHIC, REMGRAPHIC, SAVEBOARD, LOADBOARD, SETTINGS, ABOUT, COUNTACTIONS };
-
+    QWidget* mainPanel;
     QMenuBar* mainMenu;
     QMenu* fileMenu;
 
-    QAction* action[COUNTACTIONS];
-
-    // Main panel
-    QWidget* mainPanel;
+    map< Action, QAction* > action;
 
     QHBoxLayout* mainLayout;
     QVBoxLayout* rightLayout;
 
-    // Board panel
     QVBoxLayout* boardVerticalLayout;
     QHBoxLayout* boardHorizontalLayout;
     QGroupBox* boxImages;
     vector< QPushButton* > squares;
 
-    // Right panel - press buttons
     QPushButton* pushRandom;
     QPushButton* pushSolve;
 
-    // Right panel - radio controls for a size of board
-    QRadioButton* radioSize[EnumSize::COUNT_SIZE];
+    array< QRadioButton* , EnumSize::COUNT_SIZE > radioSize;
     QGroupBox* boxRadioSize;
     QButtonGroup* groupRadioSize;
     QVBoxLayout* layRadioSize;
 
-    // Right panel - radio controls for a kind of board
-    QRadioButton* radioKind[EnumKind::COUNT_KIND];
+    map< BoardMode, QRadioButton* > radioKind;
     QGroupBox* boxRadioKind;
     QButtonGroup* groupRadioKind;
     QVBoxLayout* layRadioKind;
@@ -77,12 +71,11 @@ class MainWindow : public QMainWindow
     void deleteSquares();
     void setSquaresNumeric( bool isRandom );
     void setSquaresGraphic( bool isRandom );
-    void drawNumberOnGraphicSquare( QPixmap& pixmap, int number );
+    void drawNumberOnGraphicSquare( QPixmap&, int number );
 
     void moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest );
     void moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest );
 
-    // Pointer to a method which indicates moveNumericSquares or moveGraphicSquares
     void ( MainWindow::*moveSquare ) ( int rowSource, int colSource, int rowDest, int colDest );
 
 private slots:
@@ -103,7 +96,6 @@ public:
 
     explicit MainWindow( QWidget *parent = 0 );
 
-    // Methods setColor and redrawSquares are invoked from WindowSettings
     void setColor();
     void redrawSquares();
 

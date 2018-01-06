@@ -1,6 +1,10 @@
 
 #include "MainWindow.h"
 #include "Message.h"
+#include "WindowSetting.h"
+#include "WindowAbout.h"
+#include "IOFile.h"
+#include "Options.h"
 #include <QPainter>
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
@@ -23,35 +27,38 @@ void MainWindow::createMenu()
     fileMenu->setTitle( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    for ( int i = 0; i < Action::COUNTACTIONS; i++ )
-      action[i] = new QAction( this );
+    action[Action::OPEN_GRAPHIC ] = new QAction( this );
+    action[Action::OPEN_GRAPHIC]->setText( "Load Graphic File" );
+    connect( action[Action::OPEN_GRAPHIC], SIGNAL( triggered()), this, SLOT( slotLoadGraphic()));
 
-    action[Action::OPENGRAPHIC]->setText( "Load Graphic File" );
-    connect( action[Action::OPENGRAPHIC], SIGNAL( triggered()), this, SLOT( slotLoadGraphic() ));
+    action[Action::REM_GRAPHIC ] = new QAction( this );
+    action[Action::REM_GRAPHIC]->setText( "Remove Graphic" );
+    action[Action::REM_GRAPHIC]->setEnabled( false );
+    connect( action[Action::REM_GRAPHIC], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic()));
 
-    action[Action::REMGRAPHIC]->setText( "Remove Graphic" );
-    action[Action::REMGRAPHIC]->setEnabled( false );
-    connect( action[Action::REMGRAPHIC], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic() ));
+    action[Action::SAVE_BOARD] = new QAction( this );
+    action[Action::SAVE_BOARD]->setText( "Save Board" );
+    connect( action[Action::SAVE_BOARD], SIGNAL( triggered()), this, SLOT( slotSaveBoard()));
 
-    action[Action::SAVEBOARD]->setText( "Save Board" );
-    connect( action[Action::SAVEBOARD], SIGNAL( triggered()), this, SLOT( slotSaveBoard() ));
+    action[Action::LOAD_BOARD] = new QAction( this );
+    action[Action::LOAD_BOARD]->setText( "Load Board" );
+    connect( action[Action::LOAD_BOARD], SIGNAL( triggered()), SLOT( slotReadBoard()));
 
-    action[Action::LOADBOARD]->setText( "Load Board" );
-    connect( action[Action::LOADBOARD], SIGNAL( triggered()), SLOT( slotReadBoard() ));
-
+    action[Action::SETTINGS] = new QAction( this );
     action[Action::SETTINGS]->setText( "Settings" );
-    connect( action[Action::SETTINGS], SIGNAL( triggered()), this, SLOT( slotSettings() ));
+    connect( action[Action::SETTINGS], SIGNAL( triggered()), this, SLOT( slotSettings()));
 
+    action[Action::ABOUT] = new QAction( this );
     action[Action::ABOUT]->setText( "About" );
-    connect( action[Action::ABOUT], SIGNAL( triggered()), this, SLOT( slotAbout() ));
+    connect( action[Action::ABOUT], SIGNAL( triggered()), this, SLOT( slotAbout()));
 
-    fileMenu->addAction( action[Action::OPENGRAPHIC] );
+    fileMenu->addAction( action[Action::OPEN_GRAPHIC] );
     fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::REMGRAPHIC] );
+    fileMenu->addAction( action[Action::REM_GRAPHIC] );
     fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::SAVEBOARD] );
+    fileMenu->addAction( action[Action::SAVE_BOARD] );
     fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::LOADBOARD] );
+    fileMenu->addAction( action[Action::LOAD_BOARD] );
 
     mainMenu = new QMenuBar();
     mainMenu->addMenu( fileMenu );
@@ -99,23 +106,24 @@ void MainWindow::createRightPanel()
     boxRadioSize->setTitle( "Dimension of Board" );
     boxRadioSize->setLayout( layRadioSize );
 
-
     layRadioKind = new QVBoxLayout();
     groupRadioKind = new QButtonGroup();
 
-    for ( int i = 0; i < EnumKind::COUNT_KIND; i++ )
+    radioKind[BoardMode::NUMERIC] = new QRadioButton();
+    radioKind[BoardMode::GRAPHIC] = new QRadioButton();
+
+    for( std::pair< BoardMode, QRadioButton* > radioKindPair : radioKind )
     {
         layRadioKind->addSpacing( 10 );
-        radioKind[i] = new QRadioButton();
-        layRadioKind->addWidget( radioKind[i] );
-        radioKind[i]->setStyleSheet( "margin-left:5px;" );
-        groupRadioKind->addButton( radioKind[i] );
+        layRadioKind->addWidget( radioKindPair.second );
+        radioKindPair.second->setStyleSheet( "margin-left:5px;" );
+        groupRadioKind->addButton( radioKindPair.second );
     }
     layRadioKind->addSpacing( 30 );
 
-    radioKind[EnumKind::NUMERIC]->setChecked(true);
-    radioKind[EnumKind::NUMERIC]->setText( "Numeric" );
-    radioKind[EnumKind::GRAPHIC]->setText( "Graphic" );
+    radioKind[BoardMode::NUMERIC]->setChecked(true);
+    radioKind[BoardMode::NUMERIC]->setText( "Numeric" );
+    radioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
 
     boxRadioKind = new QGroupBox();
     boxRadioKind->setTitle( "Kind of Board" );
@@ -298,7 +306,7 @@ void MainWindow::slotGenerateBoard()
     BoardSize boardSize = static_cast< BoardSize >( groupRadioSize->checkedId() );
 
     // In case of graphic board check whether there is a proper image loaded
-    if ( radioKind[EnumKind::GRAPHIC]->isChecked() )
+    if ( radioKind[BoardMode::GRAPHIC]->isChecked() )
     {
         ImageProvider& provider = ImageProvider::getInstance();
 
@@ -326,7 +334,7 @@ void MainWindow::slotGenerateBoard()
 
     board = Board::createBoard( boardSize );
 
-    if ( radioKind[EnumKind::NUMERIC]->isChecked() )
+    if ( radioKind[BoardMode::NUMERIC]->isChecked() )
     {
         Options::setBoardMode( BoardMode::NUMERIC );
         createSquares();
@@ -441,7 +449,7 @@ void MainWindow::slotLoadGraphic()
     provider.prepareBoardImage( picture, Options::getSquareSize() );
 
     if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) || provider.isImage( BoardSize::SEVEN ))
-        action[Action::REMGRAPHIC]->setEnabled( true );
+        action[Action::REM_GRAPHIC]->setEnabled( true );
 
     QMessageBox::information( this, "", Message::getMessages() );
 }
@@ -452,7 +460,7 @@ void MainWindow::slotLoadGraphic()
 void MainWindow::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
-    action[Action::REMGRAPHIC]->setEnabled( false );
+    action[Action::REM_GRAPHIC]->setEnabled( false );
 
     if ( Options::getBoardMode() == BoardMode::GRAPHIC )
     {
@@ -506,7 +514,7 @@ void MainWindow::slotReadBoard()
     {
         createSquares();
         setSquaresNumeric( false );
-        radioKind[EnumKind::NUMERIC]->setChecked( true );
+        radioKind[BoardMode::NUMERIC]->setChecked( true );
     }
     else
     {
@@ -523,8 +531,8 @@ void MainWindow::slotReadBoard()
 
         createSquares();
         setSquaresGraphic( false );
-        radioKind[EnumKind::GRAPHIC]->setChecked( true );
-        action[Action::REMGRAPHIC]->setEnabled( true );
+        radioKind[BoardMode::GRAPHIC]->setChecked( true );
+        action[Action::REM_GRAPHIC]->setEnabled( true );
     }
 }
 
