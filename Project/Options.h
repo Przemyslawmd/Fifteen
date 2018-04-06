@@ -29,6 +29,7 @@ public:
     static bool isImageToBeLoaded( BoardSize size );
 
     static bool isNumberOnImage();
+    static bool isUndoEnabled();
 
     static unique_ptr< OptionsData > sendData();
     static void receiveData( unique_ptr< OptionsData > messageData );
@@ -45,6 +46,7 @@ private:
     static bool imagesToBeLoaded[4];
 
     static bool numberOnImage;
+    static bool undoEnabled;
 };
 
 #endif // OPTIONS_H

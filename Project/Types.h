@@ -31,6 +31,7 @@ typedef struct OptionsData_
     Color squareColor;
     int squareSizeIndex;
     bool numberOnImage;
+    bool undoEnabled;
 } OptionsData;
 
 #endif // TYPES_H

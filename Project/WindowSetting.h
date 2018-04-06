@@ -26,17 +26,13 @@ class WindowSetting : public QDialog
 private:
     Q_OBJECT
 
-    // Indicators for radio buttons and check boxes
-    enum SquareColor { BLUE, GREEN, RED, COUNT_COLOR };
-    enum BoardSize_   { FOUR, FIVE, SIX, SEVEN, COUNT_SIZE };
-
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
-    array<QCheckBox, COUNT_SIZE> checkImage;
+    array<QCheckBox, 4> checkImage;
     QCheckBox checkImageText;
     QButtonGroup groupRadioImage;
     QGroupBox boxRadioImage;
 
-    array<QRadioButton, COUNT_COLOR> radioColor;
+    array<QRadioButton, 3> radioColor;
     QButtonGroup groupRadioColor;
     QGroupBox boxRadioColor;
 
@@ -44,13 +40,15 @@ private:
     array<QLabel, 5> sliderLabels;
     QGroupBox boxSquareSize;
 
+    QCheckBox checkUndoEnabled;
+    QGroupBox boxUndoEnabled;
+
     unique_ptr< OptionsData > optionsCurrent;
     QPushButton accept;
     MainWindow& parent;
 
 private slots:
 
-    // Send changes to intances of Options and ImagesState classes
     void acceptSettings();
 
 public:

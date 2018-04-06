@@ -74,15 +74,23 @@ bool Options::isImageToBeLoaded( BoardSize size )
 }
 
 /************************************************************************/
-/* TEXT ON IMAGE ********************************************************/
+/************************************************************************/
 
 bool Options::isNumberOnImage()
 {
     return numberOnImage;
 }
 
+/************************************************************************/
+/************************************************************************/
+
+bool Options::isUndoEnabled()
+{
+    return undoEnabled;
+}
+
 /***********************************************************************/
-/* MESSAGE DATA ********************************************************/
+/***********************************************************************/
 
 unique_ptr< OptionsData > Options::sendData()
 {
@@ -96,6 +104,7 @@ unique_ptr< OptionsData > Options::sendData()
     messageData->squareColor = currentColor;
     messageData->squareSizeIndex = currentSquare + 1;
     messageData->numberOnImage = numberOnImage;
+    messageData->undoEnabled = undoEnabled;
     return messageData;
 }
 
@@ -110,6 +119,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
     currentColor = messageData->squareColor;
     currentSquare = static_cast< SquareSize >( messageData->squareSizeIndex - 1 );
     numberOnImage = messageData->numberOnImage;
+    undoEnabled = messageData->undoEnabled;
 }
 
 /***********************************************************************/
@@ -145,4 +155,5 @@ QString Options::styles[]
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
 
 bool Options::numberOnImage = false;
+bool Options::undoEnabled = false;
 
