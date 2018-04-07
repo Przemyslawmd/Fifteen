@@ -9,7 +9,8 @@ SOURCES += \
     Options.cpp \
     GraphicBoard/GraphicBoard.cpp \
     IOFile.cpp \
-    Message.cpp
+    Message.cpp \
+    UndoMove.cpp
 
 HEADERS += \
     WindowSetting.h \
@@ -21,7 +22,8 @@ HEADERS += \
     Options.h \
     GraphicBoard/GraphicBoard.h \
     IOFile.h \
-    Message.h
+    Message.h \
+    UndoMove.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
