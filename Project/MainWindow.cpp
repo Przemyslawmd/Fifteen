@@ -75,17 +75,22 @@ void MainWindow::createMenu()
 }
 
 /********************************************************************************************/
-/* CREATE RIGHT PANEL ***********************************************************************/
+/********************************************************************************************/
 
 void MainWindow::createRightPanel()
 {
-    pushRandom = new QPushButton( "Generate Board");
-    pushRandom->setStyleSheet( "height:20px;" );
-    connect( pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
+    pushRandom.setText( "Generate Board" );
+    pushRandom.setStyleSheet( "height:20px;" );
+    connect( &pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
 
-    pushSolve = new QPushButton( "Solve Board" );
-    pushSolve->setStyleSheet( "height:20px;" );
-    connect( pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
+    pushSolve.setText( "Solve Board" );
+    pushSolve.setStyleSheet( "height:20px;" );
+    connect( &pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
+
+    pushUndo.setText("Undo Move");
+    pushUndo.setStyleSheet( "height:20px;" );
+    pushUndo.setDisabled( true );
+    connect( &pushUndo, SIGNAL( clicked() ), this, SLOT( slotUndoMove() ));
 
     layRadioSize = new QVBoxLayout();
     groupRadioSize = new QButtonGroup();
@@ -140,9 +145,11 @@ void MainWindow::createRightPanel()
 
     rightLayout = new QVBoxLayout();
     rightLayout->setContentsMargins( 30, 0, 20, 0 );
-    rightLayout->addWidget( pushRandom );
+    rightLayout->addWidget( &pushRandom );
     rightLayout->addSpacing( 15 );
-    rightLayout->addWidget( pushSolve );
+    rightLayout->addWidget( &pushSolve );
+    rightLayout->addSpacing( 15 );
+    rightLayout->addWidget( &pushUndo );
     rightLayout->addSpacing( 30 );
     rightLayout->addWidget( boxRadioSize );
     rightLayout->addStretch();
@@ -358,20 +365,31 @@ void MainWindow::slotGenerateBoard()
 }
 
 /*******************************************************************************************/
-/* SOLVE BOARD *****************************************************************************/
+/*******************************************************************************************/
 
 void MainWindow::slotSolveBoard()
 {
     board->solveBoard();
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
+    {
         setSquaresNumeric( false );
-    else         
+    }
+    else
+    {
         setSquaresGraphic( false );
+    }
 }
 
 /*******************************************************************************************/
-/* MOVE SQUARE IF POSSIBLE *****************************************************************/
+/*******************************************************************************************/
+
+void MainWindow::slotUndoMove()
+{
+}
+
+/*******************************************************************************************/
+/*******************************************************************************************/
 
 void MainWindow::pressSquare()
 {

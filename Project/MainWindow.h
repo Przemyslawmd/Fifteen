@@ -42,8 +42,9 @@ class MainWindow : public QMainWindow
     QGroupBox* boxImages;
     vector< QPushButton* > squares;
 
-    QPushButton* pushRandom;
-    QPushButton* pushSolve;
+    QPushButton pushRandom;
+    QPushButton pushSolve;
+    QPushButton pushUndo;
 
     map< BoardSize, QRadioButton* > radioSize;
     QGroupBox* boxRadioSize;
@@ -84,6 +85,7 @@ private slots:
     // Push buttons slots
     void slotGenerateBoard();
     void slotSolveBoard();
+    void slotUndoMove();
 
 public:
 
