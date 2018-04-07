@@ -92,9 +92,6 @@ void MainWindow::createRightPanel()
     pushUndo.setDisabled( true );
     connect( &pushUndo, SIGNAL( clicked() ), this, SLOT( slotUndoMove() ));
 
-    layRadioSize = new QVBoxLayout();
-    groupRadioSize = new QButtonGroup();
-
     radioSize[BoardSize::FOUR] = new QRadioButton();
     radioSize[BoardSize::FIVE] = new QRadioButton();
     radioSize[BoardSize::SIX] = new QRadioButton();
@@ -102,13 +99,13 @@ void MainWindow::createRightPanel()
 
     for( std::pair< BoardSize, QRadioButton* > radioSizePair : radioSize )
     {
-        layRadioSize->addSpacing( 10 );
-        layRadioSize->addWidget( radioSizePair.second );
+        layRadioSize.addSpacing( 10 );
+        layRadioSize.addWidget( radioSizePair.second );
         radioSizePair.second->setStyleSheet( "margin-left:5px;" );
-        groupRadioSize->addButton( radioSizePair.second );
-        groupRadioSize->setId( radioSizePair.second, radioSizePair.first );
+        groupRadioSize.addButton( radioSizePair.second );
+        groupRadioSize.setId( radioSizePair.second, radioSizePair.first );
     }
-    layRadioSize->addSpacing( 30 );
+    layRadioSize.addSpacing( 30 );
 
     radioSize[BoardSize::FOUR]->setText( "4" );
     radioSize[BoardSize::FIVE]->setText( "5" );
@@ -116,45 +113,39 @@ void MainWindow::createRightPanel()
     radioSize[BoardSize::SEVEN]->setText( "7" );
     radioSize[BoardSize::FOUR]->setChecked( true );
 
-    boxRadioSize = new QGroupBox();
-    boxRadioSize->setTitle( "Dimension of Board" );
-    boxRadioSize->setLayout( layRadioSize );
-
-    layRadioKind = new QVBoxLayout();
-    groupRadioKind = new QButtonGroup();
+    boxRadioSize.setTitle( "Dimension of Board" );
+    boxRadioSize.setLayout( &layRadioSize );
 
     radioKind[BoardMode::NUMERIC] = new QRadioButton();
     radioKind[BoardMode::GRAPHIC] = new QRadioButton();
 
     for( std::pair< BoardMode, QRadioButton* > radioKindPair : radioKind )
     {
-        layRadioKind->addSpacing( 10 );
-        layRadioKind->addWidget( radioKindPair.second );
+        layRadioKind.addSpacing( 10 );
+        layRadioKind.addWidget( radioKindPair.second );
         radioKindPair.second->setStyleSheet( "margin-left:5px;" );
-        groupRadioKind->addButton( radioKindPair.second );
+        groupRadioKind.addButton( radioKindPair.second );
     }
-    layRadioKind->addSpacing( 30 );
+    layRadioKind.addSpacing( 30 );
 
     radioKind[BoardMode::NUMERIC]->setChecked(true);
     radioKind[BoardMode::NUMERIC]->setText( "Numeric" );
     radioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
 
-    boxRadioKind = new QGroupBox();
-    boxRadioKind->setTitle( "Kind of Board" );
-    boxRadioKind->setLayout( layRadioKind );
+    boxRadioKind.setTitle( "Kind of Board" );
+    boxRadioKind.setLayout( &layRadioKind );
 
-    rightLayout = new QVBoxLayout();
-    rightLayout->setContentsMargins( 30, 0, 20, 0 );
-    rightLayout->addWidget( &pushRandom );
-    rightLayout->addSpacing( 15 );
-    rightLayout->addWidget( &pushSolve );
-    rightLayout->addSpacing( 15 );
-    rightLayout->addWidget( &pushUndo );
-    rightLayout->addSpacing( 30 );
-    rightLayout->addWidget( boxRadioSize );
-    rightLayout->addStretch();
-    rightLayout->addWidget( boxRadioKind );
-    rightLayout->addStretch();
+    rightLayout.setContentsMargins( 30, 0, 20, 0 );
+    rightLayout.addWidget( &pushRandom );
+    rightLayout.addSpacing( 15 );
+    rightLayout.addWidget( &pushSolve );
+    rightLayout.addSpacing( 15 );
+    rightLayout.addWidget( &pushUndo );
+    rightLayout.addSpacing( 30 );
+    rightLayout.addWidget( &boxRadioSize );
+    rightLayout.addStretch();
+    rightLayout.addWidget( &boxRadioKind );
+    rightLayout.addStretch();
 }
 
 /*********************************************************************************/
@@ -165,15 +156,14 @@ void MainWindow::createLayouts()
     mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 10 );
 
-    boardVerticalLayout = new QVBoxLayout;
-    boardVerticalLayout->setSpacing( 0 );
+    boardVerticalLayout.setSpacing( 0 );
 
     boxImages = new QGroupBox();
-    boxImages->setLayout( boardVerticalLayout );
+    boxImages->setLayout( &boardVerticalLayout );
 
     mainLayout = new QHBoxLayout( mainPanel );
     mainLayout->addWidget( boxImages );
-    mainLayout->addLayout( rightLayout );
+    mainLayout->addLayout( &rightLayout );
 
     this->setCentralWidget( mainPanel );
 }
@@ -206,7 +196,7 @@ void MainWindow::createSquares()
     for ( int i = 0; i < boardSize; i++ )
         boardHorizontalLayout[i].setSpacing(0);
 
-    boardVerticalLayout->addStretch();
+    boardVerticalLayout.addStretch();
 
     for ( int i = 0; i < boardSize; i++ )
     {
@@ -216,27 +206,33 @@ void MainWindow::createSquares()
             boardHorizontalLayout[i].addWidget( squares.at( i * boardSize + j ));
 
         boardHorizontalLayout[i].addStretch();
-        boardVerticalLayout->addLayout( &boardHorizontalLayout[i] );
+        boardVerticalLayout.addLayout( &boardHorizontalLayout[i] );
     }
-    boardVerticalLayout->addStretch();
+    boardVerticalLayout.addStretch();
 }
 
 /*********************************************************************************/
-/* DELETE SQUARES ****************************************************************/
+/*********************************************************************************/
 
 void MainWindow::deleteSquares()
 {
     if ( squares.empty() )
+    {
         return;
+    }
 
     for ( auto square : squares )
+    {
         delete square;
+    }
 
     squares.clear();
 
     QLayoutItem* child;
-    while ((  child = boardVerticalLayout->takeAt( 0 )))
-        boardVerticalLayout->removeItem( 0 );
+    while (( child = boardVerticalLayout.takeAt( 0 )))
+    {
+        boardVerticalLayout.removeItem( 0 );
+    }
 
     delete[] boardHorizontalLayout;
 }
@@ -319,7 +315,7 @@ void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize->checkedId());
+    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize.checkedId());
 
     // In case of graphic board check whether there is a proper image loaded
     if ( radioKind[BoardMode::GRAPHIC]->isChecked() )

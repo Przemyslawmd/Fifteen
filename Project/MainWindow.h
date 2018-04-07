@@ -37,9 +37,9 @@ class MainWindow : public QMainWindow
     QMenu* fileMenu;
 
     QHBoxLayout* mainLayout;
-    QVBoxLayout* rightLayout;
+    QVBoxLayout rightLayout;
 
-    QVBoxLayout* boardVerticalLayout;
+    QVBoxLayout boardVerticalLayout;
     QHBoxLayout* boardHorizontalLayout;
     QGroupBox* boxImages;
     vector< QPushButton* > squares;
@@ -49,14 +49,14 @@ class MainWindow : public QMainWindow
     QPushButton pushUndo;
 
     map< BoardSize, QRadioButton* > radioSize;
-    QGroupBox* boxRadioSize;
-    QButtonGroup* groupRadioSize;
-    QVBoxLayout* layRadioSize;
+    QGroupBox boxRadioSize;
+    QButtonGroup groupRadioSize;
+    QVBoxLayout layRadioSize;
 
     map< BoardMode, QRadioButton* > radioKind;
-    QGroupBox* boxRadioKind;
-    QButtonGroup* groupRadioKind;
-    QVBoxLayout* layRadioKind;
+    QGroupBox boxRadioKind;
+    QButtonGroup groupRadioKind;
+    QVBoxLayout layRadioKind;
 
     void createMenu();
 
