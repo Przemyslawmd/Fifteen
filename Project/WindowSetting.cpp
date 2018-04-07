@@ -180,6 +180,7 @@ void WindowSetting::acceptSettings()
 
     bool numberImageChanged = optionsNew->numberOnImage != optionsCurrent->numberOnImage;
     bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;
+    bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
 
     if ( radioColor[BLUE].isChecked() )
     {
@@ -210,6 +211,18 @@ void WindowSetting::acceptSettings()
     if ( colorChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
     {
         parent.setColor();
+    }
+
+    if ( undoMovesChanged )
+    {
+        if ( optionsCurrent->undoEnabled )
+        {
+            parent.deleteUndoMovesService();
+        }
+        else
+        {
+            parent.createUndoMovesService();
+        }
     }
 
     close();

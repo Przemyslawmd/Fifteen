@@ -2,16 +2,16 @@
 #ifndef UNDOMOVE_H
 #define UNDOMOVE_H
 
+#include "Types.h"
 #include <deque>
 
 class UndoMove
 {
 public:
 
-    UndoMove();
-
-    void PutMove( int move );
+    void PutMove( Move move, int row, int col );
     int GetMove();
+    void Reset();
 
 private:
 

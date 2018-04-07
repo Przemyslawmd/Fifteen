@@ -4,6 +4,7 @@
 
 #include "Board.h"
 #include "Types.h"
+#include "UndoMove.h"
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
@@ -28,6 +29,7 @@ class MainWindow : public QMainWindow
     enum class Action { OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT };
 
     Board* board;
+    UndoMove* undoMoveService;
     map< Action, QAction* > action;
 
     QWidget* mainPanel;
@@ -67,6 +69,7 @@ class MainWindow : public QMainWindow
     void setSquaresGraphic( bool isRandom );
     void drawNumberOnGraphicSquare( QPixmap&, int number );
 
+    void makeMove( Move, int row, int col );
     void moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest );
     void moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest );
 
@@ -93,6 +96,8 @@ public:
 
     void setColor();
     void redrawSquares();
+    void createUndoMovesService();
+    void deleteUndoMovesService();
 
 public slots:
 

@@ -362,6 +362,11 @@ void MainWindow::slotGenerateBoard()
         createSquares();
         setSquaresGraphic( true );
     }
+
+    if ( undoMoveService )
+    {
+        undoMoveService->Reset();
+    }
 }
 
 /*******************************************************************************************/
@@ -379,6 +384,11 @@ void MainWindow::slotSolveBoard()
     {
         setSquaresGraphic( false );
     }
+
+    if ( undoMoveService )
+    {
+        undoMoveService->Reset();
+    }
 }
 
 /*******************************************************************************************/
@@ -386,6 +396,17 @@ void MainWindow::slotSolveBoard()
 
 void MainWindow::slotUndoMove()
 {
+    int position = undoMoveService->GetMove();
+
+    if ( position == -1 )
+    {
+        return;
+    }
+
+    int row = position / 10;
+    int col = position % 10;
+    Move move = board->checkMove( row, col );
+    makeMove( move, row, col );
 }
 
 /*******************************************************************************************/
@@ -400,8 +421,23 @@ void MainWindow::pressSquare()
     Move move = board->checkMove( row, col );
 
     if ( move == Move::NOT_ALLOWED )
+    {
         return;
+    }
 
+    if ( Options::isUndoEnabled() )
+    {
+        undoMoveService->PutMove( move, row, col );
+    }
+
+    makeMove( move, row, col );
+}
+
+/*******************************************************************************************/
+/*******************************************************************************************/
+
+void MainWindow::makeMove( Move move, int row, int col )
+{
     // Set pointer to a method for moving squares, according to kind of a board
     moveSquare = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericSquares : &MainWindow::moveGraphicSquares;
 
@@ -577,8 +613,8 @@ void MainWindow::setColor()
     }    
 }
 
-/*********************************************************************************************************/
-/* REDRAW SQUARES ****************************************************************************************/
+/*****************************************************************************************/
+/* REDRAW SQUARES ************************************************************************/
 
 void MainWindow::redrawSquares()
 {
@@ -590,16 +626,35 @@ void MainWindow::redrawSquares()
         setSquaresGraphic( false );
 }
 
-/***********************************************************************************************************/
-/* SLOT SETTINGS *******************************************************************************************/
+/*******************************************************************************************/
+/*******************************************************************************************/
+
+void MainWindow::createUndoMovesService()
+{
+    undoMoveService = new UndoMove();
+    pushUndo.setDisabled( false );
+}
+
+/*******************************************************************************************/
+/*******************************************************************************************/
+
+void MainWindow::deleteUndoMovesService()
+{
+    delete undoMoveService;
+    undoMoveService = nullptr;
+    pushUndo.setDisabled( true );
+}
+
+/*******************************************************************************************/
+/*******************************************************************************************/
 
 void MainWindow::slotSettings()
 {
     new WindowSetting( *this );
 }
 
-/***********************************************************************************************************/
-/* SLOT ABOUT **********************************************************************************************/
+/*******************************************************************************************/
+/* SLOT ABOUT ******************************************************************************/
 
 void MainWindow::slotAbout()
 {
