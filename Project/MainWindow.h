@@ -33,8 +33,8 @@ class MainWindow : public QMainWindow
     map< Action, QAction* > action;
 
     QWidget* mainPanel;
-    QMenuBar* mainMenu;
-    QMenu* fileMenu;
+    QMenuBar mainMenu;
+    QMenu fileMenu;
 
     QHBoxLayout* mainLayout;
     QVBoxLayout rightLayout;
@@ -49,14 +49,14 @@ class MainWindow : public QMainWindow
     QPushButton pushUndo;
 
     map< BoardSize, QRadioButton* > radioSize;
-    QGroupBox boxRadioSize;
-    QButtonGroup groupRadioSize;
-    QVBoxLayout layRadioSize;
+    QGroupBox radioSizeBox;
+    QButtonGroup radioSizeGroup;
+    QVBoxLayout radioSizeLayout;
 
     map< BoardMode, QRadioButton* > radioKind;
-    QGroupBox boxRadioKind;
-    QButtonGroup groupRadioKind;
-    QVBoxLayout layRadioKind;
+    QGroupBox radioKindBox;
+    QButtonGroup radioKindGroup;
+    QVBoxLayout radioKindLayout;
 
     void createMenu();
 

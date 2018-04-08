@@ -24,13 +24,12 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 }
 
 /******************************************************************************************/
-/* CREATE MENU ****************************************************************************/
+/******************************************************************************************/
 
 void MainWindow::createMenu()
 {    
-    fileMenu = new QMenu();
-    fileMenu->setTitle( "File" );
-    fileMenu->setStyleSheet( "padding-left:10px;" );
+    fileMenu.setTitle( "File" );
+    fileMenu.setStyleSheet( "padding-left:10px;" );
 
     action[Action::OPEN_GRAPHIC ] = new QAction( this );
     action[Action::OPEN_GRAPHIC]->setText( "Load Graphic File" );
@@ -57,21 +56,20 @@ void MainWindow::createMenu()
     action[Action::ABOUT]->setText( "About" );
     connect( action[Action::ABOUT], SIGNAL( triggered()), this, SLOT( slotAbout()));
 
-    fileMenu->addAction( action[Action::OPEN_GRAPHIC] );
-    fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::REM_GRAPHIC] );
-    fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::SAVE_BOARD] );
-    fileMenu->addSeparator();
-    fileMenu->addAction( action[Action::LOAD_BOARD] );
+    fileMenu.addAction( action[Action::OPEN_GRAPHIC] );
+    fileMenu.addSeparator();
+    fileMenu.addAction( action[Action::REM_GRAPHIC] );
+    fileMenu.addSeparator();
+    fileMenu.addAction( action[Action::SAVE_BOARD] );
+    fileMenu.addSeparator();
+    fileMenu.addAction( action[Action::LOAD_BOARD] );
 
-    mainMenu = new QMenuBar();
-    mainMenu->addMenu( fileMenu );
-    mainMenu->addAction( action[Action::SETTINGS] );
-    mainMenu->addAction( action[Action::ABOUT] );
-    mainMenu->setStyleSheet( "padding-left: 5px; margin: 3px;" );
+    mainMenu.addMenu( &fileMenu );
+    mainMenu.addAction( action[Action::SETTINGS] );
+    mainMenu.addAction( action[Action::ABOUT] );
+    mainMenu.setStyleSheet( "padding-left: 5px; margin: 3px;" );
 
-    this->setMenuBar( mainMenu );
+    this->setMenuBar( &mainMenu );
 }
 
 /********************************************************************************************/
@@ -99,13 +97,13 @@ void MainWindow::createRightPanel()
 
     for( std::pair< BoardSize, QRadioButton* > radioSizePair : radioSize )
     {
-        layRadioSize.addSpacing( 10 );
-        layRadioSize.addWidget( radioSizePair.second );
+        radioSizeLayout.addSpacing( 10 );
+        radioSizeLayout.addWidget( radioSizePair.second );
         radioSizePair.second->setStyleSheet( "margin-left:5px;" );
-        groupRadioSize.addButton( radioSizePair.second );
-        groupRadioSize.setId( radioSizePair.second, radioSizePair.first );
+        radioSizeGroup.addButton( radioSizePair.second );
+        radioSizeGroup.setId( radioSizePair.second, radioSizePair.first );
     }
-    layRadioSize.addSpacing( 30 );
+    radioSizeLayout.addSpacing( 30 );
 
     radioSize[BoardSize::FOUR]->setText( "4" );
     radioSize[BoardSize::FIVE]->setText( "5" );
@@ -113,27 +111,27 @@ void MainWindow::createRightPanel()
     radioSize[BoardSize::SEVEN]->setText( "7" );
     radioSize[BoardSize::FOUR]->setChecked( true );
 
-    boxRadioSize.setTitle( "Dimension of Board" );
-    boxRadioSize.setLayout( &layRadioSize );
+    radioSizeBox.setTitle( "Dimension of Board" );
+    radioSizeBox.setLayout( &radioSizeLayout );
 
     radioKind[BoardMode::NUMERIC] = new QRadioButton();
     radioKind[BoardMode::GRAPHIC] = new QRadioButton();
 
     for( std::pair< BoardMode, QRadioButton* > radioKindPair : radioKind )
     {
-        layRadioKind.addSpacing( 10 );
-        layRadioKind.addWidget( radioKindPair.second );
+        radioKindLayout.addSpacing( 10 );
+        radioKindLayout.addWidget( radioKindPair.second );
         radioKindPair.second->setStyleSheet( "margin-left:5px;" );
-        groupRadioKind.addButton( radioKindPair.second );
+        radioKindGroup.addButton( radioKindPair.second );
     }
-    layRadioKind.addSpacing( 30 );
+    radioKindLayout.addSpacing( 30 );
 
-    radioKind[BoardMode::NUMERIC]->setChecked(true);
+    radioKind[BoardMode::NUMERIC]->setChecked( true );
     radioKind[BoardMode::NUMERIC]->setText( "Numeric" );
     radioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
 
-    boxRadioKind.setTitle( "Kind of Board" );
-    boxRadioKind.setLayout( &layRadioKind );
+    radioKindBox.setTitle( "Kind of Board" );
+    radioKindBox.setLayout( &radioKindLayout );
 
     rightLayout.setContentsMargins( 30, 0, 20, 0 );
     rightLayout.addWidget( &pushRandom );
@@ -142,9 +140,9 @@ void MainWindow::createRightPanel()
     rightLayout.addSpacing( 15 );
     rightLayout.addWidget( &pushUndo );
     rightLayout.addSpacing( 30 );
-    rightLayout.addWidget( &boxRadioSize );
+    rightLayout.addWidget( &radioSizeBox );
     rightLayout.addStretch();
-    rightLayout.addWidget( &boxRadioKind );
+    rightLayout.addWidget( &radioKindBox );
     rightLayout.addStretch();
 }
 
@@ -169,7 +167,7 @@ void MainWindow::createLayouts()
 }
 
 /***********************************************************************************/
-/* CREATE SQUARES ******************************************************************/
+/***********************************************************************************/
 
 void MainWindow::createSquares()
 {
@@ -194,7 +192,9 @@ void MainWindow::createSquares()
     boardHorizontalLayout = new QHBoxLayout[boardSize];
 
     for ( int i = 0; i < boardSize; i++ )
+    {
         boardHorizontalLayout[i].setSpacing(0);
+    }
 
     boardVerticalLayout.addStretch();
 
@@ -203,7 +203,9 @@ void MainWindow::createSquares()
         boardHorizontalLayout[i].addStretch();
 
         for ( int j = 0; j < boardSize; j++ )
+        {
             boardHorizontalLayout[i].addWidget( squares.at( i * boardSize + j ));
+        }
 
         boardHorizontalLayout[i].addStretch();
         boardVerticalLayout.addLayout( &boardHorizontalLayout[i] );
@@ -238,38 +240,42 @@ void MainWindow::deleteSquares()
 }
 
 /*************************************************************************************/
-/* SET SQUARES NUMERIC ***************************************************************/
+/*************************************************************************************/
 
 void MainWindow::setSquaresNumeric( bool isRandom )
 {    
-    vector<int>& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
-    QString& currentStyle = Options::getStyle();
+    vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
+    vector< int >::iterator iter = values.begin();
     QFont font;
     font.setPixelSize( Options::getSquareSizeFont() );
 
-    int i = 0;
     for ( auto square : squares )
     {
-        square->setText( QString::number( values.at( i )));
-        if ( values.at( i ) == 0 )
-            square->setStyleSheet( Options::getEmptyStyle() );
+        if ( *iter != 0 )
+        {
+            square->setText( QString::number( *iter ));
+            square->setStyleSheet( Options::getStyle() );
+        }
         else
-            square->setStyleSheet( currentStyle );
+        {
+            square->setStyleSheet( Options::getEmptyStyle() );
+        }
+
         square->setFont( font );
-        i++;
+        iter++;
     }
 
     Options::setBoardMode( BoardMode::NUMERIC );
 }
 
 /*******************************************************************************************/
-/* SET SQUARES GRAPHIC *********************************************************************/
+/*******************************************************************************************/
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
     ImageProvider& provider = ImageProvider::getInstance();
     SquareSize squareSize = provider.getImageSquareSize();
-    vector<int>& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
+    vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     BoardSize boardSize = board->getCurrentSize();
     vector< QImage* >* pictures = provider.getImages( boardSize );
     QPixmap pixmap;
@@ -282,7 +288,9 @@ void MainWindow::setSquaresGraphic( bool isRandom )
         pixmap = QPixmap::fromImage( *pictures->at( values.at( i++ )));
 
         if ( numberOnImage )
+        {
             drawNumberOnGraphicSquare( pixmap, values.at( i - 1 ));
+        }
 
         QIcon icon( pixmap );
         QSize iconSize( squareSize, squareSize );
@@ -295,18 +303,20 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 }
 
 /*******************************************************************************************/
-/* DRAW NUMBER ON GRAPHIC SQUARE ***********************************************************/
+/*******************************************************************************************/
 
 void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
 {
     if ( number == 0 )
+    {
         return;
+    }
 
     QPainter painter( &pixmap );
     QColor penColor( 0, 0, 0 );
     painter.setPen( QPen( penColor ));
     int font = Options::getSquareSizeFont();
-    painter.setFont( QFont("Times", font, QFont::Bold ));
+    painter.setFont( QFont( "Times", font, QFont::Bold ));
     painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
 }
 
@@ -315,7 +325,7 @@ void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize boardSize = static_cast< BoardSize >( groupRadioSize.checkedId());
+    BoardSize boardSize = static_cast< BoardSize >( radioSizeGroup.checkedId());
 
     // In case of graphic board check whether there is a proper image loaded
     if ( radioKind[BoardMode::GRAPHIC]->isChecked() )
@@ -520,6 +530,7 @@ void MainWindow::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
     action[Action::REM_GRAPHIC]->setEnabled( false );
+    radioKind[BoardMode::NUMERIC]->setChecked( true );
 
     if ( Options::getBoardMode() == BoardMode::GRAPHIC )
     {
