@@ -2,13 +2,11 @@
 #include "GraphicBoard.h"
 #include "../Message.h"
 
-/*******************************************************************************************/
-/* CONSTRUCTOR *****************************************************************************/
 
 GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize ) {}
 
-/*******************************************************************************************/
-/* DESTRUCTOR ******************************************************************************/
+/*********************************************************************************/
+/* DESTRUCTOR ********************************************************************/
 
 GraphicBoard::~GraphicBoard()
 {
@@ -16,16 +14,16 @@ GraphicBoard::~GraphicBoard()
         delete image;
 }
 
-/*******************************************************************************************/
-/* GET IMAGES ******************************************************************************/
+/*********************************************************************************/
+/* GET IMAGES ********************************************************************/
 
 vector< QImage* >* GraphicBoard::getImages()
 {
     return &images;
 }
 
-/*******************************************************************************************/
-/* CREATE SCALED ***************************************************************************/
+/*********************************************************************************/
+/* CREATE SCALED *****************************************************************/
 
 bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
@@ -34,8 +32,8 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize 
     return createSquareImage( &scaledImage, boardSize, squareSize );
 }
 
-/*******************************************************************************************/
-/* CREATE CROPPED **************************************************************************/
+/*********************************************************************************/
+/* CREATE CROPPED ****************************************************************/
 
 bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
@@ -44,8 +42,8 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
     return createSquareImage( &croppedImage, boardSize, squareSize );
 }
 
-/*******************************************************************************************/
-/* CREATE SQUARE IMAGE *********************************************************************/
+/*********************************************************************************/
+/* CREATE SQUARE IMAGE ***********************************************************/
 
 bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize squareSize )
 {
@@ -85,8 +83,8 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
     return true;
 }
 
-/*******************************************************************************************/
-/* RESTORE IMAGES FROM FILE ****************************************************************/
+/*********************************************************************************/
+/* RESTORE IMAGES FROM FILE ******************************************************/
 
 bool GraphicBoard::restoreImagesFromFile( unique_ptr< QDataStream > stream, SquareSize squareSize )
 {

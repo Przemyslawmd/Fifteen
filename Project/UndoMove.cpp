@@ -10,23 +10,23 @@ void UndoMove::PutMove( Move move, int row, int col )
 
     switch ( move )
     {
-    case UP:
-        moveStack.push_back(( row - 1 ) * 10 + col );
-        break;
-    case RIGHT:
-        moveStack.push_back( row * 10 + col + 1 );
-        break;
-    case DOWN:
-        moveStack.push_back(( row + 1 ) * 10 + col );
-        break;
-    case LEFT:
-        moveStack.push_back( row * 10 + col -1  );
-        break;
+        case UP:
+            moveStack.push_back(( row - 1 ) * 10 + col );
+            break;
+        case RIGHT:
+            moveStack.push_back( row * 10 + col + 1 );
+            break;
+        case DOWN:
+            moveStack.push_back(( row + 1 ) * 10 + col );
+            break;
+        case LEFT:
+            moveStack.push_back( row * 10 + col -1  );
+            break;
     }
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 int UndoMove::GetMove()
 {
@@ -40,16 +40,14 @@ int UndoMove::GetMove()
     return move;
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void UndoMove::Reset()
 {
-    if ( moveStack.empty() )
+    if ( moveStack.empty() == false )
     {
-        return;
+        moveStack.clear();
     }
-
-    moveStack.clear();
 }
 
