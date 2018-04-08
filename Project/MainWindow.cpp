@@ -23,8 +23,8 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     setSquaresNumeric( false );
 }
 
-/******************************************************************************************/
-/******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::createMenu()
 {    
@@ -72,8 +72,8 @@ void MainWindow::createMenu()
     this->setMenuBar( &mainMenu );
 }
 
-/********************************************************************************************/
-/********************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::createRightPanel()
 {
@@ -147,7 +147,7 @@ void MainWindow::createRightPanel()
 }
 
 /*********************************************************************************/
-/* CREATE LAYOUTS ****************************************************************/
+/*********************************************************************************/
 
 void MainWindow::createLayouts()
 {
@@ -166,17 +166,20 @@ void MainWindow::createLayouts()
     this->setCentralWidget( mainPanel );
 }
 
-/***********************************************************************************/
-/***********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::createSquares()
 {
     deleteSquares();
     BoardSize boardSize = board->getCurrentSize();
-    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize();
+    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() :
+                                                                                ImageProvider::getInstance().getImageSquareSize();
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
+    {
         squares.push_back( new QPushButton() );
+    }
 
     for ( int i = 0; i < boardSize ; i++ )
     {
@@ -239,8 +242,8 @@ void MainWindow::deleteSquares()
     delete[] boardHorizontalLayout;
 }
 
-/*************************************************************************************/
-/*************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::setSquaresNumeric( bool isRandom )
 {    
@@ -268,8 +271,8 @@ void MainWindow::setSquaresNumeric( bool isRandom )
     Options::setBoardMode( BoardMode::NUMERIC );
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
@@ -302,8 +305,8 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     Options::setBoardMode( BoardMode::GRAPHIC );
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
 {
@@ -320,8 +323,8 @@ void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
     painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
 }
 
-/*******************************************************************************************/
-/* GENERATE BOARD **************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotGenerateBoard()
 {
@@ -375,8 +378,8 @@ void MainWindow::slotGenerateBoard()
     }
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotSolveBoard()
 {
@@ -397,8 +400,8 @@ void MainWindow::slotSolveBoard()
     }
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotUndoMove()
 {
@@ -415,8 +418,8 @@ void MainWindow::slotUndoMove()
     makeMove( move, row, col );
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::pressSquare()
 {
@@ -439,13 +442,14 @@ void MainWindow::pressSquare()
     makeMove( move, row, col );
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::makeMove( Move move, int row, int col )
 {
     // Set pointer to a method for moving squares, according to kind of a board
-    moveSquare = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericSquares : &MainWindow::moveGraphicSquares;
+    moveSquare = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericSquares :
+                                                                     &MainWindow::moveGraphicSquares;
 
     switch ( move )
     {
@@ -467,8 +471,8 @@ void MainWindow::makeMove( Move move, int row, int col )
     }
 }
 
-/*******************************************************************************************/
-/* MOVE NUMERIC SQUARES ********************************************************************/
+/*********************************************************************************/
+/* MOVE NUMERIC SQUARES **********************************************************/
 
 void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
@@ -481,8 +485,8 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
     squares.at( rowSource * boardSize + colSource )->setStyleSheet( Options::getEmptyStyle() );
 }
 
-/*******************************************************************************************/
-/* MOVE GRAPHIC SQUARES ********************************************************************/
+/*********************************************************************************/
+/* MOVE GRAPHIC SQUARES **********************************************************/
 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
@@ -495,15 +499,18 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
     squares.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
 }
 
-/*******************************************************************************************/
-/* LOAD GRAPHIC FILE ***********************************************************************/
+/*********************************************************************************/
+/* LOAD GRAPHIC FILE *************************************************************/
 
 void MainWindow::slotLoadGraphic()
 {
-    QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
+    QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(),
+                                                     tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
 
     if ( fileName.isEmpty() )
+    {
         return;
+    }
 
     QImage picture;
     picture.load( fileName );
@@ -517,14 +524,17 @@ void MainWindow::slotLoadGraphic()
     ImageProvider& provider = ImageProvider::getInstance();
     provider.prepareBoardImage( picture, Options::getSquareSize() );
 
-    if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) || provider.isImage( BoardSize::SEVEN ))
+    if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) ||
+         provider.isImage( BoardSize::SEVEN ))
+    {
         action[Action::REM_GRAPHIC]->setEnabled( true );
+    }
 
     QMessageBox::information( this, "", Message::getMessages() );
 }
 
-/*******************************************************************************************/
-/* REMOVE GRAPHIC **************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotRemoveGraphic()
 {
@@ -540,32 +550,40 @@ void MainWindow::slotRemoveGraphic()
     }
 }
 
-/*******************************************************************************************/
-/* SLOT SAVE BOARD *************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotSaveBoard()
 {
     QString fileName = QFileDialog::getSaveFileName( this, "", QDir::currentPath() );
 
     if ( fileName.isEmpty() )
+    {
         return;
+    }
 
     IOFile ioFile;
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
+    {
         ioFile.saveNumericBoardInFile( board, fileName );
+    }
     else
+    {
         ioFile.saveGraphicBoardInFile( board, fileName );
+    }
 }
 
-/*******************************************************************************************/
-/* RESTORE BOARD FROM FILE *****************************************************************/
+/*********************************************************************************/
+/*(((((((((((((((((((((((((*******************************************************/
 
 void MainWindow::slotReadBoard()
 {    
     QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
 
     if( fileName.isEmpty() )
+    {
         return;
+    }
 
     IOFile ioFile;
     unique_ptr< vector<int> > values = ioFile.readBoardFromFile( fileName );
@@ -590,14 +608,21 @@ void MainWindow::slotReadBoard()
     {
         ImageProvider& provider = ImageProvider::getInstance();
 
-        if ( boardSize == BoardSize::FOUR )
-            radioSize[BoardSize::FOUR]->setChecked( provider.isImage( BoardSize::FOUR ));
-        else if ( boardSize == BoardSize::FIVE )
-            radioSize[BoardSize::FIVE]->setChecked( provider.isImage( BoardSize::FIVE ));
-        else if ( boardSize == BoardSize::SIX )
-            radioSize[BoardSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ));
-        else
-            radioSize[BoardSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ));
+        switch ( boardSize )
+        {
+            case BoardSize::FOUR:
+                radioSize[BoardSize::FOUR]->setChecked( provider.isImage( BoardSize::FOUR ));
+                break;
+            case BoardSize::FIVE:
+                radioSize[BoardSize::FIVE]->setChecked( provider.isImage( BoardSize::FIVE ));
+                break;
+            case BoardSize::SIX:
+                radioSize[BoardSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ));
+                break;
+            case BoardSize::SEVEN:
+                radioSize[BoardSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ));
+                break;
+        }
 
         createSquares();
         setSquaresGraphic( false );
@@ -606,8 +631,8 @@ void MainWindow::slotReadBoard()
     }
 }
 
-/*********************************************************************************************************/
-/* SET COLOR *********************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::setColor()
 {
@@ -616,25 +641,31 @@ void MainWindow::setColor()
     for ( auto square : squares )
     {
         if ( square->styleSheet() != Options::getEmptyStyle() )
+        {
             square->setStyleSheet( currentStyle );
+        }
     }    
 }
 
-/*****************************************************************************************/
-/* REDRAW SQUARES ************************************************************************/
+/*********************************************************************************/
+/* REDRAW SQUARES ****************************************************************/
 
 void MainWindow::redrawSquares()
 {
     createSquares();
 
-    if ( Options::getBoardMode() == BoardMode::NUMERIC)
+    if ( Options::getBoardMode() == BoardMode::NUMERIC )
+    {
         setSquaresNumeric( false );
+    }
     else
+    {
         setSquaresGraphic( false );
+    }
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::createUndoMovesService()
 {
@@ -642,8 +673,8 @@ void MainWindow::createUndoMovesService()
     pushUndo.setDisabled( false );
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::deleteUndoMovesService()
 {
@@ -652,16 +683,16 @@ void MainWindow::deleteUndoMovesService()
     pushUndo.setDisabled( true );
 }
 
-/*******************************************************************************************/
-/*******************************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotSettings()
 {
     new WindowSetting( *this );
 }
 
-/*******************************************************************************************/
-/* SLOT ABOUT ******************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotAbout()
 {
