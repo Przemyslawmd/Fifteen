@@ -6,7 +6,7 @@
 GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize ) {}
 
 /*********************************************************************************/
-/* DESTRUCTOR ********************************************************************/
+/*********************************************************************************/
 
 GraphicBoard::~GraphicBoard()
 {
@@ -15,7 +15,7 @@ GraphicBoard::~GraphicBoard()
 }
 
 /*********************************************************************************/
-/* GET IMAGES ********************************************************************/
+/*********************************************************************************/
 
 vector< QImage* >* GraphicBoard::getImages()
 {
@@ -23,7 +23,7 @@ vector< QImage* >* GraphicBoard::getImages()
 }
 
 /*********************************************************************************/
-/* CREATE SCALED *****************************************************************/
+/*********************************************************************************/
 
 bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
@@ -33,7 +33,7 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize 
 }
 
 /*********************************************************************************/
-/* CREATE CROPPED ****************************************************************/
+/*********************************************************************************/
 
 bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
@@ -43,7 +43,7 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
 }
 
 /*********************************************************************************/
-/* CREATE SQUARE IMAGE ***********************************************************/
+/*********************************************************************************/
 
 bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize squareSize )
 {
@@ -84,7 +84,7 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
 }
 
 /*********************************************************************************/
-/* RESTORE IMAGES FROM FILE ******************************************************/
+/*********************************************************************************/
 
 bool GraphicBoard::restoreImagesFromFile( unique_ptr< QDataStream > stream, SquareSize squareSize )
 {

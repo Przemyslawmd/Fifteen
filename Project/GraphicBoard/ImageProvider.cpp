@@ -3,24 +3,26 @@
 #include "../Options.h"
 #include "../Message.h"
 
-/*********************************************************************************/
-/* GET INSTANCE ******************************************************************/
 
 ImageProvider& ImageProvider::getInstance()
 {
     if ( instance == nullptr )
+    {
         instance = new ImageProvider();
+    }
 
     return *instance;
 }
 
 /*********************************************************************************/
-/* DELETE INSTANCE ***************************************************************/
+/*********************************************************************************/
 
 void ImageProvider::deleteInstance()
 {
     if ( instance == nullptr )
+    {
         return;
+    }
 
     delete instance;
     instance = nullptr;
@@ -49,7 +51,7 @@ ImageProvider::~ImageProvider()
 }
 
 /*********************************************************************************/
-/* PREPARE BOARD IMAGE ***********************************************************/
+/*********************************************************************************/
 
 void ImageProvider::prepareBoardImage( QImage& image, SquareSize squareSize )
 {
@@ -86,7 +88,7 @@ void ImageProvider::prepareBoardImage( QImage& image, SquareSize squareSize )
 }
 
 /*********************************************************************************/
-/* CHECK IMAGE SIZE **************************************************************/
+/*********************************************************************************/
 
 bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, SquareSize squareSize )
 {
@@ -100,7 +102,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, Square
 }
 
 /*********************************************************************************/
-/* GET IMAGE *********************************************************************/
+/*********************************************************************************/
 
 vector< QImage* >* ImageProvider::getImages( BoardSize boardSize )
 {
@@ -108,7 +110,7 @@ vector< QImage* >* ImageProvider::getImages( BoardSize boardSize )
 }
 
 /*********************************************************************************/
-/* IS IMAGE **********************************************************************/
+/*********************************************************************************/
 
 bool ImageProvider::isImage( BoardSize boardSize )
 {
@@ -116,7 +118,7 @@ bool ImageProvider::isImage( BoardSize boardSize )
 }
 
 /*********************************************************************************/
-/* GET IMAGE SQUARE SIZE *********************************************************/
+/*********************************************************************************/
 
 SquareSize ImageProvider::getImageSquareSize()
 {
@@ -124,7 +126,7 @@ SquareSize ImageProvider::getImageSquareSize()
 }
 
 /*********************************************************************************/
-/* RESTORE IMAGE BOARD FROM FILE *************************************************/
+/*********************************************************************************/
 
 bool ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
 {
@@ -143,15 +145,19 @@ bool ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream,
     }
 
     if ( (*board)->restoreImagesFromFile( std::move( stream ), (SquareSize) imageSize ))
+    {
         imageSquareSize = (SquareSize) imageSize;
+    }
     else
+    {
         removeBoard( board );
+    }
 
     return true;
 }
 
 /*********************************************************************************/
-/* SELECT BOARD ******************************************************************/
+/*********************************************************************************/
 
 GraphicBoard* ImageProvider::selectBoard( BoardSize size )
 {
@@ -166,7 +172,7 @@ GraphicBoard* ImageProvider::selectBoard( BoardSize size )
 }
 
 /*********************************************************************************/
-/* SELECT BOARD POINTER **********************************************************/
+/*********************************************************************************/
 
 GraphicBoard** ImageProvider::selectBoardPointer( BoardSize size )
 {
@@ -181,7 +187,7 @@ GraphicBoard** ImageProvider::selectBoardPointer( BoardSize size )
 }
 
 /*********************************************************************************/
-/* REMOVE BOARD ******************************************************************/
+/*********************************************************************************/
 
 void ImageProvider::removeBoard( GraphicBoard** board )
 {
