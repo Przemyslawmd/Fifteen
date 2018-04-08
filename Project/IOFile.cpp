@@ -10,30 +10,30 @@ using std::unique_ptr;
 IOFile::IOFile(){}
 
 /*********************************************************************************/
-/* SAVE NUMERIC BOARD IN FILE ****************************************************/
+/*********************************************************************************/
 
-void IOFile::saveNumericBoardInFile( Board* board, QString fileName )
+void IOFile::saveNumericBoardInFile( Board& board, QString fileName )
 {
     QFile file( fileName );
-    unique_ptr<QDataStream> stream = getDataStream( file, QIODevice::WriteOnly );
+    unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
 
     *stream << (int) BoardMode::NUMERIC;
-    *stream << board->getCurrentSize();
+    *stream << board.getCurrentSize();
 
     stream = insertBoardValuesIntoStream( std::move( stream ), board );
     file.close();
 }
 
 /*********************************************************************************/
-/* SAVE GRAPHIC BOARD IN FILE ****************************************************/
+/*********************************************************************************/
 
-void IOFile::saveGraphicBoardInFile( Board* board, QString fileName )
+void IOFile::saveGraphicBoardInFile( Board& board, QString fileName )
 {
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
 
     *stream << (int) BoardMode::GRAPHIC;
-    int boardSize = board->getCurrentSize();
+    int boardSize = board.getCurrentSize();
     *stream << boardSize;
 
     stream = insertBoardValuesIntoStream( std::move( stream ), board );
@@ -48,7 +48,7 @@ void IOFile::saveGraphicBoardInFile( Board* board, QString fileName )
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {
         memcpy( buffer, pictures->at( i )->bits(), byteCount );
-        stream->writeRawData( (char*)buffer, byteCount );
+        stream->writeRawData( (char*) buffer, byteCount );
     }
     delete [] buffer;
 
@@ -56,7 +56,7 @@ void IOFile::saveGraphicBoardInFile( Board* board, QString fileName )
 }
 
 /*********************************************************************************/
-/* READ BOARD FROM FILE **********************************************************/
+/*********************************************************************************/
 
 unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
 {
@@ -118,7 +118,7 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
 }
 
 /*********************************************************************************/
-/* GET DATA STREAM ***************************************************************/
+/*********************************************************************************/
 
 unique_ptr<QDataStream> IOFile::getDataStream( QFile& file, QIODevice::OpenModeFlag mode )
 {
@@ -129,40 +129,43 @@ unique_ptr<QDataStream> IOFile::getDataStream( QFile& file, QIODevice::OpenModeF
 }
 
 /*********************************************************************************/
-/* INSERT BOARD VALUES INTO STREAM ***********************************************/
+/*********************************************************************************/
 
-unique_ptr< QDataStream > IOFile::insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board* board )
+unique_ptr< QDataStream > IOFile::insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board& board )
 {
-    vector<int>& values = board->sendBoard();
-    int size = board->getCurrentSize();
+    vector< int >& values = board.sendBoard();
 
-    for ( int i = 0; i < size * size; i++ )
+    for ( auto iter = values.begin(); iter != values.end(); iter++ )
     {
-        *stream << values.at( i );
+        *stream << *iter;
     }
 
     return stream;
 }
 
 /*********************************************************************************/
-/* CHECK READ VALUES *************************************************************/
+/*********************************************************************************/
 
-unique_ptr< vector<int> > IOFile::checkReadValues( unique_ptr< vector<int> > valuesRead, BoardSize boardSize )
+unique_ptr< vector<int> > IOFile::checkReadValues( unique_ptr< vector<int> > readValues, BoardSize boardSize )
 {
     vector<int> valuesToCompare;
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
+    {
         valuesToCompare.push_back( i );
+    }
 
-    for ( int value : *valuesRead )
+    for ( int value : *readValues )
     {
         auto it = std::find( std::begin( valuesToCompare ), std::end( valuesToCompare ), value );
 
         if ( it == std::end( valuesToCompare ))
+        {
             return nullptr;
-        else
-            valuesToCompare.erase( it );
+        }
+
+        valuesToCompare.erase( it );
     }
-    return valuesRead;
+    return readValues;
 }
 

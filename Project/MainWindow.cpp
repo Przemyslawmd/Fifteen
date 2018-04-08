@@ -31,7 +31,7 @@ void MainWindow::createMenu()
     fileMenu.setTitle( "File" );
     fileMenu.setStyleSheet( "padding-left:10px;" );
 
-    action[Action::OPEN_GRAPHIC ] = new QAction( this );
+    action[Action::OPEN_GRAPHIC] = new QAction( this );
     action[Action::OPEN_GRAPHIC]->setText( "Load Graphic File" );
     connect( action[Action::OPEN_GRAPHIC], SIGNAL( triggered()), this, SLOT( slotLoadGraphic()));
 
@@ -565,11 +565,11 @@ void MainWindow::slotSaveBoard()
     IOFile ioFile;
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        ioFile.saveNumericBoardInFile( board, fileName );
+        ioFile.saveNumericBoardInFile( *board, fileName );
     }
     else
     {
-        ioFile.saveGraphicBoardInFile( board, fileName );
+        ioFile.saveGraphicBoardInFile( *board, fileName );
     }
 }
 

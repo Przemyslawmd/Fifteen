@@ -14,15 +14,15 @@ class IOFile
 public:
     IOFile();
 
-    void saveNumericBoardInFile( Board* board, QString fileName );
-    void saveGraphicBoardInFile( Board* board, QString fileName );
-    unique_ptr< vector<int> > readBoardFromFile( QString fileName );
+    void saveNumericBoardInFile( Board&, QString fileName );
+    void saveGraphicBoardInFile( Board&, QString fileName );
+    unique_ptr< vector< int >> readBoardFromFile( QString fileName );
 
 private:
 
-    unique_ptr< QDataStream > getDataStream( QFile& file, QIODevice::OpenModeFlag mode );
-    unique_ptr< QDataStream > insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board* board );
-    unique_ptr< vector<int> > checkReadValues( unique_ptr< vector<int> >, BoardSize );
+    unique_ptr< QDataStream > getDataStream( QFile&, QIODevice::OpenModeFlag );
+    unique_ptr< QDataStream > insertBoardValuesIntoStream( unique_ptr< QDataStream >, Board& );
+    unique_ptr< vector< int >> checkReadValues( unique_ptr< vector< int >>, BoardSize );
 };
 
 #endif // IOFILE_H
