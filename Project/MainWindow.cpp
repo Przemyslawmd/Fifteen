@@ -21,6 +21,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     createLayouts();
     createSquares();
     setSquaresNumeric( false );
+    undoMoveService = nullptr;
 }
 
 /*********************************************************************************/
