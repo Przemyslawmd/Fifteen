@@ -14,14 +14,16 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += TestFifteen.cpp \
+SOURCES += \
     Data.cpp \
     TestVector.cpp \
     ../Project/Options.cpp \
     ../Project/GraphicBoard/GraphicBoard.cpp \
     ../Project/GraphicBoard/ImageProvider.cpp \
     ../Project/Message.cpp \
-    TestVectorGraphic.cpp
+    TestVectorGraphic.cpp \
+    Suites.cpp \
+    Test.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -32,6 +34,7 @@ HEADERS += \
     ../Project/GraphicBoard/GraphicBoard.h \
     ../Project/GraphicBoard/ImageProvider.h \
     ../Project/Message.h \
-    TestVectorGraphic.h
+    TestVectorGraphic.h \
+    Test.h
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

@@ -8,6 +8,7 @@
 #include "../Project/IOFile.h"
 #include "../Project/IOFile.cpp"
 #include "Data.h"
+#include "Test.h"
 
 class TestFifteen : public QObject
 {
@@ -20,10 +21,8 @@ private Q_SLOTS:
     void suiteMoveSquareDefined();
     void suiteSaveAndLoadBoard();
     void suiteCreateGraphicBoard();
+    void suiteUndoMoves();
 
-    void testCreateBoardSolved( BoardSize );
-    void testCreateBoardRandom( BoardSize );
-    void testCreateBoardRandomWithChange( BoardSize sizeFirst, BoardSize sizeSecond );
     void testMoveSquareDefined( int testNumber );
     void testSaveAndLoadBoard( int testNumber );
     void testCreateGraphicBoard( int testNumber );
@@ -35,17 +34,19 @@ private Q_SLOTS:
 
 void TestFifteen::suiteCreateBoardSolved()
 {
-    testCreateBoardSolved( BoardSize::FOUR );
-    testCreateBoardSolved( BoardSize::SIX );
+    Test test;
+    test.testCreateBoardSolved( BoardSize::FOUR );
+    test.testCreateBoardSolved( BoardSize::SIX );
 }
 
 
 void TestFifteen::suiteCreateBoardRandom()
 {
-    testCreateBoardRandom( BoardSize::FIVE );
-    testCreateBoardRandom( BoardSize::SEVEN );
-    testCreateBoardRandomWithChange( BoardSize::FIVE, BoardSize::SIX );
-    testCreateBoardRandomWithChange( BoardSize::SEVEN, BoardSize::FOUR );
+    Test test;
+    test.testCreateBoardRandom( BoardSize::FIVE );
+    test.testCreateBoardRandom( BoardSize::SEVEN );
+    test.testCreateBoardRandomWithChange( BoardSize::FIVE, BoardSize::SIX );
+    test.testCreateBoardRandomWithChange( BoardSize::SEVEN, BoardSize::FOUR );
 }
 
 
@@ -72,51 +73,11 @@ void TestFifteen::suiteCreateGraphicBoard()
     testCreateGraphicBoard( 1 );
 }
 
-/*********************************************************************************/
-/* TEST CREATE BOARD SOLVED ******************************************************/
-// Test creating initial state of a board, values in a board should be sorted
 
-void TestFifteen::testCreateBoardSolved( BoardSize size )
+void TestFifteen::suiteUndoMoves()
 {
-    Board* board = Board::createBoard( size );
-    vector<int>& values = board->sendBoard();
 
-    for ( int i = 0; i < size * size - 1; i++)
-    {
-        QCOMPARE( values[i], i + 1 );
-    }
 
-    QCOMPARE( values[size * size - 1], 0 );
-}
-
-/*********************************************************************************/
-/* TEST CREATE RANDOM BOARD ******************************************************/
-// After random board check whether a board has all values
-
-void TestFifteen::testCreateBoardRandom( BoardSize size )
-{
-    Board* board = Board::createBoard( size );
-    vector<int>& values = board->randomBoard();
-    checkSquares( size, values );
-}
-
-/*********************************************************************************/
-/* TEST CREATE BOARD RANDOM WITH CHANGE ******************************************/
-
-void TestFifteen::testCreateBoardRandomWithChange( BoardSize sizeFirst, BoardSize sizeSecond )
-{
-    Board* board = Board::createBoard( sizeFirst );
-    board->randomBoard();
-    board->randomBoard();
-    vector<int>& values = board->randomBoard();
-
-    checkSquares( sizeFirst, values );
-
-    board = Board::createBoard( sizeSecond );
-    board->randomBoard();
-    values = board->randomBoard();
-
-    checkSquares( sizeSecond, values );
 }
 
 /*********************************************************************************/
@@ -180,7 +141,7 @@ void TestFifteen::testSaveAndLoadBoard( int testNumber )
     QString fileName = "/fileData";
     QString currentDir = QDir::currentPath();
     QString filePath = currentDir + fileName;
-    ioFile.saveNumericBoardInFile( board, filePath );
+    ioFile.saveNumericBoardInFile( *board, filePath );
 
     board->randomBoard();
     board->randomBoard();
@@ -251,7 +212,7 @@ void TestFifteen::compareQImage( const QImage& imageA, const QImage& imageB )
 }
 
 /***********************************************************************/
-/* CHECK SQUARES SIZE **************************************************/
+/***********************************************************************/
 // Helper method to check whether a board has all square values
 
 void TestFifteen::checkSquares( BoardSize boardSize, vector<int>& squares )
@@ -259,7 +220,9 @@ void TestFifteen::checkSquares( BoardSize boardSize, vector<int>& squares )
     QList<int> values;
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
+    {
         values.append( i );
+    }
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {
@@ -273,5 +236,5 @@ void TestFifteen::checkSquares( BoardSize boardSize, vector<int>& squares )
 
 QTEST_APPLESS_MAIN(TestFifteen)
 
-#include "TestFifteen.moc"
+#include "Suites.moc"
 
