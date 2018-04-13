@@ -2,8 +2,8 @@
 #ifndef DATATEST_H
 #define DATATEST_H
 
-#include "TestVector.h"
-#include "TestVectorGraphic.h"
+#include "DataCommon.h"
+#include "DataGraphic.h"
 
 class Data
 {
@@ -12,14 +12,14 @@ public:
 
     static void DataInit();
 
-    static TestVector& getTestVector( int testNumber );
-    static TestGraphic& getTestGraphic( int testNumber );
+    static DataCommon& getTestVector( int testNumber );
+    static DataGraphic& getTestGraphic( int testNumber );
 
 private:
 
     static bool isInit;
-    static vector< TestVector > testData;
-    static vector< TestGraphic > testDataGraphic;
+    static vector< DataCommon > dataCommon;
+    static vector< DataGraphic > dataGraphic;
 };
 
 #endif // DATATEST_H

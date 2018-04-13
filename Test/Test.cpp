@@ -57,7 +57,7 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
 void Test::testMoveSquareDefined( int testNumber )
 {
     Data::DataInit();
-    TestVector dataTest = Data::getTestVector( testNumber );
+    DataCommon dataTest = Data::getTestVector( testNumber );
     BoardSize boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
@@ -92,7 +92,7 @@ void Test::testMoveSquareDefined( int testNumber )
 void Test::testSaveAndLoadBoard( int testNumber )
 {
     Data::DataInit();
-    TestVector dataTest = Data::getTestVector( testNumber );
+    DataCommon dataTest = Data::getTestVector( testNumber );
     BoardSize boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
@@ -142,7 +142,7 @@ void Test::testSaveAndLoadBoard( int testNumber )
 void Test::testCreateGraphicBoard( int testNumber )
 {
     Data::DataInit();
-    TestGraphic testData = Data::getTestGraphic( testNumber );
+    DataGraphic testData = Data::getTestGraphic( testNumber );
 
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();

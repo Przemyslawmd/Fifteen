@@ -1,7 +1,7 @@
 
-#include "TestVectorGraphic.h"
+#include "DataGraphic.h"
 
-TestGraphic::TestGraphic( BoardSize board, SquareSize square, GraphicMode mode, QString path, bool four, bool five, bool six, bool seven )
+DataGraphic::DataGraphic( BoardSize board, SquareSize square, GraphicMode mode, QString path, bool four, bool five, bool six, bool seven )
 {
     this->boardSize = board;
     this->squareSize = square;

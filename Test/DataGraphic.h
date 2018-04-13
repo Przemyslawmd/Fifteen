@@ -1,13 +1,13 @@
 
-#ifndef TESTVECTORGRAPHIC_H
-#define TESTVECTORGRAPHIC_H
+#ifndef DATAGRAPHIC_H
+#define DATAGRAPHIC_H
 
 #include "../Project/Types.h"
 
-class TestGraphic
+class DataGraphic
 {
 public:
-    TestGraphic( BoardSize, SquareSize, GraphicMode, QString imagesPath, bool, bool, bool, bool );
+    DataGraphic( BoardSize, SquareSize, GraphicMode, QString imagesPath, bool, bool, bool, bool );
 
     BoardSize boardSize;
     SquareSize squareSize;
@@ -19,4 +19,4 @@ public:
     bool isSevenToBeLoaded;
 };
 
-#endif // TESTVECTORGRAPHIC_H
+#endif // DATAGRAPHIC_H

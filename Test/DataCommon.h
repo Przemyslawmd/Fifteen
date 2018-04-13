@@ -1,18 +1,18 @@
 
-#ifndef TESTDATA_H
-#define TESTDATA_H
+#ifndef DATACOMMON_H
+#define DATACOMMON_H
 
 #include <vector>
 #include "../Project/Types.h"
 
 using std::vector;
 
-class TestVector
+class DataCommon
 {
 
 public:
 
-    TestVector( BoardSize boardSize, vector< int > moves, vector< int > expected );
+    DataCommon( BoardSize boardSize, vector< int > moves, vector< int > expected );
 
     BoardSize boardSize;
 
@@ -23,4 +23,4 @@ public:
     vector< int > expectedSquares;
 };
 
-#endif // TESTDATA_H
+#endif // DATACOMMON_H
