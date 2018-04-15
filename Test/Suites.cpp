@@ -16,7 +16,6 @@ private Q_SLOTS:
     void suiteMoveSquareDefined();
     void suiteSaveAndLoadBoard();
     void suiteCreateGraphicBoard();
-    void suiteUndoMoves();
 };
 
 
@@ -65,10 +64,6 @@ void TestFifteen::suiteCreateGraphicBoard()
     test.testCreateGraphicBoard( 1 );
 }
 
-
-void TestFifteen::suiteUndoMoves()
-{
-}
 
 QTEST_APPLESS_MAIN(TestFifteen)
 

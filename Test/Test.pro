@@ -23,8 +23,7 @@ SOURCES += \
     Suites.cpp \
     Test.cpp \
     DataCommon.cpp \
-    DataGraphic.cpp \
-    DataUndo.cpp
+    DataGraphic.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -36,7 +35,6 @@ HEADERS += \
     ../Project/Message.h \
     Test.h \
     DataCommon.h \
-    DataGraphic.h \
-    DataUndo.h
+    DataGraphic.h
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

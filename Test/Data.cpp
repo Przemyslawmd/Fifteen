@@ -35,16 +35,6 @@ void Data::DataInit()
                                 { 6, 1, 2, 4, 5, 7, 12, 3, 8, 9, 11, 17, 13, 14, 10, 21, 16, 18, 19, 15, 22, 0, 23, 24, 20 }
     });
 
-    dataUndo.push_back( DataUndo
-    {
-                                BoardSize::FOUR,
-                                { 20, 34, 24, 24, 11, 14 },
-                                { 6, 1, 2, 4, 5, 7, 12, 3, },
-                                nullptr,
-                                3, 0,
-                                { 1, 2, 3, 4, 5, 6, 7, 8, 0, 9, 10, 15, 13, 14, 12, 11 }
-    });
-
 
     isInit = true;
 }
@@ -61,14 +51,7 @@ DataCommon& Data::getTestVector( int testNumber )
     return dataCommon.at( testNumber );
 }
 
-
-DataCommon& Data::getTestUndo( int testNumber )
-{
-    return dataCommon.at( testNumber );
-}
-
 vector< DataCommon > Data::dataCommon;
 vector< DataGraphic > Data::dataGraphic;
-vector< DataUndo > Data::dataUndo;
 bool Data::isInit = false;
 
