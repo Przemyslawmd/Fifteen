@@ -10,13 +10,6 @@ SquareSize Options::getSquareSize()
     return sizes[currentSquare].squareSize;
 }
 
-
-int Options::getSquareSizeIndex()
-{
-    return currentSquare + 1;
-}
-
-
 int Options::getSquareSizeFont()
 {
     return sizes[currentSquare].fontSize;
@@ -46,12 +39,6 @@ GraphicMode Options::getGraphicMode()
 
 /*********************************************************************************/
 /*********************************************************************************/
-
-Color Options::getColor()
-{
-    return currentColor;
-}
-
 
 QString& Options::getStyle()
 {

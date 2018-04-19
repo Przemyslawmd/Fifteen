@@ -14,7 +14,6 @@ class Options
 public:
 
     static SquareSize getSquareSize();
-    static int getSquareSizeIndex();
     static int getSquareSizeFont();
 
     static BoardMode getBoardMode();
@@ -22,7 +21,6 @@ public:
 
     static GraphicMode getGraphicMode();
 
-    static Color getColor();
     static QString& getStyle();
     static QString& getEmptyStyle();
 
