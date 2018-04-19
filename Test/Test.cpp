@@ -158,12 +158,12 @@ void Test::testCreateGraphicBoard( int testNumber )
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
     imageProvider.prepareBoardImage( image, testData.squareSize );
-    vector< QImage* >* images = imageProvider.getImages( testData.boardSize );
+    vector< QImage* >& images = imageProvider.getImages( testData.boardSize );
 
     for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )
     {
         QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + QString::number( i ) + ".bmp" );
-        compareQImage( *images->at( i ), image );
+        compareQImage( *images.at( i ), image );
     }
 }
 
