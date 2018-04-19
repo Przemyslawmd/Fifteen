@@ -15,7 +15,7 @@ public:
     static ImageProvider& getInstance();
     static void deleteInstance();
 
-    vector< QImage* >* getImages( BoardSize );
+    vector< QImage* >& getImages( BoardSize );
     void prepareBoardImage( QImage&, SquareSize );
     bool restoreImageBoardFromFile( unique_ptr< QDataStream >, BoardSize );
     bool isImage( BoardSize );

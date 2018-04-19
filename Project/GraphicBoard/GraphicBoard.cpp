@@ -11,15 +11,17 @@ GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize ) {}
 GraphicBoard::~GraphicBoard()
 {
     for ( QImage* image : images )
+    {
         delete image;
+    }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector< QImage* >* GraphicBoard::getImages()
+vector< QImage* >& GraphicBoard::getImages()
 {
-    return &images;
+    return images;
 }
 
 /*********************************************************************************/

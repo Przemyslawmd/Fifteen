@@ -11,7 +11,7 @@ using std::vector;
 using std::unique_ptr;
 
 /*
- * This class prepares and stores images for graphic board.
+ * This class prepares and stores images for a graphic board.
  * Each size of graphic board requires one instance of this class.
  */
 
@@ -30,7 +30,7 @@ private:
     bool createSquareImage( QImage*, BoardSize, SquareSize );
     bool restoreImagesFromFile( unique_ptr< QDataStream >, SquareSize );
 
-    vector< QImage* >* getImages();
+    vector< QImage* >& getImages();
 
     BoardSize boardSize;
     vector< QImage* > images;

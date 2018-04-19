@@ -62,28 +62,36 @@ void ImageProvider::prepareBoardImage( QImage& image, SquareSize squareSize )
     {
         boardFour = new GraphicBoard( BoardSize::FOUR );
         if (( boardFour->*createImage )( image, BoardSize::FOUR, squareSize ) == false )
+        {
             removeBoard( &boardFour );
+        }
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, BoardSize::FIVE, squareSize )))
     {
         boardFive = new GraphicBoard( BoardSize::FIVE );
         if (( boardFive->*createImage )( image, BoardSize::FIVE, squareSize ) == false )
+        {
             removeBoard( &boardFive );
+        }
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, BoardSize::SIX, squareSize )))
     {
         boardSix = new GraphicBoard( BoardSize::SIX );
         if (( boardSix->*createImage )( image, BoardSize::SIX, squareSize ) == false )
+        {
             removeBoard( &boardSix );
+        }
     }
 
     if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, BoardSize::SEVEN, squareSize )))
     {
         boardSeven = new GraphicBoard( BoardSize::SEVEN );
         if (( boardSeven->*createImage )( image, BoardSize::SEVEN, squareSize ) == false )
+        {
             removeBoard( &boardSeven );
+        }
     }
 }
 
@@ -104,7 +112,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, Square
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector< QImage* >* ImageProvider::getImages( BoardSize boardSize )
+vector< QImage* >& ImageProvider::getImages( BoardSize boardSize )
 {
     return selectBoard( boardSize )->getImages();
 }
@@ -161,14 +169,17 @@ bool ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream,
 
 GraphicBoard* ImageProvider::selectBoard( BoardSize size )
 {
-    if ( size == BoardSize::FOUR )
-        return boardFour;
-    else if ( size == BoardSize::FIVE )
-        return boardFive;
-    else if ( size == BoardSize::SIX )
-        return boardSix;
-    else
-        return boardSeven;
+    switch ( size )
+    {
+        case BoardSize::FOUR:
+            return boardFour;
+        case BoardSize::FIVE:
+            return boardFive;
+        case BoardSize::SIX:
+            return boardSix;
+        case BoardSize::SEVEN:
+            return boardSeven;
+    }
 }
 
 /*********************************************************************************/
@@ -176,14 +187,17 @@ GraphicBoard* ImageProvider::selectBoard( BoardSize size )
 
 GraphicBoard** ImageProvider::selectBoardPointer( BoardSize size )
 {
-    if ( size == BoardSize::FOUR )
-        return &boardFour;
-    else if ( size == BoardSize::FIVE )
-        return &boardFive;
-    else if ( size == BoardSize::SIX )
-        return &boardSix;
-    else
-        return &boardSeven;
+    switch ( size )
+    {
+        case BoardSize::FOUR:
+            return &boardFour;
+        case BoardSize::FIVE:
+            return &boardFive;
+        case BoardSize::SIX:
+            return &boardSix;
+        case BoardSize::SEVEN:
+            return &boardSeven;
+    }
 }
 
 /*********************************************************************************/
