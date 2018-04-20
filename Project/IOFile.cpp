@@ -66,6 +66,7 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     if ( boardMode != (int) BoardMode::GRAPHIC && boardMode != (int) BoardMode::NUMERIC )
     {
         Message::putMessage( MessageCode::READ_BOARD_TYPE_ERROR );
+        file.close();
         return nullptr;
     }
 
@@ -78,12 +79,11 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
         return nullptr;
     }
 
-    unique_ptr< vector<int> > values( new vector<int> );
-    int temp;
+    unique_ptr< vector< int >> values( new vector< int >( level * level ));
+
     for ( int i = 0; i < level * level ; i++ )
     {
-        *stream >> temp;
-        values->push_back( temp );
+        *stream >> values->at( i );
     }
 
     values = checkReadValues( std::move( values ), (BoardSize) level );
