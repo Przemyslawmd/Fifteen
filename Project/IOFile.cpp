@@ -21,6 +21,7 @@ void IOFile::saveNumericBoardInFile( Board& board, QString fileName )
     *stream << board.getCurrentSize();
 
     stream = insertBoardValuesIntoStream( std::move( stream ), board );
+
     file.close();
 }
 
@@ -43,14 +44,11 @@ void IOFile::saveGraphicBoardInFile( Board& board, QString fileName )
     vector< QImage* >& pictures = provider.getImages( (BoardSize) boardSize );
     int byteCount = pictures.at( 0 )->byteCount();
     *stream << byteCount;
-    uchar* buffer = new uchar[ byteCount ];
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {
-        memcpy( buffer, pictures.at( i )->bits(), byteCount );
-        stream->writeRawData( (char*) buffer, byteCount );
+        stream->writeRawData( (char*) pictures.at( i )->bits(), byteCount );
     }
-    delete [] buffer;
 
     file.close();
 }
