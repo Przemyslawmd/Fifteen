@@ -22,14 +22,14 @@ Board* Board::createBoard( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board* Board::createBoard( unique_ptr< vector<int> > squareValues, BoardSize boardSize )
+Board* Board::createBoard( vector< int >& values, BoardSize boardSize )
 {
     if ( board )
     {
         delete board;
     }
 
-    board = new Board( std::move( squareValues ), boardSize );
+    board = new Board( values, boardSize );
     return board;
 }
 
@@ -45,15 +45,11 @@ Board::Board( BoardSize size )
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( unique_ptr< vector<int> > values, BoardSize size )
+Board::Board( vector< int >& values, BoardSize size )
 {
     this->values.clear();
+    this->values = values;
     this->size = size;
-
-    for ( auto it = values->begin(); it != values->end(); it++ )
-    {
-        this->values.push_back( *it );
-    }
 }
 
 /*********************************************************************************/

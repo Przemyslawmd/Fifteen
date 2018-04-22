@@ -17,31 +17,26 @@ class Board
 public:
 
     static Board* board;
-
-    // Methods to create a board and to ensure that only one instance of board may exist
     static Board* createBoard( BoardSize );
-    static Board* createBoard( unique_ptr< vector<int> > values, BoardSize );
+    static Board* createBoard( vector< int >& values, BoardSize );
 
-    // Check whether move is allowed
     Move checkMove( int row, int col );
 
     BoardSize getCurrentSize();
-    vector<int>& sendBoard();
-    vector<int>& randomBoard();
+    vector< int >& sendBoard();
+    vector< int >& randomBoard();
     void solveBoard();
 
 private:
 
     BoardSize size;
-    vector<int> values;
+    vector< int > values;
     const int EMPTY_SQUARE = 0;
 
     Board( BoardSize );
-    Board( unique_ptr< vector<int> > values, BoardSize );
+    Board( vector< int >& values, BoardSize );
 
-    // Make move by swaping two squares
-    void makeMove( int sourceRow, int sourceColumn, int destRow, int destColumn );
-
+    void makeMove( int srcRow, int srcColumn, int dstRow, int dstColumn );
     int findNullSquare();
 };
 

@@ -598,8 +598,7 @@ void MainWindow::slotReadBoard()
     BoardSize boardSize = ( BoardSize ) values.back();
     values.pop_back();
 
-    unique_ptr< vector< int >> v ( new vector< int >( values ));
-    board = Board::createBoard( std::move( v ), boardSize );
+    board = Board::createBoard( values, boardSize );
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
