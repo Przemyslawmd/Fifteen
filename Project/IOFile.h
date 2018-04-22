@@ -16,7 +16,7 @@ public:
 
     void saveNumericBoardInFile( Board&, QString fileName );
     void saveGraphicBoardInFile( Board&, QString fileName );
-    unique_ptr< vector< int >> readBoardFromFile( QString fileName );
+    bool readBoardFromFile( QString fileName, vector< int >& );
 
 private:
 

@@ -17,7 +17,7 @@ void IOFile::saveNumericBoardInFile( Board& board, QString fileName )
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
 
-    *stream << (int) BoardMode::NUMERIC;
+    *stream << static_cast< int >( BoardMode::NUMERIC );
     *stream << board.getCurrentSize();
 
     stream = insertBoardValuesIntoStream( std::move( stream ), board );
@@ -33,15 +33,15 @@ void IOFile::saveGraphicBoardInFile( Board& board, QString fileName )
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
 
-    *stream << (int) BoardMode::GRAPHIC;
+    *stream << static_cast< int >( BoardMode::GRAPHIC );
     int boardSize = board.getCurrentSize();
     *stream << boardSize;
 
     stream = insertBoardValuesIntoStream( std::move( stream ), board );
 
     ImageProvider& provider = ImageProvider::getInstance();
-    *stream << (int) provider.getImageSquareSize();
-    vector< QImage* >& pictures = provider.getImages( (BoardSize) boardSize );
+    *stream << static_cast< int >( provider.getImageSquareSize() );
+    vector< QImage* >& pictures = provider.getImages( static_cast< BoardSize >( boardSize ));
     int byteCount = pictures.at( 0 )->byteCount();
     *stream << byteCount;
 
@@ -56,14 +56,14 @@ void IOFile::saveGraphicBoardInFile( Board& board, QString fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
+bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
 {
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::ReadOnly );
 
     int boardMode;
     *stream >> boardMode;
-    if ( boardMode != (int) BoardMode::GRAPHIC && boardMode != (int) BoardMode::NUMERIC )
+    if ( boardMode != static_cast< int >( BoardMode::GRAPHIC ) && boardMode != static_cast< int >( BoardMode::NUMERIC ))
     {
         Message::putMessage( MessageCode::READ_BOARD_TYPE_ERROR );
         file.close();
@@ -72,14 +72,14 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
 
     int level;
     *stream >> level;
-    if ( level < (int) BoardSize::FOUR || level > (int) BoardSize::SEVEN )
+    if ( level < static_cast< int >( BoardSize::FOUR ) || level > static_cast< int >( BoardSize::SEVEN ))
     {
         Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
         file.close();
         return nullptr;
     }
 
-    vector< int > values( level * level );
+    values.resize( level * level );
 
     for ( int i = 0; i < level * level ; i++ )
     {
@@ -93,7 +93,7 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
         return nullptr;
     }
 
-    if ( boardMode == (int) BoardMode::NUMERIC )
+    if ( boardMode == static_cast< int >( BoardMode::NUMERIC ))
     {
         Options::setBoardMode( BoardMode::NUMERIC );
     }
@@ -102,7 +102,7 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
         Options::setBoardMode( BoardMode::GRAPHIC );
         ImageProvider& imageProvider = ImageProvider::getInstance();
 
-        if ( imageProvider.restoreImageBoardFromFile( std::move( stream ), (BoardSize) level ) == false )
+        if ( imageProvider.restoreImageBoardFromFile( std::move( stream ), static_cast< BoardSize >( level )) == false )
         {
             file.close();
             return nullptr;
@@ -111,15 +111,12 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
 
     file.close();
     values.push_back( level );
-
-    unique_ptr< vector< int >> v ( new vector< int >( values ));
-    return v;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr<QDataStream> IOFile::getDataStream( QFile& file, QIODevice::OpenModeFlag mode )
+unique_ptr< QDataStream > IOFile::getDataStream( QFile& file, QIODevice::OpenModeFlag mode )
 {
     file.open( mode );
     unique_ptr< QDataStream > stream( new QDataStream( &file ));

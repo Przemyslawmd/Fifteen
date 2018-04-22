@@ -575,7 +575,7 @@ void MainWindow::slotSaveBoard()
 }
 
 /*********************************************************************************/
-/*(((((((((((((((((((((((((*******************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotReadBoard()
 {    
@@ -587,17 +587,19 @@ void MainWindow::slotReadBoard()
     }
 
     IOFile ioFile;
-    unique_ptr< vector<int> > values = ioFile.readBoardFromFile( fileName );
+    vector< int > values( 0 );
 
-    if ( values == nullptr )
+    if ( ioFile.readBoardFromFile( fileName, values ) == false )
     {
         QMessageBox::information( this, "", Message::getMessages() );
         return;
     }
 
-    BoardSize boardSize = ( BoardSize ) values->back();
-    values->pop_back();
-    board = Board::createBoard( std::move( values ), boardSize );
+    BoardSize boardSize = ( BoardSize ) values.back();
+    values.pop_back();
+
+    unique_ptr< vector< int >> v ( new vector< int >( values ));
+    board = Board::createBoard( std::move( v ), boardSize );
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
