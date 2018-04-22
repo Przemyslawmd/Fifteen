@@ -117,10 +117,11 @@ void Test::testSaveAndLoadBoard( int testNumber )
     board->randomBoard();
     board->randomBoard();
 
-    unique_ptr< vector< int >> valuesFromFile = ioFile.readBoardFromFile( filePath );
-    boardSize = (BoardSize) valuesFromFile->back();
-    valuesFromFile->pop_back();
-    board->createBoard( std::move( valuesFromFile ), boardSize );
+    vector< int > fileValues( 0 );
+    ioFile.readBoardFromFile( filePath, fileValues );
+    boardSize = static_cast< BoardSize >( fileValues.back() );
+    fileValues.pop_back();
+    board->createBoard( fileValues, boardSize );
     vector< int >& values  = board->sendBoard();
 
     vector< int > expectedSquares = dataTest.expectedSquares;

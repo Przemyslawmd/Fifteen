@@ -3,6 +3,7 @@
 #define TEST_H
 
 #include "../Project/Board.h"
+#include <QImage>
 
 class Test
 {
