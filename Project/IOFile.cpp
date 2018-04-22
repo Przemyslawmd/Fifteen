@@ -79,15 +79,14 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
         return nullptr;
     }
 
-    unique_ptr< vector< int >> values( new vector< int >( level * level ));
+    vector< int > values( level * level );
 
     for ( int i = 0; i < level * level ; i++ )
     {
-        *stream >> values->at( i );
+        *stream >> values.at( i );
     }
 
-    values = checkReadValues( std::move( values ), (BoardSize) level );
-    if ( values == nullptr )
+    if ( checkReadValues( values, static_cast< BoardSize >( level )) == false )
     {
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
         file.close();
@@ -111,8 +110,10 @@ unique_ptr< vector<int> > IOFile::readBoardFromFile( QString fileName )
     }
 
     file.close();
-    values->push_back( level );
-    return values;
+    values.push_back( level );
+
+    unique_ptr< vector< int >> v ( new vector< int >( values ));
+    return v;
 }
 
 /*********************************************************************************/
@@ -144,26 +145,26 @@ unique_ptr< QDataStream > IOFile::insertBoardValuesIntoStream( unique_ptr< QData
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr< vector<int> > IOFile::checkReadValues( unique_ptr< vector<int> > readValues, BoardSize boardSize )
+bool IOFile::checkReadValues( vector< int >& readValues, BoardSize boardSize )
 {
-    vector<int> valuesToCompare;
+    vector< int > valuesToCompare;
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {
         valuesToCompare.push_back( i );
     }
 
-    for ( int value : *readValues )
+    for ( int value : readValues )
     {
         auto it = std::find( std::begin( valuesToCompare ), std::end( valuesToCompare ), value );
 
         if ( it == std::end( valuesToCompare ))
         {
-            return nullptr;
+            return false;
         }
 
         valuesToCompare.erase( it );
     }
-    return readValues;
+    return true;
 }
 
