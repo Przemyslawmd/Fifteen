@@ -39,3 +39,4 @@ private:
 };
 
 #endif // IMAGEPROVIDER_H
+
