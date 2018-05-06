@@ -44,25 +44,14 @@ void ImageProvider::prepareGraphicBoard( QImage& image, SquareSize squareSize )
     imageSquareSize = squareSize;
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled :
                                                                          &GraphicBoard::createCropped;
+    map< BoardSize, GraphicBoard* >::iterator iter;
 
-    if (( Options::isImageToBeLoaded( BoardSize::FOUR )) && ( checkImageSize( image, BoardSize::FOUR, squareSize )))
+    for ( iter = images.begin(); iter != images.end(); iter++ )
     {
-        tryPrepareGraphicBoard( BoardSize::FOUR, squareSize, image );
-    }
-
-    if (( Options::isImageToBeLoaded( BoardSize::FIVE )) && ( checkImageSize( image, BoardSize::FIVE, squareSize )))
-    {
-        tryPrepareGraphicBoard( BoardSize::FIVE, squareSize, image );
-    }
-
-    if (( Options::isImageToBeLoaded( BoardSize::SIX )) && ( checkImageSize( image, BoardSize::SIX, squareSize )))
-    {
-        tryPrepareGraphicBoard( BoardSize::SIX, squareSize, image );
-    }
-
-    if (( Options::isImageToBeLoaded( BoardSize::SEVEN )) && ( checkImageSize( image, BoardSize::SEVEN, squareSize )))
-    {
-        tryPrepareGraphicBoard( BoardSize::SEVEN, squareSize, image );
+        if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, squareSize )))
+        {
+            tryPrepareGraphicBoard( iter->first, squareSize, image );
+        }
     }
 }
 
@@ -93,16 +82,17 @@ bool ImageProvider::restoreGraphicBoardFromFile( unique_ptr< QDataStream > strea
     int imageSize;
     *stream >> imageSize;
 
-    if ( imageSize != (int) SquareSize::_50  && imageSize != (int) SquareSize::_75 && imageSize != (int) SquareSize::_100 &&
-         imageSize != (int) SquareSize::_125 && imageSize != (int) SquareSize::_150 )
+    if ( imageSize != static_cast< int >( SquareSize::_50 )  && imageSize != static_cast< int >( SquareSize::_75 )  &&
+         imageSize != static_cast< int >( SquareSize::_100 ) && imageSize != static_cast< int >( SquareSize::_125 ) &&
+         imageSize != static_cast< int >( SquareSize::_150 ))
     {
         Message::putMessage( MessageCode::READ_BOARD_IMAGES_ERROR );
         return false;
     }
 
-    if ( images.at( boardSize )->restoreImagesFromFile( std::move( stream ), (SquareSize) imageSize ))
+    if ( images.at( boardSize )->restoreImagesFromFile( std::move( stream ), static_cast< SquareSize >( imageSize )))
     {
-        imageSquareSize = (SquareSize) imageSize;
+        imageSquareSize = static_cast< SquareSize >( imageSize );
     }
     else
     {
@@ -128,10 +118,10 @@ ImageProvider::ImageProvider()
 
 ImageProvider::~ImageProvider()
 {
-    removeBoard( images[BoardSize::FOUR]);
-    removeBoard( images[BoardSize::FIVE]);
-    removeBoard( images[BoardSize::SIX]);
-    removeBoard( images[BoardSize::SEVEN]);
+    removeBoard( images.at( BoardSize::FOUR ));
+    removeBoard( images.at( BoardSize::FIVE ));
+    removeBoard( images.at( BoardSize::SIX ));
+    removeBoard( images.at( BoardSize::SEVEN ));
 }
 
 /*********************************************************************************/

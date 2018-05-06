@@ -2,7 +2,6 @@
 #include "GraphicBoard.h"
 #include "../Message.h"
 
-
 GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize ) {}
 
 /*********************************************************************************/
@@ -40,7 +39,8 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize 
 bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize squareSize )
 {
     int boardPixels = boardSize * squareSize;
-    QImage croppedImage = image.copy(( image.width() - boardPixels ) / 2, ( image.height() - boardPixels ) / 2, boardPixels, boardPixels );
+    QImage croppedImage = image.copy(( image.width() - boardPixels ) / 2, ( image.height() - boardPixels ) / 2,
+                                       boardPixels, boardPixels );
     return createSquareImage( &croppedImage, boardSize, squareSize );
 }
 
@@ -49,8 +49,7 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
 
 bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize squareSize )
 {
-    QImage* image;
-    image = new (std::nothrow) QImage( squareSize, squareSize, QImage::Format_RGB32 );
+    QImage* image = new (std::nothrow) QImage( squareSize, squareSize, QImage::Format_RGB32 );
 
     if ( image == nullptr )
     {
@@ -68,7 +67,9 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
         for ( int xPos = 0; xPos < pictureSize; xPos += squareSize )
         {
             if (( yPos == pictureSize - squareSize ) && ( xPos == pictureSize - squareSize ))
+            {
                 break;
+            }
 
             image = new (std::nothrow) QImage( picture->copy( xPos, yPos, squareSize, squareSize ));
 
