@@ -336,22 +336,22 @@ void MainWindow::slotGenerateBoard()
     {
         ImageProvider& provider = ImageProvider::getInstance();
 
-        if (( boardSize == BoardSize::FOUR ) && ( provider.isImage( BoardSize::FOUR ) == false ))
+        if (( boardSize == BoardSize::FOUR ) && ( provider.isGraphicBoard( BoardSize::FOUR ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
             return;
         }
-        if (( boardSize == BoardSize::FIVE ) && ( provider.isImage( BoardSize::FIVE)  == false ))
+        if (( boardSize == BoardSize::FIVE ) && ( provider.isGraphicBoard( BoardSize::FIVE)  == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t" );
             return;
         }
-        if (( boardSize == BoardSize::SIX ) && ( provider.isImage( BoardSize::SIX ) == false ))
+        if (( boardSize == BoardSize::SIX ) && ( provider.isGraphicBoard( BoardSize::SIX ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
             return;
         }
-        if (( boardSize == BoardSize::SEVEN ) && ( provider.isImage( BoardSize::SEVEN ) == false ))
+        if (( boardSize == BoardSize::SEVEN ) && ( provider.isGraphicBoard( BoardSize::SEVEN ) == false ))
         {
             QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
             return;
@@ -525,8 +525,8 @@ void MainWindow::slotLoadGraphic()
     ImageProvider& provider = ImageProvider::getInstance();
     provider.prepareGraphicBoard( picture, Options::getSquareSize() );
 
-    if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) ||
-         provider.isImage( BoardSize::SEVEN ))
+    if ( provider.isGraphicBoard( BoardSize::FOUR ) || provider.isGraphicBoard( BoardSize::FIVE ) ||
+         provider.isGraphicBoard( BoardSize::SIX )  || provider.isGraphicBoard( BoardSize::SEVEN ))
     {
         action[Action::REM_GRAPHIC]->setEnabled( true );
     }
@@ -613,16 +613,16 @@ void MainWindow::slotReadBoard()
         switch ( boardSize )
         {
             case BoardSize::FOUR:
-                radioSize[BoardSize::FOUR]->setChecked( provider.isImage( BoardSize::FOUR ));
+                radioSize[BoardSize::FOUR]->setChecked( provider.isGraphicBoard( BoardSize::FOUR ));
                 break;
             case BoardSize::FIVE:
-                radioSize[BoardSize::FIVE]->setChecked( provider.isImage( BoardSize::FIVE ));
+                radioSize[BoardSize::FIVE]->setChecked( provider.isGraphicBoard( BoardSize::FIVE ));
                 break;
             case BoardSize::SIX:
-                radioSize[BoardSize::SIX]->setChecked( provider.isImage( BoardSize::SIX ));
+                radioSize[BoardSize::SIX]->setChecked( provider.isGraphicBoard( BoardSize::SIX ));
                 break;
             case BoardSize::SEVEN:
-                radioSize[BoardSize::SEVEN]->setChecked( provider.isImage( BoardSize::SEVEN ));
+                radioSize[BoardSize::SEVEN]->setChecked( provider.isGraphicBoard( BoardSize::SEVEN ));
                 break;
         }
 

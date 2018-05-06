@@ -69,7 +69,7 @@ void ImageProvider::prepareGraphicBoard( QImage& image, SquareSize squareSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::isImage( BoardSize boardSize )
+bool ImageProvider::isGraphicBoard( BoardSize boardSize )
 {
     return images.at( boardSize ) != nullptr;
 }
@@ -85,7 +85,7 @@ SquareSize ImageProvider::getImageSquareSize()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::restoreImageBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
+bool ImageProvider::restoreGraphicBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
 {
     removeBoard( images.at( boardSize ));
     images.at( boardSize ) = new GraphicBoard( boardSize );

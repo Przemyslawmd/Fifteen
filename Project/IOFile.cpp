@@ -102,7 +102,7 @@ bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
         Options::setBoardMode( BoardMode::GRAPHIC );
         ImageProvider& imageProvider = ImageProvider::getInstance();
 
-        if ( imageProvider.restoreImageBoardFromFile( std::move( stream ), static_cast< BoardSize >( level )) == false )
+        if ( imageProvider.restoreGraphicBoardFromFile( std::move( stream ), static_cast< BoardSize >( level )) == false )
         {
             file.close();
             return nullptr;
