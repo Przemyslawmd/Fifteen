@@ -16,7 +16,7 @@ public:
     static void deleteInstance();
 
     vector< QImage* >& getImages( BoardSize );
-    void prepareBoardImage( QImage&, SquareSize );
+    void prepareGraphicBoard( QImage&, SquareSize );
     bool restoreImageBoardFromFile( unique_ptr< QDataStream >, BoardSize );
     bool isImage( BoardSize );
     SquareSize getImageSquareSize();
@@ -28,20 +28,14 @@ private:
 
     bool ( GraphicBoard::*createImage )( QImage&, BoardSize, SquareSize );
     bool checkImageSize( QImage&, BoardSize, SquareSize ) ;
-
-    GraphicBoard* boardFour;
-    GraphicBoard* boardFive;
-    GraphicBoard* boardSix;
-    GraphicBoard* boardSeven;
+    void tryPrepareGraphicBoard( BoardSize, SquareSize, QImage& );
 
     SquareSize imageSquareSize;
 
-    GraphicBoard* selectBoard( BoardSize );
-    GraphicBoard** selectBoardPointer( BoardSize );
-
-    void removeBoard( GraphicBoard** );
+    void removeBoard( GraphicBoard*& );
 
     static ImageProvider* instance;
+    std::map< BoardSize, GraphicBoard* > images;
 };
 
 #endif // IMAGEPROVIDER_H

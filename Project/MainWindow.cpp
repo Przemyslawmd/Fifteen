@@ -501,7 +501,7 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
 }
 
 /*********************************************************************************/
-/* LOAD GRAPHIC FILE *************************************************************/
+/*********************************************************************************/
 
 void MainWindow::slotLoadGraphic()
 {
@@ -523,7 +523,7 @@ void MainWindow::slotLoadGraphic()
     }
 
     ImageProvider& provider = ImageProvider::getInstance();
-    provider.prepareBoardImage( picture, Options::getSquareSize() );
+    provider.prepareGraphicBoard( picture, Options::getSquareSize() );
 
     if ( provider.isImage( BoardSize::FOUR ) || provider.isImage( BoardSize::FIVE ) || provider.isImage( BoardSize::SIX ) ||
          provider.isImage( BoardSize::SEVEN ))
