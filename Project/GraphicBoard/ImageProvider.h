@@ -28,13 +28,12 @@ private:
 
     bool ( GraphicBoard::*createImage )( QImage&, BoardSize, SquareSize );
     bool checkImageSize( QImage&, BoardSize, SquareSize ) ;
-    void tryPrepareGraphicBoard( BoardSize, SquareSize, QImage& );
-
-    SquareSize imageSquareSize;
-
+    void letGraphicBoardPrepareImages( BoardSize, SquareSize, QImage& );
     void removeBoard( GraphicBoard*& );
 
     static ImageProvider* instance;
+
+    SquareSize imageSquareSize;
     std::map< BoardSize, GraphicBoard* > images;
 };
 

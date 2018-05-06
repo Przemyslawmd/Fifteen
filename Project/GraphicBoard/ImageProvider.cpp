@@ -50,7 +50,7 @@ void ImageProvider::prepareGraphicBoard( QImage& image, SquareSize squareSize )
     {
         if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, squareSize )))
         {
-            tryPrepareGraphicBoard( iter->first, squareSize, image );
+            letGraphicBoardPrepareImages( iter->first, squareSize, image );
         }
     }
 }
@@ -141,7 +141,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, Square
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::tryPrepareGraphicBoard( BoardSize boardSize, SquareSize squareSize, QImage& image )
+void ImageProvider::letGraphicBoardPrepareImages( BoardSize boardSize, SquareSize squareSize, QImage& image )
 {
     images.at( boardSize ) = new GraphicBoard();
 
