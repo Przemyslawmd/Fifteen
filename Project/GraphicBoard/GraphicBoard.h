@@ -22,17 +22,16 @@ private:
 
     friend class ImageProvider;
 
-    GraphicBoard( BoardSize );
+    GraphicBoard();
     ~GraphicBoard();
 
     bool createScaled( QImage&, BoardSize, SquareSize );
     bool createCropped( QImage&, BoardSize, SquareSize );
     bool createSquareImage( QImage*, BoardSize, SquareSize );
-    bool restoreImagesFromFile( unique_ptr< QDataStream >, SquareSize );
+    bool restoreImagesFromFile( unique_ptr< QDataStream >, BoardSize, SquareSize );
 
     vector< QImage* >& getImages();
 
-    BoardSize boardSize;
     vector< QImage* > images;
 };
 

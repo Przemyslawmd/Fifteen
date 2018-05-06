@@ -2,7 +2,7 @@
 #include "GraphicBoard.h"
 #include "../Message.h"
 
-GraphicBoard::GraphicBoard( BoardSize boardSize ) : boardSize( boardSize ) {}
+GraphicBoard::GraphicBoard() {}
 
 /*********************************************************************************/
 /*********************************************************************************/
@@ -89,7 +89,7 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( unique_ptr< QDataStream > stream, SquareSize squareSize )
+bool GraphicBoard::restoreImagesFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize, SquareSize squareSize )
 {
     int bytesForSquare;
     *stream >> bytesForSquare;

@@ -77,7 +77,7 @@ SquareSize ImageProvider::getImageSquareSize()
 bool ImageProvider::restoreGraphicBoardFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize )
 {
     removeBoard( images.at( boardSize ));
-    images.at( boardSize ) = new GraphicBoard( boardSize );
+    images.at( boardSize ) = new GraphicBoard();
 
     int imageSize;
     *stream >> imageSize;
@@ -90,7 +90,7 @@ bool ImageProvider::restoreGraphicBoardFromFile( unique_ptr< QDataStream > strea
         return false;
     }
 
-    if ( images.at( boardSize )->restoreImagesFromFile( std::move( stream ), static_cast< SquareSize >( imageSize )))
+    if ( images.at( boardSize )->restoreImagesFromFile( move( stream ), boardSize, static_cast< SquareSize >( imageSize )))
     {
         imageSquareSize = static_cast< SquareSize >( imageSize );
     }
@@ -143,7 +143,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, Square
 
 void ImageProvider::tryPrepareGraphicBoard( BoardSize boardSize, SquareSize squareSize, QImage& image )
 {
-    images.at( boardSize ) = new GraphicBoard( boardSize );
+    images.at( boardSize ) = new GraphicBoard();
 
     if (( images.at( boardSize )->*createImage )( image, boardSize, squareSize ) == false )
     {
