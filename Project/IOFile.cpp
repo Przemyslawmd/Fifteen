@@ -67,7 +67,7 @@ bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
     {
         Message::putMessage( MessageCode::READ_BOARD_TYPE_ERROR );
         file.close();
-        return nullptr;
+        return false;
     }
 
     int level;
@@ -76,7 +76,7 @@ bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
     {
         Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
         file.close();
-        return nullptr;
+        return false;
     }
 
     values.resize( level * level );
@@ -90,7 +90,7 @@ bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
     {
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
         file.close();
-        return nullptr;
+        return false;
     }
 
     if ( boardMode == static_cast< int >( BoardMode::NUMERIC ))
@@ -105,12 +105,13 @@ bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
         if ( imageProvider.restoreGraphicBoardFromFile( std::move( stream ), static_cast< BoardSize >( level )) == false )
         {
             file.close();
-            return nullptr;
+            return false;
         }
     }
 
     file.close();
     values.push_back( level );
+    return true;
 }
 
 /*********************************************************************************/
