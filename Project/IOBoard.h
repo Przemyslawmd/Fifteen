@@ -1,6 +1,6 @@
 
-#ifndef IOFILE_H
-#define IOFILE_H
+#ifndef IOBoard_H
+#define IOBoard_H
 
 #include "Board.h"
 #include <QFile>
@@ -9,10 +9,10 @@
 
 using std::unique_ptr;
 
-class IOFile
+class IOBoard
 {
 public:
-    IOFile();
+    IOBoard();
 
     void saveNumericBoardInFile( Board&, QString fileName );
     void saveGraphicBoardInFile( Board&, QString fileName );
@@ -25,5 +25,5 @@ private:
     bool checkReadValues( vector< int >&, BoardSize );
 };
 
-#endif // IOFILE_H
+#endif // IOBoard_H
 

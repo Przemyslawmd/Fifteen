@@ -3,7 +3,7 @@
 #include "Message.h"
 #include "WindowSetting.h"
 #include "WindowAbout.h"
-#include "IOFile.h"
+#include "IOBoard.h"
 #include "Options.h"
 #include "GraphicBoard/ImageProvider.h"
 #include <QPainter>
@@ -563,14 +563,14 @@ void MainWindow::slotSaveBoard()
         return;
     }
 
-    IOFile ioFile;
+    IOBoard ioBoard;
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        ioFile.saveNumericBoardInFile( *board, fileName );
+        ioBoard.saveNumericBoardInFile( *board, fileName );
     }
     else
     {
-        ioFile.saveGraphicBoardInFile( *board, fileName );
+        ioBoard.saveGraphicBoardInFile( *board, fileName );
     }
 }
 
@@ -586,10 +586,10 @@ void MainWindow::slotReadBoard()
         return;
     }
 
-    IOFile ioFile;
+    IOBoard ioBoard;
     vector< int > values( 0 );
 
-    if ( ioFile.readBoardFromFile( fileName, values ) == false )
+    if ( ioBoard.readBoardFromFile( fileName, values ) == false )
     {
         QMessageBox::information( this, "", Message::getMessages() );
         return;

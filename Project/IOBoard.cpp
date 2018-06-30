@@ -1,5 +1,5 @@
 
-#include "IOFile.h"
+#include "IOBoard.h"
 #include "Options.h"
 #include "Message.h"
 #include "GraphicBoard/ImageProvider.h"
@@ -7,12 +7,12 @@
 
 using std::unique_ptr;
 
-IOFile::IOFile(){}
+IOBoard::IOBoard(){}
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void IOFile::saveNumericBoardInFile( Board& board, QString fileName )
+void IOBoard::saveNumericBoardInFile( Board& board, QString fileName )
 {
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
@@ -28,7 +28,7 @@ void IOFile::saveNumericBoardInFile( Board& board, QString fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void IOFile::saveGraphicBoardInFile( Board& board, QString fileName )
+void IOBoard::saveGraphicBoardInFile( Board& board, QString fileName )
 {
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
@@ -56,7 +56,7 @@ void IOFile::saveGraphicBoardInFile( Board& board, QString fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
+bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
 {
     QFile file( fileName );
     unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::ReadOnly );
@@ -117,7 +117,7 @@ bool IOFile::readBoardFromFile( QString fileName, vector< int >& values )
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr< QDataStream > IOFile::getDataStream( QFile& file, QIODevice::OpenModeFlag mode )
+unique_ptr< QDataStream > IOBoard::getDataStream( QFile& file, QIODevice::OpenModeFlag mode )
 {
     file.open( mode );
     unique_ptr< QDataStream > stream( new QDataStream( &file ));
@@ -128,7 +128,7 @@ unique_ptr< QDataStream > IOFile::getDataStream( QFile& file, QIODevice::OpenMod
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr< QDataStream > IOFile::insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board& board )
+unique_ptr< QDataStream > IOBoard::insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board& board )
 {
     vector< int >& values = board.sendBoard();
 
@@ -143,7 +143,7 @@ unique_ptr< QDataStream > IOFile::insertBoardValuesIntoStream( unique_ptr< QData
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOFile::checkReadValues( vector< int >& readValues, BoardSize boardSize )
+bool IOBoard::checkReadValues( vector< int >& readValues, BoardSize boardSize )
 {
     vector< int > valuesToCompare;
 

@@ -8,9 +8,9 @@ SOURCES += \
     GraphicBoard/ImageProvider.cpp \
     Options.cpp \
     GraphicBoard/GraphicBoard.cpp \
-    IOFile.cpp \
     Message.cpp \
-    UndoMove.cpp
+    UndoMove.cpp \
+    IOBoard.cpp
 
 HEADERS += \
     WindowSetting.h \
@@ -21,9 +21,9 @@ HEADERS += \
     GraphicBoard/ImageProvider.h \
     Options.h \
     GraphicBoard/GraphicBoard.h \
-    IOFile.h \
     Message.h \
-    UndoMove.h
+    UndoMove.h \
+    IOBoard.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
