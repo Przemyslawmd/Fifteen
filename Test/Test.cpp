@@ -2,6 +2,8 @@
 #include "Test.h"
 #include "Data.h"
 #include "../Project/Board.cpp"
+#include "../Project/IOBoard.h"
+#include "../Project/IOBoard.cpp"
 #include "../Project/IOFile.h"
 #include "../Project/IOFile.cpp"
 #include "../Project/Options.h"
@@ -73,8 +75,8 @@ void Test::testMoveSquareDefined( int testNumber )
         board->checkMove( rowNumber, colNumber );
     }
 
-    vector<int>& values  = board->sendBoard();
-    vector<int> expectedSquares = dataTest.expectedSquares;
+    vector< int >& values  = board->sendBoard();
+    vector< int > expectedSquares = dataTest.expectedSquares;
 
     for ( int i = 0, k = 0; i < boardSize; i++ )
     {
@@ -108,17 +110,17 @@ void Test::testSaveAndLoadBoard( int testNumber )
         board->checkMove( rowNumber, colNumber );
     }
 
-    IOFile ioFile;
+    IOBoard io;
     QString fileName = "/fileData";
     QString currentDir = QDir::currentPath();
     QString filePath = currentDir + fileName;
-    ioFile.saveNumericBoardInFile( *board, filePath );
+    io.saveNumericBoardInFile( *board, filePath );
 
     board->randomBoard();
     board->randomBoard();
 
     vector< int > fileValues( 0 );
-    ioFile.readBoardFromFile( filePath, fileValues );
+    io.readBoardFromFile( filePath, fileValues );
     boardSize = static_cast< BoardSize >( fileValues.back() );
     fileValues.pop_back();
     board->createBoard( fileValues, boardSize );
@@ -158,7 +160,7 @@ void Test::testCreateGraphicBoard( int testNumber )
     Options::receiveData( move( options ));
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
-    imageProvider.prepareBoardImage( image, testData.squareSize );
+    imageProvider.prepareGraphicBoard( image, testData.squareSize );
     vector< QImage* >& images = imageProvider.getImages( testData.boardSize );
 
     for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )
