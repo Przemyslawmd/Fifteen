@@ -20,8 +20,7 @@ public:
 
 private:
 
-    unique_ptr< QDataStream > getDataStream( QFile&, QIODevice::OpenModeFlag );
-    unique_ptr< QDataStream > insertBoardValuesIntoStream( unique_ptr< QDataStream >, Board& );
+    void insertBoardValuesIntoStream( QDataStream&, Board& );
     bool checkReadValues( vector< int >&, BoardSize );
 };
 

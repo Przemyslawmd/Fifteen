@@ -28,7 +28,7 @@ private:
     bool createScaled( QImage&, BoardSize, SquareSize );
     bool createCropped( QImage&, BoardSize, SquareSize );
     bool createSquareImage( QImage*, BoardSize, SquareSize );
-    bool restoreImagesFromFile( unique_ptr< QDataStream >, BoardSize, SquareSize );
+    bool restoreImagesFromFile( QDataStream&, BoardSize, SquareSize );
 
     vector< QImage* >& getImages();
 

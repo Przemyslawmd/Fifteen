@@ -17,7 +17,7 @@ public:
 
     vector< QImage* >& getImages( BoardSize );
     void prepareGraphicBoard( QImage&, SquareSize );
-    bool restoreGraphicBoardFromFile( unique_ptr< QDataStream >, BoardSize );
+    bool restoreGraphicBoardFromFile( QDataStream&, BoardSize );
     bool isGraphicBoard( BoardSize );
     SquareSize getImageSquareSize();
 

@@ -89,16 +89,16 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( unique_ptr< QDataStream > stream, BoardSize boardSize, SquareSize squareSize )
+bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, SquareSize squareSize )
 {
     int bytesForSquare;
-    *stream >> bytesForSquare;
+    stream >> bytesForSquare;
     uchar* buffer = new uchar[bytesForSquare * boardSize * boardSize];
     QImage* image;
 
     for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
     {
-        stream->readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare );
+        stream.readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare );
         image = new (std::nothrow) QImage( buffer + i * bytesForSquare, squareSize, squareSize, QImage::Format_RGB32 );
 
         if ( image == nullptr )

@@ -3,9 +3,7 @@
 #include "Options.h"
 #include "Message.h"
 #include "GraphicBoard/ImageProvider.h"
-#include <memory>
-
-using std::unique_ptr;
+#include "IOFile.h"
 
 IOBoard::IOBoard(){}
 
@@ -14,15 +12,12 @@ IOBoard::IOBoard(){}
 
 void IOBoard::saveNumericBoardInFile( Board& board, QString fileName )
 {
-    QFile file( fileName );
-    unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
+    IOFile file( fileName, QIODevice::WriteOnly );
+    QDataStream& stream = file.getDataStream();
 
-    *stream << static_cast< int >( BoardMode::NUMERIC );
-    *stream << board.getCurrentSize();
-
-    stream = insertBoardValuesIntoStream( std::move( stream ), board );
-
-    file.close();
+    stream << static_cast< int >( BoardMode::NUMERIC );
+    stream << board.getCurrentSize();
+    insertBoardValuesIntoStream( stream, board );
 }
 
 /*********************************************************************************/
@@ -30,27 +25,25 @@ void IOBoard::saveNumericBoardInFile( Board& board, QString fileName )
 
 void IOBoard::saveGraphicBoardInFile( Board& board, QString fileName )
 {
-    QFile file( fileName );
-    unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::WriteOnly );
+    IOFile file( fileName, QIODevice::WriteOnly );
+    QDataStream& stream = file.getDataStream();
 
-    *stream << static_cast< int >( BoardMode::GRAPHIC );
+    stream << static_cast< int >( BoardMode::GRAPHIC );
     int boardSize = board.getCurrentSize();
-    *stream << boardSize;
+    stream << boardSize;
 
-    stream = insertBoardValuesIntoStream( std::move( stream ), board );
+    insertBoardValuesIntoStream( stream, board );
 
     ImageProvider& provider = ImageProvider::getInstance();
-    *stream << static_cast< int >( provider.getImageSquareSize() );
+    stream << static_cast< int >( provider.getImageSquareSize() );
     vector< QImage* >& pictures = provider.getImages( static_cast< BoardSize >( boardSize ));
     int byteCount = pictures.at( 0 )->byteCount();
-    *stream << byteCount;
+    stream << byteCount;
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {
-        stream->writeRawData( (char*) pictures.at( i )->bits(), byteCount );
+        stream.writeRawData( (char*) pictures.at( i )->bits(), byteCount );
     }
-
-    file.close();
 }
 
 /*********************************************************************************/
@@ -58,24 +51,22 @@ void IOBoard::saveGraphicBoardInFile( Board& board, QString fileName )
 
 bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
 {
-    QFile file( fileName );
-    unique_ptr< QDataStream > stream = getDataStream( file, QIODevice::ReadOnly );
+    IOFile file( fileName, QIODevice::ReadOnly );
+    QDataStream& stream = file.getDataStream();
 
     int boardMode;
-    *stream >> boardMode;
+    stream >> boardMode;
     if ( boardMode != static_cast< int >( BoardMode::GRAPHIC ) && boardMode != static_cast< int >( BoardMode::NUMERIC ))
     {
         Message::putMessage( MessageCode::READ_BOARD_TYPE_ERROR );
-        file.close();
         return false;
     }
 
     int level;
-    *stream >> level;
+    stream >> level;
     if ( level < static_cast< int >( BoardSize::FOUR ) || level > static_cast< int >( BoardSize::SEVEN ))
     {
         Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
-        file.close();
         return false;
     }
 
@@ -83,13 +74,12 @@ bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
 
     for ( int i = 0; i < level * level ; i++ )
     {
-        *stream >> values.at( i );
+        stream >> values.at( i );
     }
 
     if ( checkReadValues( values, static_cast< BoardSize >( level )) == false )
     {
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
-        file.close();
         return false;
     }
 
@@ -102,42 +92,27 @@ bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
         Options::setBoardMode( BoardMode::GRAPHIC );
         ImageProvider& imageProvider = ImageProvider::getInstance();
 
-        if ( imageProvider.restoreGraphicBoardFromFile( std::move( stream ), static_cast< BoardSize >( level )) == false )
+        if ( imageProvider.restoreGraphicBoardFromFile( stream, static_cast< BoardSize >( level )) == false )
         {
-            file.close();
             return false;
         }
     }
 
-    file.close();
     values.push_back( level );
     return true;
 }
 
 /*********************************************************************************/
-/*********************************************************************************/
+/* PRIVATE ***********************************************************************/
 
-unique_ptr< QDataStream > IOBoard::getDataStream( QFile& file, QIODevice::OpenModeFlag mode )
-{
-    file.open( mode );
-    unique_ptr< QDataStream > stream( new QDataStream( &file ));
-    stream->setVersion( QDataStream::Qt_4_6 );
-    return stream;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-unique_ptr< QDataStream > IOBoard::insertBoardValuesIntoStream( unique_ptr< QDataStream > stream, Board& board )
+void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
 {
     vector< int >& values = board.sendBoard();
 
     for ( auto iter = values.begin(); iter != values.end(); iter++ )
     {
-        *stream << *iter;
+        stream << *iter;
     }
-
-    return stream;
 }
 
 /*********************************************************************************/
