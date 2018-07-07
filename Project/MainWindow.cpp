@@ -3,7 +3,7 @@
 #include "Message.h"
 #include "WindowSetting.h"
 #include "WindowAbout.h"
-#include "IOBoard.h"
+#include "FileBoard/IOBoard.h"
 #include "Options.h"
 #include "GraphicBoard/ImageProvider.h"
 #include <QPainter>

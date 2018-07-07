@@ -1,8 +1,8 @@
 
 #include "IOBoard.h"
-#include "Options.h"
-#include "Message.h"
-#include "GraphicBoard/ImageProvider.h"
+#include "../Options.h"
+#include "../Message.h"
+#include "../GraphicBoard/ImageProvider.h"
 #include "IOFile.h"
 
 IOBoard::IOBoard(){}

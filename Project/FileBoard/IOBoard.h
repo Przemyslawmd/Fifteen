@@ -2,7 +2,7 @@
 #ifndef IOBoard_H
 #define IOBoard_H
 
-#include "Board.h"
+#include "../Board.h"
 #include <QFile>
 #include <QIODevice>
 #include <memory>
