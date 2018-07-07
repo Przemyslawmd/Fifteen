@@ -1,7 +1,8 @@
 
 #include "DataGraphic.h"
 
-DataGraphic::DataGraphic( BoardSize board, SquareSize square, GraphicMode mode, QString path, bool four, bool five, bool six, bool seven )
+DataGraphic::DataGraphic( BoardSize board, SquareSize square, GraphicMode mode, QString path,
+                          bool four, bool five, bool six, bool seven )
 {
     this->boardSize = board;
     this->squareSize = square;
@@ -11,5 +12,5 @@ DataGraphic::DataGraphic( BoardSize board, SquareSize square, GraphicMode mode, 
     isFiveToBeLoaded = five;
     isSixToBeLoaded = six;
     isSevenToBeLoaded = seven;
-
 }
+

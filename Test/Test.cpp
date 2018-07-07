@@ -16,6 +16,8 @@ void Test::testCreateBoardSolved( BoardSize size )
     Board* board = Board::createBoard( size );
     vector< int >& values = board->sendBoard();
 
+    QCOMPARE( size * size, static_cast< int >( values.size()) );
+
     for ( int i = 0; i < size * size - 1; i++)
     {
         QCOMPARE( values[i], i + 1 );
@@ -59,33 +61,22 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
 void Test::testMoveSquareDefined( int testNumber )
 {
     Data::DataInit();
-    DataCommon dataTest = Data::getTestVector( testNumber );
+    DataCommon& dataTest = Data::getTestVector( testNumber );
     BoardSize boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
-    vector< int > moves = dataTest.moves;
-    int rowNumber;
-    int colNumber;
+    vector< int >& moves = dataTest.moves;
     int numberOfMoves = moves[0];
 
     for( int i = 1; i <= numberOfMoves ; i++ )
     {
-        rowNumber = moves[i] / 10;
-        colNumber = moves[i] % 10;
-        board->checkMove( rowNumber, colNumber );
+        board->checkMove( moves[i] / 10, moves[i] % 10 );
     }
 
-    vector< int >& values  = board->sendBoard();
-    vector< int > expectedSquares = dataTest.expectedSquares;
+    vector< int >& currentValues  = board->sendBoard();
+    vector< int >& expectedSquares = dataTest.expectedSquares;
 
-    for ( int i = 0, k = 0; i < boardSize; i++ )
-    {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            QCOMPARE( values[k], expectedSquares[k] );
-            k++;
-        }
-    }
+    QCOMPARE( currentValues, expectedSquares );
 }
 
 /*********************************************************************************/
@@ -99,15 +90,11 @@ void Test::testSaveAndLoadBoard( int testNumber )
     Board* board = Board::createBoard( boardSize );
 
     vector< int > moves = dataTest.moves;
-    int rowNumber;
-    int colNumber;
     int numberOfMoves = moves[0];
 
     for( int i = 1; i <= numberOfMoves ; i++ )
     {
-        rowNumber = moves[i] / 10;
-        colNumber = moves[i] % 10;
-        board->checkMove( rowNumber, colNumber );
+        board->checkMove( moves[i] / 10, moves[i] % 10 );
     }
 
     IOBoard io;
@@ -124,19 +111,11 @@ void Test::testSaveAndLoadBoard( int testNumber )
     boardSize = static_cast< BoardSize >( fileValues.back() );
     fileValues.pop_back();
     board->createBoard( fileValues, boardSize );
-    vector< int >& values  = board->sendBoard();
 
-    vector< int > expectedSquares = dataTest.expectedSquares;
-    int k = 0;
+    vector< int >& currentValues  = board->sendBoard();
+    vector< int >& expectedSquares = dataTest.expectedSquares;
 
-    for ( int i = 0; i < boardSize; i++ )
-    {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            QCOMPARE( values[k], expectedSquares[k] );
-            k++;
-        }
-    }
+    QCOMPARE( currentValues, expectedSquares );
 }
 
 /*********************************************************************************/
@@ -188,7 +167,6 @@ void Test::checkSquares( BoardSize boardSize, vector< int >& squares )
         values.removeOne( squares[i] );
     }
 
-    // List should be empty at the end
     QCOMPARE( values.size(), 0 );
 }
 
