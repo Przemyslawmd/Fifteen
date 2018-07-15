@@ -1,8 +1,6 @@
 
 #include "Message.h"
 
-/*********************************************************************************/
-/* PUT MESSAGE *******************************************************************/
 
 void Message::putMessage( MessageCode code )
 {
@@ -10,7 +8,7 @@ void Message::putMessage( MessageCode code )
 }
 
 /*********************************************************************************/
-/* PUT MESSAGE ************ ******************************************************/
+/*********************************************************************************/
 
 void Message::putMessage( MessageCode code, int value )
 {
@@ -18,7 +16,7 @@ void Message::putMessage( MessageCode code, int value )
 }
 
 /*********************************************************************************/
-/* GET MESSAGES ******************************************************************/
+/*********************************************************************************/
 
 QString Message::getMessages()
 {
@@ -37,7 +35,7 @@ QString Message::getMessages()
 
 queue< QString > Message::messageQueue = {};
 
-map< MessageCode, QString> Message::message =
+map< MessageCode, QString > Message::message =
 {
     { MessageCode::GRAPHIC_LOAD_OK,         "Graphic was loaded for a board " },
     { MessageCode::GRAPHIC_LOAD_FAILURE,    "Failure of loading graphic for a board of size " },

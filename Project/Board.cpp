@@ -36,25 +36,6 @@ Board* Board::createBoard( vector< int >& values, BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( BoardSize size )
-{
-    this->size = size;
-    solveBoard();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-Board::Board( vector< int >& values, BoardSize size )
-{
-    this->values.clear();
-    this->values = values;
-    this->size = size;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 Move Board::checkMove( int row, int col )
 {        
     if ( row > 0 && ( values.at(( row - 1 ) * size + col ) == EMPTY_SQUARE ))
@@ -87,9 +68,8 @@ Move Board::checkMove( int row, int col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector<int>& Board::randomBoard()
+vector< int >& Board::randomBoard()
 {
-    // Find an empty square
     int nullSquare = findNullSquare();
 
     // TODO - handle this exception
@@ -100,7 +80,7 @@ vector<int>& Board::randomBoard()
     int nullCol = nullSquare % 10;
 
     Move move;
-    QList<Move> moves;
+    QList< Move > moves;
     QTime time = QTime::currentTime();
 
     // Random 2000 times a direction to move a null square
@@ -147,26 +127,11 @@ vector<int>& Board::randomBoard()
 
             // Remove move which is not allowed and random once again
             moves.removeOne( move );
-            move = moves.at(( qrand() * static_cast<uint>( time.msec()) ) % moves.size() );
+            move = moves.at(( qrand() * static_cast< uint >( time.msec()) ) % moves.size() );
         }
     }
 
     return values;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-int Board::findNullSquare()
-{
-    auto result = find( begin( values ), end( values ), EMPTY_SQUARE );
-    if ( result == end( values ))
-    {
-        return -1;
-    }
-
-    int pos =  distance( begin( values ), result );
-    return pos / size * 10 + pos % size;;
 }
 
 /*********************************************************************************/
@@ -187,9 +152,36 @@ void Board::solveBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector<int>& Board::sendBoard()
+BoardSize Board::getCurrentSize()
+{
+    return size;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+vector< int >& Board::sendBoard()
 {
     return values;
+}
+
+/*********************************************************************************/
+/* PRIVATE ***********************************************************************/
+
+Board::Board( BoardSize size )
+{
+    this->size = size;
+    solveBoard();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+Board::Board( vector< int >& values, BoardSize size )
+{
+    this->values.clear();
+    this->values = values;
+    this->size = size;
 }
 
 /*********************************************************************************/
@@ -205,9 +197,16 @@ void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 /*********************************************************************************/
 /*********************************************************************************/
 
-BoardSize Board::getCurrentSize()
+int Board::findNullSquare()
 {
-    return size;
+    auto result = find( begin( values ), end( values ), EMPTY_SQUARE );
+    if ( result == end( values ))
+    {
+        return -1;
+    }
+
+    int pos =  distance( begin( values ), result );
+    return pos / size * 10 + pos % size;;
 }
 
 /*********************************************************************************/
