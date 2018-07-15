@@ -2,17 +2,16 @@
 #include "Options.h"
 #include <QtGlobal>
 
-/*********************************************************************************/
-/*********************************************************************************/
 
 SquareSize Options::getSquareSize()
 {
-    return sizes[currentSquare].squareSize;
+    return squareStyles[currentSquare].squareSize;
 }
+
 
 int Options::getSquareSizeFont()
 {
-    return sizes[currentSquare].fontSize;
+    return squareStyles[currentSquare].fontSize;
 }
 
 /*********************************************************************************/
@@ -53,7 +52,6 @@ QString& Options::getEmptyStyle()
 
 /*********************************************************************************/
 /*********************************************************************************/
-
 
 bool Options::isImageToBeLoaded( BoardSize size )
 {
@@ -117,13 +115,13 @@ GraphicMode Options::graphicMode = GraphicMode::SCALED;
 
 int Options::currentSquare = 0;
 
-Sizes Options::sizes[]
+SquareStyle Options::squareStyles[]
 {
-    { .squareSize = _50,  .sliderIndex = 1, .fontSize = _20 },
-    { .squareSize = _75,  .sliderIndex = 2, .fontSize = _25 },
-    { .squareSize = _100, .sliderIndex = 3, .fontSize = _30 },
-    { .squareSize = _125, .sliderIndex = 4, .fontSize = _35 },
-    { .squareSize = _150, .sliderIndex = 5, .fontSize = _40 }
+    { .squareSize = _50,  .fontSize = _20, .sliderIndex = 1 },
+    { .squareSize = _75,  .fontSize = _25, .sliderIndex = 2 },
+    { .squareSize = _100, .fontSize = _30, .sliderIndex = 3 },
+    { .squareSize = _125, .fontSize = _35, .sliderIndex = 4 },
+    { .squareSize = _150, .fontSize = _40, .sliderIndex = 5 }
 };
 
 Color Options::currentColor = Color::BLUE;

@@ -13,14 +13,8 @@ enum SquareSize      { _50 = 50, _75 = 75, _100 = 100, _125 = 125, _150 = 150 };
 enum FontSize        { _20 = 20, _25 = 25, _30  = 30,  _35  = 35,  _40  = 40  };
 enum Color           { BLUE, GREEN, RED, EMPTY_STYLE };
 
-typedef struct SizeStruct
-{
-    SquareSize squareSize;
-    int sliderIndex;
-    FontSize fontSize;
-} Sizes;
 
-typedef struct OptionsData_
+typedef struct
 {
     BoardMode boardMode;
     GraphicMode graphicMode;

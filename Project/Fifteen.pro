@@ -25,7 +25,8 @@ HEADERS += \
     Message.h \
     UndoMove.h \
     FileBoard/IOBoard.h \
-    FileBoard/IOFile.h
+    FileBoard/IOFile.h \
+    SquareStyle.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11

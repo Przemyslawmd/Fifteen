@@ -36,3 +36,4 @@ private:
 };
 
 #endif // MESSAGE_H
+

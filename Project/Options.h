@@ -3,6 +3,7 @@
 #define OPTIONS_H
 
 #include "Types.h"
+#include "SquareStyle.h"
 #include <QString>
 #include <QColor>
 #include <memory>
@@ -39,7 +40,7 @@ private:
 
     static int currentSquare;
     static Color currentColor;
-    static Sizes sizes[5];
+    static SquareStyle squareStyles[5];
     static QString styles[4];
     static bool imagesToBeLoaded[4];
 
