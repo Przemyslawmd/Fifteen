@@ -33,7 +33,7 @@ void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
     stream << static_cast< int >( boardSize );
 
     insertBoardValuesIntoStream( stream, board );
-    insertBoardGraphicDataIntoStream( stream, boardSize );
+    insertBoardPicturesIntoStream( stream, boardSize );
 }
 
 /*********************************************************************************/
