@@ -44,51 +44,50 @@ bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
 
-    int boardMode;
-    stream >> boardMode;
-    if ( boardMode != static_cast< int >( BoardMode::GRAPHIC ) && boardMode != static_cast< int >( BoardMode::NUMERIC ))
+    int boardModeInt;
+    stream >> boardModeInt;
+    BoardMode boardMode = static_cast< BoardMode >( boardModeInt );
+
+    if ( boardMode != BoardMode::GRAPHIC && boardMode != BoardMode::NUMERIC )
     {
         Message::putMessage( MessageCode::READ_BOARD_TYPE_ERROR );
         return false;
     }
 
-    int level;
-    stream >> level;
-    if ( level < static_cast< int >( BoardSize::FOUR ) || level > static_cast< int >( BoardSize::SEVEN ))
+    int boardSize;
+    stream >> boardSize;
+    if ( boardSize < static_cast< int >( BoardSize::FOUR ) || boardSize > static_cast< int >( BoardSize::SEVEN ))
     {
         Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
         return false;
     }
 
-    values.resize( level * level );
+    int squareCount = boardSize * boardSize;
+    values.resize( squareCount );
 
-    for ( int i = 0; i < level * level ; i++ )
+    for ( int i = 0; i < squareCount ; i++ )
     {
         stream >> values.at( i );
     }
 
-    if ( checkReadValues( values, static_cast< BoardSize >( level )) == false )
+    if ( checkReadValues( values, squareCount ) == false )
     {
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
         return false;
     }
 
-    if ( boardMode == static_cast< int >( BoardMode::NUMERIC ))
-    {
-        Options::setBoardMode( BoardMode::NUMERIC );
-    }
-    else
-    {
-        Options::setBoardMode( BoardMode::GRAPHIC );
-        ImageProvider& imageProvider = ImageProvider::getInstance();
+    Options::setBoardMode( boardMode );
 
-        if ( imageProvider.restoreGraphicBoardFromFile( stream, static_cast< BoardSize >( level )) == false )
+    if ( boardMode == BoardMode::GRAPHIC )
+    {
+        ImageProvider& imageProvider = ImageProvider::getInstance();
+        if ( imageProvider.restoreGraphicBoardFromFile( stream, static_cast< BoardSize >( boardSize )) == false )
         {
             return false;
         }
     }
 
-    values.push_back( level );
+    values.push_back( boardSize );
     return true;
 }
 
@@ -125,11 +124,11 @@ void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boar
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::checkReadValues( vector< int >& readValues, BoardSize boardSize )
+bool IOBoard::checkReadValues( vector< int >& readValues, int squareCount )
 {
-    vector< int > valuesToCompare;
+    vector< int > valuesToCompare( squareCount );
 
-    for ( int i = 0; i < boardSize * boardSize; i++ )
+    for ( int i = 0; i < squareCount; i++ )
     {
         valuesToCompare.push_back( i );
     }
