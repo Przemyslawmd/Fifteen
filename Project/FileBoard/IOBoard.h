@@ -14,13 +14,14 @@ class IOBoard
 public:
     IOBoard();
 
-    void saveNumericBoardInFile( Board&, QString fileName );
-    void saveGraphicBoardInFile( Board&, QString fileName );
+    void saveNumericBoardInFile( Board&, const QString& fileName );
+    void saveGraphicBoardInFile( Board&, const QString& fileName );
     bool readBoardFromFile( QString fileName, vector< int >& );
 
 private:
 
     void insertBoardValuesIntoStream( QDataStream&, Board& );
+    void insertBoardPicturesIntoStream( QDataStream&, BoardSize );
     bool checkReadValues( vector< int >&, BoardSize );
 };
 

@@ -12,7 +12,7 @@ friend class IOBoard;
 
 private:
 
-    IOFile( QString& filePath, QIODevice::OpenModeFlag );
+    IOFile( const QString& filePath, QIODevice::OpenModeFlag );
     ~IOFile();
 
     QDataStream& getDataStream();

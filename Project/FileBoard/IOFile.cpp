@@ -1,7 +1,7 @@
 
 #include "IOFile.h"
 
-IOFile::IOFile( QString& fileName, QIODevice::OpenModeFlag mode ) : file( fileName )
+IOFile::IOFile( const QString& fileName, QIODevice::OpenModeFlag mode ) : file( fileName )
 {
     file.open( mode );
     stream = new QDataStream( &file );

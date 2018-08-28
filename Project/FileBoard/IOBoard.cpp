@@ -10,7 +10,7 @@ IOBoard::IOBoard(){}
 /*********************************************************************************/
 /*********************************************************************************/
 
-void IOBoard::saveNumericBoardInFile( Board& board, QString fileName )
+void IOBoard::saveNumericBoardInFile( Board& board, const QString& fileName )
 {
     IOFile file( fileName, QIODevice::WriteOnly );
     QDataStream& stream = file.getDataStream();
@@ -23,27 +23,17 @@ void IOBoard::saveNumericBoardInFile( Board& board, QString fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void IOBoard::saveGraphicBoardInFile( Board& board, QString fileName )
+void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
 {
     IOFile file( fileName, QIODevice::WriteOnly );
     QDataStream& stream = file.getDataStream();
 
     stream << static_cast< int >( BoardMode::GRAPHIC );
-    int boardSize = board.getCurrentSize();
-    stream << boardSize;
+    BoardSize boardSize = board.getCurrentSize();
+    stream << static_cast< int >( boardSize );
 
     insertBoardValuesIntoStream( stream, board );
-
-    ImageProvider& provider = ImageProvider::getInstance();
-    stream << static_cast< int >( provider.getImageSquareSize() );
-    vector< QImage* >& pictures = provider.getImages( static_cast< BoardSize >( boardSize ));
-    int byteCount = pictures.at( 0 )->byteCount();
-    stream << byteCount;
-
-    for ( int i = 0; i < boardSize * boardSize; i++ )
-    {
-        stream.writeRawData( (char*) pictures.at( i )->bits(), byteCount );
-    }
+    insertBoardGraphicDataIntoStream( stream, boardSize );
 }
 
 /*********************************************************************************/
@@ -112,6 +102,23 @@ void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
     for ( auto iter = values.begin(); iter != values.end(); iter++ )
     {
         stream << *iter;
+    }
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boardSize)
+{
+    ImageProvider& provider = ImageProvider::getInstance();
+    stream << static_cast< int >( provider.getImageSquareSize() );
+    vector< QImage* >& pictures = provider.getImages( boardSize );
+    int byteCount = pictures.at( 0 )->byteCount();
+    stream << byteCount;
+
+    for ( auto iter = pictures.begin(); iter != pictures.end(); iter++ )
+    {
+        stream.writeRawData( (char*) (*iter)->bits(), byteCount );
     }
 }
 
