@@ -79,20 +79,21 @@ bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize 
     removeBoard( images.at( boardSize ));
     images.at( boardSize ) = new GraphicBoard();
 
-    int imageSize;
-    stream >> imageSize;
+    int squareSizeInt;
+    stream >> squareSizeInt;
+    SquareSize squareSize = static_cast< SquareSize >( squareSizeInt );
 
-    if ( imageSize != static_cast< int >( SquareSize::_50 )  && imageSize != static_cast< int >( SquareSize::_75 )  &&
-         imageSize != static_cast< int >( SquareSize::_100 ) && imageSize != static_cast< int >( SquareSize::_125 ) &&
-         imageSize != static_cast< int >( SquareSize::_150 ))
+    if ( squareSize != SquareSize::_50  && squareSize != SquareSize::_75   &&
+         squareSize != SquareSize::_100 && squareSize != SquareSize::_125  &&
+         squareSize != SquareSize::_150 )
     {
         Message::putMessage( MessageCode::READ_BOARD_IMAGES_ERROR );
         return false;
     }
 
-    if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, static_cast< SquareSize >( imageSize )))
+    if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, squareSize ))
     {
-        imageSquareSize = static_cast< SquareSize >( imageSize );
+        imageSquareSize = squareSize;
     }
     else
     {

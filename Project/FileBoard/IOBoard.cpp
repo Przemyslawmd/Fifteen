@@ -54,9 +54,11 @@ bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
         return false;
     }
 
-    int boardSize;
-    stream >> boardSize;
-    if ( boardSize < static_cast< int >( BoardSize::FOUR ) || boardSize > static_cast< int >( BoardSize::SEVEN ))
+    int boardSizeInt;
+    stream >> boardSizeInt;
+    BoardSize boardSize = static_cast< BoardSize >( boardSizeInt );
+
+    if ( boardSize < BoardSize::FOUR || boardSize > BoardSize::SEVEN )
     {
         Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
         return false;
@@ -81,7 +83,7 @@ bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
     if ( boardMode == BoardMode::GRAPHIC )
     {
         ImageProvider& imageProvider = ImageProvider::getInstance();
-        if ( imageProvider.restoreGraphicBoardFromFile( stream, static_cast< BoardSize >( boardSize )) == false )
+        if ( imageProvider.restoreGraphicBoardFromFile( stream, boardSize ) == false )
         {
             return false;
         }
