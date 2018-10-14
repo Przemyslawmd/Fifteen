@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum class Action { OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT };
+    friend class GUI;
 
     Board* board;
     UndoMove* undoMoveService;

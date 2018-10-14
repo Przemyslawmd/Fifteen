@@ -14,6 +14,8 @@ enum FontSize        { _20 = 20, _25 = 25, _30  = 30,  _35  = 35,  _40  = 40  };
 enum Color           { BLUE, GREEN, RED, EMPTY_STYLE };
 
 
+enum class Action { OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT };
+
 typedef struct
 {
     BoardMode boardMode;

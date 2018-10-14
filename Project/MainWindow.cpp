@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFont>
+#include <GUI.h>
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
@@ -32,30 +33,8 @@ void MainWindow::createMenu()
     fileMenu.setTitle( "File" );
     fileMenu.setStyleSheet( "padding-left:10px;" );
 
-    action[Action::OPEN_GRAPHIC] = new QAction( this );
-    action[Action::OPEN_GRAPHIC]->setText( "Load Graphic File" );
-    connect( action[Action::OPEN_GRAPHIC], SIGNAL( triggered()), this, SLOT( slotLoadGraphic()));
-
-    action[Action::REM_GRAPHIC ] = new QAction( this );
-    action[Action::REM_GRAPHIC]->setText( "Remove Graphic" );
-    action[Action::REM_GRAPHIC]->setEnabled( false );
-    connect( action[Action::REM_GRAPHIC], SIGNAL( triggered()), this, SLOT( slotRemoveGraphic()));
-
-    action[Action::SAVE_BOARD] = new QAction( this );
-    action[Action::SAVE_BOARD]->setText( "Save Board" );
-    connect( action[Action::SAVE_BOARD], SIGNAL( triggered()), this, SLOT( slotSaveBoard()));
-
-    action[Action::LOAD_BOARD] = new QAction( this );
-    action[Action::LOAD_BOARD]->setText( "Load Board" );
-    connect( action[Action::LOAD_BOARD], SIGNAL( triggered()), SLOT( slotReadBoard()));
-
-    action[Action::SETTINGS] = new QAction( this );
-    action[Action::SETTINGS]->setText( "Settings" );
-    connect( action[Action::SETTINGS], SIGNAL( triggered()), this, SLOT( slotSettings()));
-
-    action[Action::ABOUT] = new QAction( this );
-    action[Action::ABOUT]->setText( "About" );
-    connect( action[Action::ABOUT], SIGNAL( triggered()), this, SLOT( slotAbout()));
+    GUI gui;
+    gui.bindMenuActions( this, action );
 
     fileMenu.addAction( action[Action::OPEN_GRAPHIC] );
     fileMenu.addSeparator();
