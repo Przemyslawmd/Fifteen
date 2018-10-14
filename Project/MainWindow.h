@@ -6,8 +6,6 @@
 #include "Types.h"
 #include "UndoMove.h"
 #include <QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -33,8 +31,6 @@ class MainWindow : public QMainWindow
     map< Action, QAction* > action;
 
     QWidget* mainPanel;
-    QMenuBar mainMenu;
-    QMenu fileMenu;
 
     QHBoxLayout* mainLayout;
     QVBoxLayout rightLayout;
@@ -57,8 +53,6 @@ class MainWindow : public QMainWindow
     QGroupBox radioKindBox;
     QButtonGroup radioKindGroup;
     QVBoxLayout radioKindLayout;
-
-    void createMenu();
 
     void createRightPanel();
     void createLayouts();

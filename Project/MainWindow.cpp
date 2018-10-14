@@ -17,39 +17,13 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 {
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
-    createMenu();
+    GUI gui;
+    gui.createMenu( this, action );
     createRightPanel();
     createLayouts();
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void MainWindow::createMenu()
-{    
-    fileMenu.setTitle( "File" );
-    fileMenu.setStyleSheet( "padding-left:10px;" );
-
-    GUI gui;
-    gui.bindMenuActions( this, action );
-
-    fileMenu.addAction( action[Action::OPEN_GRAPHIC] );
-    fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::REM_GRAPHIC] );
-    fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::SAVE_BOARD] );
-    fileMenu.addSeparator();
-    fileMenu.addAction( action[Action::LOAD_BOARD] );
-
-    mainMenu.addMenu( &fileMenu );
-    mainMenu.addAction( action[Action::SETTINGS] );
-    mainMenu.addAction( action[Action::ABOUT] );
-    mainMenu.setStyleSheet( "padding-left: 5px; margin: 3px;" );
-
-    this->setMenuBar( &mainMenu );
 }
 
 /*********************************************************************************/

@@ -19,7 +19,7 @@ Q_OBJECT
 public:
     GUI();
 
-    void bindMenuActions( MainWindow*, map< Action, QAction* >& actions );
+    void createMenu( MainWindow*, map< Action, QAction* >& );
 
 private:
 
