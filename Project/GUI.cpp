@@ -39,8 +39,35 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightPanel( QGroupBox* radioSizeBox, QPushButton*& pushUndo, QVBoxLayout*& rightLayout, map< BoardMode, QRadioButton* >& mapRadioKind )
+QVBoxLayout* GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUndo, map< BoardMode, QRadioButton* >& mapRadioKind,
+                                                                                            map< BoardSize, QRadioButton* >& mapRadioSize)
 {
+    mapRadioSize[BoardSize::FOUR] = new QRadioButton();
+    mapRadioSize[BoardSize::FIVE] = new QRadioButton();
+    mapRadioSize[BoardSize::SIX] = new QRadioButton();
+    mapRadioSize[BoardSize::SEVEN] = new QRadioButton();
+
+    QVBoxLayout* radioSizeLayout = new QVBoxLayout();
+    radioSizeGroup = new QButtonGroup();
+    for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapRadioSize )
+    {
+        radioSizeLayout->addSpacing( 10 );
+        radioSizeLayout->addWidget( radioSizePair.second );
+        radioSizePair.second->setStyleSheet( "margin-left:5px;" );
+        radioSizeGroup->addButton( radioSizePair.second );
+        radioSizeGroup->setId( radioSizePair.second, radioSizePair.first );
+    }
+    radioSizeLayout->addSpacing( 30 );
+
+    mapRadioSize[BoardSize::FOUR]->setText( "4" );
+    mapRadioSize[BoardSize::FIVE]->setText( "5" );
+    mapRadioSize[BoardSize::SIX]->setText( "6" );
+    mapRadioSize[BoardSize::SEVEN]->setText( "7" );
+    mapRadioSize[BoardSize::FOUR]->setChecked( true );
+
+    QGroupBox* radioSizeBox = new QGroupBox(" Dimension of Board ");
+    radioSizeBox->setLayout( radioSizeLayout );
+
     mapRadioKind[BoardMode::NUMERIC] = new QRadioButton();
     mapRadioKind[BoardMode::GRAPHIC] = new QRadioButton();
 
@@ -76,18 +103,19 @@ void GUI::createRightPanel( QGroupBox* radioSizeBox, QPushButton*& pushUndo, QVB
     pushUndo->setDisabled( true );
     connect( pushUndo, &QPushButton::clicked, &owner, &MainWindow::slotUndoMove );
 
-    rightLayout = new QVBoxLayout();
-    rightLayout->setContentsMargins( 30, 0, 20, 0 );
-    rightLayout->addWidget( pushRandom );
-    rightLayout->addSpacing( 15 );
-    rightLayout->addWidget( pushSolve );
-    rightLayout->addSpacing( 15 );
-    rightLayout->addWidget( pushUndo );
-    rightLayout->addSpacing( 30 );
-    rightLayout->addWidget( radioSizeBox );
-    rightLayout->addStretch();
-    rightLayout->addWidget( radioKindBox );
-    rightLayout->addStretch();
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->setContentsMargins( 30, 0, 20, 0 );
+    layout->addWidget( pushRandom );
+    layout->addSpacing( 15 );
+    layout->addWidget( pushSolve );
+    layout->addSpacing( 15 );
+    layout->addWidget( pushUndo );
+    layout->addSpacing( 30 );
+    layout->addWidget( radioSizeBox );
+    layout->addStretch();
+    layout->addWidget( radioKindBox );
+    layout->addStretch();
+    return layout;
 }
 
 /*********************************************************************************/

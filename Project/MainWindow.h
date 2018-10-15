@@ -32,7 +32,6 @@ class MainWindow : public QMainWindow
 
     QWidget* mainPanel;
 
-    QVBoxLayout* rightLayout;
     QVBoxLayout* boardVerticalLayout;
     QHBoxLayout* boardHorizontalLayout;
     vector< QPushButton* > squares;
@@ -40,11 +39,9 @@ class MainWindow : public QMainWindow
     QPushButton* pushUndo;
 
     map< BoardSize, QRadioButton* > radioSize;
-    QGroupBox* radioSizeBox;
-    QButtonGroup radioSizeGroup;
-    QVBoxLayout radioSizeLayout;
-
     map< BoardMode, QRadioButton* > radioKind;
+
+    QButtonGroup* radioSizeGroup;
 
     void createRightPanel();
     void createLayouts();

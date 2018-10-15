@@ -19,63 +19,11 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     resize( 750, 550 );
     GUI gui( *this );
     gui.createMenu( action );
-    createRightPanel();
-    gui.createRightPanel( radioSizeBox, pushUndo, rightLayout, radioKind );
+    QVBoxLayout* rightLayout = gui.createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
     gui.completeLayouts( mainPanel, boardVerticalLayout, rightLayout );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void MainWindow::createRightPanel()
-{
-    radioSize[BoardSize::FOUR] = new QRadioButton();
-    radioSize[BoardSize::FIVE] = new QRadioButton();
-    radioSize[BoardSize::SIX] = new QRadioButton();
-    radioSize[BoardSize::SEVEN] = new QRadioButton();
-
-    for( std::pair< BoardSize, QRadioButton* > radioSizePair : radioSize )
-    {
-        radioSizeLayout.addSpacing( 10 );
-        radioSizeLayout.addWidget( radioSizePair.second );
-        radioSizePair.second->setStyleSheet( "margin-left:5px;" );
-        radioSizeGroup.addButton( radioSizePair.second );
-        radioSizeGroup.setId( radioSizePair.second, radioSizePair.first );
-    }
-    radioSizeLayout.addSpacing( 30 );
-
-    radioSize[BoardSize::FOUR]->setText( "4" );
-    radioSize[BoardSize::FIVE]->setText( "5" );
-    radioSize[BoardSize::SIX]->setText( "6" );
-    radioSize[BoardSize::SEVEN]->setText( "7" );
-    radioSize[BoardSize::FOUR]->setChecked( true );
-
-    radioSizeBox = new QGroupBox(" Dimension of Board ");
-    radioSizeBox->setLayout( &radioSizeLayout );
-
-    /*
-    radioKind[BoardMode::NUMERIC] = new QRadioButton();
-    radioKind[BoardMode::GRAPHIC] = new QRadioButton();
-
-
-
-    radioKind[BoardMode::NUMERIC]->setChecked( true );
-    radioKind[BoardMode::NUMERIC]->setText( "Numeric" );
-    radioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
-
-    radioKindLayout = new QVBoxLayout();
-    for( std::pair< BoardMode, QRadioButton* > radioKindPair : radioKind )
-    {
-        radioKindLayout->addSpacing( 10 );
-        radioKindLayout->addWidget( radioKindPair.second );
-        radioKindPair.second->setStyleSheet( "margin-left:5px;" );
-        radioKindGroup.addButton( radioKindPair.second );
-    }
-    radioKindLayout->addSpacing( 30 );
-    */
 }
 
 /*********************************************************************************/
@@ -240,7 +188,7 @@ void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize boardSize = static_cast< BoardSize >( radioSizeGroup.checkedId());
+    BoardSize boardSize = static_cast< BoardSize >( radioSizeGroup->checkedId() );
 
     // In case of graphic board check whether there is a proper image loaded
     if ( radioKind[BoardMode::GRAPHIC]->isChecked() )
@@ -359,7 +307,6 @@ void MainWindow::pressSquare()
 
 void MainWindow::makeMove( Move move, int row, int col )
 {
-    // Set pointer to a method for moving squares, according to kind of a board
     moveSquare = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericSquares :
                                                                      &MainWindow::moveGraphicSquares;
 
