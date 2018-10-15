@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow
     QHBoxLayout* mainLayout;
     QVBoxLayout rightLayout;
 
-    QVBoxLayout boardVerticalLayout;
+    QVBoxLayout* boardVerticalLayout;
     QHBoxLayout* boardHorizontalLayout;
     QGroupBox* boxImages;
     vector< QPushButton* > squares;
