@@ -32,12 +32,9 @@ class MainWindow : public QMainWindow
 
     QWidget* mainPanel;
 
-    QHBoxLayout* mainLayout;
     QVBoxLayout rightLayout;
-
     QVBoxLayout* boardVerticalLayout;
     QHBoxLayout* boardHorizontalLayout;
-    QGroupBox* boxImages;
     vector< QPushButton* > squares;
 
     QPushButton pushRandom;

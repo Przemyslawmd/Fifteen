@@ -17,13 +17,17 @@ class GUI : public QMainWindow
 Q_OBJECT
 
 public:
-    GUI();
 
-    void createMenu( MainWindow*, map< Action, QAction* >& );
+    GUI( MainWindow& );
+
+    void createMenu( map< Action, QAction* >& );
+    void completeLayouts( QWidget* mainPanel, QVBoxLayout*&, QVBoxLayout* );
 
 private:
 
-    void bindAction( QAction*& action, SlotMainWindow, MainWindow*, QString );
+    void bindAction( QAction*&, SlotMainWindow, QString );
+
+    MainWindow& owner;
 };
 
 #endif // GUI_H

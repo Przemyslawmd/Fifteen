@@ -17,10 +17,10 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 {
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
-    GUI gui;
-    gui.createMenu( this, action );
+    GUI gui( *this );
+    gui.createMenu( action );
     createRightPanel();
-    createLayouts();
+    gui.completeLayouts( mainPanel, boardVerticalLayout, &rightLayout );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
@@ -98,27 +98,6 @@ void MainWindow::createRightPanel()
     rightLayout.addStretch();
     rightLayout.addWidget( &radioKindBox );
     rightLayout.addStretch();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void MainWindow::createLayouts()
-{
-    mainPanel = new QWidget();
-    mainPanel->setContentsMargins( 20, 20, 0, 10 );
-
-    boardVerticalLayout = new QVBoxLayout();
-    boardVerticalLayout->setSpacing( 0 );
-
-    boxImages = new QGroupBox();
-    boxImages->setLayout( boardVerticalLayout );
-
-    mainLayout = new QHBoxLayout( mainPanel );
-    mainLayout->addWidget( boxImages );
-    mainLayout->addLayout( &rightLayout );
-
-    this->setCentralWidget( mainPanel );
 }
 
 /*********************************************************************************/
@@ -427,7 +406,7 @@ void MainWindow::makeMove( Move move, int row, int col )
 }
 
 /*********************************************************************************/
-/* MOVE NUMERIC SQUARES **********************************************************/
+/*********************************************************************************/
 
 void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
@@ -441,7 +420,7 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 }
 
 /*********************************************************************************/
-/* MOVE GRAPHIC SQUARES **********************************************************/
+/*********************************************************************************/
 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
@@ -604,7 +583,7 @@ void MainWindow::setColor()
 }
 
 /*********************************************************************************/
-/* REDRAW SQUARES ****************************************************************/
+/*********************************************************************************/
 
 void MainWindow::redrawSquares()
 {
