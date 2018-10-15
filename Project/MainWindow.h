@@ -45,9 +45,6 @@ class MainWindow : public QMainWindow
     QVBoxLayout radioSizeLayout;
 
     map< BoardMode, QRadioButton* > radioKind;
-    QGroupBox* radioKindBox;
-    QButtonGroup radioKindGroup;
-    QVBoxLayout radioKindLayout;
 
     void createRightPanel();
     void createLayouts();

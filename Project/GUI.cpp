@@ -39,8 +39,29 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightPanel( QGroupBox* radioSizeBox, QGroupBox* radioKindBox, QPushButton*& pushUndo, QVBoxLayout*& rightLayout )
+void GUI::createRightPanel( QGroupBox* radioSizeBox, QPushButton*& pushUndo, QVBoxLayout*& rightLayout, map< BoardMode, QRadioButton* >& mapRadioKind )
 {
+    mapRadioKind[BoardMode::NUMERIC] = new QRadioButton();
+    mapRadioKind[BoardMode::GRAPHIC] = new QRadioButton();
+
+    mapRadioKind[BoardMode::NUMERIC]->setChecked( true );
+    mapRadioKind[BoardMode::NUMERIC]->setText( "Numeric" );
+    mapRadioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
+
+    QVBoxLayout* radioKindLayout = new QVBoxLayout();
+    QButtonGroup* radioKindGroup = new QButtonGroup();
+    for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapRadioKind )
+    {
+        radioKindLayout->addSpacing( 10 );
+        radioKindLayout->addWidget( radioKindPair.second );
+        radioKindPair.second->setStyleSheet( "margin-left:5px;" );
+        radioKindGroup->addButton( radioKindPair.second );
+    }
+    radioKindLayout->addSpacing( 30 );
+
+    QGroupBox* radioKindBox = new QGroupBox(" Kind of Board ");
+    radioKindBox->setLayout( radioKindLayout );
+
     QPushButton* pushRandom = new QPushButton(" Generate Board ");
     pushRandom->setStyleSheet( "height:20px;" );
     connect( pushRandom, &QPushButton::clicked, &owner, &MainWindow::slotGenerateBoard );

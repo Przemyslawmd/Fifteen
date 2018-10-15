@@ -20,7 +20,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     GUI gui( *this );
     gui.createMenu( action );
     createRightPanel();
-    gui.createRightPanel( radioSizeBox, radioKindBox, pushUndo, rightLayout );
+    gui.createRightPanel( radioSizeBox, pushUndo, rightLayout, radioKind );
     gui.completeLayouts( mainPanel, boardVerticalLayout, rightLayout );
     createSquares();
     setSquaresNumeric( false );
@@ -56,24 +56,26 @@ void MainWindow::createRightPanel()
     radioSizeBox = new QGroupBox(" Dimension of Board ");
     radioSizeBox->setLayout( &radioSizeLayout );
 
+    /*
     radioKind[BoardMode::NUMERIC] = new QRadioButton();
     radioKind[BoardMode::GRAPHIC] = new QRadioButton();
 
-    for( std::pair< BoardMode, QRadioButton* > radioKindPair : radioKind )
-    {
-        radioKindLayout.addSpacing( 10 );
-        radioKindLayout.addWidget( radioKindPair.second );
-        radioKindPair.second->setStyleSheet( "margin-left:5px;" );
-        radioKindGroup.addButton( radioKindPair.second );
-    }
-    radioKindLayout.addSpacing( 30 );
+
 
     radioKind[BoardMode::NUMERIC]->setChecked( true );
     radioKind[BoardMode::NUMERIC]->setText( "Numeric" );
     radioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
 
-    radioKindBox = new QGroupBox(" Kind of Board ");
-    radioKindBox->setLayout( &radioKindLayout );
+    radioKindLayout = new QVBoxLayout();
+    for( std::pair< BoardMode, QRadioButton* > radioKindPair : radioKind )
+    {
+        radioKindLayout->addSpacing( 10 );
+        radioKindLayout->addWidget( radioKindPair.second );
+        radioKindPair.second->setStyleSheet( "margin-left:5px;" );
+        radioKindGroup.addButton( radioKindPair.second );
+    }
+    radioKindLayout->addSpacing( 30 );
+    */
 }
 
 /*********************************************************************************/

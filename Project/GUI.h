@@ -21,7 +21,7 @@ public:
     GUI( MainWindow& );
 
     void createMenu( map< Action, QAction* >& );
-    void createRightPanel( QGroupBox*, QGroupBox*, QPushButton*&, QVBoxLayout*& );
+    void createRightPanel( QGroupBox*, QPushButton*&, QVBoxLayout*&, map< BoardMode, QRadioButton* >& );
     void completeLayouts( QWidget* mainPanel, QVBoxLayout*&, QVBoxLayout* );
 
 private:
