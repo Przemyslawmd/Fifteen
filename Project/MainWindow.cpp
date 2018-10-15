@@ -20,7 +20,8 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     GUI gui( *this );
     gui.createMenu( action );
     createRightPanel();
-    gui.completeLayouts( mainPanel, boardVerticalLayout, &rightLayout );
+    gui.createRightPanel( radioSizeBox, radioKindBox, pushUndo, rightLayout );
+    gui.completeLayouts( mainPanel, boardVerticalLayout, rightLayout );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
@@ -31,19 +32,6 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 
 void MainWindow::createRightPanel()
 {
-    pushRandom.setText( "Generate Board" );
-    pushRandom.setStyleSheet( "height:20px;" );
-    connect( &pushRandom, SIGNAL( clicked() ), this, SLOT( slotGenerateBoard() ));
-
-    pushSolve.setText( "Solve Board" );
-    pushSolve.setStyleSheet( "height:20px;" );
-    connect( &pushSolve, SIGNAL( clicked() ), this, SLOT( slotSolveBoard() ));
-
-    pushUndo.setText("Undo Move");
-    pushUndo.setStyleSheet( "height:20px;" );
-    pushUndo.setDisabled( true );
-    connect( &pushUndo, SIGNAL( clicked() ), this, SLOT( slotUndoMove() ));
-
     radioSize[BoardSize::FOUR] = new QRadioButton();
     radioSize[BoardSize::FIVE] = new QRadioButton();
     radioSize[BoardSize::SIX] = new QRadioButton();
@@ -65,8 +53,8 @@ void MainWindow::createRightPanel()
     radioSize[BoardSize::SEVEN]->setText( "7" );
     radioSize[BoardSize::FOUR]->setChecked( true );
 
-    radioSizeBox.setTitle( "Dimension of Board" );
-    radioSizeBox.setLayout( &radioSizeLayout );
+    radioSizeBox = new QGroupBox(" Dimension of Board ");
+    radioSizeBox->setLayout( &radioSizeLayout );
 
     radioKind[BoardMode::NUMERIC] = new QRadioButton();
     radioKind[BoardMode::GRAPHIC] = new QRadioButton();
@@ -84,20 +72,8 @@ void MainWindow::createRightPanel()
     radioKind[BoardMode::NUMERIC]->setText( "Numeric" );
     radioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
 
-    radioKindBox.setTitle( "Kind of Board" );
-    radioKindBox.setLayout( &radioKindLayout );
-
-    rightLayout.setContentsMargins( 30, 0, 20, 0 );
-    rightLayout.addWidget( &pushRandom );
-    rightLayout.addSpacing( 15 );
-    rightLayout.addWidget( &pushSolve );
-    rightLayout.addSpacing( 15 );
-    rightLayout.addWidget( &pushUndo );
-    rightLayout.addSpacing( 30 );
-    rightLayout.addWidget( &radioSizeBox );
-    rightLayout.addStretch();
-    rightLayout.addWidget( &radioKindBox );
-    rightLayout.addStretch();
+    radioKindBox = new QGroupBox(" Kind of Board ");
+    radioKindBox->setLayout( &radioKindLayout );
 }
 
 /*********************************************************************************/
@@ -605,7 +581,7 @@ void MainWindow::redrawSquares()
 void MainWindow::createUndoMovesService()
 {
     undoMoveService = new UndoMove();
-    pushUndo.setDisabled( false );
+    pushUndo->setDisabled( false );
 }
 
 /*********************************************************************************/
@@ -615,7 +591,7 @@ void MainWindow::deleteUndoMovesService()
 {
     delete undoMoveService;
     undoMoveService = nullptr;
-    pushUndo.setDisabled( true );
+    pushUndo->setDisabled( true );
 }
 
 /*********************************************************************************/

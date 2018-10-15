@@ -39,6 +39,39 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
+void GUI::createRightPanel( QGroupBox* radioSizeBox, QGroupBox* radioKindBox, QPushButton*& pushUndo, QVBoxLayout*& rightLayout )
+{
+    QPushButton* pushRandom = new QPushButton(" Generate Board ");
+    pushRandom->setStyleSheet( "height:20px;" );
+    connect( pushRandom, &QPushButton::clicked, &owner, &MainWindow::slotGenerateBoard );
+
+    QPushButton* pushSolve = new QPushButton(" Solve Board ");
+    pushSolve->setStyleSheet( "height:20px;" );
+    connect( pushSolve, &QPushButton::clicked, &owner, &MainWindow::slotSolveBoard );
+
+    pushUndo = new QPushButton(" Undo Move ");
+    pushUndo->setText("Undo Move");
+    pushUndo->setStyleSheet( "height:20px;" );
+    pushUndo->setDisabled( true );
+    connect( pushUndo, &QPushButton::clicked, &owner, &MainWindow::slotUndoMove );
+
+    rightLayout = new QVBoxLayout();
+    rightLayout->setContentsMargins( 30, 0, 20, 0 );
+    rightLayout->addWidget( pushRandom );
+    rightLayout->addSpacing( 15 );
+    rightLayout->addWidget( pushSolve );
+    rightLayout->addSpacing( 15 );
+    rightLayout->addWidget( pushUndo );
+    rightLayout->addSpacing( 30 );
+    rightLayout->addWidget( radioSizeBox );
+    rightLayout->addStretch();
+    rightLayout->addWidget( radioKindBox );
+    rightLayout->addStretch();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 void GUI::completeLayouts( QWidget* mainPanel, QVBoxLayout*& boardVerticalLayout, QVBoxLayout* rightLayout )
 {
     mainPanel = new QWidget();
