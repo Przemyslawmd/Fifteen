@@ -12,11 +12,12 @@ using std::unique_ptr;
 class IOBoard
 {
 public:
+
     IOBoard();
 
     void saveNumericBoardInFile( Board&, const QString& fileName );
     void saveGraphicBoardInFile( Board&, const QString& fileName );
-    bool readBoardFromFile( QString fileName, vector< int >& );
+    bool readBoardFromFile( const QString& fileName, vector< int >& );
 
 private:
 

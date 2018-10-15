@@ -39,7 +39,7 @@ void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::readBoardFromFile( QString fileName, vector< int >& values )
+bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& values )
 {
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
@@ -137,9 +137,9 @@ bool IOBoard::checkReadValues( vector< int >& readValues, int squareCount )
 
     for ( int value : readValues )
     {
-        auto it = std::find( std::begin( valuesToCompare ), std::end( valuesToCompare ), value );
+        auto it = std::find( valuesToCompare.begin(), valuesToCompare.end(), value );
 
-        if ( it == std::end( valuesToCompare ))
+        if ( it == valuesToCompare.end() )
         {
             return false;
         }
