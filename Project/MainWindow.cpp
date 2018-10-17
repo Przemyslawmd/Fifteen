@@ -201,17 +201,16 @@ void MainWindow::slotGenerateBoard()
     }
 
     board = Board::createBoard( boardSize );
+    createSquares();
 
     if ( radioKind[BoardMode::NUMERIC]->isChecked() )
     {
         Options::setBoardMode( BoardMode::NUMERIC );
-        createSquares();
         setSquaresNumeric( true );
     }
     else
     {
         Options::setBoardMode( BoardMode::GRAPHIC );
-        createSquares();
         setSquaresGraphic( true );
     }
 
