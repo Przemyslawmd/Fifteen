@@ -190,29 +190,12 @@ void MainWindow::slotGenerateBoard()
 {
     BoardSize boardSize = static_cast< BoardSize >( radioSizeGroup->checkedId() );
 
-    // In case of graphic board check whether there is a proper image loaded
     if ( radioKind[BoardMode::GRAPHIC]->isChecked() )
     {
         ImageProvider& provider = ImageProvider::getInstance();
-
-        if (( boardSize == BoardSize::FOUR ) && ( provider.isGraphicBoard( BoardSize::FOUR ) == false ))
+        if ( provider.isGraphicBoard( boardSize ) == false )
         {
-            QMessageBox::information( this, "", "There is no loaded graphic for a board 4x4\t" );
-            return;
-        }
-        if (( boardSize == BoardSize::FIVE ) && ( provider.isGraphicBoard( BoardSize::FIVE)  == false ))
-        {
-            QMessageBox::information( this, "", "There is no loaded graphic for a board 5x5\t" );
-            return;
-        }
-        if (( boardSize == BoardSize::SIX ) && ( provider.isGraphicBoard( BoardSize::SIX ) == false ))
-        {
-            QMessageBox::information( this, "", "There is no loaded graphic for a board 6x6\t");
-            return;
-        }
-        if (( boardSize == BoardSize::SEVEN ) && ( provider.isGraphicBoard( BoardSize::SEVEN ) == false ))
-        {
-            QMessageBox::information( this, "", "There is no loaded graphic for a board 7x7\t");
+            QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
             return;
         }
     }
