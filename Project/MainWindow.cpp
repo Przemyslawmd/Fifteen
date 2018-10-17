@@ -455,37 +455,18 @@ void MainWindow::slotReadBoard()
 
     BoardSize boardSize = ( BoardSize ) values.back();
     values.pop_back();
-
     board = Board::createBoard( values, boardSize );
+    createSquares();
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        createSquares();
         setSquaresNumeric( false );
         radioKind[BoardMode::NUMERIC]->setChecked( true );
     }
     else
     {
-        ImageProvider& provider = ImageProvider::getInstance();
-
-        switch ( boardSize )
-        {
-            case BoardSize::FOUR:
-                radioSize[BoardSize::FOUR]->setChecked( provider.isGraphicBoard( BoardSize::FOUR ));
-                break;
-            case BoardSize::FIVE:
-                radioSize[BoardSize::FIVE]->setChecked( provider.isGraphicBoard( BoardSize::FIVE ));
-                break;
-            case BoardSize::SIX:
-                radioSize[BoardSize::SIX]->setChecked( provider.isGraphicBoard( BoardSize::SIX ));
-                break;
-            case BoardSize::SEVEN:
-                radioSize[BoardSize::SEVEN]->setChecked( provider.isGraphicBoard( BoardSize::SEVEN ));
-                break;
-        }
-
-        createSquares();
         setSquaresGraphic( false );
+        radioSize[boardSize]->setChecked( true );
         radioKind[BoardMode::GRAPHIC]->setChecked( true );
         action[Action::REM_GRAPHIC]->setEnabled( true );
     }
