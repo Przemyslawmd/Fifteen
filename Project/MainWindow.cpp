@@ -296,19 +296,16 @@ void MainWindow::makeMove( Move move, int row, int col )
     {
         case Move::UP:
             ( this->*moveSquare )( row, col, row - 1, col );
-            break;
-
+            return;
         case Move::RIGHT:
             ( this->*moveSquare )( row, col, row, col + 1 );
-            break;
-
+            return;
         case Move::DOWN:
             ( this->*moveSquare )( row, col, row + 1, col );
-            break;
-
+            return;
         case Move::LEFT:
             ( this->*moveSquare )( row, col, row, col - 1 );
-            break;
+            return;
     }
 }
 
