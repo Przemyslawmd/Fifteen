@@ -30,7 +30,7 @@ void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
 
     stream << static_cast< int >( BoardMode::GRAPHIC );
     BoardSize boardSize = board.getCurrentSize();
-    stream << static_cast< int >( boardSize );
+    stream << boardSize;
 
     insertBoardValuesIntoStream( stream, board );
     insertBoardPicturesIntoStream( stream, boardSize );
@@ -39,7 +39,7 @@ void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& values )
+bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNumbers )
 {
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
@@ -65,20 +65,18 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& values 
     }
 
     int squareCount = boardSize * boardSize;
-    values.resize( squareCount );
+    boardNumbers.resize( squareCount );
 
-    for ( int i = 0; i < squareCount ; i++ )
+    for ( int number : boardNumbers )
     {
-        stream >> values.at( i );
+        stream >> number;
     }
 
-    if ( checkReadValues( values, squareCount ) == false )
+    if ( checkReadValues( boardNumbers, squareCount ) == false )
     {
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
         return false;
     }
-
-    Options::setBoardMode( boardMode );
 
     if ( boardMode == BoardMode::GRAPHIC )
     {
@@ -89,7 +87,8 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& values 
         }
     }
 
-    values.push_back( boardSize );
+    Options::setBoardMode( boardMode );
+    boardNumbers.push_back( boardSize );
     return true;
 }
 
@@ -98,11 +97,11 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& values 
 
 void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
 {
-    vector< int >& values = board.sendBoard();
+    vector< int >& boardNumbers = board.sendBoard();
 
-    for ( auto iter = values.begin(); iter != values.end(); iter++ )
+    for ( int number : boardNumbers )
     {
-        stream << *iter;
+        stream << number;
     }
 }
 
@@ -112,14 +111,14 @@ void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
 void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boardSize)
 {
     ImageProvider& provider = ImageProvider::getInstance();
-    stream << static_cast< int >( provider.getImageSquareSize() );
-    vector< QImage* >& pictures = provider.getImages( boardSize );
-    int byteCount = pictures.at( 0 )->byteCount();
-    stream << byteCount;
+    stream << provider.getImageSquareSize();
+    vector< QImage* >& boardImages = provider.getImages( boardSize );
+    int byteCountPerImage = boardImages.at( 0 )->byteCount();
+    stream << byteCountPerImage;
 
-    for ( auto iter = pictures.begin(); iter != pictures.end(); iter++ )
+    for ( QImage* image : boardImages )
     {
-        stream.writeRawData( (char*) (*iter)->bits(), byteCount );
+        stream.writeRawData( (char*) image->bits(), byteCountPerImage );
     }
 }
 
