@@ -23,7 +23,7 @@ private:
 
     void insertBoardValuesIntoStream( QDataStream&, Board& );
     void insertBoardPicturesIntoStream( QDataStream&, BoardSize );
-    bool checkReadValues( vector< int >&, int squareCount );
+    bool checkReadValues( vector< int >& );
 };
 
 #endif // IOBoard_H

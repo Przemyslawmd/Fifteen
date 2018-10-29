@@ -44,9 +44,9 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
 
-    int boardModeInt;
-    stream >> boardModeInt;
-    BoardMode boardMode = static_cast< BoardMode >( boardModeInt );
+    int integerFromStream;
+    stream >> integerFromStream;
+    BoardMode boardMode = static_cast< BoardMode >( integerFromStream );
 
     if ( boardMode != BoardMode::GRAPHIC && boardMode != BoardMode::NUMERIC )
     {
@@ -54,9 +54,8 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
         return false;
     }
 
-    int boardSizeInt;
-    stream >> boardSizeInt;
-    BoardSize boardSize = static_cast< BoardSize >( boardSizeInt );
+    stream >> integerFromStream;
+    BoardSize boardSize = static_cast< BoardSize >( integerFromStream );
 
     if ( boardSize < BoardSize::FOUR || boardSize > BoardSize::SEVEN )
     {
@@ -64,15 +63,13 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
         return false;
     }
 
-    int squareCount = boardSize * boardSize;
-    boardNumbers.resize( squareCount );
-
-    for ( int number : boardNumbers )
+    boardNumbers.resize( boardSize * boardSize );
+    for ( auto iter = boardNumbers.begin(); iter != boardNumbers.end(); iter++ )
     {
-        stream >> number;
+        stream >> *iter;
     }
 
-    if ( checkReadValues( boardNumbers, squareCount ) == false )
+    if ( checkReadValues( boardNumbers ) == false )
     {
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
         return false;
@@ -125,26 +122,16 @@ void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boar
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::checkReadValues( vector< int >& readValues, int squareCount )
+bool IOBoard::checkReadValues( vector< int >& readNumbers )
 {
-    vector< int > valuesToCompare( squareCount );
-
-    for ( int i = 0; i < squareCount; i++ )
+    for ( int number = 0; number < readNumbers.size(); number++ )
     {
-        valuesToCompare.push_back( i );
-    }
-
-    for ( int value : readValues )
-    {
-        auto it = std::find( valuesToCompare.begin(), valuesToCompare.end(), value );
-
-        if ( it == valuesToCompare.end() )
+        if ( std::find( readNumbers.begin(), readNumbers.end(), number ) == readNumbers.end() )
         {
             return false;
         }
-
-        valuesToCompare.erase( it );
     }
+
     return true;
 }
 
