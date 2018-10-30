@@ -44,9 +44,7 @@ void ImageProvider::prepareGraphicBoard( QImage& image, SquareSize squareSize )
     imageSquareSize = squareSize;
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled :
                                                                          &GraphicBoard::createCropped;
-    map< BoardSize, GraphicBoard* >::iterator iter;
-
-    for ( iter = images.begin(); iter != images.end(); iter++ )
+    for ( auto iter = images.begin(); iter != images.end(); iter++ )
     {
         if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, squareSize )))
         {
