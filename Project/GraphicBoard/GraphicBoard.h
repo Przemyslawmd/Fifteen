@@ -31,6 +31,7 @@ private:
     bool restoreImagesFromFile( QDataStream&, BoardSize, SquareSize );
 
     vector< QImage* >& getImages();
+    SquareSize imageSize;
 
     vector< QImage* > images;
 };

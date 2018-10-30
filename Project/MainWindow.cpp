@@ -34,7 +34,7 @@ void MainWindow::createSquares()
     deleteSquares();
     BoardSize boardSize = board->getCurrentSize();
     SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() :
-                                                                                ImageProvider::getInstance().getImageSquareSize();
+                                                                                ImageProvider::getInstance().getImageSquareSize( boardSize );
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {
@@ -136,10 +136,10 @@ void MainWindow::setSquaresNumeric( bool isRandom )
 
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
-    ImageProvider& provider = ImageProvider::getInstance();
-    SquareSize squareSize = provider.getImageSquareSize();
-    vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     BoardSize boardSize = board->getCurrentSize();
+    ImageProvider& provider = ImageProvider::getInstance();
+    SquareSize squareSize = provider.getImageSquareSize( boardSize );
+    vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
     QPixmap pixmap;
 
@@ -330,7 +330,7 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
 {
     BoardSize boardSize = board->getCurrentSize();
     squares.at( rowDest * boardSize + colDest )->setIcon( squares.at( rowSource * boardSize + colSource )->icon() );
-    SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize();
+    SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
     QPixmap pixmap( imageSize, imageSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );

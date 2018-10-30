@@ -19,7 +19,7 @@ public:
     void prepareGraphicBoard( QImage&, SquareSize );
     bool restoreGraphicBoardFromFile( QDataStream&, BoardSize );
     bool isGraphicBoard( BoardSize );
-    SquareSize getImageSquareSize();
+    SquareSize getImageSquareSize( BoardSize );
 
 private:
 

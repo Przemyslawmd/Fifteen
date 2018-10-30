@@ -47,9 +47,9 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize squareSize )
+bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize imageSize )
 {
-    QImage* image = new (std::nothrow) QImage( squareSize, squareSize, QImage::Format_RGB32 );
+    QImage* image = new (std::nothrow) QImage( imageSize, imageSize, QImage::Format_RGB32 );
 
     if ( image == nullptr )
     {
@@ -60,18 +60,18 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
     image->fill( Qt::GlobalColor::white );
     images.push_back( image );
 
-    int pictureSize = boardSize * squareSize;
+    int pictureSize = boardSize * imageSize;
 
-    for ( int yPos = 0; yPos < pictureSize; yPos += squareSize )
+    for ( int yPos = 0; yPos < pictureSize; yPos += imageSize )
     {
-        for ( int xPos = 0; xPos < pictureSize; xPos += squareSize )
+        for ( int xPos = 0; xPos < pictureSize; xPos += imageSize )
         {
-            if (( yPos == pictureSize - squareSize ) && ( xPos == pictureSize - squareSize ))
+            if (( yPos == pictureSize - imageSize ) && ( xPos == pictureSize - imageSize ))
             {
                 break;
             }
 
-            image = new (std::nothrow) QImage( picture->copy( xPos, yPos, squareSize, squareSize ));
+            image = new (std::nothrow) QImage( picture->copy( xPos, yPos, imageSize, imageSize ));
 
             if ( image == nullptr )
             {
@@ -82,6 +82,7 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
         }
     }
 
+    this->imageSize = imageSize;
     Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
     return true;
 }
@@ -89,7 +90,7 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, SquareSize squareSize )
+bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, SquareSize imageSize )
 {
     int bytesForSquare;
     stream >> bytesForSquare;
@@ -99,7 +100,7 @@ bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSi
     for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
     {
         stream.readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare );
-        image = new (std::nothrow) QImage( buffer + i * bytesForSquare, squareSize, squareSize, QImage::Format_RGB32 );
+        image = new (std::nothrow) QImage( buffer + i * bytesForSquare, imageSize, imageSize, QImage::Format_RGB32 );
 
         if ( image == nullptr )
         {
@@ -108,5 +109,7 @@ bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSi
         }
         images.push_back( image );
     }
+
+    this->imageSize = imageSize;
     return true;
 }
