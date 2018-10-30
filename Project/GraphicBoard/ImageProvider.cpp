@@ -39,16 +39,15 @@ vector< QImage* >& ImageProvider::getImages( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::prepareGraphicBoard( QImage& image, SquareSize squareSize )
+void ImageProvider::prepareGraphicBoard( QImage& image, SquareSize imageSize )
 {
-    imageSquareSize = squareSize;
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled :
                                                                          &GraphicBoard::createCropped;
     for ( auto iter = images.begin(); iter != images.end(); iter++ )
     {
-        if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, squareSize )))
+        if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, imageSize )))
         {
-            letGraphicBoardPrepareImages( iter->first, squareSize, image );
+            letGraphicBoardPrepareImages( iter->first, imageSize, image );
         }
     }
 }
@@ -77,25 +76,22 @@ bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize 
     removeBoard( images.at( boardSize ));
     images.at( boardSize ) = new GraphicBoard();
 
-    int squareSizeInt;
-    stream >> squareSizeInt;
-    SquareSize squareSize = static_cast< SquareSize >( squareSizeInt );
+    int imageSizeInt;
+    stream >> imageSizeInt;
+    SquareSize imageSize = static_cast< SquareSize >( imageSizeInt );
 
-    if ( squareSize != SquareSize::_50  && squareSize != SquareSize::_75   &&
-         squareSize != SquareSize::_100 && squareSize != SquareSize::_125  &&
-         squareSize != SquareSize::_150 )
+    if ( imageSize != SquareSize::_50  && imageSize != SquareSize::_75   &&
+         imageSize != SquareSize::_100 && imageSize != SquareSize::_125  &&
+         imageSize != SquareSize::_150 )
     {
         Message::putMessage( MessageCode::READ_BOARD_IMAGES_ERROR );
         return false;
     }
 
-    if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, squareSize ))
-    {
-        imageSquareSize = squareSize;
-    }
-    else
+    if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, imageSize ) == false )
     {
         removeBoard( images.at( boardSize ));
+        return false;
     }
 
     return true;
@@ -126,9 +122,9 @@ ImageProvider::~ImageProvider()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, SquareSize squareSize )
+bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, SquareSize imageSize )
 {
-    if (( picture.height() < boardSize * squareSize ) || ( picture.width() < boardSize * squareSize ))
+    if (( picture.height() < boardSize * imageSize ) || ( picture.width() < boardSize * imageSize ))
     {
         Message::putMessage( MessageCode::GRAPHIC_TOO_LOW_SIZE, boardSize );
         return false;
@@ -140,11 +136,11 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, Square
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::letGraphicBoardPrepareImages( BoardSize boardSize, SquareSize squareSize, QImage& image )
+void ImageProvider::letGraphicBoardPrepareImages( BoardSize boardSize, SquareSize imageSize, QImage& image )
 {
     images.at( boardSize ) = new GraphicBoard();
 
-    if (( images.at( boardSize )->*createImage )( image, boardSize, squareSize ) == false )
+    if (( images.at( boardSize )->*createImage )( image, boardSize, imageSize ) == false )
     {
         removeBoard( images.at( boardSize ));
     }

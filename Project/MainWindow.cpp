@@ -33,8 +33,8 @@ void MainWindow::createSquares()
 {
     deleteSquares();
     BoardSize boardSize = board->getCurrentSize();
-    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? Options::getSquareSize() :
-                                                                                ImageProvider::getInstance().getImageSquareSize( boardSize );
+    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
+                              Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
 
     for ( int i = 0; i < boardSize * boardSize; i++ )
     {

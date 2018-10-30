@@ -33,7 +33,6 @@ private:
 
     static ImageProvider* instance;
 
-    SquareSize imageSquareSize;
     std::map< BoardSize, GraphicBoard* > images;
 };
 
