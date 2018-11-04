@@ -71,11 +71,6 @@ Move Board::checkMove( int row, int col )
 vector< int >& Board::randomBoard()
 {
     int nullSquare = findNullSquare();
-
-    // TODO - handle this exception
-    if ( nullSquare == -1 )
-        return values;
-
     int nullRow = nullSquare / 10;
     int nullCol = nullSquare % 10;
 
@@ -200,11 +195,6 @@ void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 int Board::findNullSquare()
 {
     auto result = find( begin( values ), end( values ), EMPTY_SQUARE );
-    if ( result == end( values ))
-    {
-        return -1;
-    }
-
     int pos =  distance( begin( values ), result );
     return pos / size * 10 + pos % size;;
 }
