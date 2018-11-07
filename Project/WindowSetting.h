@@ -20,6 +20,8 @@ using std::array;
 
 class MainWindow;
 
+enum class FontColor { BLACK, WHITE };
+
 class WindowSetting : public QDialog
 {
 
@@ -28,6 +30,11 @@ private:
 
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
     array<QCheckBox, 4> checkImage;
+
+    array< QRadioButton, 3 > radioNumberOnImage;
+    QButtonGroup groupRadioNumberOnImage;
+    QGroupBox boxRadioNumberOnImage;
+
     QCheckBox checkImageText;
     QButtonGroup groupRadioImage;
     QGroupBox boxRadioImage;

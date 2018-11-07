@@ -27,7 +27,7 @@ public:
 
     static bool isImageToBeLoaded( BoardSize size );
 
-    static bool isNumberOnImage();
+    static NumberOnImage isNumberOnImage();
     static bool isUndoEnabled();
 
     static unique_ptr< OptionsData > sendData();
@@ -44,7 +44,7 @@ private:
     static QString styles[4];
     static bool imagesToBeLoaded[4];
 
-    static bool numberOnImage;
+    static NumberOnImage numberOnImage;
     static bool undoEnabled;
 };
 

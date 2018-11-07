@@ -61,7 +61,7 @@ bool Options::isImageToBeLoaded( BoardSize size )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool Options::isNumberOnImage()
+NumberOnImage Options::isNumberOnImage()
 {
     return numberOnImage;
 }
@@ -138,6 +138,6 @@ QString Options::styles[]
 };
 
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
-bool Options::numberOnImage = false;
+NumberOnImage Options::numberOnImage = NumberOnImage::NO;
 bool Options::undoEnabled = false;
 

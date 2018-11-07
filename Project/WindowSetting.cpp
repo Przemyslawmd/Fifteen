@@ -11,8 +11,8 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     setModal( true );
     setWindowTitle( "" );
     setGeometry( 100, 100, 400, 560 );
-    setMaximumSize( 400, 810 );
-    setMinimumSize( 400, 810 );
+    setMaximumSize( 400, 870 );
+    setMinimumSize( 400, 870 );
 
     QVBoxLayout layWindow;
     optionsCurrent = Options::sendData();
@@ -47,6 +47,19 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     checkImage[BOARD_INDEX( SEVEN )].setText( "Graphic is to be loaded for a board  7x7" );
     checkImage[BOARD_INDEX( SEVEN )].setChecked( optionsCurrent->sevenImageToBeLoaded );
 
+    for ( auto& radio : radioNumberOnImage )
+    {
+        radio.setStyleSheet( "margin-left: 5px;" );
+    }
+
+    radioNumberOnImage[0].setText( "Number on an graphic square : No" );
+    radioNumberOnImage[1].setText( "Number on an graphic square : Black" );
+    radioNumberOnImage[2].setText( "Number on an graphic square : White" );
+    groupRadioNumberOnImage.addButton( &radioNumberOnImage[0] );
+    groupRadioNumberOnImage.addButton( &radioNumberOnImage[1] );
+    groupRadioNumberOnImage.addButton( &radioNumberOnImage[2] );
+
+
     checkImageText.setText( "Text with a number on a graphic square" );
     checkImageText.setChecked( optionsCurrent->numberOnImage );
     checkImageText.setStyleSheet( "margin-left: 5px" );
@@ -64,8 +77,14 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layRadioImage.addWidget( &checkImage[BOARD_INDEX( SIX )] );
     layRadioImage.addSpacing( 8 );
     layRadioImage.addWidget( &checkImage[BOARD_INDEX( SEVEN )] );
+    layRadioImage.addSpacing( 15 );
+    //layRadioImage.addWidget( &checkImageText );
+    //layRadioImage.addSpacing( 12 );
+    layRadioImage.addWidget( &radioNumberOnImage[0] );
     layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( &checkImageText );
+    layRadioImage.addWidget( &radioNumberOnImage[1] );
+    layRadioImage.addSpacing( 12 );
+    layRadioImage.addWidget( &radioNumberOnImage[2] );
     layRadioImage.addSpacing( 15 );
     boxRadioImage.setLayout( &layRadioImage );
     boxRadioImage.setTitle( "Image fof graphic board" );
@@ -175,7 +194,22 @@ void WindowSetting::acceptSettings()
     optionsNew->sixImageToBeLoaded = checkImage[BOARD_INDEX( SIX )].isChecked();
     optionsNew->sevenImageToBeLoaded = checkImage[BOARD_INDEX( SEVEN )].isChecked();
     optionsNew->squareSizeIndex = slider.value();
-    optionsNew->numberOnImage = checkImageText.isChecked();
+    //optionsNew->numberOnImage = NumberOnImage::NO;
+
+    if ( radioNumberOnImage[0].isChecked() )
+    {
+        optionsNew->numberOnImage = NumberOnImage::NO;
+    }
+    else if ( radioNumberOnImage[1].isChecked() )
+    {
+        optionsNew->numberOnImage = NumberOnImage::BLACK;
+    }
+    else if ( radioNumberOnImage[2].isChecked() )
+    {
+        optionsNew->numberOnImage = NumberOnImage::WHITE;
+    }
+
+    //optionsNew->numberOnImage = checkImageText.isChecked();
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
 
     bool numberImageChanged = optionsNew->numberOnImage != optionsCurrent->numberOnImage;

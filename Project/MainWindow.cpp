@@ -143,14 +143,14 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     vector< QImage* >& pictures = provider.getImages( boardSize );
     QPixmap pixmap;
 
-    bool numberOnImage = Options::isNumberOnImage();
+    NumberOnImage numberOnImage = Options::isNumberOnImage();
 
     int i = 0;
     for ( auto square : squares )
     {
         pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
 
-        if ( numberOnImage )
+        if ( numberOnImage != NumberOnImage::NO )
         {
             drawNumberOnGraphicSquare( pixmap, values.at( i - 1 ));
         }
@@ -176,7 +176,7 @@ void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, int number )
     }
 
     QPainter painter( &pixmap );
-    QColor penColor( 0, 0, 0 );
+    QColor penColor( 255, 255, 255 );
     painter.setPen( QPen( penColor ));
     int font = Options::getSquareSizeFont();
     painter.setFont( QFont( "Times", font, QFont::Bold ));
