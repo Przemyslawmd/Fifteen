@@ -31,11 +31,12 @@ private:
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
     array<QCheckBox, 4> checkImage;
 
-    array< QRadioButton, 3 > radioNumberOnImage;
+    std::map< NumberOnImage, QRadioButton* > radioNumberOnImage;
+    //array< QRadioButton, 3 > radioNumberOnImage;
+
     QButtonGroup groupRadioNumberOnImage;
     QGroupBox boxRadioNumberOnImage;
 
-    QCheckBox checkImageText;
     QButtonGroup groupRadioImage;
     QGroupBox boxRadioImage;
 

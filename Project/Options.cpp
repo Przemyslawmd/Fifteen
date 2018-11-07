@@ -61,9 +61,17 @@ bool Options::isImageToBeLoaded( BoardSize size )
 /*********************************************************************************/
 /*********************************************************************************/
 
-NumberOnImage Options::isNumberOnImage()
+QColor* Options::isNumberOnImage()
 {
-    return numberOnImage;
+    if ( numberOnImage == NumberOnImage::BLACK )
+    {
+        return new QColor( 0, 0, 0 );
+    }
+    if ( numberOnImage == NumberOnImage::WHITE )
+    {
+        return new QColor( 255, 255, 255 );
+    }
+    return nullptr;
 }
 
 /*********************************************************************************/

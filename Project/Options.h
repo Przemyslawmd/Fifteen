@@ -27,7 +27,7 @@ public:
 
     static bool isImageToBeLoaded( BoardSize size );
 
-    static NumberOnImage isNumberOnImage();
+    static QColor* isNumberOnImage();
     static bool isUndoEnabled();
 
     static unique_ptr< OptionsData > sendData();
