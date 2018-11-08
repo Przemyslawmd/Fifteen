@@ -50,7 +50,7 @@ class MainWindow : public QMainWindow
     void deleteSquares();
     void setSquaresNumeric( bool isRandom );
     void setSquaresGraphic( bool isRandom );
-    void drawNumberOnGraphicSquare( QPixmap&, QColor*, int number );
+    void drawNumberOnGraphicSquare( QPixmap&, QColor, int fontSize, int number );
 
     void makeMove( Move, int row, int col );
     void moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest );

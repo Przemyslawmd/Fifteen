@@ -47,20 +47,20 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     checkImage[BOARD_INDEX( SEVEN )].setText( "Graphic is to be loaded for a board  7x7" );
     checkImage[BOARD_INDEX( SEVEN )].setChecked( optionsCurrent->sevenImageToBeLoaded );
 
-    radioNumberOnImage[ NumberOnImage::NO ] = new QRadioButton();
-    radioNumberOnImage[ NumberOnImage::NO ]->setText( "Number on an graphic square : No" );
-    radioNumberOnImage[ NumberOnImage::BLACK ] = new QRadioButton();
-    radioNumberOnImage[ NumberOnImage::BLACK ]->setText( "Number on an graphic square : Black" );
-    radioNumberOnImage[ NumberOnImage::WHITE ] = new QRadioButton();
-    radioNumberOnImage[ NumberOnImage::WHITE ]->setText( "Number on an graphic square : White" );
+    radioNumberOnImage[ NumberOnImageColor::NO ] = new QRadioButton();
+    radioNumberOnImage[ NumberOnImageColor::NO ]->setText( "Number on an graphic square : No" );
+    radioNumberOnImage[ NumberOnImageColor::BLACK ] = new QRadioButton();
+    radioNumberOnImage[ NumberOnImageColor::BLACK ]->setText( "Number on an graphic square : Black" );
+    radioNumberOnImage[ NumberOnImageColor::WHITE ] = new QRadioButton();
+    radioNumberOnImage[ NumberOnImageColor::WHITE ]->setText( "Number on an graphic square : White" );
 
-    for( auto it = radioNumberOnImage.begin(); it != radioNumberOnImage.end(); it++ )
+    for( auto radioMap : radioNumberOnImage )
     {
-        (it->second)->setStyleSheet( "margin-left: 5px;" );
-        groupRadioNumberOnImage.addButton( it->second );
+        radioMap.second->setStyleSheet( "margin-left: 5px;" );
+        groupRadioNumberOnImage.addButton( radioMap.second );
     }
 
-    radioNumberOnImage[ optionsCurrent->numberOnImage ]->setChecked( true );
+    radioNumberOnImage[ optionsCurrent->numberOnImageColor ]->setChecked( true );
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -76,11 +76,11 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layRadioImage.addSpacing( 8 );
     layRadioImage.addWidget( &checkImage[BOARD_INDEX( SEVEN )] );
     layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberOnImage::NO] );
+    layRadioImage.addWidget( radioNumberOnImage[NumberOnImageColor::NO] );
     layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberOnImage::BLACK] );
+    layRadioImage.addWidget( radioNumberOnImage[NumberOnImageColor::BLACK] );
     layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberOnImage::WHITE] );
+    layRadioImage.addWidget( radioNumberOnImage[NumberOnImageColor::WHITE] );
     layRadioImage.addSpacing( 15 );
     boxRadioImage.setLayout( &layRadioImage );
     boxRadioImage.setTitle( "Image fof graphic board" );
@@ -191,22 +191,22 @@ void WindowSetting::acceptSettings()
     optionsNew->sevenImageToBeLoaded = checkImage[BOARD_INDEX( SEVEN )].isChecked();
     optionsNew->squareSizeIndex = slider.value();
 
-    if ( radioNumberOnImage[NumberOnImage::NO]->isChecked() )
+    if ( radioNumberOnImage[NumberOnImageColor::NO]->isChecked() )
     {
-        optionsNew->numberOnImage = NumberOnImage::NO;
+        optionsNew->numberOnImageColor = NumberOnImageColor::NO;
     }
-    else if ( radioNumberOnImage[NumberOnImage::BLACK]->isChecked() )
+    else if ( radioNumberOnImage[NumberOnImageColor::BLACK]->isChecked() )
     {
-        optionsNew->numberOnImage = NumberOnImage::BLACK;
+        optionsNew->numberOnImageColor = NumberOnImageColor::BLACK;
     }
-    else if ( radioNumberOnImage[NumberOnImage::WHITE]->isChecked() )
+    else if ( radioNumberOnImage[NumberOnImageColor::WHITE]->isChecked() )
     {
-        optionsNew->numberOnImage = NumberOnImage::WHITE;
+        optionsNew->numberOnImageColor = NumberOnImageColor::WHITE;
     }
 
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
 
-    bool numberImageChanged = optionsNew->numberOnImage != optionsCurrent->numberOnImage;
+    bool numberImageChanged = optionsNew->numberOnImageColor != optionsCurrent->numberOnImageColor;
     bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;
     bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
 

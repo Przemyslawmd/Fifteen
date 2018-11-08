@@ -61,17 +61,27 @@ bool Options::isImageToBeLoaded( BoardSize size )
 /*********************************************************************************/
 /*********************************************************************************/
 
-QColor* Options::isNumberOnImage()
+NumberOnImage* Options::isNumberOnImage()
 {
-    if ( numberOnImage == NumberOnImage::BLACK )
+    NumberOnImage* num = new NumberOnImage;
+
+    if ( numberOnImageColor == NumberOnImageColor::NO )
     {
-        return new QColor( 0, 0, 0 );
+        num->isNumberOnImage = false;
+        return num;
     }
-    if ( numberOnImage == NumberOnImage::WHITE )
+
+    if ( numberOnImageColor == NumberOnImageColor::BLACK )
     {
-        return new QColor( 255, 255, 255 );
+        num->fontColor = QColor{ 0, 0, 0 };
     }
-    return nullptr;
+    if ( numberOnImageColor == NumberOnImageColor::WHITE )
+    {
+        num->fontColor = QColor{ 255, 255, 255 };
+    }
+
+    num->fontSize = squareStyles[currentSquare].fontSize;
+    return num;
 }
 
 /*********************************************************************************/
@@ -96,7 +106,7 @@ unique_ptr< OptionsData > Options::sendData()
     messageData->sevenImageToBeLoaded = imagesToBeLoaded[3];
     messageData->squareColor = currentColor;
     messageData->squareSizeIndex = currentSquare + 1;
-    messageData->numberOnImage = numberOnImage;
+    messageData->numberOnImageColor = numberOnImageColor;
     messageData->undoEnabled = undoEnabled;
     return messageData;
 }
@@ -111,7 +121,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
     imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
     currentColor = messageData->squareColor;
     currentSquare = static_cast< SquareSize >( messageData->squareSizeIndex - 1 );
-    numberOnImage = messageData->numberOnImage;
+    numberOnImageColor = messageData->numberOnImageColor;
     undoEnabled = messageData->undoEnabled;
 }
 
@@ -146,6 +156,6 @@ QString Options::styles[]
 };
 
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
-NumberOnImage Options::numberOnImage = NumberOnImage::NO;
+NumberOnImageColor Options::numberOnImageColor = NumberOnImageColor::NO;
 bool Options::undoEnabled = false;
 

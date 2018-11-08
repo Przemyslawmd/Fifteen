@@ -141,18 +141,16 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     SquareSize squareSize = provider.getImageSquareSize( boardSize );
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
-    QPixmap pixmap;
-
-    QColor* fontColor = Options::isNumberOnImage();
+    NumberOnImage* num = Options::isNumberOnImage();
 
     int i = 0;
     for ( auto square : squares )
     {
-        pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
+        QPixmap pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
 
-        if ( fontColor )
+        if ( num->isNumberOnImage )
         {
-            drawNumberOnGraphicSquare( pixmap, fontColor, values.at( i - 1 ));
+            drawNumberOnGraphicSquare( pixmap, num->fontColor, num->fontSize, values.at( i - 1 ));
         }
 
         QIcon icon( pixmap );
@@ -168,7 +166,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, QColor* penColor, int number )
+void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, QColor penColor, int fontSize, int number )
 {
     if ( number == 0 )
     {
@@ -176,9 +174,8 @@ void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, QColor* penColor, i
     }
 
     QPainter painter( &pixmap );
-    painter.setPen( QPen( *penColor ));
-    int font = Options::getSquareSizeFont();
-    painter.setFont( QFont( "Times", font, QFont::Bold ));
+    painter.setPen( QPen( penColor ));
+    painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
     painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
 }
 
