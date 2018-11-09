@@ -54,7 +54,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     radioNumberOnImage[ NumberOnImageColor::WHITE ] = new QRadioButton();
     radioNumberOnImage[ NumberOnImageColor::WHITE ]->setText( "Number on an graphic square : White" );
 
-    for( auto radioMap : radioNumberOnImage )
+    for ( auto radioMap : radioNumberOnImage )
     {
         radioMap.second->setStyleSheet( "margin-left: 5px;" );
         groupRadioNumberOnImage.addButton( radioMap.second );
@@ -88,31 +88,31 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     /***************************************************************/
     /* Color of numeric board **************************************/
 
+    radioColor[Color::BLUE] = new QRadioButton();
+    radioColor[Color::GREEN] = new QRadioButton();
+    radioColor[Color::RED] = new QRadioButton();
+    radioColor[Color::BLUE]->setText( "Blue" );
+    radioColor[Color::GREEN]->setText( "Green" );
+    radioColor[Color::RED]->setText( "Red" );
+
     for ( auto& radio : radioColor )
     {
-        radio.setStyleSheet( "margin-left:5px;" );
+        radio.second->setStyleSheet( "margin-left:5px;" );
+        groupRadioColor.addButton( radio.second );
     }
 
-    groupRadioColor.addButton( &radioColor[BLUE] );
-    groupRadioColor.addButton( &radioColor[GREEN] );
-    groupRadioColor.addButton( &radioColor[RED] );
-
-    radioColor[ optionsCurrent->squareColor ].setChecked( true );
+    radioColor[ optionsCurrent->squareColor ]->setChecked( true );
 
     QVBoxLayout layRadioColor;
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioColor[BLUE] );
+    layRadioColor.addWidget( radioColor[BLUE] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioColor[GREEN] );
+    layRadioColor.addWidget( radioColor[GREEN] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( &radioColor[RED] );
+    layRadioColor.addWidget( radioColor[RED] );
     layRadioColor.addSpacing( 7 );
     boxRadioColor.setLayout( &layRadioColor );
     boxRadioColor.setTitle( "Color of Numeric Board" );
-
-    radioColor[BLUE].setText( "Blue" );
-    radioColor[GREEN].setText( "Green" );
-    radioColor[RED].setText( "Red" );
 
     /***************************************************************/
     /* Slider for square size **************************************/
@@ -191,17 +191,13 @@ void WindowSetting::acceptSettings()
     optionsNew->sevenImageToBeLoaded = checkImage[BOARD_INDEX( SEVEN )].isChecked();
     optionsNew->squareSizeIndex = slider.value();
 
-    if ( radioNumberOnImage[NumberOnImageColor::NO]->isChecked() )
+    QRadioButton* checked = static_cast< QRadioButton* >( groupRadioNumberOnImage.checkedButton() );
+    for ( auto it = radioNumberOnImage.begin(); it != radioNumberOnImage.end(); it++ )
     {
-        optionsNew->numberOnImageColor = NumberOnImageColor::NO;
-    }
-    else if ( radioNumberOnImage[NumberOnImageColor::BLACK]->isChecked() )
-    {
-        optionsNew->numberOnImageColor = NumberOnImageColor::BLACK;
-    }
-    else if ( radioNumberOnImage[NumberOnImageColor::WHITE]->isChecked() )
-    {
-        optionsNew->numberOnImageColor = NumberOnImageColor::WHITE;
+        if ( it->second == checked )
+        {
+            optionsNew->numberOnImageColor = it->first;
+        }
     }
 
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
@@ -210,17 +206,13 @@ void WindowSetting::acceptSettings()
     bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;
     bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
 
-    if ( radioColor[BLUE].isChecked() )
+    checked = static_cast< QRadioButton* >( groupRadioColor.checkedButton() );
+    for ( auto it = radioColor.begin(); it != radioColor.end(); it++ )
     {
-        optionsNew->squareColor = Color::BLUE;
-    }
-    else if ( radioColor[GREEN].isChecked() )
-    {
-        optionsNew->squareColor = Color::GREEN;
-    }
-    else if ( radioColor[RED].isChecked() )
-    {
-        optionsNew->squareColor = Color::RED;
+        if ( it->second == checked )
+        {
+            optionsNew->squareColor = it->first;
+        }
     }
 
     bool colorChanged = optionsNew->squareColor != optionsCurrent->squareColor;

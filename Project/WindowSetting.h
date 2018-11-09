@@ -17,6 +17,7 @@
 #include "Options.h"
 
 using std::array;
+using std::map;
 
 class MainWindow;
 
@@ -31,7 +32,7 @@ private:
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
     array<QCheckBox, 4> checkImage;
 
-    std::map< NumberOnImageColor, QRadioButton* > radioNumberOnImage;
+    map< NumberOnImageColor, QRadioButton* > radioNumberOnImage;
 
     QButtonGroup groupRadioNumberOnImage;
     QGroupBox boxRadioNumberOnImage;
@@ -39,7 +40,7 @@ private:
     QButtonGroup groupRadioImage;
     QGroupBox boxRadioImage;
 
-    array<QRadioButton, 3> radioColor;
+    map< Color, QRadioButton* > radioColor;
     QButtonGroup groupRadioColor;
     QGroupBox boxRadioColor;
 
