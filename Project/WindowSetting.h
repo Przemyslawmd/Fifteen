@@ -27,8 +27,8 @@ class WindowSetting : public QDialog
 private:
     Q_OBJECT
 
-    map< GraphicMode, QRadioButton* > mapRadioGraphic;
-    QButtonGroup groupRadioImage;
+    map< GraphicMode, QRadioButton* > mapRadioGraphicMode;
+    QButtonGroup groupRadioGraphicMode;
 
     map< BoardSize, QCheckBox* > checkImage;
 

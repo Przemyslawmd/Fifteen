@@ -17,19 +17,19 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     /* Graphic loading box *****************************************/
 
-    mapRadioGraphic[GraphicMode::SCALED] = new QRadioButton();
-    mapRadioGraphic[GraphicMode::CROPPED] = new QRadioButton();
-    mapRadioGraphic[GraphicMode::SCALED]->setText( "Graphic is to be scalled" );
-    mapRadioGraphic[GraphicMode::SCALED]->setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
-    mapRadioGraphic[GraphicMode::CROPPED]->setText( "Graphic is to be cropped" );
+    mapRadioGraphicMode[GraphicMode::SCALED] = new QRadioButton();
+    mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton();
+    mapRadioGraphicMode[GraphicMode::SCALED]->setText( "Graphic is to be scalled" );
+    mapRadioGraphicMode[GraphicMode::SCALED]->setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
+    mapRadioGraphicMode[GraphicMode::CROPPED]->setText( "Graphic is to be cropped" );
 
-    for ( auto& mapRadio : mapRadioGraphic )
+    for ( auto& mapRadio : mapRadioGraphicMode )
     {
         mapRadio.second->setStyleSheet( "margin-left: 5px;" );
-        groupRadioImage.addButton( mapRadio.second );
+        groupRadioGraphicMode.addButton( mapRadio.second );
     }
 
-    mapRadioGraphic[ optionsCurrent->graphicMode]->setChecked( true );
+    mapRadioGraphicMode[ optionsCurrent->graphicMode]->setChecked( true );
 
     checkImage[BoardSize::FOUR] = new QCheckBox();
     checkImage[BoardSize::FOUR]->setText(  "Graphic is to be loaded for a board  4x4" );
@@ -66,9 +66,9 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( mapRadioGraphic[GraphicMode::SCALED] );
+    layRadioImage.addWidget( mapRadioGraphicMode[GraphicMode::SCALED] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( mapRadioGraphic[GraphicMode::CROPPED] );
+    layRadioImage.addWidget( mapRadioGraphicMode[GraphicMode::CROPPED] );
     layRadioImage.addSpacing( 15 );
     layRadioImage.addWidget( checkImage[BoardSize::FOUR] );
     layRadioImage.addSpacing( 8 );
@@ -182,7 +182,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 void WindowSetting::acceptSettings()
 {
     unique_ptr< OptionsData > optionsNew ( new OptionsData );
-    optionsNew->graphicMode = mapRadioGraphic[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
+    optionsNew->graphicMode = mapRadioGraphicMode[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
     optionsNew->fourImageToBeLoaded = checkImage[BoardSize::FOUR]->isChecked();
     optionsNew->fiveImageToBeLoaded = checkImage[BoardSize::FIVE]->isChecked();
     optionsNew->sixImageToBeLoaded = checkImage[BoardSize::SIX]->isChecked();
