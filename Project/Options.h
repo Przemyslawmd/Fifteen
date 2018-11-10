@@ -44,7 +44,7 @@ private:
     static QString styles[4];
     static bool imagesToBeLoaded[4];
 
-    static NumberOnImageColor numberOnImageColor;
+    static NumberColor numberColor;
     static bool undoEnabled;
 };
 

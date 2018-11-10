@@ -21,8 +21,6 @@ using std::map;
 
 class MainWindow;
 
-enum class FontColor { BLACK, WHITE };
-
 class WindowSetting : public QDialog
 {
 
@@ -30,10 +28,10 @@ private:
     Q_OBJECT
 
     array<QRadioButton, GRAPHIC_MODE_COUNT> radioGraphic;
-    array<QCheckBox, 4> checkImage;
 
-    map< NumberOnImageColor, QRadioButton* > radioNumberOnImage;
+    map< BoardSize, QCheckBox* > checkImage;
 
+    map< NumberColor, QRadioButton* > radioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
     QGroupBox boxRadioNumberOnImage;
 

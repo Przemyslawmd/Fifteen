@@ -65,17 +65,17 @@ NumberOnImage* Options::isNumberOnImage()
 {
     NumberOnImage* num = new NumberOnImage;
 
-    if ( numberOnImageColor == NumberOnImageColor::NO )
+    if ( numberColor == NumberColor::NO )
     {
         num->isNumberOnImage = false;
         return num;
     }
 
-    if ( numberOnImageColor == NumberOnImageColor::BLACK )
+    if ( numberColor == NumberColor::BLACK )
     {
         num->fontColor = QColor{ 0, 0, 0 };
     }
-    if ( numberOnImageColor == NumberOnImageColor::WHITE )
+    if ( numberColor == NumberColor::WHITE )
     {
         num->fontColor = QColor{ 255, 255, 255 };
     }
@@ -106,7 +106,7 @@ unique_ptr< OptionsData > Options::sendData()
     messageData->sevenImageToBeLoaded = imagesToBeLoaded[3];
     messageData->squareColor = currentColor;
     messageData->squareSizeIndex = currentSquare + 1;
-    messageData->numberOnImageColor = numberOnImageColor;
+    messageData->numberColor = numberColor;
     messageData->undoEnabled = undoEnabled;
     return messageData;
 }
@@ -121,7 +121,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
     imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
     currentColor = messageData->squareColor;
     currentSquare = static_cast< SquareSize >( messageData->squareSizeIndex - 1 );
-    numberOnImageColor = messageData->numberOnImageColor;
+    numberColor = messageData->numberColor;
     undoEnabled = messageData->undoEnabled;
 }
 
@@ -156,6 +156,6 @@ QString Options::styles[]
 };
 
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
-NumberOnImageColor Options::numberOnImageColor = NumberOnImageColor::NO;
+NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;
 

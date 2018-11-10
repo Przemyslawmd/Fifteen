@@ -4,8 +4,6 @@
 
 using std::unique_ptr;
 
-#define BOARD_INDEX(VALUE) VALUE - 4
-
 WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, this }, parent( parent )
 {
     setModal( true );
@@ -32,26 +30,30 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     groupRadioImage.addButton( &radioGraphic[SCALED] );
     groupRadioImage.addButton( &radioGraphic[CROPPED] );
 
+    checkImage[BoardSize::FOUR] = new QCheckBox();
+    checkImage[BoardSize::FOUR]->setText(  "Graphic is to be loaded for a board  4x4" );
+    checkImage[BoardSize::FOUR]->setChecked( optionsCurrent->fourImageToBeLoaded );
+    checkImage[BoardSize::FIVE] = new QCheckBox();
+    checkImage[BoardSize::FIVE]->setText(  "Graphic is to be loaded for a board  5x5" );
+    checkImage[BoardSize::FIVE]->setChecked( optionsCurrent->fiveImageToBeLoaded );
+    checkImage[BoardSize::SIX] = new QCheckBox();
+    checkImage[BoardSize::SIX]->setText(  "Graphic is to be loaded for a board  6x6" );
+    checkImage[BoardSize::SIX]->setChecked( optionsCurrent->sixImageToBeLoaded );
+    checkImage[BoardSize::SEVEN] = new QCheckBox();
+    checkImage[BoardSize::SEVEN]->setText(  "Graphic is to be loaded for a board  7x7" );
+    checkImage[BoardSize::SEVEN]->setChecked( optionsCurrent->sevenImageToBeLoaded );
+
     for ( auto& check : checkImage )
     {
-        check.setStyleSheet( "margin-left: 5px;" );
+        check.second->setStyleSheet( "margin-left: 5px;" );
     }
 
-    checkImage[BOARD_INDEX( FOUR )].setText( "Graphic is to be loaded for a board  4x4" );
-    checkImage[BOARD_INDEX( FOUR )].setChecked( optionsCurrent->fourImageToBeLoaded );
-    checkImage[BOARD_INDEX( FIVE )].setText( "Graphic is to be loaded for a board  5x5" );
-    checkImage[BOARD_INDEX( FIVE )].setChecked( optionsCurrent->fiveImageToBeLoaded );
-    checkImage[BOARD_INDEX( SIX )].setText( "Graphic is to be loaded for a board  6x6" );
-    checkImage[BOARD_INDEX( SIX )].setChecked( optionsCurrent->sixImageToBeLoaded );
-    checkImage[BOARD_INDEX( SEVEN )].setText( "Graphic is to be loaded for a board  7x7" );
-    checkImage[BOARD_INDEX( SEVEN )].setChecked( optionsCurrent->sevenImageToBeLoaded );
-
-    radioNumberOnImage[ NumberOnImageColor::NO ] = new QRadioButton();
-    radioNumberOnImage[ NumberOnImageColor::NO ]->setText( "Number on an graphic square : No" );
-    radioNumberOnImage[ NumberOnImageColor::BLACK ] = new QRadioButton();
-    radioNumberOnImage[ NumberOnImageColor::BLACK ]->setText( "Number on an graphic square : Black" );
-    radioNumberOnImage[ NumberOnImageColor::WHITE ] = new QRadioButton();
-    radioNumberOnImage[ NumberOnImageColor::WHITE ]->setText( "Number on an graphic square : White" );
+    radioNumberOnImage[ NumberColor::NO ] = new QRadioButton();
+    radioNumberOnImage[ NumberColor::NO ]->setText( "Number on an graphic square : No" );
+    radioNumberOnImage[ NumberColor::BLACK ] = new QRadioButton();
+    radioNumberOnImage[ NumberColor::BLACK ]->setText( "Number on an graphic square : Black" );
+    radioNumberOnImage[ NumberColor::WHITE ] = new QRadioButton();
+    radioNumberOnImage[ NumberColor::WHITE ]->setText( "Number on an graphic square : White" );
 
     for ( auto radioMap : radioNumberOnImage )
     {
@@ -59,7 +61,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
         groupRadioNumberOnImage.addButton( radioMap.second );
     }
 
-    radioNumberOnImage[ optionsCurrent->numberOnImageColor ]->setChecked( true );
+    radioNumberOnImage[ optionsCurrent->numberColor ]->setChecked( true );
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -67,19 +69,19 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layRadioImage.addSpacing( 8 );
     layRadioImage.addWidget( &radioGraphic[CROPPED] );
     layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( &checkImage[BOARD_INDEX( FOUR )] );
+    layRadioImage.addWidget( checkImage[BoardSize::FOUR] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkImage[BOARD_INDEX( FIVE )] );
+    layRadioImage.addWidget( checkImage[BoardSize::FIVE] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkImage[BOARD_INDEX( SIX )] );
+    layRadioImage.addWidget( checkImage[BoardSize::SIX] );
     layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( &checkImage[BOARD_INDEX( SEVEN )] );
+    layRadioImage.addWidget( checkImage[BoardSize::SEVEN] );
     layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberOnImageColor::NO] );
+    layRadioImage.addWidget( radioNumberOnImage[NumberColor::NO] );
     layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberOnImageColor::BLACK] );
+    layRadioImage.addWidget( radioNumberOnImage[NumberColor::BLACK] );
     layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberOnImageColor::WHITE] );
+    layRadioImage.addWidget( radioNumberOnImage[NumberColor::WHITE] );
     layRadioImage.addSpacing( 15 );
     boxRadioImage.setLayout( &layRadioImage );
     boxRadioImage.setTitle( "Image fof graphic board" );
@@ -180,16 +182,16 @@ void WindowSetting::acceptSettings()
 {
     unique_ptr< OptionsData > optionsNew ( new OptionsData );
     optionsNew->graphicMode = radioGraphic[SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
-    optionsNew->fourImageToBeLoaded = checkImage[BOARD_INDEX( FOUR )].isChecked();
-    optionsNew->fiveImageToBeLoaded = checkImage[BOARD_INDEX( FIVE )].isChecked();
-    optionsNew->sixImageToBeLoaded = checkImage[BOARD_INDEX( SIX )].isChecked();
-    optionsNew->sevenImageToBeLoaded = checkImage[BOARD_INDEX( SEVEN )].isChecked();
+    optionsNew->fourImageToBeLoaded = checkImage[BoardSize::FOUR]->isChecked();
+    optionsNew->fiveImageToBeLoaded = checkImage[BoardSize::FIVE]->isChecked();
+    optionsNew->sixImageToBeLoaded = checkImage[BoardSize::SIX]->isChecked();
+    optionsNew->sevenImageToBeLoaded = checkImage[BoardSize::SEVEN]->isChecked();
     optionsNew->squareSizeIndex = slider.value();
-    optionsNew->numberOnImageColor = getChoosenOption< NumberOnImageColor >( radioNumberOnImage, groupRadioNumberOnImage );
+    optionsNew->numberColor = getChoosenOption< NumberColor >( radioNumberOnImage, groupRadioNumberOnImage );
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
     optionsNew->squareColor = getChoosenOption< Color >( radioColor, groupRadioColor );
 
-    bool numberImageChanged = optionsNew->numberOnImageColor != optionsCurrent->numberOnImageColor;
+    bool numberImageChanged = optionsNew->numberColor != optionsCurrent->numberColor;
     bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;
     bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
     bool colorChanged = optionsNew->squareColor != optionsCurrent->squareColor;
