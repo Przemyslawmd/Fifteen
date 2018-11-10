@@ -30,16 +30,15 @@ private:
     map< GraphicMode, QRadioButton* > mapRadioGraphicMode;
     QButtonGroup groupRadioGraphicMode;
 
-    map< BoardSize, QCheckBox* > checkImage;
+    map< BoardSize, QCheckBox* > mapCheckImageToChose;
 
     map< NumberColor, QRadioButton* > radioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
-    QGroupBox boxRadioNumberOnImage;
-
+    //QGroupBox boxRadioNumberOnImage;
 
     QGroupBox boxRadioImage;
 
-    map< Color, QRadioButton* > radioColor;
+    map< Color, QRadioButton* > mapRadioColor;
     QButtonGroup groupRadioColor;
     QGroupBox boxRadioColor;
 
