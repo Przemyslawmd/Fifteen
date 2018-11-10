@@ -55,6 +55,8 @@ private:
     QPushButton accept;
     MainWindow& parent;
 
+    template< typename T > T getChoosenOption( map< T, QRadioButton* >&, QButtonGroup& );
+
 private slots:
 
     void acceptSettings();

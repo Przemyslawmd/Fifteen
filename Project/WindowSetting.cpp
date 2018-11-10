@@ -17,7 +17,6 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     QVBoxLayout layWindow;
     optionsCurrent = Options::sendData();
 
-    /***************************************************************/
     /* Graphic loading box *****************************************/
 
     for ( auto& radio : radioGraphic )
@@ -85,7 +84,6 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     boxRadioImage.setLayout( &layRadioImage );
     boxRadioImage.setTitle( "Image fof graphic board" );
 
-    /***************************************************************/
     /* Color of numeric board **************************************/
 
     radioColor[Color::BLUE] = new QRadioButton();
@@ -114,7 +112,6 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     boxRadioColor.setLayout( &layRadioColor );
     boxRadioColor.setTitle( "Color of Numeric Board" );
 
-    /***************************************************************/
     /* Slider for square size **************************************/
 
     slider.setRange( 1, 5 );
@@ -137,7 +134,6 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     boxSquareSize.setLayout( &layoutSlider );
     boxSquareSize.setTitle( "Size of Square" );
 
-    /***************************************************************/
     /* Undo availability *******************************************/
 
     checkUndoEnabled.setText( "Enable undo to ten moves" );
@@ -149,7 +145,6 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layoutUndoEnabled.addSpacing( 10 );
     boxUndoEnabled.setLayout( &layoutUndoEnabled );
 
-    /***************************************************************/
     /* General layout **********************************************/
 
     QHBoxLayout layControls;
@@ -178,8 +173,8 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     this->show();
 }
 
-/*******************************************************************************/
-/*******************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
 
 void WindowSetting::acceptSettings()
 {
@@ -190,32 +185,15 @@ void WindowSetting::acceptSettings()
     optionsNew->sixImageToBeLoaded = checkImage[BOARD_INDEX( SIX )].isChecked();
     optionsNew->sevenImageToBeLoaded = checkImage[BOARD_INDEX( SEVEN )].isChecked();
     optionsNew->squareSizeIndex = slider.value();
-
-    QRadioButton* checked = static_cast< QRadioButton* >( groupRadioNumberOnImage.checkedButton() );
-    for ( auto it = radioNumberOnImage.begin(); it != radioNumberOnImage.end(); it++ )
-    {
-        if ( it->second == checked )
-        {
-            optionsNew->numberOnImageColor = it->first;
-        }
-    }
-
+    optionsNew->numberOnImageColor = getChoosenOption< NumberOnImageColor >( radioNumberOnImage, groupRadioNumberOnImage );
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
+    optionsNew->squareColor = getChoosenOption< Color >( radioColor, groupRadioColor );
 
     bool numberImageChanged = optionsNew->numberOnImageColor != optionsCurrent->numberOnImageColor;
     bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;
     bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
-
-    checked = static_cast< QRadioButton* >( groupRadioColor.checkedButton() );
-    for ( auto it = radioColor.begin(); it != radioColor.end(); it++ )
-    {
-        if ( it->second == checked )
-        {
-            optionsNew->squareColor = it->first;
-        }
-    }
-
     bool colorChanged = optionsNew->squareColor != optionsCurrent->squareColor;
+
     Options::receiveData( std::move( optionsNew ));
 
     if ( squareSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
@@ -246,5 +224,22 @@ void WindowSetting::acceptSettings()
     }
 
     close();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+template< typename T > T WindowSetting::getChoosenOption( map< T, QRadioButton* >& mapButton, QButtonGroup& group )
+{
+    QRadioButton* choosen = static_cast< QRadioButton* >( group.checkedButton() );
+
+    for ( auto it = mapButton.begin(); it != mapButton.end(); it++ )
+    {
+        if ( it->second == choosen )
+        {
+            return it->first;
+        }
+    }
+    return mapButton.begin()->first;
 }
 
