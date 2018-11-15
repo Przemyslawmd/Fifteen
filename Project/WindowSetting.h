@@ -2,6 +2,9 @@
 #ifndef SETTING_H
 #define SETTING_H
 
+#include "MainWindow.h"
+#include "Types.h"
+#include "Options.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QRadioButton>
@@ -12,19 +15,19 @@
 #include <QSlider>
 #include <QDialog>
 #include <array>
-#include "MainWindow.h"
-#include "Types.h"
-#include "Options.h"
 
 using std::array;
 using std::map;
 
-class MainWindow;
-
 class WindowSetting : public QDialog
 {
 
+public:
+
+    WindowSetting( MainWindow& parentWindow );
+
 private:
+
     Q_OBJECT
 
     map< GraphicMode, QRadioButton* > mapRadioGraphicMode;
@@ -34,7 +37,6 @@ private:
 
     map< NumberColor, QRadioButton* > radioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
-    //QGroupBox boxRadioNumberOnImage;
 
     QGroupBox boxRadioImage;
 
@@ -43,7 +45,7 @@ private:
     QGroupBox boxRadioColor;
 
     QSlider slider;
-    array<QLabel, 5> sliderLabels;
+    array< QLabel, 5 > sliderLabels;
     QGroupBox boxSquareSize;
 
     QCheckBox checkUndoEnabled;
@@ -58,9 +60,6 @@ private:
 private slots:
 
     void acceptSettings();
-
-public:
-    WindowSetting( MainWindow& parentWindow );
 };
 
 #endif // SETTING_H
