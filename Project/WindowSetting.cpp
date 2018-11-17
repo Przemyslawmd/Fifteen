@@ -49,12 +49,12 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
         check.second->setStyleSheet( "margin-left: 5px;" );
     }
 
-    radioNumberOnImage[ NumberColor::NO ] = new QRadioButton();
-    radioNumberOnImage[ NumberColor::NO ]->setText( "Number on an graphic square : No" );
-    radioNumberOnImage[ NumberColor::BLACK ] = new QRadioButton();
-    radioNumberOnImage[ NumberColor::BLACK ]->setText( "Number on an graphic square : Black" );
-    radioNumberOnImage[ NumberColor::WHITE ] = new QRadioButton();
-    radioNumberOnImage[ NumberColor::WHITE ]->setText( "Number on an graphic square : White" );
+    radioNumberOnImage[NumberColor::NO] = new QRadioButton();
+    radioNumberOnImage[NumberColor::NO]->setText( "Number on an graphic square : No" );
+    radioNumberOnImage[NumberColor::BLACK] = new QRadioButton();
+    radioNumberOnImage[NumberColor::BLACK]->setText( "Number on an graphic square : Black" );
+    radioNumberOnImage[NumberColor::WHITE] = new QRadioButton();
+    radioNumberOnImage[NumberColor::WHITE]->setText( "Number on an graphic square : White" );
 
     for ( auto radioMap : radioNumberOnImage )
     {

@@ -134,26 +134,37 @@ void MainWindow::setSquaresNumeric( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
+#include <iostream>
+
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
+
     BoardSize boardSize = board->getCurrentSize();
     ImageProvider& provider = ImageProvider::getInstance();
     SquareSize squareSize = provider.getImageSquareSize( boardSize );
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
-    NumberOnImage* num = Options::isNumberOnImage();
+    unique_ptr< NumberOnImage > numOnImage = Options::isNumberOnImage();
+    QPixmap pixmap;
+    QPainter* painter = nullptr;
 
     int i = 0;
     for ( auto square : squares )
     {
-        QPixmap pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
+        pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
 
-        if ( num->isNumberOnImage )
+        if ( numOnImage->isNumberOnImage )
         {
-            drawNumberOnGraphicSquare( pixmap, num->fontColor, num->fontSize, values.at( i - 1 ));
+            painter = new QPainter();
+            drawNumberOnGraphicSquare( painter, pixmap, numOnImage->fontColor, numOnImage->fontSize, values.at( i - 1 ));
         }
 
         QIcon icon( pixmap );
+        pixmap.detach();
+        if ( painter )
+        {
+            delete painter;
+        }
         QSize iconSize( squareSize, squareSize );
         square->setIconSize( iconSize );
         square->setIcon( icon );
@@ -166,17 +177,17 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::drawNumberOnGraphicSquare( QPixmap& pixmap, QColor penColor, int fontSize, int number )
+void MainWindow::drawNumberOnGraphicSquare( QPainter* painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
 {
     if ( number == 0 )
     {
         return;
     }
 
-    QPainter painter( &pixmap );
-    painter.setPen( QPen( penColor ));
-    painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
-    painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
+    painter->begin( &pixmap );
+    painter->setFont( QFont( "Times", fontSize, QFont::Bold ));
+    painter->setPen( penColor );
+    painter->drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
 }
 
 /*********************************************************************************/
@@ -514,4 +525,3 @@ void MainWindow::slotAbout()
 {
     new WindowAbout();
 }
-

@@ -61,27 +61,28 @@ bool Options::isImageToBeLoaded( BoardSize size )
 /*********************************************************************************/
 /*********************************************************************************/
 
-NumberOnImage* Options::isNumberOnImage()
+unique_ptr< NumberOnImage > Options::isNumberOnImage()
 {
-    NumberOnImage* num = new NumberOnImage;
+    unique_ptr< NumberOnImage > numOnImage( new NumberOnImage );
 
     if ( numberColor == NumberColor::NO )
     {
-        num->isNumberOnImage = false;
-        return num;
+        numOnImage->isNumberOnImage = false;
+        return numOnImage;
     }
 
     if ( numberColor == NumberColor::BLACK )
     {
-        num->fontColor = QColor{ 0, 0, 0 };
+        numOnImage->fontColor = QColor{ 0, 0, 0 };
     }
     if ( numberColor == NumberColor::WHITE )
     {
-        num->fontColor = QColor{ 255, 255, 255 };
+        numOnImage->fontColor = QColor{ 255, 255, 255 };
     }
 
-    num->fontSize = squareStyles[currentSquare].fontSize;
-    return num;
+    numOnImage->isNumberOnImage = true;
+    numOnImage->fontSize = squareStyles[currentSquare].fontSize;
+    return numOnImage;
 }
 
 /*********************************************************************************/
