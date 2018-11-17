@@ -134,11 +134,8 @@ void MainWindow::setSquaresNumeric( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-#include <iostream>
-
 void MainWindow::setSquaresGraphic( bool isRandom )
 {
-
     BoardSize boardSize = board->getCurrentSize();
     ImageProvider& provider = ImageProvider::getInstance();
     SquareSize squareSize = provider.getImageSquareSize( boardSize );
@@ -156,7 +153,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
         if ( numOnImage->isNumberOnImage )
         {
             painter = new QPainter();
-            drawNumberOnGraphicSquare( painter, pixmap, numOnImage->fontColor, numOnImage->fontSize, values.at( i - 1 ));
+            drawNumberOnGraphicSquare( *painter, pixmap, numOnImage->fontColor, numOnImage->fontSize, values.at( i - 1 ));
         }
 
         QIcon icon( pixmap );
@@ -164,7 +161,9 @@ void MainWindow::setSquaresGraphic( bool isRandom )
         if ( painter )
         {
             delete painter;
+            painter = nullptr;
         }
+
         QSize iconSize( squareSize, squareSize );
         square->setIconSize( iconSize );
         square->setIcon( icon );
@@ -177,17 +176,17 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::drawNumberOnGraphicSquare( QPainter* painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
+void MainWindow::drawNumberOnGraphicSquare( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
 {
     if ( number == 0 )
     {
         return;
     }
 
-    painter->begin( &pixmap );
-    painter->setFont( QFont( "Times", fontSize, QFont::Bold ));
-    painter->setPen( penColor );
-    painter->drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
+    painter.begin( &pixmap );
+    painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
+    painter.setPen( penColor );
+    painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
 }
 
 /*********************************************************************************/
