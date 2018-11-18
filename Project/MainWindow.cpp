@@ -20,7 +20,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     GUI gui( *this );
     gui.createMenu( action );
     QVBoxLayout* rightLayout = gui.createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
-    gui.completeLayouts( mainPanel, boardVerticalLayout, rightLayout );
+    gui.completeLayouts( mainPanel, layVerticalBoard, rightLayout );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
@@ -59,7 +59,7 @@ void MainWindow::createSquares()
         boardHorizontalLayout[i].setSpacing(0);
     }
 
-    boardVerticalLayout->addStretch();
+    layVerticalBoard->addStretch();
 
     for ( int i = 0; i < boardSize; i++ )
     {
@@ -71,9 +71,9 @@ void MainWindow::createSquares()
         }
 
         boardHorizontalLayout[i].addStretch();
-        boardVerticalLayout->addLayout( &boardHorizontalLayout[i] );
+        layVerticalBoard->addLayout( &boardHorizontalLayout[i] );
     }
-    boardVerticalLayout->addStretch();
+    layVerticalBoard->addStretch();
 }
 
 /*********************************************************************************/
@@ -94,9 +94,9 @@ void MainWindow::deleteSquares()
     squares.clear();
 
     QLayoutItem* child;
-    while (( child = boardVerticalLayout->takeAt( 0 )))
+    while (( child = layVerticalBoard->takeAt( 0 )))
     {
-        boardVerticalLayout->removeItem( 0 );
+        layVerticalBoard->removeItem( 0 );
     }
 
     delete[] boardHorizontalLayout;

@@ -19,9 +19,9 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     mapRadioGraphicMode[GraphicMode::SCALED] = new QRadioButton();
     mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton();
-    mapRadioGraphicMode[GraphicMode::SCALED]->setText( "Graphic is to be scalled" );
+    mapRadioGraphicMode[GraphicMode::SCALED]->setText( "Image is to be scalled" );
     mapRadioGraphicMode[GraphicMode::SCALED]->setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
-    mapRadioGraphicMode[GraphicMode::CROPPED]->setText( "Graphic is to be cropped" );
+    mapRadioGraphicMode[GraphicMode::CROPPED]->setText( "Image is to be cropped" );
 
     for ( auto& mapRadio : mapRadioGraphicMode )
     {
@@ -32,16 +32,16 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     mapRadioGraphicMode[ optionsCurrent->graphicMode]->setChecked( true );
 
     mapCheckImageToChose[BoardSize::FOUR] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::FOUR]->setText(  "Graphic is to be loaded for a board  4x4" );
+    mapCheckImageToChose[BoardSize::FOUR]->setText(  "Image is to be loaded for a board  4x4" );
     mapCheckImageToChose[BoardSize::FOUR]->setChecked( optionsCurrent->fourImageToBeLoaded );
     mapCheckImageToChose[BoardSize::FIVE] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::FIVE]->setText(  "Graphic is to be loaded for a board  5x5" );
+    mapCheckImageToChose[BoardSize::FIVE]->setText(  "Image is to be loaded for a board  5x5" );
     mapCheckImageToChose[BoardSize::FIVE]->setChecked( optionsCurrent->fiveImageToBeLoaded );
     mapCheckImageToChose[BoardSize::SIX] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::SIX]->setText(  "Graphic is to be loaded for a board  6x6" );
+    mapCheckImageToChose[BoardSize::SIX]->setText(  "Image is to be loaded for a board  6x6" );
     mapCheckImageToChose[BoardSize::SIX]->setChecked( optionsCurrent->sixImageToBeLoaded );
     mapCheckImageToChose[BoardSize::SEVEN] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::SEVEN]->setText(  "Graphic is to be loaded for a board  7x7" );
+    mapCheckImageToChose[BoardSize::SEVEN]->setText(  "Image is to be loaded for a board  7x7" );
     mapCheckImageToChose[BoardSize::SEVEN]->setChecked( optionsCurrent->sevenImageToBeLoaded );
 
     for ( auto& check : mapCheckImageToChose )
@@ -50,11 +50,11 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     }
 
     radioNumberOnImage[NumberColor::NO] = new QRadioButton();
-    radioNumberOnImage[NumberColor::NO]->setText( "Number on an graphic square : No" );
+    radioNumberOnImage[NumberColor::NO]->setText( "Number on a graphic tile : No" );
     radioNumberOnImage[NumberColor::BLACK] = new QRadioButton();
-    radioNumberOnImage[NumberColor::BLACK]->setText( "Number on an graphic square : Black" );
+    radioNumberOnImage[NumberColor::BLACK]->setText( "Number on a graphic tile : Black" );
     radioNumberOnImage[NumberColor::WHITE] = new QRadioButton();
-    radioNumberOnImage[NumberColor::WHITE]->setText( "Number on an graphic square : White" );
+    radioNumberOnImage[NumberColor::WHITE]->setText( "Number on a graphic tile : White" );
 
     for ( auto radioMap : radioNumberOnImage )
     {
@@ -85,7 +85,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layRadioImage.addWidget( radioNumberOnImage[NumberColor::WHITE] );
     layRadioImage.addSpacing( 15 );
     boxRadioImage.setLayout( &layRadioImage );
-    boxRadioImage.setTitle( "Image fof graphic board" );
+    boxRadioImage.setTitle( "Image for a graphic board" );
 
     /* Color of numeric board **************************************/
 
@@ -113,7 +113,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layRadioColor.addWidget( mapRadioColor[RED] );
     layRadioColor.addSpacing( 7 );
     boxRadioColor.setLayout( &layRadioColor );
-    boxRadioColor.setTitle( "Color of Numeric Board" );
+    boxRadioColor.setTitle( "Color of numeric board" );
 
     /* Slider for square size **************************************/
 
@@ -135,7 +135,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     layoutSlider.addWidget( &sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
     layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
     boxSquareSize.setLayout( &layoutSlider );
-    boxSquareSize.setTitle( "Size of Square" );
+    boxSquareSize.setTitle( "Size of tile" );
 
     /* Undo availability *******************************************/
 

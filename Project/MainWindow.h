@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow
 
     QWidget* mainPanel;
 
-    QVBoxLayout* boardVerticalLayout;
+    QVBoxLayout* layVerticalBoard;
     QHBoxLayout* boardHorizontalLayout;
     vector< QPushButton* > squares;
 
