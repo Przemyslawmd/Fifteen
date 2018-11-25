@@ -2,12 +2,12 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <map>
 #include "MainWindow.h"
 #include "Types.h"
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
+#include <map>
 
 typedef void ( MainWindow::*SlotMainWindow )();
 
@@ -18,7 +18,8 @@ Q_OBJECT
 
 public:
 
-    GUI( MainWindow& );
+    static void createGUI( MainWindow& );
+    static GUI* getGUI();
 
     void createMenu( map< Action, QAction* >& );
     QVBoxLayout* createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
@@ -26,8 +27,10 @@ public:
 
 private:
 
+    GUI( MainWindow& );
     void bindAction( QAction*&, SlotMainWindow, QString );
 
+    static GUI* gui;
     MainWindow& owner;
 };
 

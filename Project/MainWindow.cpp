@@ -1,5 +1,6 @@
 
 #include "MainWindow.h"
+#include "GUI.h"
 #include "Message.h"
 #include "WindowSetting.h"
 #include "WindowAbout.h"
@@ -11,16 +12,16 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFont>
-#include <GUI.h>
 
 MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
 {
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
-    GUI gui( *this );
-    gui.createMenu( action );
-    QVBoxLayout* rightLayout = gui.createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
-    gui.completeLayouts( mainPanel, layVerticalBoard, rightLayout );
+    GUI::createGUI( *this );
+    GUI* gui = GUI::getGUI();
+    gui->createMenu( action );
+    QVBoxLayout* rightLayout = gui->createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
+    gui->completeLayouts( mainPanel, layVerticalBoard, rightLayout );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
