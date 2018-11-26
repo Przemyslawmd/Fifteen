@@ -7,6 +7,8 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <map>
 
 typedef void ( MainWindow::*SlotMainWindow )();

@@ -1,5 +1,6 @@
 
 #include "GUI.h"
+#include <QGroupBox>
 
 void GUI::createGUI( MainWindow& owner )
 {

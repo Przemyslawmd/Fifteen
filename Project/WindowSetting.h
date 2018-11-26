@@ -14,6 +14,7 @@
 #include <QCheckBox>
 #include <QSlider>
 #include <QDialog>
+#include <QLabel>
 #include <array>
 
 using std::array;

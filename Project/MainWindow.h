@@ -6,13 +6,9 @@
 #include "Types.h"
 #include "UndoMove.h"
 #include <QMainWindow>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QPushButton>
 #include <QButtonGroup>
 #include <QRadioButton>
-#include <QGroupBox>
-#include <QLabel>
 #include <memory>
 #include <array>
 #include <map>
@@ -82,3 +78,4 @@ public slots:
 };
 
 #endif // MAINWINDOW_H
+
