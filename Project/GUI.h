@@ -22,8 +22,8 @@ public:
     static GUI* getGUI();
 
     void createMenu( map< Action, QAction* >& );
-    QVBoxLayout* createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
-    void completeLayouts( QWidget* mainPanel, QVBoxLayout* );
+    void createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
+    void completeLayouts( QWidget* mainPanel );
 
     void createTiles( BoardSize, SquareSize );
     void deleteTiles();
@@ -37,8 +37,10 @@ private:
     static GUI* gui;
     MainWindow& owner;
     vector< QPushButton* > tiles;
+
     QVBoxLayout* layVerticalBoard;
     QHBoxLayout* layHorizontalBoard;
+    QVBoxLayout* layRight;
 };
 
 #endif // GUI_H

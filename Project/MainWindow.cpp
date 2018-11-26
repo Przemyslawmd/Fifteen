@@ -20,8 +20,8 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     GUI::createGUI( *this );
     GUI* gui = GUI::getGUI();
     gui->createMenu( action );
-    QVBoxLayout* rightLayout = gui->createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
-    gui->completeLayouts( mainPanel, rightLayout );
+    gui->createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
+    gui->completeLayouts( mainPanel );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;

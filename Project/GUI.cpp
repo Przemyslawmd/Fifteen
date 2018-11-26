@@ -55,7 +55,7 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-QVBoxLayout* GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUndo, map< BoardMode, QRadioButton* >& mapRadioKind,
+void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUndo, map< BoardMode, QRadioButton* >& mapRadioKind,
                                                                                             map< BoardSize, QRadioButton* >& mapRadioSize)
 {
     mapRadioSize[BoardSize::FOUR] = new QRadioButton();
@@ -119,25 +119,24 @@ QVBoxLayout* GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*
     pushUndo->setDisabled( true );
     connect( pushUndo, &QPushButton::clicked, &owner, &MainWindow::slotUndoMove );
 
-    QVBoxLayout* layout = new QVBoxLayout();
-    layout->setContentsMargins( 30, 0, 20, 0 );
-    layout->addWidget( pushRandom );
-    layout->addSpacing( 15 );
-    layout->addWidget( pushSolve );
-    layout->addSpacing( 15 );
-    layout->addWidget( pushUndo );
-    layout->addSpacing( 30 );
-    layout->addWidget( radioSizeBox );
-    layout->addStretch();
-    layout->addWidget( radioKindBox );
-    layout->addStretch();
-    return layout;
+    layRight = new QVBoxLayout();
+    layRight->setContentsMargins( 30, 0, 20, 0 );
+    layRight->addWidget( pushRandom );
+    layRight->addSpacing( 15 );
+    layRight->addWidget( pushSolve );
+    layRight->addSpacing( 15 );
+    layRight->addWidget( pushUndo );
+    layRight->addSpacing( 30 );
+    layRight->addWidget( radioSizeBox );
+    layRight->addStretch();
+    layRight->addWidget( radioKindBox );
+    layRight->addStretch();
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::completeLayouts( QWidget* mainPanel, QVBoxLayout* rightLayout )
+void GUI::completeLayouts( QWidget* mainPanel )
 {
     mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 10 );
@@ -150,7 +149,7 @@ void GUI::completeLayouts( QWidget* mainPanel, QVBoxLayout* rightLayout )
 
     QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
     mainLayout->addWidget( boxImages );
-    mainLayout->addLayout( rightLayout );
+    mainLayout->addLayout( layRight );
 
     owner.setCentralWidget( mainPanel );
 }
