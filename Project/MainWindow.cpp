@@ -413,12 +413,14 @@ void MainWindow::slotReadBoard()
 void MainWindow::setColor()
 {
     QString& currentStyle = Options::getStyle();
+    GUI* gui = GUI::getGUI();
+    vector< QPushButton* >& tiles = gui->getTiles();
 
-    for ( auto square : squares )
+    for ( auto tile : tiles )
     {
-        if ( square->styleSheet() != Options::getEmptyStyle() )
+        if ( tile->styleSheet() != Options::getEmptyStyle() )
         {
-            square->setStyleSheet( currentStyle );
+            tile->setStyleSheet( currentStyle );
         }
     }    
 }

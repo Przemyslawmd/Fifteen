@@ -32,12 +32,7 @@ class MainWindow : public QMainWindow
 
     QWidget* mainPanel;
 
-    QVBoxLayout* layVerticalBoard;
-    QHBoxLayout* boardHorizontalLayout;
-    vector< QPushButton* > squares;
-
     QPushButton* pushUndo;
-
     map< BoardSize, QRadioButton* > radioSize;
     map< BoardMode, QRadioButton* > radioKind;
 
