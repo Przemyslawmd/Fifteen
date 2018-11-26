@@ -55,8 +55,8 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUndo, map< BoardMode, QRadioButton* >& mapRadioKind,
-                                                                                            map< BoardSize, QRadioButton* >& mapRadioSize)
+void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUndo,
+                             map< BoardMode, QRadioButton* >& mapRadioKind, map< BoardSize, QRadioButton* >& mapRadioSize)
 {
     mapRadioSize[BoardSize::FOUR] = new QRadioButton();
     mapRadioSize[BoardSize::FIVE] = new QRadioButton();
@@ -167,7 +167,7 @@ void GUI::bindAction( QAction*& action, SlotMainWindow slot, QString text )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( BoardSize boardSize, SquareSize squareSize )
+void GUI::createTiles( BoardSize boardSize, SquareSize tileSize )
 {
     deleteTiles();
 
@@ -181,8 +181,8 @@ void GUI::createTiles( BoardSize boardSize, SquareSize squareSize )
         for ( int j = 0; j < boardSize; j++ )
         {
             tiles.at( i * boardSize + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
-            tiles.at( i * boardSize + j )->setMaximumSize( squareSize, squareSize );
-            tiles.at( i * boardSize + j )->setMinimumSize( squareSize, squareSize );
+            tiles.at( i * boardSize + j )->setMaximumSize( tileSize, tileSize );
+            tiles.at( i * boardSize + j )->setMinimumSize( tileSize, tileSize );
             connect( tiles.at( i * boardSize + j ), &QPushButton::clicked, &owner, &MainWindow::pressSquare );
         }
     }
@@ -221,9 +221,9 @@ void GUI::deleteTiles()
         return;
     }
 
-    for ( auto square : tiles )
+    for ( auto tile : tiles )
     {
-        delete square;
+        delete tile;
     }
 
     tiles.clear();
@@ -249,3 +249,4 @@ vector< QPushButton* >& GUI::getTiles()
 /*********************************************************************************/
 
 GUI* GUI::gui = nullptr;
+
