@@ -18,10 +18,10 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
     GUI::createGUI( *this );
-    GUI* gui = GUI::getGUI();
-    gui->createMenu( action );
-    gui->createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
-    gui->completeLayouts( mainPanel );
+    GUI& gui = GUI::getGUI();
+    gui.createMenu( action );
+    gui.createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
+    gui.completeLayouts( mainPanel );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
@@ -36,8 +36,7 @@ void MainWindow::createSquares()
     SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
                               Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
 
-    GUI* gui = GUI::getGUI();
-    gui->createTiles( boardSize, squareSize );
+    GUI::getGUI().createTiles( boardSize, squareSize );
 }
 
 /*********************************************************************************/
@@ -50,9 +49,7 @@ void MainWindow::setSquaresNumeric( bool isRandom )
     QFont font;
     font.setPixelSize( Options::getSquareSizeFont() );
 
-    GUI* gui = GUI::getGUI();
-    vector< QPushButton* >& tiles = gui->getTiles();
-
+    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
     for ( auto tile : tiles )
     {
         if ( *iter != 0 )
@@ -86,9 +83,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     QPixmap pixmap;
     QPainter* painter = nullptr;
 
-    GUI* gui = GUI::getGUI();
-    vector< QPushButton* >& tiles = gui->getTiles();
-
+    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
     int i = 0;
     for ( auto tile : tiles )
     {
@@ -266,8 +261,7 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 {
     QString& currentStyle = Options::getStyle();
     BoardSize boardSize = board->getCurrentSize();
-    GUI* gui = GUI::getGUI();
-    vector< QPushButton* >& tiles = gui->getTiles();
+    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
     tiles.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
@@ -281,8 +275,7 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
     BoardSize boardSize = board->getCurrentSize();
-    GUI* gui = GUI::getGUI();
-    vector< QPushButton* >& tiles = gui->getTiles();
+    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
     SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
@@ -412,8 +405,7 @@ void MainWindow::slotReadBoard()
 void MainWindow::setColor()
 {
     QString& currentStyle = Options::getStyle();
-    GUI* gui = GUI::getGUI();
-    vector< QPushButton* >& tiles = gui->getTiles();
+    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     for ( auto tile : tiles )
     {
@@ -475,3 +467,4 @@ void MainWindow::slotAbout()
 {
     new WindowAbout();
 }
+

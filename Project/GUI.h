@@ -19,7 +19,7 @@ Q_OBJECT
 public:
 
     static void createGUI( MainWindow& );
-    static GUI* getGUI();
+    static GUI& getGUI();
 
     void createMenu( map< Action, QAction* >& );
     void createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
