@@ -53,19 +53,19 @@ void MainWindow::setSquaresNumeric( bool isRandom )
     GUI* gui = GUI::getGUI();
     vector< QPushButton* >& tiles = gui->getTiles();
 
-    for ( auto square : tiles )
+    for ( auto tile : tiles )
     {
         if ( *iter != 0 )
         {
-            square->setText( QString::number( *iter ));
-            square->setStyleSheet( Options::getStyle() );
+            tile->setText( QString::number( *iter ));
+            tile->setStyleSheet( Options::getStyle() );
         }
         else
         {
-            square->setStyleSheet( Options::getEmptyStyle() );
+            tile->setStyleSheet( Options::getEmptyStyle() );
         }
 
-        square->setFont( font );
+        tile->setFont( font );
         iter++;
     }
 
@@ -90,7 +90,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     vector< QPushButton* >& tiles = gui->getTiles();
 
     int i = 0;
-    for ( auto square : tiles )
+    for ( auto tile : tiles )
     {
         pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
 
@@ -109,9 +109,9 @@ void MainWindow::setSquaresGraphic( bool isRandom )
         }
 
         QSize iconSize( squareSize, squareSize );
-        square->setIconSize( iconSize );
-        square->setIcon( icon );
-        square->setStyleSheet( "" );
+        tile->setIconSize( iconSize );
+        tile->setIcon( icon );
+        tile->setStyleSheet( "" );
     }
 
     Options::setBoardMode( BoardMode::GRAPHIC );
@@ -266,14 +266,13 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 {
     QString& currentStyle = Options::getStyle();
     BoardSize boardSize = board->getCurrentSize();
-
     GUI* gui = GUI::getGUI();
-    vector< QPushButton* >& squares = gui->getTiles();
+    vector< QPushButton* >& tiles = gui->getTiles();
 
-    squares.at( rowDest * boardSize + colDest )->setText( squares.at( rowSource * boardSize + colSource )->text() );
-    squares.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
-    squares.at( rowSource * boardSize + colSource )->setText( "" );
-    squares.at( rowSource * boardSize + colSource )->setStyleSheet( Options::getEmptyStyle() );
+    tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
+    tiles.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
+    tiles.at( rowSource * boardSize + colSource )->setText( "" );
+    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Options::getEmptyStyle() );
 }
 
 /*********************************************************************************/
@@ -283,14 +282,14 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
 {
     BoardSize boardSize = board->getCurrentSize();
     GUI* gui = GUI::getGUI();
-    vector< QPushButton* >& squares = gui->getTiles();
+    vector< QPushButton* >& tiles = gui->getTiles();
 
-    squares.at( rowDest * boardSize + colDest )->setIcon( squares.at( rowSource * boardSize + colSource )->icon() );
+    tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
     SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
     QPixmap pixmap( imageSize, imageSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
-    squares.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
+    tiles.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
 }
 
 /*********************************************************************************/
