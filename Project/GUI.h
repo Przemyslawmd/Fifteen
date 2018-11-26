@@ -23,9 +23,10 @@ public:
 
     void createMenu( map< Action, QAction* >& );
     QVBoxLayout* createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
-    void completeLayouts( QWidget* mainPanel, QVBoxLayout*&, QVBoxLayout* );
+    void completeLayouts( QWidget* mainPanel, QVBoxLayout* );
 
     void createTiles( BoardSize, SquareSize );
+    void deleteTiles();
     vector< QPushButton* >& getTiles();
 
 private:

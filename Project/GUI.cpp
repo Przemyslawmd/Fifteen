@@ -137,16 +137,16 @@ QVBoxLayout* GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::completeLayouts( QWidget* mainPanel, QVBoxLayout*& boardVerticalLayout, QVBoxLayout* rightLayout )
+void GUI::completeLayouts( QWidget* mainPanel, QVBoxLayout* rightLayout )
 {
     mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 10 );
 
-    boardVerticalLayout = new QVBoxLayout();
-    boardVerticalLayout->setSpacing( 0 );
+    layVerticalBoard = new QVBoxLayout();
+    layVerticalBoard->setSpacing( 0 );
 
     QGroupBox* boxImages = new QGroupBox();
-    boxImages->setLayout( boardVerticalLayout );
+    boxImages->setLayout( layVerticalBoard );
 
     QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
     mainLayout->addWidget( boxImages );
@@ -168,9 +168,74 @@ void GUI::bindAction( QAction*& action, SlotMainWindow slot, QString text )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( BoardSize boardSize, SquareSize SquareSize )
+void GUI::createTiles( BoardSize boardSize, SquareSize squareSize )
 {
+    deleteTiles();
 
+    for ( int i = 0; i < boardSize * boardSize; i++ )
+    {
+        tiles.push_back( new QPushButton() );
+    }
+
+    for ( int i = 0; i < boardSize ; i++ )
+    {
+        for ( int j = 0; j < boardSize; j++ )
+        {
+            tiles.at( i * boardSize + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
+            tiles.at( i * boardSize + j )->setMaximumSize( squareSize, squareSize );
+            tiles.at( i * boardSize + j )->setMinimumSize( squareSize, squareSize );
+            connect( tiles.at( i * boardSize + j ), &QPushButton::clicked, &owner, &MainWindow::pressSquare );
+        }
+    }
+
+    layHorizontalBoard = new QHBoxLayout[boardSize];
+
+    for ( int i = 0; i < boardSize; i++ )
+    {
+        layHorizontalBoard[i].setSpacing(0);
+    }
+
+    layVerticalBoard->addStretch();
+
+    for ( int i = 0; i < boardSize; i++ )
+    {
+        layHorizontalBoard[i].addStretch();
+
+        for ( int j = 0; j < boardSize; j++ )
+        {
+            layHorizontalBoard[i].addWidget( tiles.at( i * boardSize + j ));
+        }
+
+        layHorizontalBoard[i].addStretch();
+        layVerticalBoard->addLayout( &layHorizontalBoard[i] );
+    }
+    layVerticalBoard->addStretch();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void GUI::deleteTiles()
+{
+    if ( tiles.empty() )
+    {
+        return;
+    }
+
+    for ( auto square : tiles )
+    {
+        delete square;
+    }
+
+    tiles.clear();
+
+    QLayoutItem* child;
+    while (( child = layVerticalBoard->takeAt( 0 )))
+    {
+        layVerticalBoard->removeItem( 0 );
+    }
+
+    delete[] layHorizontalBoard;
 }
 
 /*********************************************************************************/
@@ -180,5 +245,8 @@ vector< QPushButton* >& GUI::getTiles()
 {
     return tiles;
 }
+
+/*********************************************************************************/
+/*********************************************************************************/
 
 GUI* GUI::gui = nullptr;

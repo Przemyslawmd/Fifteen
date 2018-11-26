@@ -47,7 +47,6 @@ class MainWindow : public QMainWindow
     void createLayouts();
 
     void createSquares();
-    void deleteSquares();
     void setSquaresNumeric( bool isRandom );
     void setSquaresGraphic( bool isRandom );
     void drawNumberOnGraphicSquare( QPainter&, QPixmap&, QColor, int fontSize, int number );

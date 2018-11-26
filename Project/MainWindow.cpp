@@ -21,7 +21,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     GUI* gui = GUI::getGUI();
     gui->createMenu( action );
     QVBoxLayout* rightLayout = gui->createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
-    gui->completeLayouts( mainPanel, layVerticalBoard, rightLayout );
+    gui->completeLayouts( mainPanel, rightLayout );
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;
@@ -32,75 +32,12 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
 
 void MainWindow::createSquares()
 {
-    deleteSquares();
     BoardSize boardSize = board->getCurrentSize();
     SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
                               Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
 
-    for ( int i = 0; i < boardSize * boardSize; i++ )
-    {
-        squares.push_back( new QPushButton() );
-    }
-
-    for ( int i = 0; i < boardSize ; i++ )
-    {
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            squares.at( i * boardSize + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
-            squares.at( i * boardSize + j )->setMaximumSize( squareSize, squareSize );
-            squares.at( i * boardSize + j )->setMinimumSize( squareSize, squareSize );
-            connect( squares.at( i * boardSize + j ), SIGNAL( clicked() ), this, SLOT( pressSquare() ));
-        }
-    }
-
-    boardHorizontalLayout = new QHBoxLayout[boardSize];
-
-    for ( int i = 0; i < boardSize; i++ )
-    {
-        boardHorizontalLayout[i].setSpacing(0);
-    }
-
-    layVerticalBoard->addStretch();
-
-    for ( int i = 0; i < boardSize; i++ )
-    {
-        boardHorizontalLayout[i].addStretch();
-
-        for ( int j = 0; j < boardSize; j++ )
-        {
-            boardHorizontalLayout[i].addWidget( squares.at( i * boardSize + j ));
-        }
-
-        boardHorizontalLayout[i].addStretch();
-        layVerticalBoard->addLayout( &boardHorizontalLayout[i] );
-    }
-    layVerticalBoard->addStretch();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void MainWindow::deleteSquares()
-{
-    if ( squares.empty() )
-    {
-        return;
-    }
-
-    for ( auto square : squares )
-    {
-        delete square;
-    }
-
-    squares.clear();
-
-    QLayoutItem* child;
-    while (( child = layVerticalBoard->takeAt( 0 )))
-    {
-        layVerticalBoard->removeItem( 0 );
-    }
-
-    delete[] boardHorizontalLayout;
+    GUI* gui = GUI::getGUI();
+    gui->createTiles( boardSize, squareSize );
 }
 
 /*********************************************************************************/
@@ -113,7 +50,10 @@ void MainWindow::setSquaresNumeric( bool isRandom )
     QFont font;
     font.setPixelSize( Options::getSquareSizeFont() );
 
-    for ( auto square : squares )
+    GUI* gui = GUI::getGUI();
+    vector< QPushButton* >& tiles = gui->getTiles();
+
+    for ( auto square : tiles )
     {
         if ( *iter != 0 )
         {
@@ -146,8 +86,11 @@ void MainWindow::setSquaresGraphic( bool isRandom )
     QPixmap pixmap;
     QPainter* painter = nullptr;
 
+    GUI* gui = GUI::getGUI();
+    vector< QPushButton* >& tiles = gui->getTiles();
+
     int i = 0;
-    for ( auto square : squares )
+    for ( auto square : tiles )
     {
         pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
 
@@ -324,6 +267,9 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
     QString& currentStyle = Options::getStyle();
     BoardSize boardSize = board->getCurrentSize();
 
+    GUI* gui = GUI::getGUI();
+    vector< QPushButton* >& squares = gui->getTiles();
+
     squares.at( rowDest * boardSize + colDest )->setText( squares.at( rowSource * boardSize + colSource )->text() );
     squares.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
     squares.at( rowSource * boardSize + colSource )->setText( "" );
@@ -336,6 +282,9 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
 {
     BoardSize boardSize = board->getCurrentSize();
+    GUI* gui = GUI::getGUI();
+    vector< QPushButton* >& squares = gui->getTiles();
+
     squares.at( rowDest * boardSize + colDest )->setIcon( squares.at( rowSource * boardSize + colSource )->icon() );
     SquareSize imageSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
     QPixmap pixmap( imageSize, imageSize );
