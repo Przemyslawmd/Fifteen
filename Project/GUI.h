@@ -25,6 +25,9 @@ public:
     QVBoxLayout* createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
     void completeLayouts( QWidget* mainPanel, QVBoxLayout*&, QVBoxLayout* );
 
+    void createTiles( BoardSize, SquareSize );
+    vector< QPushButton* >& getTiles();
+
 private:
 
     GUI( MainWindow& );
@@ -32,6 +35,9 @@ private:
 
     static GUI* gui;
     MainWindow& owner;
+    vector< QPushButton* > tiles;
+    QVBoxLayout* layVerticalBoard;
+    QHBoxLayout* layHorizontalBoard;
 };
 
 #endif // GUI_H

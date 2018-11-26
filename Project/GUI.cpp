@@ -165,4 +165,20 @@ void GUI::bindAction( QAction*& action, SlotMainWindow slot, QString text )
     connect( action, &QAction::triggered, &owner, slot );
 }
 
+/*********************************************************************************/
+/*********************************************************************************/
+
+void GUI::createTiles( BoardSize boardSize, SquareSize SquareSize )
+{
+
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+vector< QPushButton* >& GUI::getTiles()
+{
+    return tiles;
+}
+
 GUI* GUI::gui = nullptr;
