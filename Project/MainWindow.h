@@ -22,14 +22,11 @@ class MainWindow : public QMainWindow
     friend class GUI;
 
     Board* board;
-    UndoMove* undoMoveService;
+    unique_ptr< UndoMove > undoMoveService;
     map< Action, QAction* > action;
 
     map< BoardSize, QRadioButton* > radioSize;
     map< BoardMode, QRadioButton* > radioKind;
-
-    void createRightPanel();
-    void createLayouts();
 
     void createSquares();
     void setSquaresNumeric( bool isRandom );

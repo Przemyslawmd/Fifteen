@@ -446,7 +446,7 @@ void MainWindow::redrawSquares()
 
 void MainWindow::createUndoMovesService()
 {
-    undoMoveService = new UndoMove();
+    undoMoveService = unique_ptr< UndoMove >( new UndoMove() );
     GUI::getGUI().setStatePushUndo( false );
 }
 
@@ -455,8 +455,8 @@ void MainWindow::createUndoMovesService()
 
 void MainWindow::deleteUndoMovesService()
 {
-    delete undoMoveService;
-    undoMoveService = nullptr;
+    UndoMove* undoMove = undoMoveService.release();// = nullptr;
+    delete undoMove;
     GUI::getGUI().setStatePushUndo( true );
 }
 
