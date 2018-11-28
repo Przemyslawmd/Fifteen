@@ -20,7 +20,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }
     GUI::createGUI( *this );
     GUI& gui = GUI::getGUI();
     gui.createMenu( action );
-    gui.createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
+    gui.createRightLayout( pushUndo, radioKind, radioSize );
     gui.completeLayouts();
     createSquares();
     setSquaresNumeric( false );
@@ -141,7 +141,7 @@ void MainWindow::drawNumberOnGraphicSquare( QPainter& painter, QPixmap& pixmap, 
 
 void MainWindow::slotGenerateBoard()
 {
-    BoardSize boardSize = static_cast< BoardSize >( radioSizeGroup->checkedId() );
+    BoardSize boardSize = GUI::getGUI().checkRadioBoardSize();
 
     if ( radioKind[BoardMode::GRAPHIC]->isChecked() )
     {

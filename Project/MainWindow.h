@@ -7,7 +7,7 @@
 #include "UndoMove.h"
 #include <QMainWindow>
 #include <QPushButton>
-#include <QButtonGroup>
+//#include <QButtonGroup>
 #include <QRadioButton>
 #include <memory>
 #include <array>
@@ -29,8 +29,6 @@ class MainWindow : public QMainWindow
     QPushButton* pushUndo;
     map< BoardSize, QRadioButton* > radioSize;
     map< BoardMode, QRadioButton* > radioKind;
-
-    QButtonGroup* radioSizeGroup;
 
     void createRightPanel();
     void createLayouts();

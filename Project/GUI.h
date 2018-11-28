@@ -9,9 +9,10 @@
 #include <QMenuBar>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QGroupBox>
+#include <QButtonGroup>
 #include <map>
 #include <memory>
-#include <QGroupBox>
 
 typedef void ( MainWindow::*SlotMainWindow )();
 
@@ -27,12 +28,13 @@ public:
     static GUI& getGUI();
 
     void createMenu( map< Action, QAction* >& );
-    void createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
+    void createRightLayout( QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
     void completeLayouts();
 
     void createTiles( BoardSize, SquareSize );
     void deleteTiles();
     vector< QPushButton* >& getTiles();
+    BoardSize checkRadioBoardSize();
 
 private:
 
@@ -41,7 +43,9 @@ private:
 
     static GUI* gui;
     MainWindow& owner;
+
     vector< QPushButton* > tiles;
+    unique_ptr< QButtonGroup > groupRadioSize;
 
     QVBoxLayout* layVerticalBoard;
     vector< QHBoxLayout* > layHorizontalBoard;

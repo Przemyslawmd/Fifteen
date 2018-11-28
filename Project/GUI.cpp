@@ -2,6 +2,7 @@
 #include "GUI.h"
 #include <QGroupBox>
 
+
 void GUI::createGUI( MainWindow& owner )
 {
     gui = new GUI( owner );
@@ -64,7 +65,7 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUndo,
+void GUI::createRightLayout( QPushButton*& pushUndo,
                              map< BoardMode, QRadioButton* >& mapRadioKind, map< BoardSize, QRadioButton* >& mapRadioSize)
 {
     mapRadioSize[BoardSize::FOUR] = new QRadioButton();
@@ -73,14 +74,14 @@ void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUn
     mapRadioSize[BoardSize::SEVEN] = new QRadioButton();
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    radioSizeGroup = new QButtonGroup();
+    groupRadioSize = unique_ptr< QButtonGroup >( new QButtonGroup () );
     for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapRadioSize )
     {
         radioSizeLayout->addSpacing( 10 );
         radioSizeLayout->addWidget( radioSizePair.second );
         radioSizePair.second->setStyleSheet( "margin-left:5px;" );
-        radioSizeGroup->addButton( radioSizePair.second );
-        radioSizeGroup->setId( radioSizePair.second, radioSizePair.first );
+        groupRadioSize->addButton( radioSizePair.second );
+        groupRadioSize->setId( radioSizePair.second, radioSizePair.first );
     }
     radioSizeLayout->addSpacing( 30 );
 
@@ -251,6 +252,14 @@ void GUI::deleteTiles()
 vector< QPushButton* >& GUI::getTiles()
 {
     return tiles;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+BoardSize GUI::checkRadioBoardSize()
+{
+    return static_cast< BoardSize >( groupRadioSize->checkedId() );
 }
 
 /*********************************************************************************/
