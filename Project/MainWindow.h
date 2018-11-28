@@ -26,8 +26,6 @@ class MainWindow : public QMainWindow
     UndoMove* undoMoveService;
     map< Action, QAction* > action;
 
-    QWidget* mainPanel;
-
     QPushButton* pushUndo;
     map< BoardSize, QRadioButton* > radioSize;
     map< BoardMode, QRadioButton* > radioKind;

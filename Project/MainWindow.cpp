@@ -13,7 +13,7 @@
 #include <QFileDialog>
 #include <QFont>
 
-MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ this }
+MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }
 {
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
@@ -21,7 +21,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }, mainPanel{ th
     GUI& gui = GUI::getGUI();
     gui.createMenu( action );
     gui.createRightLayout( radioSizeGroup, pushUndo, radioKind, radioSize );
-    gui.completeLayouts( mainPanel );
+    gui.completeLayouts();
     createSquares();
     setSquaresNumeric( false );
     undoMoveService = nullptr;

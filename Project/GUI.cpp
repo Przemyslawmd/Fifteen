@@ -82,7 +82,6 @@ void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUn
     mapRadioSize[BoardSize::SEVEN]->setText( "7" );
     mapRadioSize[BoardSize::FOUR]->setChecked( true );
 
-    //QGroupBox* radioSizeBox = new QGroupBox(" Dimension of Board ");
     unique_ptr< QGroupBox > radioSizeBox = unique_ptr< QGroupBox >( new QGroupBox( " Dimension of Board " ));
     radioSizeBox->setLayout( radioSizeLayout );
 
@@ -138,9 +137,9 @@ void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUn
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::completeLayouts( QWidget* mainPanel )
+void GUI::completeLayouts()
 {
-    mainPanel = new QWidget();
+    QWidget* mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 10 );
 
     layVerticalBoard = new QVBoxLayout();

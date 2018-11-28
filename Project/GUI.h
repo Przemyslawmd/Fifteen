@@ -27,7 +27,7 @@ public:
 
     void createMenu( map< Action, QAction* >& );
     void createRightLayout( QButtonGroup*&, QPushButton*&, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
-    void completeLayouts( QWidget* mainPanel );
+    void completeLayouts();
 
     void createTiles( BoardSize, SquareSize );
     void deleteTiles();
