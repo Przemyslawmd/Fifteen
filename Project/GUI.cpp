@@ -65,8 +65,7 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( QPushButton*& pushUndo,
-                             map< BoardMode, QRadioButton* >& mapRadioKind, map< BoardSize, QRadioButton* >& mapRadioSize)
+void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map< BoardSize, QRadioButton* >& mapRadioSize)
 {
     mapRadioSize[BoardSize::FOUR] = new QRadioButton();
     mapRadioSize[BoardSize::FIVE] = new QRadioButton();
@@ -123,11 +122,11 @@ void GUI::createRightLayout( QPushButton*& pushUndo,
     pushSolve->setStyleSheet( "height:20px;" );
     connect( pushSolve, &QPushButton::clicked, &owner, &MainWindow::slotSolveBoard );
 
-    pushUndo = new QPushButton(" Undo Move ");
+    pushUndo = unique_ptr< QPushButton>( new QPushButton(" Undo Move " ));
     pushUndo->setText("Undo Move");
     pushUndo->setStyleSheet( "height:20px;" );
     pushUndo->setDisabled( true );
-    connect( pushUndo, &QPushButton::clicked, &owner, &MainWindow::slotUndoMove );
+    connect( pushUndo.get(), &QPushButton::clicked, &owner, &MainWindow::slotUndoMove );
 
     layRight = new QVBoxLayout();
     layRight->setContentsMargins( 30, 0, 20, 0 );
@@ -135,7 +134,7 @@ void GUI::createRightLayout( QPushButton*& pushUndo,
     layRight->addSpacing( 15 );
     layRight->addWidget( pushSolve );
     layRight->addSpacing( 15 );
-    layRight->addWidget( pushUndo );
+    layRight->addWidget( pushUndo.get() );
     layRight->addSpacing( 30 );
     layRight->addWidget( radioSizeBox.release() );
     layRight->addStretch();
@@ -260,6 +259,11 @@ vector< QPushButton* >& GUI::getTiles()
 BoardSize GUI::checkRadioBoardSize()
 {
     return static_cast< BoardSize >( groupRadioSize->checkedId() );
+}
+
+void GUI::setStatePushUndo( bool state )
+{
+    pushUndo->setDisabled( state );
 }
 
 /*********************************************************************************/

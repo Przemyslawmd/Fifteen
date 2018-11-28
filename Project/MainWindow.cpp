@@ -20,7 +20,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }
     GUI::createGUI( *this );
     GUI& gui = GUI::getGUI();
     gui.createMenu( action );
-    gui.createRightLayout( pushUndo, radioKind, radioSize );
+    gui.createRightLayout( radioKind, radioSize );
     gui.completeLayouts();
     createSquares();
     setSquaresNumeric( false );
@@ -447,7 +447,7 @@ void MainWindow::redrawSquares()
 void MainWindow::createUndoMovesService()
 {
     undoMoveService = new UndoMove();
-    pushUndo->setDisabled( false );
+    GUI::getGUI().setStatePushUndo( false );
 }
 
 /*********************************************************************************/
@@ -457,7 +457,7 @@ void MainWindow::deleteUndoMovesService()
 {
     delete undoMoveService;
     undoMoveService = nullptr;
-    pushUndo->setDisabled( true );
+    GUI::getGUI().setStatePushUndo( true );
 }
 
 /*********************************************************************************/
