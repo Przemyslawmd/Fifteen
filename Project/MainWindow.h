@@ -64,6 +64,7 @@ private slots:
 public:
 
     explicit MainWindow( QWidget *parent = 0 );
+    ~MainWindow();
 
     void setColor();
     void redrawSquares();

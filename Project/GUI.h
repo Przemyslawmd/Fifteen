@@ -23,6 +23,7 @@ Q_OBJECT
 public:
 
     static void createGUI( MainWindow& );
+    static void releaseGUI();
     static GUI& getGUI();
 
     void createMenu( map< Action, QAction* >& );
