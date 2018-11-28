@@ -82,7 +82,8 @@ void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUn
     mapRadioSize[BoardSize::SEVEN]->setText( "7" );
     mapRadioSize[BoardSize::FOUR]->setChecked( true );
 
-    QGroupBox* radioSizeBox = new QGroupBox(" Dimension of Board ");
+    //QGroupBox* radioSizeBox = new QGroupBox(" Dimension of Board ");
+    unique_ptr< QGroupBox > radioSizeBox = unique_ptr< QGroupBox >( new QGroupBox( " Dimension of Board " ));
     radioSizeBox->setLayout( radioSizeLayout );
 
     mapRadioKind[BoardMode::NUMERIC] = new QRadioButton();
@@ -103,7 +104,7 @@ void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUn
     }
     radioKindLayout->addSpacing( 30 );
 
-    QGroupBox* radioKindBox = new QGroupBox(" Kind of Board ");
+    unique_ptr< QGroupBox > radioKindBox = unique_ptr< QGroupBox> (new QGroupBox(" Kind of Board "));
     radioKindBox->setLayout( radioKindLayout );
 
     QPushButton* pushRandom = new QPushButton(" Generate Board ");
@@ -128,9 +129,9 @@ void GUI::createRightLayout( QButtonGroup*& radioSizeGroup, QPushButton*& pushUn
     layRight->addSpacing( 15 );
     layRight->addWidget( pushUndo );
     layRight->addSpacing( 30 );
-    layRight->addWidget( radioSizeBox );
+    layRight->addWidget( radioSizeBox.release() );
     layRight->addStretch();
-    layRight->addWidget( radioKindBox );
+    layRight->addWidget( radioKindBox.release() );
     layRight->addStretch();
 }
 
@@ -188,27 +189,23 @@ void GUI::createTiles( BoardSize boardSize, SquareSize tileSize )
         }
     }
 
-    layHorizontalBoard = new QHBoxLayout[boardSize];
-
-    for ( int i = 0; i < boardSize; i++ )
-    {
-        layHorizontalBoard[i].setSpacing(0);
-    }
-
     layVerticalBoard->addStretch();
 
     for ( int i = 0; i < boardSize; i++ )
     {
-        layHorizontalBoard[i].addStretch();
+        layHorizontalBoard.push_back( new QHBoxLayout() );
+        layHorizontalBoard[i]->setSpacing(0);
+        layHorizontalBoard[i]->addStretch();
 
         for ( int j = 0; j < boardSize; j++ )
         {
-            layHorizontalBoard[i].addWidget( tiles.at( i * boardSize + j ));
+            layHorizontalBoard[i]->addWidget( tiles.at( i * boardSize + j ));
         }
 
-        layHorizontalBoard[i].addStretch();
-        layVerticalBoard->addLayout( &layHorizontalBoard[i] );
+        layHorizontalBoard[i]->addStretch();
+        layVerticalBoard->addLayout( layHorizontalBoard[i] );
     }
+
     layVerticalBoard->addStretch();
 }
 
@@ -226,7 +223,6 @@ void GUI::deleteTiles()
     {
         delete tile;
     }
-
     tiles.clear();
 
     QLayoutItem* child;
@@ -235,7 +231,11 @@ void GUI::deleteTiles()
         layVerticalBoard->removeItem( 0 );
     }
 
-    delete[] layHorizontalBoard;
+    for ( auto layout : layHorizontalBoard )
+    {
+        delete layout;
+    }
+    layHorizontalBoard.clear();
 }
 
 /*********************************************************************************/

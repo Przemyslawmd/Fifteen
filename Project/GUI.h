@@ -10,6 +10,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <map>
+#include <memory>
+#include <QGroupBox>
 
 typedef void ( MainWindow::*SlotMainWindow )();
 
@@ -41,7 +43,7 @@ private:
     vector< QPushButton* > tiles;
 
     QVBoxLayout* layVerticalBoard;
-    QHBoxLayout* layHorizontalBoard;
+    vector< QHBoxLayout* > layHorizontalBoard;
     QVBoxLayout* layRight;
 };
 
