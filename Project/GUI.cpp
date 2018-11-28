@@ -101,13 +101,13 @@ void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map<
     mapRadioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
 
     QVBoxLayout* radioKindLayout = new QVBoxLayout();
-    QButtonGroup* radioKindGroup = new QButtonGroup();
+    unique_ptr< QButtonGroup > groupRadioKind = unique_ptr< QButtonGroup >( new QButtonGroup() );
     for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapRadioKind )
     {
         radioKindLayout->addSpacing( 10 );
         radioKindLayout->addWidget( radioKindPair.second );
         radioKindPair.second->setStyleSheet( "margin-left:5px;" );
-        radioKindGroup->addButton( radioKindPair.second );
+        groupRadioKind->addButton( radioKindPair.second );
     }
     radioKindLayout->addSpacing( 30 );
 
