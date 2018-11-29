@@ -180,15 +180,11 @@ void GUI::createTiles( BoardSize boardSize, SquareSize tileSize )
 {
     deleteTiles();
 
-    for ( int i = 0; i < boardSize * boardSize; i++ )
-    {
-        tiles.push_back( new QPushButton() );
-    }
-
     for ( int i = 0; i < boardSize ; i++ )
     {
         for ( int j = 0; j < boardSize; j++ )
         {
+            tiles.push_back( new QPushButton() );
             tiles.at( i * boardSize + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
             tiles.at( i * boardSize + j )->setMaximumSize( tileSize, tileSize );
             tiles.at( i * boardSize + j )->setMinimumSize( tileSize, tileSize );
