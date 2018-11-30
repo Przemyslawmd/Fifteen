@@ -10,14 +10,14 @@ void Data::DataInit()
 
     dataGraphic.push_back( DataGraphic
     {
-                                BoardSize::FIVE, SquareSize::_50, GraphicMode::SCALED,
+                                BoardSize::FIVE, TileSize::_50, GraphicMode::SCALED,
                                 "Scalled_5_50/", false, true, false, false
     });
 
     dataGraphic.push_back( DataGraphic
     {
 
-                                BoardSize::SIX, SquareSize::_75, GraphicMode::CROPPED,
+                                BoardSize::SIX, TileSize::_75, GraphicMode::CROPPED,
                                 "Cropped_6_75/", false, false, true, false
     });
 

@@ -1,7 +1,7 @@
 
 #include "DataGraphic.h"
 
-DataGraphic::DataGraphic( BoardSize board, SquareSize square, GraphicMode mode, QString path,
+DataGraphic::DataGraphic( BoardSize board, TileSize square, GraphicMode mode, QString path,
                           bool four, bool five, bool six, bool seven )
 {
     this->boardSize = board;
