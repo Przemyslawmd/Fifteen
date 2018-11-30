@@ -31,7 +31,7 @@ public:
     void createRightLayout( map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
     void completeLayouts();
 
-    void createTiles( BoardSize, SquareSize );
+    void createTiles( BoardSize, TileSize );
     void deleteTiles();
     vector< QPushButton* >& getTiles();
     BoardSize checkRadioBoardSize();
@@ -52,6 +52,7 @@ private:
     QVBoxLayout* layVerticalBoard;
     vector< QHBoxLayout* > layHorizontalBoard;
     QVBoxLayout* layRight;
+    QGroupBox* boxImages;
 };
 
 #endif // GUI_H

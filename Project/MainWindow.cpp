@@ -41,7 +41,7 @@ MainWindow::~MainWindow()
 void MainWindow::createSquares()
 {
     BoardSize boardSize = board->getCurrentSize();
-    SquareSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
+    TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
                               Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
 
     GUI::getGUI().createTiles( boardSize, squareSize );
@@ -84,7 +84,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 {
     BoardSize boardSize = board->getCurrentSize();
     ImageProvider& provider = ImageProvider::getInstance();
-    SquareSize tileSize = provider.getImageSquareSize( boardSize );
+    TileSize tileSize = provider.getImageSquareSize( boardSize );
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
     unique_ptr< NumberOnImage > numOnImage = Options::isNumberOnImage();
@@ -286,7 +286,7 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
-    SquareSize tileSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
+    TileSize tileSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
     QPixmap pixmap( tileSize, tileSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );

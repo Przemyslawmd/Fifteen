@@ -26,7 +26,7 @@ vector< QImage* >& GraphicBoard::getImages()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize squareSize )
+bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, TileSize squareSize )
 {
     int boardSizePixel = boardSize * squareSize;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
@@ -36,7 +36,7 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, SquareSize 
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize squareSize )
+bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, TileSize squareSize )
 {
     int boardPixels = boardSize * squareSize;
     QImage croppedImage = image.copy(( image.width() - boardPixels ) / 2, ( image.height() - boardPixels ) / 2,
@@ -47,7 +47,7 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, SquareSize
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, SquareSize imageSize )
+bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, TileSize imageSize )
 {
     QImage* image = new (std::nothrow) QImage( imageSize, imageSize, QImage::Format_RGB32 );
 
@@ -90,7 +90,7 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Squa
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, SquareSize imageSize )
+bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize imageSize )
 {
     int bytesForSquare;
     stream >> bytesForSquare;

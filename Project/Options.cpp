@@ -3,7 +3,7 @@
 #include <QtGlobal>
 
 
-SquareSize Options::getSquareSize()
+TileSize Options::getSquareSize()
 {
     return squareStyles[currentSquare].squareSize;
 }
@@ -121,7 +121,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
     imagesToBeLoaded[2] = messageData->sixImageToBeLoaded;
     imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
     currentColor = messageData->squareColor;
-    currentSquare = static_cast< SquareSize >( messageData->squareSizeIndex - 1 );
+    currentSquare = static_cast< TileSize >( messageData->squareSizeIndex - 1 );
     numberColor = messageData->numberColor;
     undoEnabled = messageData->undoEnabled;
 }

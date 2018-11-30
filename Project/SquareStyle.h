@@ -6,7 +6,7 @@
 
 typedef struct
 {
-    SquareSize squareSize;
+    TileSize squareSize;
     FontSize fontSize;
     int sliderIndex;
 } SquareStyle;

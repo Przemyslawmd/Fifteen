@@ -153,7 +153,7 @@ void GUI::completeLayouts()
     layVerticalBoard = new QVBoxLayout();
     layVerticalBoard->setSpacing( 0 );
 
-    QGroupBox* boxImages = new QGroupBox();
+    boxImages = new QGroupBox();
     boxImages->setLayout( layVerticalBoard );
 
     QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
@@ -176,7 +176,7 @@ void GUI::bindAction( QAction*& action, SlotMainWindow slot, QString text )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( BoardSize boardSize, SquareSize tileSize )
+void GUI::createTiles( BoardSize boardSize, TileSize tileSize )
 {
     deleteTiles();
 

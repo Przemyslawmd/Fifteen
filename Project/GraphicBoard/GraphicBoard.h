@@ -25,13 +25,13 @@ private:
     GraphicBoard();
     ~GraphicBoard();
 
-    bool createScaled( QImage&, BoardSize, SquareSize );
-    bool createCropped( QImage&, BoardSize, SquareSize );
-    bool createSquareImage( QImage*, BoardSize, SquareSize );
-    bool restoreImagesFromFile( QDataStream&, BoardSize, SquareSize );
+    bool createScaled( QImage&, BoardSize, TileSize );
+    bool createCropped( QImage&, BoardSize, TileSize );
+    bool createSquareImage( QImage*, BoardSize, TileSize );
+    bool restoreImagesFromFile( QDataStream&, BoardSize, TileSize );
 
     vector< QImage* >& getImages();
-    SquareSize imageSize;
+    TileSize imageSize;
 
     vector< QImage* > images;
 };
