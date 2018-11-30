@@ -40,7 +40,7 @@ private:
 
     static int currentSquare;
     static Color currentColor;
-    static SquareStyle squareStyles[5];
+    static TileStyle tileStyles[5];
     static QString styles[4];
     static bool imagesToBeLoaded[4];
 

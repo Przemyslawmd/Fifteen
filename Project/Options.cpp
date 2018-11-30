@@ -5,13 +5,13 @@
 
 TileSize Options::getSquareSize()
 {
-    return squareStyles[currentSquare].squareSize;
+    return tileStyles[currentSquare].tileSize;
 }
 
 
 int Options::getSquareSizeFont()
 {
-    return squareStyles[currentSquare].fontSize;
+    return tileStyles[currentSquare].fontSize;
 }
 
 /*********************************************************************************/
@@ -81,7 +81,7 @@ unique_ptr< NumberOnImage > Options::isNumberOnImage()
     }
 
     numOnImage->isNumberOnImage = true;
-    numOnImage->fontSize = squareStyles[currentSquare].fontSize;
+    numOnImage->fontSize = tileStyles[currentSquare].fontSize;
     return numOnImage;
 }
 
@@ -134,13 +134,13 @@ GraphicMode Options::graphicMode = GraphicMode::SCALED;
 
 int Options::currentSquare = 0;
 
-SquareStyle Options::squareStyles[]
+TileStyle Options::tileStyles[]
 {
-    { .squareSize = _50,  .fontSize = _20, .sliderIndex = 1 },
-    { .squareSize = _75,  .fontSize = _25, .sliderIndex = 2 },
-    { .squareSize = _100, .fontSize = _30, .sliderIndex = 3 },
-    { .squareSize = _125, .fontSize = _35, .sliderIndex = 4 },
-    { .squareSize = _150, .fontSize = _40, .sliderIndex = 5 }
+    { .tileSize = _50,  .fontSize = _20, .sliderIndex = 1 },
+    { .tileSize = _75,  .fontSize = _25, .sliderIndex = 2 },
+    { .tileSize = _100, .fontSize = _30, .sliderIndex = 3 },
+    { .tileSize = _125, .fontSize = _35, .sliderIndex = 4 },
+    { .tileSize = _150, .fontSize = _40, .sliderIndex = 5 }
 };
 
 Color Options::currentColor = Color::BLUE;

@@ -1,15 +1,15 @@
 
-#ifndef SQUARESTYLE_H
-#define SQUARESTYLE_H
+#ifndef TILESTYLE_H
+#define TILESTYLE_H
 
 #include "Types.h"
 
 typedef struct
 {
-    TileSize squareSize;
+    TileSize tileSize;
     FontSize fontSize;
     int sliderIndex;
-} SquareStyle;
+} TileStyle;
 
-#endif // SQUARESTYLE_H
+#endif // TILESTYLE_H
 
