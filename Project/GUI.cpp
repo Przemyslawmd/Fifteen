@@ -228,16 +228,13 @@ void GUI::deleteTiles()
     }
     tiles.clear();
 
-    QLayoutItem* child;
-    while (( child = layVerticalBoard->takeAt( 0 )))
+    QLayoutItem* item;
+    while (( item = layVerticalBoard->takeAt( 0 )))
     {
         layVerticalBoard->removeItem( 0 );
+        delete item;
     }
 
-    for ( auto layout : layHorizontalBoard )
-    {
-        delete layout;
-    }
     layHorizontalBoard.clear();
 }
 
