@@ -1,5 +1,8 @@
 
 #include "WindowSetting.h"
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
 #include <memory>
 
 using std::unique_ptr;
@@ -76,7 +79,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layRadioImage.addSpacing( 12 );
     layRadioImage.addWidget( radioNumberOnImage[NumberColor::WHITE] );
     layRadioImage.addSpacing( 15 );
-    boxRadioImage = new QGroupBox( "Image for a graphic board" );
+    QGroupBox* boxRadioImage = new QGroupBox( "Image for a graphic board" );
     boxRadioImage->setLayout( &layRadioImage );
 
     /* Color of numeric board **************************************/
@@ -101,7 +104,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layRadioColor.addSpacing( 7 );
     layRadioColor.addWidget( mapRadioColor[RED] );
     layRadioColor.addSpacing( 7 );
-    boxRadioColor = new QGroupBox( "Color of numeric board" );
+    QGroupBox* boxRadioColor = new QGroupBox( "Color of numeric board" );
     boxRadioColor->setLayout( &layRadioColor );
 
     /* Slider for square size **************************************/
@@ -124,7 +127,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layoutSlider.addWidget( sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
     layoutSlider.addWidget( sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
     layoutSlider.addWidget( sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
-    boxSquareSize = new QGroupBox( "Size of tile ");
+    QGroupBox* boxSquareSize = new QGroupBox( "Size of tile ");
     boxSquareSize->setLayout( &layoutSlider );
 
     /* Undo availability *******************************************/
@@ -136,7 +139,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layoutUndoEnabled.addSpacing( 10 );
     layoutUndoEnabled.addWidget( &checkUndoEnabled );
     layoutUndoEnabled.addSpacing( 10 );
-    boxUndoEnabled = new QGroupBox();
+    QGroupBox* boxUndoEnabled = new QGroupBox();
     boxUndoEnabled->setLayout( &layoutUndoEnabled );
 
     /* General layout **********************************************/

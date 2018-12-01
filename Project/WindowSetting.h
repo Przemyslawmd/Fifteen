@@ -5,11 +5,9 @@
 #include "MainWindow.h"
 #include "Types.h"
 #include "Options.h"
-#include <QVBoxLayout>
-#include <QHBoxLayout>
+
 #include <QRadioButton>
 #include <QButtonGroup>
-#include <QGroupBox>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QSlider>
@@ -39,18 +37,13 @@ private:
     map< NumberColor, QRadioButton* > radioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
 
-    QGroupBox* boxRadioImage;
-
     map< Color, QRadioButton* > mapRadioColor;
     QButtonGroup groupRadioColor;
-    QGroupBox* boxRadioColor;
 
     QSlider* slider;
     array< QLabel*, 5 > sliderLabels;
-    QGroupBox* boxSquareSize;
 
     QCheckBox checkUndoEnabled;
-    QGroupBox* boxUndoEnabled;
 
     unique_ptr< OptionsData > optionsCurrent;
     QPushButton* pushAccept;
