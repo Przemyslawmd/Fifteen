@@ -1,5 +1,7 @@
 
 #include "WindowAbout.h"
+#include <QVBoxLayout>
+#include <QTextDocument>
 
 WindowAbout::WindowAbout()
 {
@@ -7,6 +9,7 @@ WindowAbout::WindowAbout()
     setMinimumSize( 500, 200 );
     setMaximumSize( 500, 200 );
     setWindowTitle( " " );
+    setAttribute( Qt::WA_DeleteOnClose );
 
     QVBoxLayout layout( this );
     QString html;
@@ -15,8 +18,10 @@ WindowAbout::WindowAbout()
     html.append( "<pre>  Author:       Przemyslaw Madej, Warsaw 2018</pre>" );
     html.append( "<pre>  Page:         http://przemeknet.pl/fifteen</pre>" );
 
-    doc.setHtml( html );
-    browser.setDocument( &doc );
+    QTextDocument* doc = new QTextDocument();
+    doc->setHtml( html );
+    browser.setDocument( doc );
     layout.addWidget( &browser );
     show();
 }
+
