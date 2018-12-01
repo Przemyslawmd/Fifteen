@@ -46,14 +46,14 @@ private:
     QGroupBox boxRadioColor;
 
     QSlider slider;
-    array< QLabel, 5 > sliderLabels;
+    array< QLabel*, 5 > sliderLabels;
     QGroupBox boxSquareSize;
 
     QCheckBox checkUndoEnabled;
     QGroupBox boxUndoEnabled;
 
     unique_ptr< OptionsData > optionsCurrent;
-    QPushButton accept;
+    QPushButton* pushAccept;
     MainWindow& parent;
 
     template< typename T > T getChoosenOption( map< T, QRadioButton* >&, QButtonGroup& );

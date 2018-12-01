@@ -119,21 +119,21 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     slider.setRange( 1, 5 );
     slider.setSingleStep( 1 );
-    sliderLabels[0].setText( " 50" );
-    sliderLabels[1].setText( "  100" );
-    sliderLabels[2].setText( "150" );
-    sliderLabels[3].setText( "200  " );
-    sliderLabels[4].setText( "250" );
+    sliderLabels[0] = new QLabel( " 50" );
+    sliderLabels[1] = new QLabel( "  100" );
+    sliderLabels[2] = new QLabel( "150" );
+    sliderLabels[3] = new QLabel( "200  " );
+    sliderLabels[4] = new QLabel( "250" );
     slider.setValue( optionsCurrent->squareSizeIndex );
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 10, 20, 30, 20 );
     layoutSlider.addWidget( &slider,          0, 0, 1, 5 );
-    layoutSlider.addWidget( &sliderLabels[0], 1, 0, 1, 1, Qt::AlignLeft );
-    layoutSlider.addWidget( &sliderLabels[1], 1, 1, 1, 1, Qt::AlignLeft );
-    layoutSlider.addWidget( &sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
-    layoutSlider.addWidget( &sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
-    layoutSlider.addWidget( &sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
+    layoutSlider.addWidget( sliderLabels[0], 1, 0, 1, 1, Qt::AlignLeft );
+    layoutSlider.addWidget( sliderLabels[1], 1, 1, 1, 1, Qt::AlignLeft );
+    layoutSlider.addWidget( sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
+    layoutSlider.addWidget( sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
+    layoutSlider.addWidget( sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
     boxSquareSize.setLayout( &layoutSlider );
     boxSquareSize.setTitle( "Size of tile" );
 
@@ -151,12 +151,12 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
     /* General layout **********************************************/
 
     QHBoxLayout layControls;
-    accept.setStyleSheet( "height:20px;" );
-    accept.setText( "Accept ");
-    connect( &accept, SIGNAL( clicked() ), this, SLOT( acceptSettings() ));
+    pushAccept = new QPushButton( "Accept ");
+    pushAccept->setStyleSheet( "height:20px;" );
+    connect( pushAccept, SIGNAL( clicked() ), this, SLOT( acceptSettings() ));
 
     layControls.addSpacing( 120 );
-    layControls.addWidget( &accept );
+    layControls.addWidget( pushAccept );
     layControls.addSpacing( 120 );
 
     layWindow.addSpacing( 20 );
