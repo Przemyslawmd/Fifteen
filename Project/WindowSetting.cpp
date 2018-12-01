@@ -17,11 +17,9 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     /* Graphic loading box *****************************************/
 
-    mapRadioGraphicMode[GraphicMode::SCALED] = new QRadioButton();
-    mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton();
-    mapRadioGraphicMode[GraphicMode::SCALED]->setText( "Image is to be scalled" );
+    mapRadioGraphicMode[GraphicMode::SCALED] = new QRadioButton( "Image is to be scalled" );
+    mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton( "Image is to be cropped" );
     mapRadioGraphicMode[GraphicMode::SCALED]->setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
-    mapRadioGraphicMode[GraphicMode::CROPPED]->setText( "Image is to be cropped" );
 
     for ( auto& mapRadio : mapRadioGraphicMode )
     {
@@ -31,17 +29,13 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     mapRadioGraphicMode[ optionsCurrent->graphicMode]->setChecked( true );
 
-    mapCheckImageToChose[BoardSize::FOUR] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::FOUR]->setText(  "Image is to be loaded for a board  4x4" );
+    mapCheckImageToChose[BoardSize::FOUR] = new QCheckBox( "Image is to be loaded for a board  4x4" );
     mapCheckImageToChose[BoardSize::FOUR]->setChecked( optionsCurrent->fourImageToBeLoaded );
-    mapCheckImageToChose[BoardSize::FIVE] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::FIVE]->setText(  "Image is to be loaded for a board  5x5" );
+    mapCheckImageToChose[BoardSize::FIVE] = new QCheckBox( "Image is to be loaded for a board  5x5" );
     mapCheckImageToChose[BoardSize::FIVE]->setChecked( optionsCurrent->fiveImageToBeLoaded );
-    mapCheckImageToChose[BoardSize::SIX] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::SIX]->setText(  "Image is to be loaded for a board  6x6" );
+    mapCheckImageToChose[BoardSize::SIX] = new QCheckBox( "Image is to be loaded for a board  6x6" );
     mapCheckImageToChose[BoardSize::SIX]->setChecked( optionsCurrent->sixImageToBeLoaded );
-    mapCheckImageToChose[BoardSize::SEVEN] = new QCheckBox();
-    mapCheckImageToChose[BoardSize::SEVEN]->setText(  "Image is to be loaded for a board  7x7" );
+    mapCheckImageToChose[BoardSize::SEVEN] = new QCheckBox( "Image is to be loaded for a board  7x7" );
     mapCheckImageToChose[BoardSize::SEVEN]->setChecked( optionsCurrent->sevenImageToBeLoaded );
 
     for ( auto& check : mapCheckImageToChose )
@@ -49,12 +43,9 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
         check.second->setStyleSheet( "margin-left: 5px;" );
     }
 
-    radioNumberOnImage[NumberColor::NO] = new QRadioButton();
-    radioNumberOnImage[NumberColor::NO]->setText( "Number on a graphic tile : No" );
-    radioNumberOnImage[NumberColor::BLACK] = new QRadioButton();
-    radioNumberOnImage[NumberColor::BLACK]->setText( "Number on a graphic tile : Black" );
-    radioNumberOnImage[NumberColor::WHITE] = new QRadioButton();
-    radioNumberOnImage[NumberColor::WHITE]->setText( "Number on a graphic tile : White" );
+    radioNumberOnImage[NumberColor::NO] = new QRadioButton( "Number on a graphic tile : No" );
+    radioNumberOnImage[NumberColor::BLACK] = new QRadioButton( "Number on a graphic tile : Black" );
+    radioNumberOnImage[NumberColor::WHITE] = new QRadioButton( "Number on a graphic tile : White" );
 
     for ( auto radioMap : radioNumberOnImage )
     {
@@ -89,12 +80,9 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     /* Color of numeric board **************************************/
 
-    mapRadioColor[Color::BLUE] = new QRadioButton();
-    mapRadioColor[Color::GREEN] = new QRadioButton();
-    mapRadioColor[Color::RED] = new QRadioButton();
-    mapRadioColor[Color::BLUE]->setText( "Blue" );
-    mapRadioColor[Color::GREEN]->setText( "Green" );
-    mapRadioColor[Color::RED]->setText( "Red" );
+    mapRadioColor[Color::BLUE] = new QRadioButton( "Blue" );
+    mapRadioColor[Color::GREEN] = new QRadioButton( "Green" );
+    mapRadioColor[Color::RED] = new QRadioButton( "Red" );
 
     for ( auto& radio : mapRadioColor )
     {
