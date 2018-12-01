@@ -4,7 +4,7 @@
 
 using std::unique_ptr;
 
-WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, this }, parent( parent )
+WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
 {
     setModal( true );
     setWindowTitle( "" );
@@ -105,18 +105,19 @@ WindowSetting::WindowSetting( MainWindow& parent ) : slider{ Qt::Horizontal, thi
 
     /* Slider for square size **************************************/
 
-    slider.setRange( 1, 5 );
-    slider.setSingleStep( 1 );
+    slider = new QSlider( Qt::Horizontal, this );
+    slider->setRange( 1, 5 );
+    slider->setSingleStep( 1 );
     sliderLabels[0] = new QLabel( " 50" );
     sliderLabels[1] = new QLabel( "  100" );
     sliderLabels[2] = new QLabel( "150" );
     sliderLabels[3] = new QLabel( "200  " );
     sliderLabels[4] = new QLabel( "250" );
-    slider.setValue( optionsCurrent->squareSizeIndex );
+    slider->setValue( optionsCurrent->squareSizeIndex );
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 10, 20, 30, 20 );
-    layoutSlider.addWidget( &slider,          0, 0, 1, 5 );
+    layoutSlider.addWidget( slider,          0, 0, 1, 5 );
     layoutSlider.addWidget( sliderLabels[0], 1, 0, 1, 1, Qt::AlignLeft );
     layoutSlider.addWidget( sliderLabels[1], 1, 1, 1, 1, Qt::AlignLeft );
     layoutSlider.addWidget( sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
@@ -175,7 +176,7 @@ void WindowSetting::acceptSettings()
     optionsNew->fiveImageToBeLoaded = mapCheckImageToChose[BoardSize::FIVE]->isChecked();
     optionsNew->sixImageToBeLoaded = mapCheckImageToChose[BoardSize::SIX]->isChecked();
     optionsNew->sevenImageToBeLoaded = mapCheckImageToChose[BoardSize::SEVEN]->isChecked();
-    optionsNew->squareSizeIndex = slider.value();
+    optionsNew->squareSizeIndex = slider->value();
     optionsNew->numberColor = getChoosenOption< NumberColor >( radioNumberOnImage, groupRadioNumberOnImage );
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
     optionsNew->squareColor = getChoosenOption< Color >( mapRadioColor, groupRadioColor );

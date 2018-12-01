@@ -45,7 +45,7 @@ private:
     QButtonGroup groupRadioColor;
     QGroupBox boxRadioColor;
 
-    QSlider slider;
+    QSlider* slider;
     array< QLabel*, 5 > sliderLabels;
     QGroupBox boxSquareSize;
 
