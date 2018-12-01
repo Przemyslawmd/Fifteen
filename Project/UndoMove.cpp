@@ -10,16 +10,16 @@ void UndoMove::PutMove( Move move, int row, int col )
 
     switch ( move )
     {
-        case UP:
+        case Move::UP:
             moveStack.push_back(( row - 1 ) * 10 + col );
             break;
-        case RIGHT:
+        case Move::RIGHT:
             moveStack.push_back( row * 10 + col + 1 );
             break;
-        case DOWN:
+        case Move::DOWN:
             moveStack.push_back(( row + 1 ) * 10 + col );
             break;
-        case LEFT:
+        case Move::LEFT:
             moveStack.push_back( row * 10 + col -1  );
             break;
     }
