@@ -39,18 +39,18 @@ private:
     map< NumberColor, QRadioButton* > radioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
 
-    QGroupBox boxRadioImage;
+    QGroupBox* boxRadioImage;
 
     map< Color, QRadioButton* > mapRadioColor;
     QButtonGroup groupRadioColor;
-    QGroupBox boxRadioColor;
+    QGroupBox* boxRadioColor;
 
     QSlider* slider;
     array< QLabel*, 5 > sliderLabels;
-    QGroupBox boxSquareSize;
+    QGroupBox* boxSquareSize;
 
     QCheckBox checkUndoEnabled;
-    QGroupBox boxUndoEnabled;
+    QGroupBox* boxUndoEnabled;
 
     unique_ptr< OptionsData > optionsCurrent;
     QPushButton* pushAccept;

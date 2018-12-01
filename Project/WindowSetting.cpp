@@ -11,6 +11,7 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     setGeometry( 100, 100, 400, 560 );
     setMaximumSize( 400, 870 );
     setMinimumSize( 400, 870 );
+    setAttribute( Qt::WA_DeleteOnClose );
 
     QVBoxLayout layWindow;
     optionsCurrent = Options::sendData();
@@ -75,8 +76,8 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layRadioImage.addSpacing( 12 );
     layRadioImage.addWidget( radioNumberOnImage[NumberColor::WHITE] );
     layRadioImage.addSpacing( 15 );
-    boxRadioImage.setLayout( &layRadioImage );
-    boxRadioImage.setTitle( "Image for a graphic board" );
+    boxRadioImage = new QGroupBox( "Image for a graphic board" );
+    boxRadioImage->setLayout( &layRadioImage );
 
     /* Color of numeric board **************************************/
 
@@ -100,8 +101,8 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layRadioColor.addSpacing( 7 );
     layRadioColor.addWidget( mapRadioColor[RED] );
     layRadioColor.addSpacing( 7 );
-    boxRadioColor.setLayout( &layRadioColor );
-    boxRadioColor.setTitle( "Color of numeric board" );
+    boxRadioColor = new QGroupBox( "Color of numeric board" );
+    boxRadioColor->setLayout( &layRadioColor );
 
     /* Slider for square size **************************************/
 
@@ -123,8 +124,8 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layoutSlider.addWidget( sliderLabels[2], 1, 2, 1, 1, Qt::AlignCenter );
     layoutSlider.addWidget( sliderLabels[3], 1, 3, 1, 1, Qt::AlignRight );
     layoutSlider.addWidget( sliderLabels[4], 1, 4, 1, 1, Qt::AlignRight );
-    boxSquareSize.setLayout( &layoutSlider );
-    boxSquareSize.setTitle( "Size of tile" );
+    boxSquareSize = new QGroupBox( "Size of tile ");
+    boxSquareSize->setLayout( &layoutSlider );
 
     /* Undo availability *******************************************/
 
@@ -135,7 +136,8 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layoutUndoEnabled.addSpacing( 10 );
     layoutUndoEnabled.addWidget( &checkUndoEnabled );
     layoutUndoEnabled.addSpacing( 10 );
-    boxUndoEnabled.setLayout( &layoutUndoEnabled );
+    boxUndoEnabled = new QGroupBox();
+    boxUndoEnabled->setLayout( &layoutUndoEnabled );
 
     /* General layout **********************************************/
 
@@ -149,13 +151,13 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
     layControls.addSpacing( 120 );
 
     layWindow.addSpacing( 20 );
-    layWindow.addWidget( &boxRadioImage );
+    layWindow.addWidget( boxRadioImage );
     layWindow.addSpacing( 20 );
-    layWindow.addWidget( &boxRadioColor);
+    layWindow.addWidget( boxRadioColor);
     layWindow.addSpacing( 20 );
-    layWindow.addWidget( &boxSquareSize );
+    layWindow.addWidget( boxSquareSize );
     layWindow.addSpacing( 20 );
-    layWindow.addWidget( &boxUndoEnabled );
+    layWindow.addWidget( boxUndoEnabled );
     layWindow.addSpacing( 20 );
     layWindow.addLayout( &layControls );
     layWindow.addSpacing( 10 );
