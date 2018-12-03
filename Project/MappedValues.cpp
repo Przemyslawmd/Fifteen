@@ -1,13 +1,13 @@
 
 #include "MappedValues.h"
 
-const std::map< TileSize_, int > MappedValues::tileSizeValues
+const std::map< TileSize, int > MappedValues::tileSizeValues
 {
-    { TileSize_::_50,  50 },
-    { TileSize_::_75,  75 },
-    { TileSize_::_100, 100 },
-    { TileSize_::_125, 125 },
-    { TileSize_::_150, 150 }
+    { TileSize::_50,  50 },
+    { TileSize::_75,  75 },
+    { TileSize::_100, 100 },
+    { TileSize::_125, 125 },
+    { TileSize::_150, 150 }
 };
 
 

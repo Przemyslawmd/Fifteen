@@ -9,7 +9,7 @@ class MappedValues
 {
 public:
 
-    static const std::map< TileSize_, int > tileSizeValues;
+    static const std::map< TileSize, int > tileSizeValues;
     static const std::map< FontSize_, int > fontSizeValues;
 };
 

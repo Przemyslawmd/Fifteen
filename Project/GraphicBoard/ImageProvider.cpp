@@ -40,7 +40,7 @@ vector< QImage* >& ImageProvider::getImages( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::prepareGraphicBoard( QImage& image, TileSize_ imageSize )
+void ImageProvider::prepareGraphicBoard( QImage& image, TileSize imageSize )
 {
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled :
                                                                          &GraphicBoard::createCropped;
@@ -64,7 +64,7 @@ bool ImageProvider::isGraphicBoard( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-TileSize_ ImageProvider::getImageSquareSize( BoardSize BoardSize )
+TileSize ImageProvider::getImageSquareSize( BoardSize BoardSize )
 {
     return images.at( BoardSize )->imageSize;
 }
@@ -79,11 +79,11 @@ bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize 
 
     int imageSizeInt;
     stream >> imageSizeInt;
-    TileSize_ imageSize = static_cast< TileSize_ >( imageSizeInt );
+    TileSize imageSize = static_cast< TileSize >( imageSizeInt );
 
-    if ( imageSize != TileSize_::_50  && imageSize != TileSize_::_75   &&
-         imageSize != TileSize_::_100 && imageSize != TileSize_::_125  &&
-         imageSize != TileSize_::_150 )
+    if ( imageSize != TileSize::_50  && imageSize != TileSize::_75   &&
+         imageSize != TileSize::_100 && imageSize != TileSize::_125  &&
+         imageSize != TileSize::_150 )
     {
         Message::putMessage( MessageCode::READ_BOARD_IMAGES_ERROR );
         return false;
@@ -123,7 +123,7 @@ ImageProvider::~ImageProvider()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize_ imageSize )
+bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize imageSize )
 {
     int tileSizeInt = MappedValues::tileSizeValues.at( imageSize );
     if (( picture.height() < boardSize * tileSizeInt ) || ( picture.width() < boardSize * tileSizeInt ))
@@ -138,11 +138,11 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSi
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::letGraphicBoardPrepareImages( BoardSize boardSize, TileSize_ imageSize, QImage& image )
+void ImageProvider::letGraphicBoardPrepareImages( BoardSize boardSize, TileSize tileSize, QImage& image )
 {
     images.at( boardSize ) = new GraphicBoard();
 
-    if (( images.at( boardSize )->*createImage )( image, boardSize, imageSize ) == false )
+    if (( images.at( boardSize )->*createImage )( image, boardSize, tileSize ) == false )
     {
         removeBoard( images.at( boardSize ));
     }

@@ -16,19 +16,19 @@ public:
     static void deleteInstance();
 
     vector< QImage* >& getImages( BoardSize );
-    void prepareGraphicBoard( QImage&, TileSize_ );
+    void prepareGraphicBoard( QImage&, TileSize );
     bool restoreGraphicBoardFromFile( QDataStream&, BoardSize );
     bool isGraphicBoard( BoardSize );
-    TileSize_ getImageSquareSize( BoardSize );
+    TileSize getImageSquareSize( BoardSize );
 
 private:
 
     ImageProvider();
     ~ImageProvider();
 
-    bool ( GraphicBoard::*createImage )( QImage&, BoardSize, TileSize_ );
-    bool checkImageSize( QImage&, BoardSize, TileSize_ ) ;
-    void letGraphicBoardPrepareImages( BoardSize, TileSize_, QImage& );
+    bool ( GraphicBoard::*createImage )( QImage&, BoardSize, TileSize );
+    bool checkImageSize( QImage&, BoardSize, TileSize ) ;
+    void letGraphicBoardPrepareImages( BoardSize, TileSize, QImage& );
     void removeBoard( GraphicBoard*& );
 
     static ImageProvider* instance;

@@ -3,7 +3,7 @@
 #include <QtGlobal>
 
 
-TileSize_ Options::getSquareSize()
+TileSize Options::getSquareSize()
 {
     return tileStyles.at( currentTileIndex ).tileSize;
 }
@@ -136,11 +136,11 @@ int Options::currentTileIndex = 0;
 
 std::map< int, TileStyle > Options::tileStyles
 {
-    { 0, { .tileSize = TileSize_::_50,  .fontSize = _20 } },
-    { 1, { .tileSize = TileSize_::_75,  .fontSize = _25 } },
-    { 2, { .tileSize = TileSize_::_100, .fontSize = _30 } },
-    { 3, { .tileSize = TileSize_::_125, .fontSize = _35 } },
-    { 4, { .tileSize = TileSize_::_150, .fontSize = _40 } }
+    { 0, { .tileSize = TileSize::_50,  .fontSize = _20 } },
+    { 1, { .tileSize = TileSize::_75,  .fontSize = _25 } },
+    { 2, { .tileSize = TileSize::_100, .fontSize = _30 } },
+    { 3, { .tileSize = TileSize::_125, .fontSize = _35 } },
+    { 4, { .tileSize = TileSize::_150, .fontSize = _40 } }
 };
 
 Color Options::currentColor = Color::BLUE;

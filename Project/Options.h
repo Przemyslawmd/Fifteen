@@ -15,7 +15,7 @@ class Options
 {
 public:
 
-    static TileSize_ getSquareSize();
+    static TileSize getSquareSize();
     static int getSquareSizeFont();
 
     static BoardMode getBoardMode();

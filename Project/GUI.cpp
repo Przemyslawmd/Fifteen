@@ -177,7 +177,7 @@ void GUI::bindAction( QAction*& action, SlotMainWindow slot, QString text )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( BoardSize boardSize, TileSize_ tileSize_ )
+void GUI::createTiles( BoardSize boardSize, TileSize tileSize_ )
 {
 
     deleteTiles();
