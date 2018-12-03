@@ -28,9 +28,9 @@ class MainWindow : public QMainWindow
     map< BoardSize, QRadioButton* > radioSize;
     map< BoardMode, QRadioButton* > radioKind;
 
-    void createSquares();
-    void setSquaresNumeric( bool isRandom );
-    void setSquaresGraphic( bool isRandom );
+    void createTiles();
+    void setTilesNumeric( bool isRandom );
+    void setTilesGraphic( bool isRandom );
     void drawNumberOnGraphicSquare( QPainter&, QPixmap&, QColor, int fontSize, int number );
 
     void makeMove( Move, int row, int col );

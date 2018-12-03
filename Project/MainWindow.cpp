@@ -23,8 +23,8 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }
     gui.createMenu( action );
     gui.createRightLayout( radioKind, radioSize );
     gui.completeLayouts();
-    createSquares();
-    setSquaresNumeric( false );
+    createTiles();
+    setTilesNumeric( false );
     undoMoveService = nullptr;
 }
 
@@ -39,7 +39,7 @@ MainWindow::~MainWindow()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::createSquares()
+void MainWindow::createTiles()
 {
     BoardSize boardSize = board->getCurrentSize();
     TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
@@ -51,7 +51,7 @@ void MainWindow::createSquares()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::setSquaresNumeric( bool isRandom )
+void MainWindow::setTilesNumeric( bool isRandom )
 {    
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< int >::iterator iter = values.begin();
@@ -81,7 +81,7 @@ void MainWindow::setSquaresNumeric( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::setSquaresGraphic( bool isRandom )
+void MainWindow::setTilesGraphic( bool isRandom )
 {
     BoardSize boardSize = board->getCurrentSize();
     ImageProvider& provider = ImageProvider::getInstance();
@@ -156,17 +156,18 @@ void MainWindow::slotGenerateBoard()
     }
 
     board = Board::createBoard( boardSize );
-    createSquares();
 
     if ( radioKind[BoardMode::NUMERIC]->isChecked() )
     {
         Options::setBoardMode( BoardMode::NUMERIC );
-        setSquaresNumeric( true );
+        createTiles();
+        setTilesNumeric( true );
     }
     else
     {
         Options::setBoardMode( BoardMode::GRAPHIC );
-        setSquaresGraphic( true );
+        createTiles();
+        setTilesGraphic( true );
     }
 
     if ( undoMoveService )
@@ -184,11 +185,11 @@ void MainWindow::slotSolveBoard()
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        setSquaresNumeric( false );
+        setTilesNumeric( false );
     }
     else
     {
-        setSquaresGraphic( false );
+        setTilesGraphic( false );
     }
 
     if ( undoMoveService )
@@ -342,8 +343,8 @@ void MainWindow::slotRemoveGraphic()
     if ( Options::getBoardMode() == BoardMode::GRAPHIC )
     {
         Options::setBoardMode( BoardMode::NUMERIC );
-        createSquares();
-        setSquaresNumeric( false );
+        createTiles();
+        setTilesNumeric( false );
     }
 }
 
@@ -394,16 +395,16 @@ void MainWindow::slotReadBoard()
     BoardSize boardSize = ( BoardSize ) values.back();
     values.pop_back();
     board = Board::createBoard( values, boardSize );
-    createSquares();
+    createTiles();
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        setSquaresNumeric( false );
+        setTilesNumeric( false );
         radioKind[BoardMode::NUMERIC]->setChecked( true );
     }
     else
     {
-        setSquaresGraphic( false );
+        setTilesGraphic( false );
         radioSize[boardSize]->setChecked( true );
         radioKind[BoardMode::GRAPHIC]->setChecked( true );
         action[Action::REM_GRAPHIC]->setEnabled( true );
@@ -432,15 +433,15 @@ void MainWindow::setColor()
 
 void MainWindow::redrawSquares()
 {
-    createSquares();
+    createTiles();
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        setSquaresNumeric( false );
+        setTilesNumeric( false );
     }
     else
     {
-        setSquaresGraphic( false );
+        setTilesGraphic( false );
     }
 }
 

@@ -179,7 +179,6 @@ void GUI::bindAction( QAction*& action, SlotMainWindow slot, QString text )
 
 void GUI::createTiles( BoardSize boardSize, TileSize tileSize_ )
 {
-
     deleteTiles();
 
     int tileSize = MappedValues::tileSizeValues.at( tileSize_ );
