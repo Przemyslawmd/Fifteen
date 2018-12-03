@@ -17,6 +17,9 @@ enum NumberColor        { NO, BLACK, WHITE };
 
 enum class Action { OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT };
 
+enum class TileSize_           { _50, _75, _100, _125, _150 };
+enum class FontSize_           { _20, _25, _30,  _35,  _40 };
+
 typedef struct
 {
     BoardMode boardMode;
