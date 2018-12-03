@@ -191,7 +191,7 @@ void GUI::createTiles( BoardSize boardSize, TileSize tileSize_ )
             tiles.at( i * boardSize + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
             tiles.at( i * boardSize + j )->setMaximumSize( tileSize, tileSize );
             tiles.at( i * boardSize + j )->setMinimumSize( tileSize, tileSize );
-            connect( tiles.at( i * boardSize + j ), &QPushButton::clicked, &owner, &MainWindow::pressSquare );
+            connect( tiles.at( i * boardSize + j ), &QPushButton::clicked, &owner, &MainWindow::pressTile );
         }
     }
 

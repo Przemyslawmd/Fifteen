@@ -31,17 +31,16 @@ class MainWindow : public QMainWindow
     void createTiles();
     void setTilesNumeric( bool isRandom );
     void setTilesGraphic( bool isRandom );
-    void drawNumberOnGraphicSquare( QPainter&, QPixmap&, QColor, int fontSize, int number );
+    void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, int number );
 
     void makeMove( Move, int row, int col );
-    void moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest );
-    void moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest );
+    void moveNumericTile( int rowSource, int colSource, int rowDest, int colDest );
+    void moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest );
 
-    void ( MainWindow::*moveSquare ) ( int rowSource, int colSource, int rowDest, int colDest );
+    void ( MainWindow::*moveTile ) ( int rowSource, int colSource, int rowDest, int colDest );
 
 private slots:
 
-    // Menu slots
     void slotLoadGraphic();
     void slotRemoveGraphic();
     void slotSaveBoard();
@@ -49,7 +48,6 @@ private slots:
     void slotSettings();
     void slotAbout();
 
-    // Push buttons slots
     void slotGenerateBoard();
     void slotSolveBoard();
     void slotUndoMove();
@@ -60,13 +58,13 @@ public:
     ~MainWindow();
 
     void setColor();
-    void redrawSquares();
+    void redrawTiles();
     void createUndoMovesService();
     void deleteUndoMovesService();
 
 public slots:
 
-    void pressSquare();
+    void pressTile();
 };
 
 #endif // MAINWINDOW_H

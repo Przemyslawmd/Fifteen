@@ -102,7 +102,7 @@ void MainWindow::setTilesGraphic( bool isRandom )
         if ( numOnImage->isNumberOnImage )
         {
             painter = new QPainter();
-            drawNumberOnGraphicSquare( *painter, pixmap, numOnImage->fontColor, numOnImage->fontSize, values.at( i - 1 ));
+            drawNumberOnGraphicTile( *painter, pixmap, numOnImage->fontColor, numOnImage->fontSize, values.at( i - 1 ));
         }
 
         QIcon icon( pixmap );
@@ -125,7 +125,7 @@ void MainWindow::setTilesGraphic( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::drawNumberOnGraphicSquare( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
+void MainWindow::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
 {
     if ( number == 0 )
     {
@@ -219,7 +219,7 @@ void MainWindow::slotUndoMove()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::pressSquare()
+void MainWindow::pressTile()
 {
     int position = ( (QPushButton*) sender() )->accessibleName().toInt();
 
@@ -245,22 +245,22 @@ void MainWindow::pressSquare()
 
 void MainWindow::makeMove( Move move, int row, int col )
 {
-    moveSquare = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericSquares :
-                                                                     &MainWindow::moveGraphicSquares;
+    moveTile = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericTile :
+                                                                   &MainWindow::moveGraphicTile;
 
     switch ( move )
     {
         case Move::UP:
-            ( this->*moveSquare )( row, col, row - 1, col );
+            ( this->*moveTile )( row, col, row - 1, col );
             return;
         case Move::RIGHT:
-            ( this->*moveSquare )( row, col, row, col + 1 );
+            ( this->*moveTile )( row, col, row, col + 1 );
             return;
         case Move::DOWN:
-            ( this->*moveSquare )( row, col, row + 1, col );
+            ( this->*moveTile )( row, col, row + 1, col );
             return;
         case Move::LEFT:
-            ( this->*moveSquare )( row, col, row, col - 1 );
+            ( this->*moveTile )( row, col, row, col - 1 );
             return;
     }
 }
@@ -268,7 +268,7 @@ void MainWindow::makeMove( Move move, int row, int col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, int colDest )
+void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     QString& currentStyle = Options::getStyle();
     BoardSize boardSize = board->getCurrentSize();
@@ -283,7 +283,7 @@ void MainWindow::moveNumericSquares( int rowSource, int colSource, int rowDest, 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, int colDest )
+void MainWindow::moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     BoardSize boardSize = board->getCurrentSize();
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
@@ -431,7 +431,7 @@ void MainWindow::setColor()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::redrawSquares()
+void MainWindow::redrawTiles()
 {
     createTiles();
 

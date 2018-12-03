@@ -195,12 +195,12 @@ void WindowSetting::acceptSettings()
 
     if ( squareSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
     {
-        parent.redrawSquares();
+        parent.redrawTiles();
     }
 
     if ( numberImageChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC )
     {
-        parent.redrawSquares();
+        parent.redrawTiles();
     }
 
     if ( colorChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
