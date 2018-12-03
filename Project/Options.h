@@ -6,6 +6,7 @@
 #include "SquareStyle.h"
 #include <QString>
 #include <QColor>
+#include <map>
 #include <memory>
 
 using std::unique_ptr;
@@ -38,9 +39,9 @@ private:
     static BoardMode boardMode;
     static GraphicMode graphicMode;
 
-    static int currentSquare;
+    static int currentTileIndex;
     static Color currentColor;
-    static TileStyle tileStyles[5];
+    static std::map< int, TileStyle > tileStyles;
     static QString styles[4];
     static bool imagesToBeLoaded[4];
 

@@ -5,13 +5,13 @@
 
 TileSize Options::getSquareSize()
 {
-    return tileStyles[currentSquare].tileSize;
+    return tileStyles.at( currentTileIndex ).tileSize;
 }
 
 
 int Options::getSquareSizeFont()
 {
-    return tileStyles[currentSquare].fontSize;
+    return tileStyles.at( currentTileIndex ).fontSize;
 }
 
 /*********************************************************************************/
@@ -81,7 +81,7 @@ unique_ptr< NumberOnImage > Options::isNumberOnImage()
     }
 
     numOnImage->isNumberOnImage = true;
-    numOnImage->fontSize = tileStyles[currentSquare].fontSize;
+    numOnImage->fontSize = tileStyles.at( currentTileIndex ).fontSize;
     return numOnImage;
 }
 
@@ -106,7 +106,7 @@ unique_ptr< OptionsData > Options::sendData()
     messageData->sixImageToBeLoaded = imagesToBeLoaded[2];
     messageData->sevenImageToBeLoaded = imagesToBeLoaded[3];
     messageData->squareColor = currentColor;
-    messageData->squareSizeIndex = currentSquare + 1;
+    messageData->squareSizeIndex = currentTileIndex + 1;
     messageData->numberColor = numberColor;
     messageData->undoEnabled = undoEnabled;
     return messageData;
@@ -121,7 +121,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
     imagesToBeLoaded[2] = messageData->sixImageToBeLoaded;
     imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
     currentColor = messageData->squareColor;
-    currentSquare = static_cast< TileSize >( messageData->squareSizeIndex - 1 );
+    currentTileIndex = static_cast< TileSize >( messageData->squareSizeIndex - 1 );
     numberColor = messageData->numberColor;
     undoEnabled = messageData->undoEnabled;
 }
@@ -132,15 +132,15 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
 BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 
-int Options::currentSquare = 0;
+int Options::currentTileIndex = 0;
 
-TileStyle Options::tileStyles[]
+std::map< int, TileStyle > Options::tileStyles
 {
-    { .tileSize = _50,  .fontSize = _20, .sliderIndex = 1 },
-    { .tileSize = _75,  .fontSize = _25, .sliderIndex = 2 },
-    { .tileSize = _100, .fontSize = _30, .sliderIndex = 3 },
-    { .tileSize = _125, .fontSize = _35, .sliderIndex = 4 },
-    { .tileSize = _150, .fontSize = _40, .sliderIndex = 5 }
+    { 0, { .tileSize = _50,  .fontSize = _20 } },
+    { 1, { .tileSize = _75,  .fontSize = _25 } },
+    { 2, { .tileSize = _100, .fontSize = _30 } },
+    { 3, { .tileSize = _125, .fontSize = _35 } },
+    { 4, { .tileSize = _150, .fontSize = _40 } }
 };
 
 Color Options::currentColor = Color::BLUE;

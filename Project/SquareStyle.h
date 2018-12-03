@@ -8,7 +8,6 @@ typedef struct
 {
     TileSize tileSize;
     FontSize fontSize;
-    int sliderIndex;
 } TileStyle;
 
 #endif // TILESTYLE_H
