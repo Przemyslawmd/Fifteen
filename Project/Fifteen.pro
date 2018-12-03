@@ -12,7 +12,8 @@ SOURCES += \
     UndoMove.cpp \
     FileBoard/IOBoard.cpp \
     FileBoard/IOFile.cpp \
-    GUI.cpp
+    GUI.cpp \
+    MappedValues.cpp
 
 HEADERS += \
     WindowSetting.h \
@@ -28,7 +29,8 @@ HEADERS += \
     FileBoard/IOBoard.h \
     FileBoard/IOFile.h \
     SquareStyle.h \
-    GUI.h
+    GUI.h \
+    MappedValues.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
