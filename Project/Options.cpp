@@ -9,7 +9,7 @@ TileSize Options::getSquareSize()
 }
 
 
-int Options::getSquareSizeFont()
+FontSize Options::getSquareSizeFont()
 {
     return tileStyles.at( currentTileIndex ).fontSize;
 }
@@ -136,11 +136,11 @@ int Options::currentTileIndex = 0;
 
 std::map< int, TileStyle > Options::tileStyles
 {
-    { 0, { .tileSize = TileSize::_50,  .fontSize = _20 } },
-    { 1, { .tileSize = TileSize::_75,  .fontSize = _25 } },
-    { 2, { .tileSize = TileSize::_100, .fontSize = _30 } },
-    { 3, { .tileSize = TileSize::_125, .fontSize = _35 } },
-    { 4, { .tileSize = TileSize::_150, .fontSize = _40 } }
+    { 0, { .tileSize = TileSize::_50,  .fontSize = FontSize::_20 } },
+    { 1, { .tileSize = TileSize::_75,  .fontSize = FontSize::_25 } },
+    { 2, { .tileSize = TileSize::_100, .fontSize = FontSize::_30 } },
+    { 3, { .tileSize = TileSize::_125, .fontSize = FontSize::_35 } },
+    { 4, { .tileSize = TileSize::_150, .fontSize = FontSize::_40 } }
 };
 
 Color Options::currentColor = Color::BLUE;

@@ -16,7 +16,7 @@ class Options
 public:
 
     static TileSize getSquareSize();
-    static int getSquareSizeFont();
+    static FontSize getSquareSizeFont();
 
     static BoardMode getBoardMode();
     static void setBoardMode( BoardMode mode );

@@ -11,12 +11,12 @@ const std::map< TileSize, int > MappedValues::tileSizeValues
 };
 
 
-const std::map< FontSize_, int > MappedValues::fontSizeValues
+const std::map< FontSize, int > MappedValues::fontSizeValues
 {
-    { FontSize_::_20, 20 },
-    { FontSize_::_35, 25 },
-    { FontSize_::_30, 30 },
-    { FontSize_::_35, 35 },
-    { FontSize_::_40, 40 }
+    { FontSize::_20, 20 },
+    { FontSize::_25, 25 },
+    { FontSize::_30, 30 },
+    { FontSize::_35, 35 },
+    { FontSize::_40, 40 }
 };
 
