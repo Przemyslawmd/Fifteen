@@ -1,6 +1,7 @@
 
 #include "GraphicBoard.h"
 #include "../Message.h"
+#include "../MappedValues.h"
 
 GraphicBoard::GraphicBoard() {}
 
@@ -26,9 +27,10 @@ vector< QImage* >& GraphicBoard::getImages()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, TileSize squareSize )
+bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, TileSize_ squareSize )
 {
-    int boardSizePixel = boardSize * squareSize;
+    int tileSizeInt = MappedValues::tileSizeValues.at( squareSize );
+    int boardSizePixel = boardSize * tileSizeInt;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
     return createSquareImage( &scaledImage, boardSize, squareSize );
 }
@@ -36,9 +38,10 @@ bool GraphicBoard::createScaled( QImage& image, BoardSize boardSize, TileSize sq
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, TileSize squareSize )
+bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, TileSize_ squareSize )
 {
-    int boardPixels = boardSize * squareSize;
+    int tileSizeInt = MappedValues::tileSizeValues.at( squareSize );
+    int boardPixels = boardSize * tileSizeInt;
     QImage croppedImage = image.copy(( image.width() - boardPixels ) / 2, ( image.height() - boardPixels ) / 2,
                                        boardPixels, boardPixels );
     return createSquareImage( &croppedImage, boardSize, squareSize );
@@ -47,8 +50,9 @@ bool GraphicBoard::createCropped( QImage& image, BoardSize boardSize, TileSize s
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, TileSize imageSize )
+bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, TileSize_ imageSize_ )
 {
+    int imageSize = MappedValues::tileSizeValues.at( imageSize_ );
     QImage* image = new (std::nothrow) QImage( imageSize, imageSize, QImage::Format_RGB32 );
 
     if ( image == nullptr )
@@ -82,7 +86,7 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Tile
         }
     }
 
-    this->imageSize = imageSize;
+    this->imageSize = imageSize_;
     Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
     return true;
 }
@@ -90,8 +94,9 @@ bool GraphicBoard::createSquareImage( QImage* picture, BoardSize boardSize, Tile
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize imageSize )
+bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize_ imageSize_ )
 {
+    int imageSize = MappedValues::tileSizeValues.at( imageSize_ );
     int bytesForSquare;
     stream >> bytesForSquare;
     uchar* buffer = new uchar[bytesForSquare * boardSize * boardSize];
@@ -110,6 +115,6 @@ bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSi
         images.push_back( image );
     }
 
-    this->imageSize = imageSize;
+    this->imageSize = imageSize_;
     return true;
 }

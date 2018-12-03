@@ -31,7 +31,7 @@ public:
     void createRightLayout( map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
     void completeLayouts();
 
-    void createTiles( BoardSize, TileSize );
+    void createTiles( BoardSize, TileSize_ );
     void deleteTiles();
     vector< QPushButton* >& getTiles();
     BoardSize checkRadioBoardSize();

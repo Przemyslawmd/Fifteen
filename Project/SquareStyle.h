@@ -6,7 +6,7 @@
 
 typedef struct
 {
-    TileSize tileSize;
+    TileSize_ tileSize;
     FontSize fontSize;
 } TileStyle;
 

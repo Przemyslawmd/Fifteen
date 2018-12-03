@@ -7,6 +7,7 @@
 #include "FileBoard/IOBoard.h"
 #include "Options.h"
 #include "GraphicBoard/ImageProvider.h"
+#include "MappedValues.h"
 #include <QPainter>
 #include <QBuffer>
 #include <QMessageBox>
@@ -41,8 +42,8 @@ MainWindow::~MainWindow()
 void MainWindow::createSquares()
 {
     BoardSize boardSize = board->getCurrentSize();
-    TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
-                              Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
+    TileSize_ squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
+                            Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
 
     GUI::getGUI().createTiles( boardSize, squareSize );
 }
@@ -84,12 +85,13 @@ void MainWindow::setSquaresGraphic( bool isRandom )
 {
     BoardSize boardSize = board->getCurrentSize();
     ImageProvider& provider = ImageProvider::getInstance();
-    TileSize tileSize = provider.getImageSquareSize( boardSize );
+    TileSize_ tileSize = provider.getImageSquareSize( boardSize );
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
     unique_ptr< NumberOnImage > numOnImage = Options::isNumberOnImage();
     QPixmap pixmap;
     QPainter* painter = nullptr;
+    int tileSizeInt = MappedValues::tileSizeValues.at( tileSize );
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
     int i = 0;
@@ -111,7 +113,7 @@ void MainWindow::setSquaresGraphic( bool isRandom )
             painter = nullptr;
         }
 
-        QSize iconSize( tileSize, tileSize );
+        QSize iconSize( tileSizeInt, tileSizeInt );
         tile->setIconSize( iconSize );
         tile->setIcon( icon );
         tile->setStyleSheet( "" );
@@ -286,8 +288,9 @@ void MainWindow::moveGraphicSquares( int rowSource, int colSource, int rowDest, 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
-    TileSize tileSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
-    QPixmap pixmap( tileSize, tileSize );
+    TileSize_ tileSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
+    int tileSizeInt = MappedValues::tileSizeValues.at( tileSize );
+    QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
     tiles.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
