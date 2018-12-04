@@ -24,10 +24,23 @@ const std::map< FontSize, int > Mapped::fontSizeValues
 #define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
 #define END_STYLE   "color:white; border:1px solid white"
 
-const std::map< Color, const QString > Mapped::styles
+const std::map< Color, const QString > Mapped::tileColorStyles
 {
     { Color::BLUE,        BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE },
     { Color::GREEN,       BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE },
     { Color::RED,         BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE },
     { Color::EMPTY_STYLE, "background-color:white; " END_STYLE }
 };
+
+
+const std::array< std::tuple< TileSize, FontSize >, 5 > Mapped::tileStyles
+{
+    {
+        std::make_tuple( TileSize::_50,  FontSize::_20 ),
+        std::make_tuple( TileSize::_75,  FontSize::_25 ),
+        std::make_tuple( TileSize::_100, FontSize::_30 ),
+        std::make_tuple( TileSize::_125, FontSize::_35 ),
+        std::make_tuple( TileSize::_150, FontSize::_40 )
+    }
+};
+

@@ -6,7 +6,6 @@
 #include "SquareStyle.h"
 #include <QString>
 #include <QColor>
-#include <map>
 #include <memory>
 
 using std::unique_ptr;
@@ -41,7 +40,6 @@ private:
 
     static int currentTileIndex;
     static Color currentColor;
-    static std::map< int, TileStyle > tileStyles;
 
     static bool imagesToBeLoaded[4];
 

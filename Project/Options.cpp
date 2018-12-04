@@ -6,13 +6,13 @@
 
 TileSize Options::getSquareSize()
 {
-    return tileStyles.at( currentTileIndex ).tileSize;
+    return std::get< 0 >( Mapped::tileStyles.at( currentTileIndex ));
 }
 
 
 FontSize Options::getSquareSizeFont()
 {
-    return tileStyles.at( currentTileIndex ).fontSize;
+    return std::get< 1 >( Mapped::tileStyles.at( currentTileIndex ));
 }
 
 /*********************************************************************************/
@@ -42,13 +42,13 @@ GraphicMode Options::getGraphicMode()
 
 const QString& Options::getStyle()
 {
-    return Mapped::styles.at( currentColor );
+    return Mapped::tileColorStyles.at( currentColor );
 }
 
 
 const QString& Options::getEmptyStyle()
 {
-    return Mapped::styles.at( Color::EMPTY_STYLE );
+    return Mapped::tileColorStyles.at( Color::EMPTY_STYLE );
 }
 
 /*********************************************************************************/
@@ -82,7 +82,7 @@ unique_ptr< NumberOnImage > Options::isNumberOnImage()
     }
 
     numOnImage->isNumberOnImage = true;
-    numOnImage->fontSize = tileStyles.at( currentTileIndex ).fontSize;
+    numOnImage->fontSize = std::get< 1 >( Mapped::tileStyles.at( currentTileIndex ));
     return numOnImage;
 }
 
@@ -132,20 +132,8 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
 
 BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
-
 int Options::currentTileIndex = 0;
-
-std::map< int, TileStyle > Options::tileStyles
-{
-    { 0, { .tileSize = TileSize::_50,  .fontSize = FontSize::_20 } },
-    { 1, { .tileSize = TileSize::_75,  .fontSize = FontSize::_25 } },
-    { 2, { .tileSize = TileSize::_100, .fontSize = FontSize::_30 } },
-    { 3, { .tileSize = TileSize::_125, .fontSize = FontSize::_35 } },
-    { 4, { .tileSize = TileSize::_150, .fontSize = FontSize::_40 } }
-};
-
 Color Options::currentColor = Color::BLUE;
-
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
 NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;

@@ -28,7 +28,6 @@ HEADERS += \
     UndoMove.h \
     FileBoard/IOBoard.h \
     FileBoard/IOFile.h \
-    SquareStyle.h \
     GUI.h \
     MappedValues.h
 
