@@ -12,7 +12,7 @@ class DataCommon
 
 public:
 
-    DataCommon( BoardSize boardSize, vector< int > moves, vector< int > expected );
+    DataCommon( BoardSize, vector< int > moves, vector< int > expected );
 
     BoardSize boardSize;
 
@@ -24,3 +24,4 @@ public:
 };
 
 #endif // DATACOMMON_H
+

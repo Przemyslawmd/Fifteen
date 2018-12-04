@@ -8,6 +8,7 @@
 #include "../Project/FileBoard/IOFile.cpp"
 #include "../Project/Options.h"
 #include "../Project/GraphicBoard/ImageProvider.h"
+#include "../Project/MappedValues.cpp"
 #include <QtTest>
 
 
@@ -16,9 +17,9 @@ void Test::testCreateBoardSolved( BoardSize size )
     Board* board = Board::createBoard( size );
     vector< int >& values = board->sendBoard();
 
-    QCOMPARE( size * size, static_cast< int >( values.size()) );
+    QCOMPARE( size * size, static_cast< int >( values.size() ));
 
-    for ( int i = 0; i < size * size - 1; i++)
+    for ( int i = 0; i < size * size - 1; i++ )
     {
         QCOMPARE( values[i], i + 1 );
     }
@@ -33,7 +34,7 @@ void Test::testCreateBoardRandom( BoardSize size )
 {
     Board* board = Board::createBoard( size );
     vector< int >& values = board->randomBoard();
-    checkSquares( size, values );
+    checkTiles( size, values );
 }
 
 /*********************************************************************************/
@@ -46,13 +47,13 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
     board->randomBoard();
     vector< int >& values = board->randomBoard();
 
-    checkSquares( firstSize, values );
+    checkTiles( firstSize, values );
 
     board = Board::createBoard( secondSize );
     board->randomBoard();
     values = board->randomBoard();
 
-    checkSquares( secondSize, values );
+    checkTiles( secondSize, values );
 }
 
 /*********************************************************************************/
@@ -152,7 +153,7 @@ void Test::testCreateGraphicBoard( int testNumber )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::checkSquares( BoardSize boardSize, vector< int >& squares )
+void Test::checkTiles( BoardSize boardSize, vector< int >& squares )
 {
     QList< int > values;
 
