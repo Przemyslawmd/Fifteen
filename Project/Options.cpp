@@ -48,7 +48,7 @@ const QString& Options::getStyle()
 
 const QString& Options::getEmptyStyle()
 {
-    return Mapped::tileColorStyles.at( Color::EMPTY_STYLE );
+    return Mapped::tileColorStyles.at( TileColor::EMPTY_STYLE );
 }
 
 /*********************************************************************************/
@@ -133,7 +133,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
 BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 int Options::currentTileIndex = 0;
-Color Options::currentColor = Color::BLUE;
+TileColor Options::currentColor = TileColor::BLUE;
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
 NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;

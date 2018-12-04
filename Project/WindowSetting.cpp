@@ -84,9 +84,9 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
 
     /* Color of numeric board **************************************/
 
-    mapRadioColor[Color::BLUE] = new QRadioButton( "Blue" );
-    mapRadioColor[Color::GREEN] = new QRadioButton( "Green" );
-    mapRadioColor[Color::RED] = new QRadioButton( "Red" );
+    mapRadioColor[TileColor::BLUE] = new QRadioButton( "Blue" );
+    mapRadioColor[TileColor::GREEN] = new QRadioButton( "Green" );
+    mapRadioColor[TileColor::RED] = new QRadioButton( "Red" );
 
     for ( auto& radio : mapRadioColor )
     {
@@ -98,11 +98,11 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
 
     QVBoxLayout layRadioColor;
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[Color::BLUE] );
+    layRadioColor.addWidget( mapRadioColor[TileColor::BLUE] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[Color::GREEN] );
+    layRadioColor.addWidget( mapRadioColor[TileColor::GREEN] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[Color::RED] );
+    layRadioColor.addWidget( mapRadioColor[TileColor::RED] );
     layRadioColor.addSpacing( 7 );
     QGroupBox* boxRadioColor = new QGroupBox( "Color of numeric board" );
     boxRadioColor->setLayout( &layRadioColor );
@@ -184,7 +184,7 @@ void WindowSetting::acceptSettings()
     optionsNew->squareSizeIndex = slider->value();
     optionsNew->numberColor = getChoosenOption< NumberColor >( radioNumberOnImage, groupRadioNumberOnImage );
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
-    optionsNew->squareColor = getChoosenOption< Color >( mapRadioColor, groupRadioColor );
+    optionsNew->squareColor = getChoosenOption< TileColor >( mapRadioColor, groupRadioColor );
 
     bool numberImageChanged = optionsNew->numberColor != optionsCurrent->numberColor;
     bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;

@@ -3,7 +3,6 @@
 #define OPTIONS_H
 
 #include "Types.h"
-#include "SquareStyle.h"
 #include <QString>
 #include <QColor>
 #include <memory>
@@ -39,7 +38,7 @@ private:
     static GraphicMode graphicMode;
 
     static int currentTileIndex;
-    static Color currentColor;
+    static TileColor currentColor;
 
     static bool imagesToBeLoaded[4];
 

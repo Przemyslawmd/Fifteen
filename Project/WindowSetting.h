@@ -37,7 +37,7 @@ private:
     map< NumberColor, QRadioButton* > radioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
 
-    map< Color, QRadioButton* > mapRadioColor;
+    map< TileColor, QRadioButton* > mapRadioColor;
     QButtonGroup groupRadioColor;
 
     QSlider* slider;
