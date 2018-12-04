@@ -56,7 +56,7 @@ void MainWindow::setTilesNumeric( bool isRandom )
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< int >::iterator iter = values.begin();
     QFont font;
-    int fontSizeInt = MappedValues::fontSizeValues.at( Options::getSquareSizeFont() );
+    int fontSizeInt = Mapped::fontSizeValues.at( Options::getSquareSizeFont() );
     font.setPixelSize( fontSizeInt );
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
@@ -93,8 +93,8 @@ void MainWindow::setTilesGraphic( bool isRandom )
     QPainter* painter = nullptr;
 
     TileSize tileSize = provider.getImageSquareSize( boardSize );
-    int tileSizeInt = MappedValues::tileSizeValues.at( tileSize );
-    int fontSizeInt = MappedValues::fontSizeValues.at( numOnImage->fontSize );
+    int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
+    int fontSizeInt = Mapped::fontSizeValues.at( numOnImage->fontSize );
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
     int i = 0;
@@ -273,7 +273,7 @@ void MainWindow::makeMove( Move move, int row, int col )
 
 void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
 {
-    QString& currentStyle = Options::getStyle();
+    const QString& currentStyle = Options::getStyle();
     BoardSize boardSize = board->getCurrentSize();
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
@@ -293,7 +293,7 @@ void MainWindow::moveGraphicTile( int rowSource, int colSource, int rowDest, int
 
     tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
-    int tileSizeInt = MappedValues::tileSizeValues.at( tileSize );
+    int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
     QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
@@ -419,7 +419,7 @@ void MainWindow::slotReadBoard()
 
 void MainWindow::setColor()
 {
-    QString& currentStyle = Options::getStyle();
+    const QString& currentStyle = Options::getStyle();
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     for ( auto tile : tiles )

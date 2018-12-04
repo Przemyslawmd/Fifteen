@@ -125,7 +125,7 @@ ImageProvider::~ImageProvider()
 
 bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize imageSize )
 {
-    int tileSizeInt = MappedValues::tileSizeValues.at( imageSize );
+    int tileSizeInt = Mapped::tileSizeValues.at( imageSize );
     if (( picture.height() < boardSize * tileSizeInt ) || ( picture.width() < boardSize * tileSizeInt ))
     {
         Message::putMessage( MessageCode::GRAPHIC_TOO_LOW_SIZE, boardSize );

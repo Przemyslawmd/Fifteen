@@ -23,8 +23,8 @@ public:
 
     static GraphicMode getGraphicMode();
 
-    static QString& getStyle();
-    static QString& getEmptyStyle();
+    static const QString& getStyle();
+    static const QString& getEmptyStyle();
 
     static bool isImageToBeLoaded( BoardSize size );
 
@@ -42,7 +42,7 @@ private:
     static int currentTileIndex;
     static Color currentColor;
     static std::map< int, TileStyle > tileStyles;
-    static QString styles[4];
+
     static bool imagesToBeLoaded[4];
 
     static NumberColor numberColor;

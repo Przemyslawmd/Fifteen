@@ -1,5 +1,6 @@
 
 #include "Options.h"
+#include "MappedValues.h"
 #include <QtGlobal>
 
 
@@ -39,15 +40,15 @@ GraphicMode Options::getGraphicMode()
 /*********************************************************************************/
 /*********************************************************************************/
 
-QString& Options::getStyle()
+const QString& Options::getStyle()
 {
-    return styles[currentColor];
+    return Mapped::styles.at( currentColor );
 }
 
 
-QString& Options::getEmptyStyle()
+const QString& Options::getEmptyStyle()
 {
-    return styles[Color::EMPTY_STYLE];
+    return Mapped::styles.at( Color::EMPTY_STYLE );
 }
 
 /*********************************************************************************/
@@ -144,17 +145,6 @@ std::map< int, TileStyle > Options::tileStyles
 };
 
 Color Options::currentColor = Color::BLUE;
-
-#define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
-#define END_STYLE   "color:white; border:1px solid white"
-
-QString Options::styles[]
-{
-    { BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE }, // Blue style
-    { BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE }, // Green style
-    { BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE }, // Red style
-    { "background-color:white; " END_STYLE }
-};
 
 bool Options::imagesToBeLoaded[] = { true, true, true, true };
 NumberColor Options::numberColor = NumberColor::NO;

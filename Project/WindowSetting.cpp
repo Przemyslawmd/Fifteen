@@ -98,11 +98,11 @@ WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
 
     QVBoxLayout layRadioColor;
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[BLUE] );
+    layRadioColor.addWidget( mapRadioColor[Color::BLUE] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[GREEN] );
+    layRadioColor.addWidget( mapRadioColor[Color::GREEN] );
     layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[RED] );
+    layRadioColor.addWidget( mapRadioColor[Color::RED] );
     layRadioColor.addSpacing( 7 );
     QGroupBox* boxRadioColor = new QGroupBox( "Color of numeric board" );
     boxRadioColor->setLayout( &layRadioColor );

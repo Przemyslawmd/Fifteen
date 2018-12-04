@@ -181,7 +181,7 @@ void GUI::createTiles( BoardSize boardSize, TileSize tileSize_ )
 {
     deleteTiles();
 
-    int tileSize = MappedValues::tileSizeValues.at( tileSize_ );
+    int tileSize = Mapped::tileSizeValues.at( tileSize_ );
 
     for ( int i = 0; i < boardSize ; i++ )
     {
