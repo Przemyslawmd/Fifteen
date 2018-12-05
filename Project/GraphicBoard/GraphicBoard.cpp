@@ -3,6 +3,7 @@
 #include "../Message.h"
 #include "../MappedValues.h"
 
+
 GraphicBoard::GraphicBoard() {}
 
 /*********************************************************************************/
@@ -32,45 +33,44 @@ void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSiz
     int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
     int boardSizePixel = boardSize * tileSizeInt;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
-    createTiles( &scaledImage, boardSize, tileSize );
+    createTiles( &scaledImage, boardSize, tileSizeInt );
     this->tileSize = tileSize;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize squareSize )
+void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
-    int tileSizeInt = Mapped::tileSizeValues.at( squareSize );
-    int boardPixels = boardSize * tileSizeInt;
-    QImage croppedImage = image.copy(( image.width() - boardPixels ) / 2, ( image.height() - boardPixels ) / 2,
-                                       boardPixels, boardPixels );
-    createTiles( &croppedImage, boardSize, squareSize );
-    this->tileSize = squareSize;
+    int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
+    int boardSizePixel = boardSize * tileSizeInt;
+    QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2,
+                                       boardSizePixel, boardSizePixel );
+    createTiles( &croppedImage, boardSize, tileSizeInt );
+    this->tileSize = tileSize;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, TileSize imageSize_ )
+void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSize )
 {
-    int imageSize = Mapped::tileSizeValues.at( imageSize_ );
-    QImage* image = new (std::nothrow) QImage( imageSize, imageSize, QImage::Format_RGB32 );
+    QImage* image = new QImage( tileSize, tileSize, QImage::Format_RGB32 );
     image->fill( Qt::GlobalColor::white );
     images.push_back( image );
 
-    int pictureSize = boardSize * imageSize;
+    int pictureSize = boardSize * tileSize;
 
-    for ( int yPos = 0; yPos < pictureSize; yPos += imageSize )
+    for ( int yPos = 0; yPos < pictureSize; yPos += tileSize )
     {
-        for ( int xPos = 0; xPos < pictureSize; xPos += imageSize )
+        for ( int xPos = 0; xPos < pictureSize; xPos += tileSize )
         {
-            if (( yPos == pictureSize - imageSize ) && ( xPos == pictureSize - imageSize ))
+            if (( yPos == pictureSize - tileSize ) && ( xPos == pictureSize - tileSize ))
             {
                 break;
             }
 
-            image = new (std::nothrow) QImage( picture->copy( xPos, yPos, imageSize, imageSize ));
+            image = new QImage( picture->copy( xPos, yPos, tileSize, tileSize ));
             images.push_back( image );
         }
     }

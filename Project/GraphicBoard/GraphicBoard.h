@@ -5,10 +5,8 @@
 #include "../Types.h"
 #include <QImage>
 #include <vector>
-#include <memory>
 
 using std::vector;
-using std::unique_ptr;
 
 class GraphicBoard
 {
@@ -22,7 +20,7 @@ private:
 
     void createTilesFromScaledImage( QImage&, BoardSize, TileSize );
     void createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
-    void createTiles( QImage*, BoardSize, TileSize );
+    void createTiles( QImage*, BoardSize, int tileSizeInt );
     bool restoreImagesFromFile( QDataStream&, BoardSize, TileSize );
 
     vector< QImage* >& getImages();
