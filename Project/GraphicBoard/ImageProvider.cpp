@@ -42,8 +42,8 @@ vector< QImage* >& ImageProvider::getImages( BoardSize boardSize )
 
 void ImageProvider::prepareGraphicBoard( QImage& image, TileSize imageSize )
 {
-    createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createScaled :
-                                                                         &GraphicBoard::createCropped;
+    createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createTilesFromScaledImage :
+                                                                         &GraphicBoard::createTilesFromCroppedImage;
     for ( auto iter = images.begin(); iter != images.end(); iter++ )
     {
         if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, imageSize )))
@@ -66,7 +66,7 @@ bool ImageProvider::isGraphicBoard( BoardSize boardSize )
 
 TileSize ImageProvider::getImageSquareSize( BoardSize BoardSize )
 {
-    return images.at( BoardSize )->imageSize;
+    return images.at( BoardSize )->tileSize;
 }
 
 /*********************************************************************************/

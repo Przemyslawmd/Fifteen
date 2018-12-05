@@ -10,11 +10,6 @@
 using std::vector;
 using std::unique_ptr;
 
-/*
- * This class prepares and stores images for a graphic board.
- * Each size of graphic board requires one instance of this class.
- */
-
 class GraphicBoard
 {
 
@@ -25,15 +20,16 @@ private:
     GraphicBoard();
     ~GraphicBoard();
 
-    bool createScaled( QImage&, BoardSize, TileSize );
-    bool createCropped( QImage&, BoardSize, TileSize );
-    bool createSquareImage( QImage*, BoardSize, TileSize );
+    bool createTilesFromScaledImage( QImage&, BoardSize, TileSize );
+    bool createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
+    bool createTiles( QImage*, BoardSize, TileSize );
     bool restoreImagesFromFile( QDataStream&, BoardSize, TileSize );
 
     vector< QImage* >& getImages();
-    TileSize imageSize;
+    TileSize tileSize;
 
     vector< QImage* > images;
 };
 
 #endif // GRAPHIC_BOARD__H
+
