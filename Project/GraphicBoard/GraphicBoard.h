@@ -20,9 +20,9 @@ private:
     GraphicBoard();
     ~GraphicBoard();
 
-    bool createTilesFromScaledImage( QImage&, BoardSize, TileSize );
-    bool createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
-    bool createTiles( QImage*, BoardSize, TileSize );
+    void createTilesFromScaledImage( QImage&, BoardSize, TileSize );
+    void createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
+    void createTiles( QImage*, BoardSize, TileSize );
     bool restoreImagesFromFile( QDataStream&, BoardSize, TileSize );
 
     vector< QImage* >& getImages();

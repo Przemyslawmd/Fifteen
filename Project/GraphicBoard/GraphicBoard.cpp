@@ -27,40 +27,35 @@ vector< QImage* >& GraphicBoard::getImages()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSize, TileSize tileSize )
+void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
     int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
     int boardSizePixel = boardSize * tileSizeInt;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
-    return createTiles( &scaledImage, boardSize, tileSize );
+    createTiles( &scaledImage, boardSize, tileSize );
+    this->tileSize = tileSize;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize squareSize )
+void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize squareSize )
 {
     int tileSizeInt = Mapped::tileSizeValues.at( squareSize );
     int boardPixels = boardSize * tileSizeInt;
     QImage croppedImage = image.copy(( image.width() - boardPixels ) / 2, ( image.height() - boardPixels ) / 2,
                                        boardPixels, boardPixels );
-    return createTiles( &croppedImage, boardSize, squareSize );
+    createTiles( &croppedImage, boardSize, squareSize );
+    this->tileSize = squareSize;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, TileSize imageSize_ )
+void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, TileSize imageSize_ )
 {
     int imageSize = Mapped::tileSizeValues.at( imageSize_ );
     QImage* image = new (std::nothrow) QImage( imageSize, imageSize, QImage::Format_RGB32 );
-
-    if ( image == nullptr )
-    {
-        Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
-        return false;
-    }
-
     image->fill( Qt::GlobalColor::white );
     images.push_back( image );
 
@@ -76,19 +71,11 @@ bool GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, TileSize i
             }
 
             image = new (std::nothrow) QImage( picture->copy( xPos, yPos, imageSize, imageSize ));
-
-            if ( image == nullptr )
-            {
-                Message::putMessage( MessageCode::GRAPHIC_LOAD_FAILURE, boardSize );
-                return false;
-            }
             images.push_back( image );
         }
     }
 
-    this->tileSize = imageSize_;
     Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
-    return true;
 }
 
 /*********************************************************************************/

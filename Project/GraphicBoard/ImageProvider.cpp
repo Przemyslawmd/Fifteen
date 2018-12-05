@@ -141,11 +141,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSi
 void ImageProvider::letGraphicBoardPrepareImages( BoardSize boardSize, TileSize tileSize, QImage& image )
 {
     images.at( boardSize ) = new GraphicBoard();
-
-    if (( images.at( boardSize )->*createImage )( image, boardSize, tileSize ) == false )
-    {
-        removeBoard( images.at( boardSize ));
-    }
+    ( images.at( boardSize )->*createImage )( image, boardSize, tileSize );
 }
 
 /*********************************************************************************/

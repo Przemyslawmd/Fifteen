@@ -26,7 +26,7 @@ private:
     ImageProvider();
     ~ImageProvider();
 
-    bool ( GraphicBoard::*createImage )( QImage&, BoardSize, TileSize );
+    void ( GraphicBoard::*createImage )( QImage&, BoardSize, TileSize );
     bool checkImageSize( QImage&, BoardSize, TileSize ) ;
     void letGraphicBoardPrepareImages( BoardSize, TileSize, QImage& );
     void removeBoard( GraphicBoard*& );
