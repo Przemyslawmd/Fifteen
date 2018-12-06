@@ -6,9 +6,9 @@
 #include <QColor>
 
 enum BoardSize { FOUR = 4, FIVE, SIX, SEVEN };
-enum GraphicMode { SCALED, CROPPED, GRAPHIC_MODE_COUNT };
-enum class BoardMode { NUMERIC, GRAPHIC };
 
+enum class GraphicMode  { SCALED, CROPPED };
+enum class BoardMode    { NUMERIC, GRAPHIC };
 enum class Move         { UP, RIGHT, DOWN, LEFT, NOT_ALLOWED };
 enum class TileSize     { _50, _75, _100, _125, _150 };
 enum class TileColor    { BLUE, GREEN, RED, EMPTY_STYLE };
