@@ -7,14 +7,20 @@
 #include <tuple>
 #include <array>
 
+using std::map;
+using std::tuple;
+using std::array;
+
 class Mapped
 {
 public:
 
-    static const std::map< TileSize, int > tileSizeValues;
-    static const std::map< FontSize, int > fontSizeValues;
-    static const std::map< TileColor, const QString > tileColorStyles;
-    static const std::array< std::tuple< TileSize, FontSize >, 5 > tileStyles;
+    static const map< TileSize, int > tileSizeValues;
+    static const map< FontSize, int > fontSizeValues;
+    static const map< BoardSize, int > BoardSizeInt;
+    static const map< TileColor, const QString > tileColorStyles;
+
+    static const array< tuple< TileSize, FontSize >, 5 > tileStyles;
 };
 
 #endif // MAPPEDVALUES_H

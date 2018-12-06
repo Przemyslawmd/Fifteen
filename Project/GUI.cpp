@@ -81,7 +81,7 @@ void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map<
         radioSizeLayout->addWidget( radioSizePair.second );
         radioSizePair.second->setStyleSheet( "margin-left:5px;" );
         groupRadioSize->addButton( radioSizePair.second );
-        groupRadioSize->setId( radioSizePair.second, radioSizePair.first );
+        groupRadioSize->setId( radioSizePair.second, Mapped::BoardSizeInt.at( radioSizePair.first ));
     }
     radioSizeLayout->addSpacing( 30 );
 
@@ -182,30 +182,31 @@ void GUI::createTiles( BoardSize boardSize, TileSize tileSize_ )
     deleteTiles();
 
     int tileSize = Mapped::tileSizeValues.at( tileSize_ );
+    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
 
-    for ( int i = 0; i < boardSize ; i++ )
+    for ( int i = 0; i < boardSizeInt ; i++ )
     {
-        for ( int j = 0; j < boardSize; j++ )
+        for ( int j = 0; j < boardSizeInt; j++ )
         {
             tiles.push_back( new QPushButton() );
-            tiles.at( i * boardSize + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
-            tiles.at( i * boardSize + j )->setMaximumSize( tileSize, tileSize );
-            tiles.at( i * boardSize + j )->setMinimumSize( tileSize, tileSize );
-            connect( tiles.at( i * boardSize + j ), &QPushButton::clicked, &owner, &MainWindow::pressTile );
+            tiles.at( i * boardSizeInt + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
+            tiles.at( i * boardSizeInt + j )->setMaximumSize( tileSize, tileSize );
+            tiles.at( i * boardSizeInt + j )->setMinimumSize( tileSize, tileSize );
+            connect( tiles.at( i * boardSizeInt + j ), &QPushButton::clicked, &owner, &MainWindow::pressTile );
         }
     }
 
     layVerticalBoard->addStretch();
 
-    for ( int i = 0; i < boardSize; i++ )
+    for ( int i = 0; i < boardSizeInt; i++ )
     {
         layHorizontalBoard.push_back( new QHBoxLayout() );
         layHorizontalBoard[i]->setSpacing(0);
         layHorizontalBoard[i]->addStretch();
 
-        for ( int j = 0; j < boardSize; j++ )
+        for ( int j = 0; j < boardSizeInt; j++ )
         {
-            layHorizontalBoard[i]->addWidget( tiles.at( i * boardSize + j ));
+            layHorizontalBoard[i]->addWidget( tiles.at( i * boardSizeInt + j ));
         }
 
         layHorizontalBoard[i]->addStretch();
@@ -254,7 +255,17 @@ vector< QPushButton* >& GUI::getTiles()
 
 BoardSize GUI::checkRadioBoardSize()
 {
-    return static_cast< BoardSize >( groupRadioSize->checkedId() );
+    int id = groupRadioSize->checkedId();
+
+    if (id == 4)
+        return BoardSize::FOUR;
+    if (id == 5)
+        return BoardSize::FIVE;
+    if (id == 6)
+        return BoardSize::SIX;
+    if ( id == 7)
+        return BoardSize::SEVEN;
+
 }
 
 void GUI::setStatePushUndo( bool state )

@@ -1,7 +1,7 @@
 
 #include "MappedValues.h"
 
-const std::map< TileSize, int > Mapped::tileSizeValues
+const map< TileSize, int > Mapped::tileSizeValues
 {
     { TileSize::_50,  50 },
     { TileSize::_75,  75 },
@@ -11,7 +11,7 @@ const std::map< TileSize, int > Mapped::tileSizeValues
 };
 
 
-const std::map< FontSize, int > Mapped::fontSizeValues
+const map< FontSize, int > Mapped::fontSizeValues
 {
     { FontSize::_20, 20 },
     { FontSize::_25, 25 },
@@ -24,7 +24,7 @@ const std::map< FontSize, int > Mapped::fontSizeValues
 #define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
 #define END_STYLE   "color:white; border:1px solid white"
 
-const std::map< TileColor, const QString > Mapped::tileColorStyles
+const map< TileColor, const QString > Mapped::tileColorStyles
 {
     { TileColor::BLUE,        BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE },
     { TileColor::GREEN,       BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE },
@@ -33,7 +33,15 @@ const std::map< TileColor, const QString > Mapped::tileColorStyles
 };
 
 
-const std::array< std::tuple< TileSize, FontSize >, 5 > Mapped::tileStyles
+const map< BoardSize, int > Mapped::BoardSizeInt
+{
+    { BoardSize::FOUR,  4 },
+    { BoardSize::FIVE,  5 },
+    { BoardSize::SIX,   6 },
+    { BoardSize::SEVEN, 7 },
+};
+
+const array< tuple< TileSize, FontSize >, 5 > Mapped::tileStyles
 {
     {
         std::make_tuple( TileSize::_50,  FontSize::_20 ),

@@ -56,7 +56,8 @@ const QString& Options::getEmptyStyle()
 
 bool Options::isImageToBeLoaded( BoardSize size )
 {
-    return imagesToBeLoaded[size - 4];
+    int boardSizeInt = Mapped::BoardSizeInt.at( size );
+    return imagesToBeLoaded[boardSizeInt - 4];
 }
 
 /*********************************************************************************/

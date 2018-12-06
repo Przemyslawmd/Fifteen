@@ -1,5 +1,6 @@
 
 #include "IOBoard.h"
+#include "MappedValues.h"
 #include "../Options.h"
 #include "../Message.h"
 #include "../GraphicBoard/ImageProvider.h"
@@ -16,7 +17,7 @@ void IOBoard::saveNumericBoardInFile( Board& board, const QString& fileName )
     QDataStream& stream = file.getDataStream();
 
     stream << static_cast< int >( BoardMode::NUMERIC );
-    stream << board.getCurrentSize();
+    stream << Mapped::BoardSizeInt.at( board.getCurrentSize() );
     insertBoardValuesIntoStream( stream, board );
 }
 
@@ -30,7 +31,7 @@ void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
 
     stream << static_cast< int >( BoardMode::GRAPHIC );
     BoardSize boardSize = board.getCurrentSize();
-    stream << boardSize;
+    stream << Mapped::BoardSizeInt.at( boardSize );
 
     insertBoardValuesIntoStream( stream, board );
     insertBoardPicturesIntoStream( stream, boardSize );
@@ -63,7 +64,8 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
         return false;
     }
 
-    boardNumbers.resize( boardSize * boardSize );
+    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    boardNumbers.resize( boardSizeInt * boardSizeInt );
     for ( auto iter = boardNumbers.begin(); iter != boardNumbers.end(); iter++ )
     {
         stream >> *iter;
@@ -85,7 +87,7 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
     }
 
     Options::setBoardMode( boardMode );
-    boardNumbers.push_back( boardSize );
+    boardNumbers.push_back( boardSizeInt );
     return true;
 }
 

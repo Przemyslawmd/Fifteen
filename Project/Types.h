@@ -5,8 +5,7 @@
 #include <QString>
 #include <QColor>
 
-enum BoardSize { FOUR = 4, FIVE, SIX, SEVEN };
-
+enum class BoardSize    { FOUR, FIVE, SIX, SEVEN };
 enum class GraphicMode  { SCALED, CROPPED };
 enum class BoardMode    { NUMERIC, GRAPHIC };
 enum class Move         { UP, RIGHT, DOWN, LEFT, NOT_ALLOWED };

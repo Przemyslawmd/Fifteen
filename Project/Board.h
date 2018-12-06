@@ -30,6 +30,7 @@ public:
 private:
 
     BoardSize size;
+    int sizeInt;
     vector< int > values;
     const int EMPTY_SQUARE = 0;
 

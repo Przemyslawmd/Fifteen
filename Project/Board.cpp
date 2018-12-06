@@ -1,5 +1,6 @@
 
 #include "Board.h"
+#include "MappedValues.h"
 #include <iterator>
 
 using std::begin;
@@ -38,25 +39,25 @@ Board* Board::createBoard( vector< int >& values, BoardSize boardSize )
 
 Move Board::checkMove( int row, int col )
 {        
-    if ( row > 0 && ( values.at(( row - 1 ) * size + col ) == EMPTY_SQUARE ))
+    if ( row > 0 && ( values.at(( row - 1 ) * sizeInt + col ) == EMPTY_SQUARE ))
     {
         makeMove( row, col, row - 1, col );
         return Move::UP;
     }
 
-    if ( col < ( size - 1 ) && ( values.at( row * size + col + 1 ) == EMPTY_SQUARE ))
+    if ( col < ( sizeInt - 1 ) && ( values.at( row * sizeInt + col + 1 ) == EMPTY_SQUARE ))
     {
         makeMove( row, col, row, col + 1 );
         return Move::RIGHT;
     }
 
-    if ( row < ( size - 1 ) && ( values.at(( row + 1 ) * size + col )  ==  EMPTY_SQUARE ))
+    if ( row < ( sizeInt - 1 ) && ( values.at(( row + 1 ) * sizeInt + col )  ==  EMPTY_SQUARE ))
     {
         makeMove( row, col, row + 1, col );
         return Move::DOWN;
     }
 
-    if ( col > 0 && ( values.at( row * size + col - 1 ) == EMPTY_SQUARE ))
+    if ( col > 0 && ( values.at( row * sizeInt + col - 1 ) == EMPTY_SQUARE ))
     {
         makeMove( row, col, row, col -1 );
         return Move::LEFT;
@@ -99,14 +100,14 @@ vector< int >& Board::randomBoard()
                 break;
             }            
 
-            if (( move == Move::RIGHT ) && ( nullCol < ( size - 1 )))
+            if (( move == Move::RIGHT ) && ( nullCol < ( sizeInt - 1 )))
             {                
                 makeMove( nullRow, nullCol, nullRow, nullCol + 1 );
                 nullCol++;
                 break;
             }            
 
-            if (( move == Move::DOWN ) && ( nullRow < ( size - 1 )))
+            if (( move == Move::DOWN ) && ( nullRow < ( sizeInt - 1 )))
             {                
                 makeMove( nullRow, nullCol, nullRow + 1, nullCol );
                 nullRow++;
@@ -136,12 +137,12 @@ void Board::solveBoard()
 {    
     values.clear();
 
-    for ( int i = 1; i <= size * size; i++ )
+    for ( int i = 1; i <= sizeInt * sizeInt; i++ )
     {
         values.push_back( i );
     }
 
-    values.at( size * size - 1 ) = EMPTY_SQUARE;
+    values.at( sizeInt * sizeInt - 1 ) = EMPTY_SQUARE;
 }
 
 /*********************************************************************************/
@@ -166,6 +167,7 @@ vector< int >& Board::sendBoard()
 Board::Board( BoardSize size )
 {
     this->size = size;
+    this->sizeInt = Mapped::BoardSizeInt.at( size );
     solveBoard();
 }
 
@@ -184,9 +186,9 @@ Board::Board( vector< int >& values, BoardSize size )
 
 void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 {    
-    values.at( dstRow * size + dstCol ) += values.at( srcRow * size + srcCol );
-    values.at( srcRow * size + srcCol ) = values.at( dstRow * size + dstCol ) - values.at( srcRow * size + srcCol );
-    values.at( dstRow * size + dstCol ) -= values.at( srcRow * size + srcCol );
+    values.at( dstRow * sizeInt + dstCol ) += values.at( srcRow * sizeInt + srcCol );
+    values.at( srcRow * sizeInt + srcCol ) = values.at( dstRow * sizeInt + dstCol ) - values.at( srcRow * sizeInt + srcCol );
+    values.at( dstRow * sizeInt + dstCol ) -= values.at( srcRow * sizeInt + srcCol );
 }
 
 /*********************************************************************************/
@@ -196,7 +198,7 @@ int Board::findNullSquare()
 {
     auto result = find( begin( values ), end( values ), EMPTY_SQUARE );
     int pos =  distance( begin( values ), result );
-    return pos / size * 10 + pos % size;;
+    return pos / sizeInt * 10 + pos % sizeInt;
 }
 
 /*********************************************************************************/

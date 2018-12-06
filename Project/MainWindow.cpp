@@ -274,7 +274,7 @@ void MainWindow::makeMove( Move move, int row, int col )
 void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     const QString& currentStyle = Options::getStyle();
-    BoardSize boardSize = board->getCurrentSize();
+    int boardSize = Mapped::BoardSizeInt.at( board->getCurrentSize() );
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
@@ -289,15 +289,16 @@ void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int
 void MainWindow::moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     BoardSize boardSize = board->getCurrentSize();
+    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
-    tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
+    tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
     int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
     QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
-    tiles.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
+    tiles.at( rowSource * boardSizeInt + colSource )->setIcon( nullIcon );
 }
 
 /*********************************************************************************/

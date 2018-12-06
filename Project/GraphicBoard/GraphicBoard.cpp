@@ -31,7 +31,8 @@ vector< QImage* >& GraphicBoard::getImages()
 void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
     int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
-    int boardSizePixel = boardSize * tileSizeInt;
+    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int boardSizePixel = boardSizeInt * tileSizeInt;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
     createTiles( &scaledImage, boardSize, tileSizeInt );
     this->tileSize = tileSize;
@@ -43,7 +44,8 @@ void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSiz
 void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
     int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
-    int boardSizePixel = boardSize * tileSizeInt;
+    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int boardSizePixel = boardSizeInt * tileSizeInt;
     QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2,
                                        boardSizePixel, boardSizePixel );
     createTiles( &croppedImage, boardSize, tileSizeInt );
@@ -59,7 +61,8 @@ void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSi
     image->fill( Qt::GlobalColor::white );
     images.push_back( image );
 
-    int pictureSize = boardSize * tileSize;
+    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int pictureSize = boardSizeInt * tileSize;
 
     for ( int yPos = 0; yPos < pictureSize; yPos += tileSize )
     {
@@ -75,7 +78,7 @@ void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSi
         }
     }
 
-    Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
+    Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSizeInt );
 }
 
 /*********************************************************************************/
@@ -86,10 +89,15 @@ bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSi
     int imageSize = Mapped::tileSizeValues.at( imageSize_ );
     int bytesForSquare;
     stream >> bytesForSquare;
-    uchar* buffer = new uchar[bytesForSquare * boardSize * boardSize];
+
+    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+
+    uchar* buffer = new uchar[bytesForSquare * boardSizeInt * boardSizeInt];
     QImage* image;
 
-    for ( int i = 0; i < ( boardSize  * boardSize ); i++ )
+
+
+    for ( int i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {
         stream.readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare );
         image = new (std::nothrow) QImage( buffer + i * bytesForSquare, imageSize, imageSize, QImage::Format_RGB32 );
