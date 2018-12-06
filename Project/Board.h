@@ -3,40 +3,40 @@
 #define BOARD_H
 
 #include "Types.h"
-#include <QList>
-#include <QTime>
 #include <vector>
-#include <memory>
 
 using std::vector;
-using std::unique_ptr;
 
 class Board
 {
 public:
 
-    static Board* board;
     static Board* createBoard( BoardSize );
     static Board* createBoard( vector< int >& values, BoardSize );
 
     Move checkMove( int row, int col );
 
     BoardSize getSize();
+    int getIntSize();
+
     vector< int >& sendBoard();
     vector< int >& randomBoard();
     void solveBoard();
 
-private:
+    static Board* board;
 
-    BoardSize boardSize;
-    vector< int > values;
-    const int EMPTY_SQUARE = 0;
+private:
 
     Board( BoardSize );
     Board( vector< int >& values, BoardSize );
 
     void makeMove( int srcRow, int srcColumn, int dstRow, int dstColumn );
     int findEmptyTill();
+
+    const BoardSize boardSize;
+    vector< int > values;
+    const int EMPTY_SQUARE = 0;
 };
 
 #endif // BOARD_H
+

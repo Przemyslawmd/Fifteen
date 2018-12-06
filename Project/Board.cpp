@@ -2,11 +2,8 @@
 #include "Board.h"
 #include "MappedValues.h"
 #include <iterator>
-
-using std::begin;
-using std::end;
-using std::distance;
-using std::find;
+#include <QList>
+#include <QTime>
 
 
 Board* Board::createBoard( BoardSize boardSize )
@@ -134,9 +131,9 @@ vector< int >& Board::randomBoard()
 
 void Board::solveBoard()
 {    
-    values.clear();
     int size = Mapped::BoardSizeInt.at( boardSize );
 
+    values.clear();
     for ( int i = 1; i <= size * size; i++ )
     {
         values.push_back( i );
@@ -156,6 +153,14 @@ BoardSize Board::getSize()
 /*********************************************************************************/
 /*********************************************************************************/
 
+int Board::getIntSize()
+{
+    return Mapped::BoardSizeInt.at( boardSize );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 vector< int >& Board::sendBoard()
 {
     return values;
@@ -164,20 +169,18 @@ vector< int >& Board::sendBoard()
 /*********************************************************************************/
 /* PRIVATE ***********************************************************************/
 
-Board::Board( BoardSize boardSize )
+Board::Board( BoardSize boardSize ) : boardSize( boardSize )
 {
-    this->boardSize = boardSize;
     solveBoard();
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( vector< int >& values, BoardSize boardSize )
+Board::Board( vector< int >& values, BoardSize boardSize ) : boardSize( boardSize )
 {
     this->values.clear();
     this->values = values;
-    this->boardSize = boardSize;
 }
 
 /*********************************************************************************/
@@ -196,8 +199,8 @@ void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 
 int Board::findEmptyTill()
 {
-    auto result = find( begin( values ), end( values ), EMPTY_SQUARE );
-    int pos =  distance( begin( values ), result );
+    auto result = std::find( std::begin( values ), std::end( values ), EMPTY_SQUARE );
+    int pos =  std::distance( std::begin( values ), result );
     int size = Mapped::BoardSizeInt.at( boardSize );
     return pos / size * 10 + pos % size;
 }

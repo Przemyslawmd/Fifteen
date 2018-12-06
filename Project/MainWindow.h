@@ -14,6 +14,7 @@
 
 using std::array;
 using std::map;
+using std::unique_ptr;
 
 class MainWindow : public QMainWindow
 {
