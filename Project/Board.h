@@ -13,7 +13,6 @@ using std::unique_ptr;
 
 class Board
 {
-
 public:
 
     static Board* board;
@@ -22,15 +21,14 @@ public:
 
     Move checkMove( int row, int col );
 
-    BoardSize getCurrentSize();
+    BoardSize getSize();
     vector< int >& sendBoard();
     vector< int >& randomBoard();
     void solveBoard();
 
 private:
 
-    BoardSize size;
-    int sizeInt;
+    BoardSize boardSize;
     vector< int > values;
     const int EMPTY_SQUARE = 0;
 
@@ -38,7 +36,7 @@ private:
     Board( vector< int >& values, BoardSize );
 
     void makeMove( int srcRow, int srcColumn, int dstRow, int dstColumn );
-    int findNullSquare();
+    int findEmptyTill();
 };
 
 #endif // BOARD_H

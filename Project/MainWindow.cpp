@@ -41,7 +41,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::createTiles()
 {
-    BoardSize boardSize = board->getCurrentSize();
+    BoardSize boardSize = board->getSize();
     TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
                             Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
 
@@ -84,7 +84,7 @@ void MainWindow::setTilesNumeric( bool isRandom )
 
 void MainWindow::setTilesGraphic( bool isRandom )
 {
-    BoardSize boardSize = board->getCurrentSize();
+    BoardSize boardSize = board->getSize();
     ImageProvider& provider = ImageProvider::getInstance();
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
@@ -274,7 +274,7 @@ void MainWindow::makeMove( Move move, int row, int col )
 void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     const QString& currentStyle = Options::getStyle();
-    int boardSize = Mapped::BoardSizeInt.at( board->getCurrentSize() );
+    int boardSize = Mapped::BoardSizeInt.at( board->getSize() );
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
@@ -288,7 +288,7 @@ void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int
 
 void MainWindow::moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest )
 {
-    BoardSize boardSize = board->getCurrentSize();
+    BoardSize boardSize = board->getSize();
     int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
