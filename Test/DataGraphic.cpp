@@ -1,11 +1,13 @@
 
 #include "DataGraphic.h"
+#include "../Project/MappedValues.h"
 
-DataGraphic::DataGraphic( BoardSize board, TileSize square, GraphicMode mode, QString path,
+DataGraphic::DataGraphic( BoardSize boardSize, TileSize tileSize, GraphicMode mode, QString path,
                           bool four, bool five, bool six, bool seven )
 {
-    this->boardSize = board;
-    this->squareSize = square;
+    this->boardSize = boardSize;
+    this->boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    this->squareSize = tileSize;
     this->mode = mode;
     imagesPath = path;
     isFourToBeLoaded = four;

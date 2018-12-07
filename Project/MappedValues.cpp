@@ -41,6 +41,7 @@ const map< BoardSize, int > Mapped::BoardSizeInt
     { BoardSize::SEVEN, 7 },
 };
 
+
 const array< tuple< TileSize, FontSize >, 5 > Mapped::tileStyles
 {
     {
@@ -51,4 +52,16 @@ const array< tuple< TileSize, FontSize >, 5 > Mapped::tileStyles
         std::make_tuple( TileSize::_150, FontSize::_40 )
     }
 };
+
+
+BoardSize Mapped::getKeyBoardSizeMap( int value )
+{
+   for ( auto& map : Mapped::BoardSizeInt )
+    {
+        if ( map.second == value )
+        {
+            return map.first;
+        }
+    }
+}
 

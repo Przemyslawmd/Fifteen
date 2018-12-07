@@ -95,8 +95,6 @@ bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSi
     uchar* buffer = new uchar[bytesForSquare * boardSizeInt * boardSizeInt];
     QImage* image;
 
-
-
     for ( int i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {
         stream.readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare );

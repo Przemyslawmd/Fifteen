@@ -64,9 +64,9 @@ bool ImageProvider::isGraphicBoard( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-TileSize ImageProvider::getImageSquareSize( BoardSize BoardSize )
+TileSize ImageProvider::getTileSize( BoardSize boardSize )
 {
-    return images.at( BoardSize )->tileSize;
+    return images.at( boardSize )->tileSize;
 }
 
 /*********************************************************************************/

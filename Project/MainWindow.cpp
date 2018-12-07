@@ -43,7 +43,7 @@ void MainWindow::createTiles()
 {
     BoardSize boardSize = board->getSize();
     TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
-                            Options::getSquareSize() : ImageProvider::getInstance().getImageSquareSize( boardSize );
+                            Options::getSquareSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
     GUI::getGUI().createTiles( boardSize, squareSize );
 }
@@ -92,7 +92,7 @@ void MainWindow::setTilesGraphic( bool isRandom )
     QPixmap pixmap;
     QPainter* painter = nullptr;
 
-    TileSize tileSize = provider.getImageSquareSize( boardSize );
+    TileSize tileSize = provider.getTileSize( boardSize );
     int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
@@ -293,7 +293,7 @@ void MainWindow::moveGraphicTile( int rowSource, int colSource, int rowDest, int
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
-    TileSize tileSize = ImageProvider::getInstance().getImageSquareSize( boardSize );
+    TileSize tileSize = ImageProvider::getInstance().getTileSize( boardSize );
     int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
     QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );

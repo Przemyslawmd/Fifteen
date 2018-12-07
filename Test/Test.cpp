@@ -9,6 +9,7 @@
 #include "../Project/Options.h"
 #include "../Project/GraphicBoard/ImageProvider.h"
 #include "../Project/MappedValues.cpp"
+#include "../Project/MappedValues.h"
 #include <QtTest>
 
 
@@ -17,14 +18,15 @@ void Test::testCreateBoardSolved( BoardSize size )
     Board* board = Board::createBoard( size );
     vector< int >& values = board->sendBoard();
 
-    QCOMPARE( size * size, static_cast< int >( values.size() ));
+    int sizeInt = board->getIntSize();
+    QCOMPARE( sizeInt * sizeInt, static_cast< int >( values.size() ));
 
-    for ( int i = 0; i < size * size - 1; i++ )
+    for ( int i = 0; i < sizeInt * sizeInt - 1; i++ )
     {
         QCOMPARE( values[i], i + 1 );
     }
 
-    QCOMPARE( values[size * size - 1], 0 );
+    QCOMPARE( values[sizeInt * sizeInt - 1], 0 );
 }
 
 /*********************************************************************************/
@@ -34,7 +36,8 @@ void Test::testCreateBoardRandom( BoardSize size )
 {
     Board* board = Board::createBoard( size );
     vector< int >& values = board->randomBoard();
-    checkTiles( size, values );
+    int boardSizeInt = board->getIntSize();
+    checkTiles( boardSizeInt, values );
 }
 
 /*********************************************************************************/
@@ -47,13 +50,15 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
     board->randomBoard();
     vector< int >& values = board->randomBoard();
 
-    checkTiles( firstSize, values );
+    int boardSizeInt = board->getIntSize();
+    checkTiles( boardSizeInt, values );
 
     board = Board::createBoard( secondSize );
     board->randomBoard();
     values = board->randomBoard();
 
-    checkTiles( secondSize, values );
+    boardSizeInt = board->getIntSize();
+    checkTiles( boardSizeInt, values );
 }
 
 /*********************************************************************************/
@@ -109,8 +114,10 @@ void Test::testSaveAndLoadBoard( int testNumber )
 
     vector< int > fileValues( 0 );
     io.readBoardFromFile( filePath, fileValues );
-    boardSize = static_cast< BoardSize >( fileValues.back() );
+    int boardSizeInt = fileValues.back();
     fileValues.pop_back();
+
+    boardSize = Mapped::getKeyBoardSizeMap( boardSizeInt );
     board->createBoard( fileValues, boardSize );
 
     vector< int >& currentValues  = board->sendBoard();
@@ -143,7 +150,7 @@ void Test::testCreateGraphicBoard( int testNumber )
     imageProvider.prepareGraphicBoard( image, testData.squareSize );
     vector< QImage* >& images = imageProvider.getImages( testData.boardSize );
 
-    for ( int i = 1; i < testData.boardSize * testData.boardSize; i++ )
+    for ( int i = 1; i < testData.boardSizeInt * testData.boardSizeInt; i++ )
     {
         QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + QString::number( i ) + ".bmp" );
         compareQImage( *images.at( i ), image );
@@ -153,7 +160,7 @@ void Test::testCreateGraphicBoard( int testNumber )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::checkTiles( BoardSize boardSize, vector< int >& squares )
+void Test::checkTiles( int boardSize, vector< int >& squares )
 {
     QList< int > values;
 

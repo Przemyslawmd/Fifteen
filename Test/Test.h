@@ -18,7 +18,7 @@ public:
 
 private:
 
-    void checkTiles( BoardSize, vector< int >& values );
+    void checkTiles( int boardSize, vector< int >& values );
     void compareQImage( const QImage&, const QImage& );
 };
 

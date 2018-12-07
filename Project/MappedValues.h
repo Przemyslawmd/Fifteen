@@ -21,6 +21,8 @@ public:
     static const map< TileColor, const QString > tileColorStyles;
 
     static const array< tuple< TileSize, FontSize >, 5 > tileStyles;
+
+    static BoardSize getKeyBoardSizeMap( int value );
 };
 
 #endif // MAPPEDVALUES_H

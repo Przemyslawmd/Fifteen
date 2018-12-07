@@ -10,6 +10,7 @@ public:
     DataGraphic( BoardSize, TileSize, GraphicMode, QString imagesPath, bool, bool, bool, bool );
 
     BoardSize boardSize;
+    int boardSizeInt;
     TileSize squareSize;
     GraphicMode mode;
     QString imagesPath;

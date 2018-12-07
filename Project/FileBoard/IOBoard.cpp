@@ -1,6 +1,6 @@
 
 #include "IOBoard.h"
-#include "MappedValues.h"
+#include "../MappedValues.h"
 #include "../Options.h"
 #include "../Message.h"
 #include "../GraphicBoard/ImageProvider.h"
@@ -55,16 +55,15 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
         return false;
     }
 
-    stream >> integerFromStream;
-    BoardSize boardSize = static_cast< BoardSize >( integerFromStream );
+    int boardSizeInt;
+    stream >> boardSizeInt;
 
-    if ( boardSize < BoardSize::FOUR || boardSize > BoardSize::SEVEN )
+    if ( boardSizeInt < 4 || boardSizeInt > 7 )
     {
         Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
         return false;
     }
 
-    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
     boardNumbers.resize( boardSizeInt * boardSizeInt );
     for ( auto iter = boardNumbers.begin(); iter != boardNumbers.end(); iter++ )
     {
@@ -76,6 +75,8 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
         Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
         return false;
     }
+
+    BoardSize boardSize = Mapped::getKeyBoardSizeMap( boardSizeInt );
 
     if ( boardMode == BoardMode::GRAPHIC )
     {
@@ -110,7 +111,7 @@ void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
 void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boardSize)
 {
     ImageProvider& provider = ImageProvider::getInstance();
-    stream << (int) provider.getImageSquareSize( boardSize );
+    stream << (int) provider.getTileSize( boardSize );
     vector< QImage* >& boardImages = provider.getImages( boardSize );
     int byteCountPerImage = boardImages.at( 0 )->byteCount();
     stream << byteCountPerImage;
@@ -126,7 +127,7 @@ void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boar
 
 bool IOBoard::checkReadValues( vector< int >& readNumbers )
 {
-    for ( int number = 0; number < readNumbers.size(); number++ )
+    for ( uint number = 0; number < readNumbers.size(); number++ )
     {
         if ( std::find( readNumbers.begin(), readNumbers.end(), number ) == readNumbers.end() )
         {
