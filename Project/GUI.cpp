@@ -256,17 +256,11 @@ vector< QPushButton* >& GUI::getTiles()
 BoardSize GUI::checkRadioBoardSize()
 {
     int id = groupRadioSize->checkedId();
-
-    if (id == 4)
-        return BoardSize::FOUR;
-    if (id == 5)
-        return BoardSize::FIVE;
-    if (id == 6)
-        return BoardSize::SIX;
-    if ( id == 7)
-        return BoardSize::SEVEN;
-
+    return Mapped::getKeyBoardSizeMap( id );
 }
+
+/*********************************************************************************/
+/*********************************************************************************/
 
 void GUI::setStatePushUndo( bool state )
 {
