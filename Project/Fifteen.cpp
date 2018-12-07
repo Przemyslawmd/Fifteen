@@ -43,7 +43,7 @@ void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
     TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
-                            Options::getSquareSize() : ImageProvider::getInstance().getTileSize( boardSize );
+                            Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
     GUI::getGUI().createTiles( boardSize, squareSize );
 }
@@ -56,7 +56,7 @@ void Fifteen::setTilesNumeric( bool isRandom )
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< int >::iterator iter = values.begin();
     QFont font;
-    int fontSizeInt = Mapped::fontSizeValues.at( Options::getSquareSizeFont() );
+    int fontSizeInt = Mapped::fontSizeValues.at( Options::getFontSize() );
     font.setPixelSize( fontSizeInt );
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
@@ -324,7 +324,7 @@ void Fifteen::slotLoadGraphic()
     }
 
     ImageProvider& provider = ImageProvider::getInstance();
-    provider.prepareGraphicBoard( picture, Options::getSquareSize() );
+    provider.prepareGraphicBoard( picture, Options::getTileSize() );
 
     if ( provider.isGraphicBoard( BoardSize::FOUR ) || provider.isGraphicBoard( BoardSize::FIVE ) ||
          provider.isGraphicBoard( BoardSize::SIX )  || provider.isGraphicBoard( BoardSize::SEVEN ))

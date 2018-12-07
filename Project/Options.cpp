@@ -4,13 +4,13 @@
 #include <QtGlobal>
 
 
-TileSize Options::getSquareSize()
+TileSize Options::getTileSize()
 {
     return std::get< 0 >( Mapped::tileStyles.at( currentTileIndex ));
 }
 
 
-FontSize Options::getSquareSizeFont()
+FontSize Options::getFontSize()
 {
     return std::get< 1 >( Mapped::tileStyles.at( currentTileIndex ));
 }

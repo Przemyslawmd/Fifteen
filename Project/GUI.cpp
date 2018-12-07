@@ -1,7 +1,6 @@
 
 #include "GUI.h"
 #include "MappedValues.h"
-#include <QGroupBox>
 
 
 void GUI::createGUI( Fifteen& owner )

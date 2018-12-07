@@ -25,8 +25,8 @@ class Message
 {
 public:
 
-    static void putMessage( MessageCode code );
-    static void putMessage( MessageCode code, int arg );
+    static void putMessage( MessageCode );
+    static void putMessage( MessageCode, int arg );
     static QString getMessages();
 
 private:

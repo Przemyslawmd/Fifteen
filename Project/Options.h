@@ -13,8 +13,8 @@ class Options
 {
 public:
 
-    static TileSize getSquareSize();
-    static FontSize getSquareSizeFont();
+    static TileSize getTileSize();
+    static FontSize getFontSize();
 
     static BoardMode getBoardMode();
     static void setBoardMode( BoardMode mode );

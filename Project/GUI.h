@@ -18,9 +18,6 @@ typedef void ( Fifteen::*SlotMainWindow )();
 
 class GUI : public QMainWindow
 {
-
-Q_OBJECT
-
 public:
 
     static void createGUI( Fifteen& );
