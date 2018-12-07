@@ -2,7 +2,7 @@
 #ifndef SETTING_H
 #define SETTING_H
 
-#include "MainWindow.h"
+#include "Fifteen.h"
 #include "Types.h"
 #include "Options.h"
 

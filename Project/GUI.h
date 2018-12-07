@@ -2,7 +2,7 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include "MainWindow.h"
+#include "Fifteen.h"
 #include "Types.h"
 #include <QMainWindow>
 #include <QMenu>

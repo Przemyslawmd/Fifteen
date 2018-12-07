@@ -1,7 +1,6 @@
 
 SOURCES += \
     WindowSetting.cpp \
-    MainWindow.cpp \
     Board.cpp \
     Entry.cpp \
     WindowAbout.cpp \
@@ -13,11 +12,11 @@ SOURCES += \
     FileBoard/IOBoard.cpp \
     FileBoard/IOFile.cpp \
     GUI.cpp \
-    MappedValues.cpp
+    MappedValues.cpp \
+    Fifteen.cpp
 
 HEADERS += \
     WindowSetting.h \
-    MainWindow.h \
     Board.h \
     WindowAbout.h \
     Types.h \
@@ -29,7 +28,8 @@ HEADERS += \
     FileBoard/IOBoard.h \
     FileBoard/IOFile.h \
     GUI.h \
-    MappedValues.h
+    MappedValues.h \
+    Fifteen.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
