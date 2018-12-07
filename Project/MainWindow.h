@@ -16,7 +16,7 @@ using std::array;
 using std::map;
 using std::unique_ptr;
 
-class MainWindow : public QMainWindow
+class Fifteen : public QMainWindow
 {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow
     void moveNumericTile( int rowSource, int colSource, int rowDest, int colDest );
     void moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest );
 
-    void ( MainWindow::*moveTile ) ( int rowSource, int colSource, int rowDest, int colDest );
+    void ( Fifteen::*moveTile ) ( int rowSource, int colSource, int rowDest, int colDest );
 
 private slots:
 
@@ -55,8 +55,8 @@ private slots:
 
 public:
 
-    explicit MainWindow( QWidget *parent = 0 );
-    ~MainWindow();
+    explicit Fifteen( QWidget *parent = 0 );
+    ~Fifteen();
 
     void setColor();
     void redrawTiles();

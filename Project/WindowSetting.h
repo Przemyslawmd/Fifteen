@@ -23,7 +23,7 @@ class WindowSetting : public QDialog
 
 public:
 
-    WindowSetting( MainWindow& parentWindow );
+    WindowSetting( Fifteen& parentWindow );
 
 private:
 
@@ -47,7 +47,7 @@ private:
 
     unique_ptr< OptionsData > optionsCurrent;
     QPushButton* pushAccept;
-    MainWindow& parent;
+    Fifteen& parent;
 
     template< typename T > T getChoosenOption( map< T, QRadioButton* >&, QButtonGroup& );
 

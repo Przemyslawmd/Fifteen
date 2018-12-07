@@ -7,7 +7,7 @@
 
 using std::unique_ptr;
 
-WindowSetting::WindowSetting( MainWindow& parent ) : parent( parent )
+WindowSetting::WindowSetting( Fifteen& parent ) : parent( parent )
 {
     setModal( true );
     setWindowTitle( "" );

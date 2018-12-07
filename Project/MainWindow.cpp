@@ -14,7 +14,7 @@
 #include <QFileDialog>
 #include <QFont>
 
-MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }
+Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
 {
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
@@ -31,7 +31,7 @@ MainWindow::MainWindow( QWidget *parent ) : QMainWindow{ parent }
 /*********************************************************************************/
 /*********************************************************************************/
 
-MainWindow::~MainWindow()
+Fifteen::~Fifteen()
 {
     GUI::releaseGUI();
 }
@@ -39,7 +39,7 @@ MainWindow::~MainWindow()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::createTiles()
+void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
     TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
@@ -51,7 +51,7 @@ void MainWindow::createTiles()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::setTilesNumeric( bool isRandom )
+void Fifteen::setTilesNumeric( bool isRandom )
 {    
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< int >::iterator iter = values.begin();
@@ -82,7 +82,7 @@ void MainWindow::setTilesNumeric( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::setTilesGraphic( bool isRandom )
+void Fifteen::setTilesGraphic( bool isRandom )
 {
     BoardSize boardSize = board->getSize();
     ImageProvider& provider = ImageProvider::getInstance();
@@ -128,7 +128,7 @@ void MainWindow::setTilesGraphic( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
+void Fifteen::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
 {
     if ( number == 0 )
     {
@@ -144,7 +144,7 @@ void MainWindow::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QC
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotGenerateBoard()
+void Fifteen::slotGenerateBoard()
 {
     BoardSize boardSize = GUI::getGUI().checkRadioBoardSize();
 
@@ -182,7 +182,7 @@ void MainWindow::slotGenerateBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotSolveBoard()
+void Fifteen::slotSolveBoard()
 {
     board->solveBoard();
 
@@ -204,7 +204,7 @@ void MainWindow::slotSolveBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotUndoMove()
+void Fifteen::slotUndoMove()
 {
     int position = undoMoveService->GetMove();
 
@@ -222,7 +222,7 @@ void MainWindow::slotUndoMove()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::pressTile()
+void Fifteen::pressTile()
 {
     int position = ( (QPushButton*) sender() )->accessibleName().toInt();
 
@@ -246,10 +246,10 @@ void MainWindow::pressTile()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::makeMove( Move move, int row, int col )
+void Fifteen::makeMove( Move move, int row, int col )
 {
-    moveTile = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &MainWindow::moveNumericTile :
-                                                                   &MainWindow::moveGraphicTile;
+    moveTile = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
+                                                                   &Fifteen::moveGraphicTile;
 
     switch ( move )
     {
@@ -271,7 +271,7 @@ void MainWindow::makeMove( Move move, int row, int col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
+void Fifteen::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     const QString& currentStyle = Options::getStyle();
     int boardSize = Mapped::BoardSizeInt.at( board->getSize() );
@@ -286,7 +286,7 @@ void MainWindow::moveNumericTile( int rowSource, int colSource, int rowDest, int
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest )
+void Fifteen::moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     BoardSize boardSize = board->getSize();
     int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
@@ -304,7 +304,7 @@ void MainWindow::moveGraphicTile( int rowSource, int colSource, int rowDest, int
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotLoadGraphic()
+void Fifteen::slotLoadGraphic()
 {
     QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(),
                                                      tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
@@ -338,7 +338,7 @@ void MainWindow::slotLoadGraphic()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotRemoveGraphic()
+void Fifteen::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
     action[Action::REM_GRAPHIC]->setEnabled( false );
@@ -355,7 +355,7 @@ void MainWindow::slotRemoveGraphic()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotSaveBoard()
+void Fifteen::slotSaveBoard()
 {
     QString fileName = QFileDialog::getSaveFileName( this, "", QDir::currentPath() );
 
@@ -378,7 +378,7 @@ void MainWindow::slotSaveBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotReadBoard()
+void Fifteen::slotReadBoard()
 {    
     QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
 
@@ -418,7 +418,7 @@ void MainWindow::slotReadBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::setColor()
+void Fifteen::setColor()
 {
     const QString& currentStyle = Options::getStyle();
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
@@ -435,7 +435,7 @@ void MainWindow::setColor()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::redrawTiles()
+void Fifteen::redrawTiles()
 {
     createTiles();
 
@@ -452,7 +452,7 @@ void MainWindow::redrawTiles()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::createUndoMovesService()
+void Fifteen::createUndoMovesService()
 {
     undoMoveService = unique_ptr< UndoMove >( new UndoMove() );
     GUI::getGUI().setStatePushUndo( false );
@@ -461,7 +461,7 @@ void MainWindow::createUndoMovesService()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::deleteUndoMovesService()
+void Fifteen::deleteUndoMovesService()
 {
     UndoMove* undoMove = undoMoveService.release();// = nullptr;
     delete undoMove;
@@ -471,7 +471,7 @@ void MainWindow::deleteUndoMovesService()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotSettings()
+void Fifteen::slotSettings()
 {
     new WindowSetting( *this );
 }
@@ -479,7 +479,7 @@ void MainWindow::slotSettings()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MainWindow::slotAbout()
+void Fifteen::slotAbout()
 {
     new WindowAbout();
 }

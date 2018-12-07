@@ -4,7 +4,7 @@
 #include <QGroupBox>
 
 
-void GUI::createGUI( MainWindow& owner )
+void GUI::createGUI( Fifteen& owner )
 {
     gui = new GUI( owner );
 }
@@ -28,7 +28,7 @@ GUI& GUI::getGUI()
 /*********************************************************************************/
 /*********************************************************************************/
 
-GUI::GUI( MainWindow& owner ) : owner( owner ){}
+GUI::GUI( Fifteen& owner ) : owner( owner ){}
 
 /*********************************************************************************/
 /*********************************************************************************/
@@ -39,12 +39,12 @@ void GUI::createMenu( map< Action, QAction* >& actions )
     fileMenu->setTitle( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    bindAction( actions[Action::OPEN_GRAPHIC], &MainWindow::slotLoadGraphic,   "Load Graphic File" );
-    bindAction( actions[Action::REM_GRAPHIC],  &MainWindow::slotRemoveGraphic, "Remove Graphic" );
-    bindAction( actions[Action::SAVE_BOARD],   &MainWindow::slotSaveBoard,     "Save Board" );
-    bindAction( actions[Action::LOAD_BOARD],   &MainWindow::slotReadBoard,     "Load Board" );
-    bindAction( actions[Action::SETTINGS],     &MainWindow::slotSettings,      "Settings" );
-    bindAction( actions[Action::ABOUT],        &MainWindow::slotAbout,         "About" );
+    bindAction( actions[Action::OPEN_GRAPHIC], &Fifteen::slotLoadGraphic,   "Load Graphic File" );
+    bindAction( actions[Action::REM_GRAPHIC],  &Fifteen::slotRemoveGraphic, "Remove Graphic" );
+    bindAction( actions[Action::SAVE_BOARD],   &Fifteen::slotSaveBoard,     "Save Board" );
+    bindAction( actions[Action::LOAD_BOARD],   &Fifteen::slotReadBoard,     "Load Board" );
+    bindAction( actions[Action::SETTINGS],     &Fifteen::slotSettings,      "Settings" );
+    bindAction( actions[Action::ABOUT],        &Fifteen::slotAbout,         "About" );
 
     fileMenu->addAction( actions[Action::OPEN_GRAPHIC] );
     fileMenu->addSeparator();
@@ -117,17 +117,17 @@ void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map<
 
     QPushButton* pushRandom = new QPushButton(" Generate Board ");
     pushRandom->setStyleSheet( "height:20px;" );
-    connect( pushRandom, &QPushButton::clicked, &owner, &MainWindow::slotGenerateBoard );
+    connect( pushRandom, &QPushButton::clicked, &owner, &Fifteen::slotGenerateBoard );
 
     QPushButton* pushSolve = new QPushButton(" Solve Board ");
     pushSolve->setStyleSheet( "height:20px;" );
-    connect( pushSolve, &QPushButton::clicked, &owner, &MainWindow::slotSolveBoard );
+    connect( pushSolve, &QPushButton::clicked, &owner, &Fifteen::slotSolveBoard );
 
     pushUndo = unique_ptr< QPushButton>( new QPushButton(" Undo Move " ));
     pushUndo->setText("Undo Move");
     pushUndo->setStyleSheet( "height:20px;" );
     pushUndo->setDisabled( true );
-    connect( pushUndo.get(), &QPushButton::clicked, &owner, &MainWindow::slotUndoMove );
+    connect( pushUndo.get(), &QPushButton::clicked, &owner, &Fifteen::slotUndoMove );
 
     layRight = new QVBoxLayout();
     layRight->setContentsMargins( 30, 0, 20, 0 );
@@ -192,7 +192,7 @@ void GUI::createTiles( BoardSize boardSize, TileSize tileSize_ )
             tiles.at( i * boardSizeInt + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
             tiles.at( i * boardSizeInt + j )->setMaximumSize( tileSize, tileSize );
             tiles.at( i * boardSizeInt + j )->setMinimumSize( tileSize, tileSize );
-            connect( tiles.at( i * boardSizeInt + j ), &QPushButton::clicked, &owner, &MainWindow::pressTile );
+            connect( tiles.at( i * boardSizeInt + j ), &QPushButton::clicked, &owner, &Fifteen::pressTile );
         }
     }
 

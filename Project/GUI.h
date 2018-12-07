@@ -14,7 +14,7 @@
 #include <map>
 #include <memory>
 
-typedef void ( MainWindow::*SlotMainWindow )();
+typedef void ( Fifteen::*SlotMainWindow )();
 
 class GUI : public QMainWindow
 {
@@ -23,7 +23,7 @@ Q_OBJECT
 
 public:
 
-    static void createGUI( MainWindow& );
+    static void createGUI( Fifteen& );
     static void releaseGUI();
     static GUI& getGUI();
 
@@ -39,11 +39,11 @@ public:
 
 private:
 
-    GUI( MainWindow& );
+    GUI( Fifteen& );
     void bindAction( QAction*&, SlotMainWindow, QString );
 
     static GUI* gui;
-    MainWindow& owner;
+    Fifteen& owner;
 
     vector< QPushButton* > tiles;
     unique_ptr< QButtonGroup > groupRadioSize;
