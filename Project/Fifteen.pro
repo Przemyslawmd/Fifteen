@@ -12,7 +12,7 @@ SOURCES += \
     MappedValues.cpp \
     Fifteen.cpp \
     GUIMain.cpp \
-    GUIAbout.cpp \
+    GUI/GUIAbout.cpp \
     GUISetting.cpp
 
 HEADERS += \
@@ -28,7 +28,7 @@ HEADERS += \
     MappedValues.h \
     Fifteen.h \
     GUIMain.h \
-    GUIAbout.h \
+    GUI/GUIAbout.h \
     GUISetting.h
 
 QMAKE_CFLAGS_DEBUG  = -g
