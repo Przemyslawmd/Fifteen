@@ -11,9 +11,9 @@ SOURCES += \
     FileBoard/IOFile.cpp \
     MappedValues.cpp \
     Fifteen.cpp \
-    GUIMain.cpp \
+    GUI/GUIMain.cpp \
     GUI/GUIAbout.cpp \
-    GUISetting.cpp
+    GUI/GUISetting.cpp
 
 HEADERS += \
     Board.h \
@@ -27,9 +27,9 @@ HEADERS += \
     FileBoard/IOFile.h \
     MappedValues.h \
     Fifteen.h \
-    GUIMain.h \
+    GUI/GUIMain.h \
     GUI/GUIAbout.h \
-    GUISetting.h
+    GUI/GUISetting.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
