@@ -1,5 +1,5 @@
 
-#include "WindowSetting.h"
+#include "GUISetting.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGroupBox>

@@ -1,5 +1,5 @@
 
-#include "WindowAbout.h"
+#include "GUIAbout.h"
 #include <QVBoxLayout>
 #include <QTextDocument>
 

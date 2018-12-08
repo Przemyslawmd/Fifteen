@@ -68,6 +68,9 @@ Move Board::checkMove( int row, int col )
 /*********************************************************************************/
 /*********************************************************************************/
 
+#include <time.h>
+#include <unistd.h>
+
 vector< int >& Board::randomBoard()
 {
     int emptyTill = findEmptyTill();
@@ -121,6 +124,10 @@ vector< int >& Board::randomBoard()
             moves.removeOne( move );
             move = moves.at(( qrand() * static_cast< uint >( time.msec()) ) % moves.size() );
         }
+
+
+
+        sleep(1);
     }
 
     return values;

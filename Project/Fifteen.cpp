@@ -1,9 +1,9 @@
 
 #include "Fifteen.h"
-#include "GUI.h"
+#include "GUIMain.h"
 #include "Message.h"
-#include "WindowSetting.h"
-#include "WindowAbout.h"
+#include "GUISetting.h"
+#include "GUIAbout.h"
 #include "FileBoard/IOBoard.h"
 #include "Options.h"
 #include "GraphicBoard/ImageProvider.h"

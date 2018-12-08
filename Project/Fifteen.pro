@@ -1,9 +1,7 @@
 
 SOURCES += \
-    WindowSetting.cpp \
     Board.cpp \
     Entry.cpp \
-    WindowAbout.cpp \
     GraphicBoard/ImageProvider.cpp \
     Options.cpp \
     GraphicBoard/GraphicBoard.cpp \
@@ -11,14 +9,14 @@ SOURCES += \
     UndoMove.cpp \
     FileBoard/IOBoard.cpp \
     FileBoard/IOFile.cpp \
-    GUI.cpp \
     MappedValues.cpp \
-    Fifteen.cpp
+    Fifteen.cpp \
+    GUIMain.cpp \
+    GUIAbout.cpp \
+    GUISetting.cpp
 
 HEADERS += \
-    WindowSetting.h \
     Board.h \
-    WindowAbout.h \
     Types.h \
     GraphicBoard/ImageProvider.h \
     Options.h \
@@ -27,9 +25,11 @@ HEADERS += \
     UndoMove.h \
     FileBoard/IOBoard.h \
     FileBoard/IOFile.h \
-    GUI.h \
     MappedValues.h \
-    Fifteen.h
+    Fifteen.h \
+    GUIMain.h \
+    GUIAbout.h \
+    GUISetting.h
 
 QMAKE_CFLAGS_DEBUG  = -g
 QMAKE_CXXFLAGS += -std=c++11
