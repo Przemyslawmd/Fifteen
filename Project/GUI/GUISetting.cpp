@@ -34,13 +34,13 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     mapRadioGraphicMode[ optionsCurrent->graphicMode]->setChecked( true );
 
     mapCheckImageToChose[BoardSize::FOUR] = new QCheckBox( "Image is to be loaded for a board  4x4" );
-    mapCheckImageToChose[BoardSize::FOUR]->setChecked( optionsCurrent->fourImageToBeLoaded );
+    mapCheckImageToChose[BoardSize::FOUR]->setChecked( optionsCurrent->imageToLoad_4 );
     mapCheckImageToChose[BoardSize::FIVE] = new QCheckBox( "Image is to be loaded for a board  5x5" );
-    mapCheckImageToChose[BoardSize::FIVE]->setChecked( optionsCurrent->fiveImageToBeLoaded );
+    mapCheckImageToChose[BoardSize::FIVE]->setChecked( optionsCurrent->imageToLoad_5 );
     mapCheckImageToChose[BoardSize::SIX] = new QCheckBox( "Image is to be loaded for a board  6x6" );
-    mapCheckImageToChose[BoardSize::SIX]->setChecked( optionsCurrent->sixImageToBeLoaded );
+    mapCheckImageToChose[BoardSize::SIX]->setChecked( optionsCurrent->imageToLoad_6 );
     mapCheckImageToChose[BoardSize::SEVEN] = new QCheckBox( "Image is to be loaded for a board  7x7" );
-    mapCheckImageToChose[BoardSize::SEVEN]->setChecked( optionsCurrent->sevenImageToBeLoaded );
+    mapCheckImageToChose[BoardSize::SEVEN]->setChecked( optionsCurrent->imageToLoad_7 );
 
     for ( auto& check : mapCheckImageToChose )
     {
@@ -177,10 +177,10 @@ void GUISetting::acceptSettings()
 {
     unique_ptr< OptionsData > optionsNew ( new OptionsData );
     optionsNew->graphicMode = mapRadioGraphicMode[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
-    optionsNew->fourImageToBeLoaded = mapCheckImageToChose[BoardSize::FOUR]->isChecked();
-    optionsNew->fiveImageToBeLoaded = mapCheckImageToChose[BoardSize::FIVE]->isChecked();
-    optionsNew->sixImageToBeLoaded = mapCheckImageToChose[BoardSize::SIX]->isChecked();
-    optionsNew->sevenImageToBeLoaded = mapCheckImageToChose[BoardSize::SEVEN]->isChecked();
+    optionsNew->imageToLoad_4 = mapCheckImageToChose[BoardSize::FOUR]->isChecked();
+    optionsNew->imageToLoad_5 = mapCheckImageToChose[BoardSize::FIVE]->isChecked();
+    optionsNew->imageToLoad_6 = mapCheckImageToChose[BoardSize::SIX]->isChecked();
+    optionsNew->imageToLoad_7 = mapCheckImageToChose[BoardSize::SEVEN]->isChecked();
     optionsNew->squareSizeIndex = slider->value();
     optionsNew->numberColor = getChoosenOption< NumberColor >( radioNumberOnImage, groupRadioNumberOnImage );
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();

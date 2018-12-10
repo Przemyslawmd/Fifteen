@@ -4,6 +4,7 @@
 
 #include <QString>
 #include <QColor>
+#include <map>
 
 enum class BoardSize    { FOUR, FIVE, SIX, SEVEN };
 enum class GraphicMode  { SCALED, CROPPED };
@@ -19,10 +20,10 @@ typedef struct
 {
     BoardMode boardMode;
     GraphicMode graphicMode;
-    bool fourImageToBeLoaded;
-    bool fiveImageToBeLoaded;
-    bool sixImageToBeLoaded;
-    bool sevenImageToBeLoaded;
+    bool imageToLoad_4;
+    bool imageToLoad_5;
+    bool imageToLoad_6;
+    bool imageToLoad_7;
     TileColor squareColor;
     int squareSizeIndex;
     NumberColor numberColor;

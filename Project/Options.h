@@ -40,7 +40,7 @@ private:
     static int currentTileIndex;
     static TileColor currentColor;
 
-    static bool imagesToBeLoaded[4];
+    static std::map< BoardSize, bool > imagesToLoad;
 
     static NumberColor numberColor;
     static bool undoEnabled;

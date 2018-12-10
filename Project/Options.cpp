@@ -54,10 +54,9 @@ const QString& Options::getEmptyStyle()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool Options::isImageToBeLoaded( BoardSize size )
+bool Options::isImageToBeLoaded( BoardSize boardSize )
 {
-    int boardSizeInt = Mapped::BoardSizeInt.at( size );
-    return imagesToBeLoaded[boardSizeInt - 4];
+    return imagesToLoad.at( boardSize );
 }
 
 /*********************************************************************************/
@@ -103,10 +102,10 @@ unique_ptr< OptionsData > Options::sendData()
     unique_ptr< OptionsData > messageData( new OptionsData );
     messageData->boardMode = boardMode;
     messageData->graphicMode = graphicMode;
-    messageData->fourImageToBeLoaded = imagesToBeLoaded[0];
-    messageData->fiveImageToBeLoaded = imagesToBeLoaded[1];
-    messageData->sixImageToBeLoaded = imagesToBeLoaded[2];
-    messageData->sevenImageToBeLoaded = imagesToBeLoaded[3];
+    messageData->imageToLoad_4 = imagesToLoad.at( BoardSize::FOUR );
+    messageData->imageToLoad_5 = imagesToLoad.at( BoardSize::FIVE );
+    messageData->imageToLoad_6 = imagesToLoad.at( BoardSize::SIX );
+    messageData->imageToLoad_7 = imagesToLoad.at( BoardSize::SEVEN );
     messageData->squareColor = currentColor;
     messageData->squareSizeIndex = currentTileIndex + 1;
     messageData->numberColor = numberColor;
@@ -118,10 +117,10 @@ unique_ptr< OptionsData > Options::sendData()
 void Options::receiveData( unique_ptr< OptionsData >  messageData )
 {
     graphicMode = messageData->graphicMode;
-    imagesToBeLoaded[0] = messageData->fourImageToBeLoaded;
-    imagesToBeLoaded[1] = messageData->fiveImageToBeLoaded;
-    imagesToBeLoaded[2] = messageData->sixImageToBeLoaded;
-    imagesToBeLoaded[3] = messageData->sevenImageToBeLoaded;
+    imagesToLoad.at( BoardSize::FOUR ) = messageData->imageToLoad_4;
+    imagesToLoad.at( BoardSize::FIVE ) = messageData->imageToLoad_5;
+    imagesToLoad.at( BoardSize::SIX ) = messageData->imageToLoad_6;
+    imagesToLoad.at( BoardSize::SEVEN ) = messageData->imageToLoad_7;
     currentColor = messageData->squareColor;
     currentTileIndex = messageData->squareSizeIndex - 1;
     numberColor = messageData->numberColor;
@@ -135,7 +134,11 @@ BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 int Options::currentTileIndex = 0;
 TileColor Options::currentColor = TileColor::BLUE;
-bool Options::imagesToBeLoaded[] = { true, true, true, true };
 NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;
 
+std::map< BoardSize, bool > Options::imagesToLoad
+{
+    { BoardSize::FOUR, true }, { BoardSize::FIVE, true },
+    { BoardSize::SIX, true },  { BoardSize::SEVEN, true }
+};
