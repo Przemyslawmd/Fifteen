@@ -1,19 +1,20 @@
 
-#ifndef WINDOWABOUT_H
-#define WINDOWABOUT_H
+#ifndef GUI_ABOUT_H
+#define GUI_ABOUT_H
 
 #include <QDialog>
 #include <QTextBrowser>
 
-class WindowAbout : public QDialog
+class GUIAbout : public QDialog
 {
-
 public:
-    WindowAbout();
+
+    GUIAbout();
 
 private:
+
     QTextBrowser browser;
 };
 
-#endif // WINDOWABOUT_H
+#endif // GUI_ABOUT_H
 

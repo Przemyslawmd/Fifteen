@@ -18,12 +18,12 @@
 using std::array;
 using std::map;
 
-class WindowSetting : public QDialog
+class GUISetting : public QDialog
 {
 
 public:
 
-    WindowSetting( Fifteen& parentWindow );
+    GUISetting( Fifteen& owner );
 
 private:
 
@@ -47,7 +47,7 @@ private:
 
     unique_ptr< OptionsData > optionsCurrent;
     QPushButton* pushAccept;
-    Fifteen& parent;
+    Fifteen& owner;
 
     template< typename T > T getChoosenOption( map< T, QRadioButton* >&, QButtonGroup& );
 

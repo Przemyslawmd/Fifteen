@@ -1,9 +1,9 @@
 
 #include "Fifteen.h"
-#include "GUIMain.h"
+#include "GUI/GUIMain.h"
 #include "Message.h"
-#include "GUISetting.h"
-#include "GUIAbout.h"
+#include "GUI/GUISetting.h"
+#include "GUI/GUIAbout.h"
 #include "FileBoard/IOBoard.h"
 #include "Options.h"
 #include "GraphicBoard/ImageProvider.h"
@@ -473,7 +473,7 @@ void Fifteen::deleteUndoMovesService()
 
 void Fifteen::slotSettings()
 {
-    new WindowSetting( *this );
+    new GUISetting( *this );
 }
 
 /*********************************************************************************/
@@ -481,6 +481,6 @@ void Fifteen::slotSettings()
 
 void Fifteen::slotAbout()
 {
-    new WindowAbout();
+    new GUIAbout();
 }
 

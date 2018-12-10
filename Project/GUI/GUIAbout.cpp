@@ -3,7 +3,7 @@
 #include <QVBoxLayout>
 #include <QTextDocument>
 
-WindowAbout::WindowAbout()
+GUIAbout::GUIAbout()
 {
     setModal( true );
     setMinimumSize( 500, 200 );

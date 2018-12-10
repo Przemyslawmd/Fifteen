@@ -7,7 +7,7 @@
 
 using std::unique_ptr;
 
-WindowSetting::WindowSetting( Fifteen& parent ) : parent( parent )
+GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 {
     setModal( true );
     setWindowTitle( "" );
@@ -173,7 +173,7 @@ WindowSetting::WindowSetting( Fifteen& parent ) : parent( parent )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void WindowSetting::acceptSettings()
+void GUISetting::acceptSettings()
 {
     unique_ptr< OptionsData > optionsNew ( new OptionsData );
     optionsNew->graphicMode = mapRadioGraphicMode[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
@@ -195,28 +195,28 @@ void WindowSetting::acceptSettings()
 
     if ( squareSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
     {
-        parent.redrawTiles();
+        owner.redrawTiles();
     }
 
     if ( numberImageChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC )
     {
-        parent.redrawTiles();
+        owner.redrawTiles();
     }
 
     if ( colorChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
     {
-        parent.setColor();
+        owner.setColor();
     }
 
     if ( undoMovesChanged )
     {
         if ( optionsCurrent->undoEnabled )
         {
-            parent.deleteUndoMovesService();
+            owner.deleteUndoMovesService();
         }
         else
         {
-            parent.createUndoMovesService();
+            owner.createUndoMovesService();
         }
     }
 
@@ -226,7 +226,7 @@ void WindowSetting::acceptSettings()
 /*********************************************************************************/
 /*********************************************************************************/
 
-template< typename T > T WindowSetting::getChoosenOption( map< T, QRadioButton* >& mapButton, QButtonGroup& group )
+template< typename T > T GUISetting::getChoosenOption( map< T, QRadioButton* >& mapButton, QButtonGroup& group )
 {
     QRadioButton* choosen = static_cast< QRadioButton* >( group.checkedButton() );
 
