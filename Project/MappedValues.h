@@ -4,12 +4,8 @@
 
 #include "Types.h"
 #include <map>
-#include <tuple>
-#include <array>
 
 using std::map;
-using std::tuple;
-using std::array;
 
 class Mapped
 {
@@ -19,10 +15,13 @@ public:
     static const map< FontSize, int > fontSizeValues;
     static const map< BoardSize, int > BoardSizeInt;
     static const map< TileColor, const QString > tileColorStyles;
+    static const map< int, TileSize > sliderTileSizeMap;
+    static const map< TileSize, FontSize > mapTileFont;
 
-    static const array< tuple< TileSize, FontSize >, 5 > tileStyles;
+    static BoardSize getBoardSizeByInt( int value );
+    static int getTileSizeByInt( TileSize value );
 
-    static BoardSize getKeyBoardSizeMap( int value );
+    template< typename T, typename U > static T getMapKeyByValue( map< T, U >, U  value );
 };
 
 #endif // MAPPEDVALUES_H

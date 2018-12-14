@@ -16,6 +16,7 @@ enum class FontSize     { _20, _25, _30, _35, _40 };
 enum class NumberColor  { NO, BLACK, WHITE };
 enum class Action       { OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT };
 
+
 typedef struct
 {
     BoardMode boardMode;
@@ -25,10 +26,11 @@ typedef struct
     bool imageToLoad_6;
     bool imageToLoad_7;
     TileColor squareColor;
-    int squareSizeIndex;
+    TileSize tileSize;
     NumberColor numberColor;
     bool undoEnabled;
 } OptionsData;
+
 
 typedef struct
 {

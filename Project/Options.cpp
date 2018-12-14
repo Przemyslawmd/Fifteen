@@ -6,13 +6,13 @@
 
 TileSize Options::getTileSize()
 {
-    return std::get< 0 >( Mapped::tileStyles.at( currentTileIndex ));
+    return tileSize;
 }
 
 
 FontSize Options::getFontSize()
 {
-    return std::get< 1 >( Mapped::tileStyles.at( currentTileIndex ));
+    return Mapped::mapTileFont.at( tileSize );
 }
 
 /*********************************************************************************/
@@ -82,7 +82,6 @@ unique_ptr< NumberOnImage > Options::isNumberOnImage()
     }
 
     numOnImage->isNumberOnImage = true;
-    numOnImage->fontSize = std::get< 1 >( Mapped::tileStyles.at( currentTileIndex ));
     return numOnImage;
 }
 
@@ -102,12 +101,12 @@ unique_ptr< OptionsData > Options::sendData()
     unique_ptr< OptionsData > messageData( new OptionsData );
     messageData->boardMode = boardMode;
     messageData->graphicMode = graphicMode;
+    messageData->tileSize = tileSize;
     messageData->imageToLoad_4 = imagesToLoad.at( BoardSize::FOUR );
     messageData->imageToLoad_5 = imagesToLoad.at( BoardSize::FIVE );
     messageData->imageToLoad_6 = imagesToLoad.at( BoardSize::SIX );
     messageData->imageToLoad_7 = imagesToLoad.at( BoardSize::SEVEN );
     messageData->squareColor = currentColor;
-    messageData->squareSizeIndex = currentTileIndex + 1;
     messageData->numberColor = numberColor;
     messageData->undoEnabled = undoEnabled;
     return messageData;
@@ -117,12 +116,12 @@ unique_ptr< OptionsData > Options::sendData()
 void Options::receiveData( unique_ptr< OptionsData >  messageData )
 {
     graphicMode = messageData->graphicMode;
+    tileSize = messageData->tileSize;
     imagesToLoad.at( BoardSize::FOUR ) = messageData->imageToLoad_4;
     imagesToLoad.at( BoardSize::FIVE ) = messageData->imageToLoad_5;
     imagesToLoad.at( BoardSize::SIX ) = messageData->imageToLoad_6;
     imagesToLoad.at( BoardSize::SEVEN ) = messageData->imageToLoad_7;
     currentColor = messageData->squareColor;
-    currentTileIndex = messageData->squareSizeIndex - 1;
     numberColor = messageData->numberColor;
     undoEnabled = messageData->undoEnabled;
 }
@@ -132,7 +131,7 @@ void Options::receiveData( unique_ptr< OptionsData >  messageData )
 
 BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
-int Options::currentTileIndex = 0;
+TileSize Options::tileSize = TileSize::_50;
 TileColor Options::currentColor = TileColor::BLUE;
 NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;
@@ -142,3 +141,4 @@ std::map< BoardSize, bool > Options::imagesToLoad
     { BoardSize::FOUR, true }, { BoardSize::FIVE, true },
     { BoardSize::SIX, true },  { BoardSize::SEVEN, true }
 };
+

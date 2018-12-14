@@ -37,7 +37,7 @@ private:
     static BoardMode boardMode;
     static GraphicMode graphicMode;
 
-    static int currentTileIndex;
+    static TileSize tileSize;
     static TileColor currentColor;
 
     static std::map< BoardSize, bool > imagesToLoad;

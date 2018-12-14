@@ -1,5 +1,6 @@
 
 #include "GUISetting.h"
+#include "MappedValues.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGroupBox>
@@ -110,14 +111,15 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     /* Slider for square size **************************************/
 
     slider = new QSlider( Qt::Horizontal, this );
-    slider->setRange( 1, 5 );
+    slider->setRange( 0, 4 );
     slider->setSingleStep( 1 );
     sliderLabels[0] = new QLabel( " 50" );
     sliderLabels[1] = new QLabel( "  100" );
     sliderLabels[2] = new QLabel( "150" );
     sliderLabels[3] = new QLabel( "200  " );
     sliderLabels[4] = new QLabel( "250" );
-    slider->setValue( optionsCurrent->squareSizeIndex );
+
+    slider->setValue( Mapped::getTileSizeByInt( optionsCurrent->tileSize ));
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 10, 20, 30, 20 );
@@ -181,13 +183,14 @@ void GUISetting::acceptSettings()
     optionsNew->imageToLoad_5 = mapCheckImageToChose[BoardSize::FIVE]->isChecked();
     optionsNew->imageToLoad_6 = mapCheckImageToChose[BoardSize::SIX]->isChecked();
     optionsNew->imageToLoad_7 = mapCheckImageToChose[BoardSize::SEVEN]->isChecked();
-    optionsNew->squareSizeIndex = slider->value();
     optionsNew->numberColor = getChoosenOption< NumberColor >( radioNumberOnImage, groupRadioNumberOnImage );
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
     optionsNew->squareColor = getChoosenOption< TileColor >( mapRadioColor, groupRadioColor );
 
+    optionsNew->tileSize = Mapped::sliderTileSizeMap.at( slider->value() );
+
     bool numberImageChanged = optionsNew->numberColor != optionsCurrent->numberColor;
-    bool squareSizeChanged = optionsNew->squareSizeIndex != optionsCurrent->squareSizeIndex;
+    bool squareSizeChanged = optionsNew->tileSize != optionsCurrent->tileSize;
     bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
     bool colorChanged = optionsNew->squareColor != optionsCurrent->squareColor;
 

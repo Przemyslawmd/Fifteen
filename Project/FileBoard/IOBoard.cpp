@@ -76,7 +76,7 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
         return false;
     }
 
-    BoardSize boardSize = Mapped::getKeyBoardSizeMap( boardSizeInt );
+    BoardSize boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
 
     if ( boardMode == BoardMode::GRAPHIC )
     {

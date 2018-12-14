@@ -42,26 +42,46 @@ const map< BoardSize, int > Mapped::BoardSizeInt
 };
 
 
-const array< tuple< TileSize, FontSize >, 5 > Mapped::tileStyles
+const map< TileSize, FontSize > Mapped::mapTileFont
 {
-    {
-        std::make_tuple( TileSize::_50,  FontSize::_20 ),
-        std::make_tuple( TileSize::_75,  FontSize::_25 ),
-        std::make_tuple( TileSize::_100, FontSize::_30 ),
-        std::make_tuple( TileSize::_125, FontSize::_35 ),
-        std::make_tuple( TileSize::_150, FontSize::_40 )
-    }
+    { TileSize::_50,  FontSize::_20 },
+    { TileSize::_75,  FontSize::_25 },
+    { TileSize::_100, FontSize::_30 },
+    { TileSize::_125, FontSize::_35 },
+    { TileSize::_150, FontSize::_40 }
 };
 
 
-BoardSize Mapped::getKeyBoardSizeMap( int value )
+const map< int, TileSize > Mapped::sliderTileSizeMap
 {
-   for ( auto& map : Mapped::BoardSizeInt )
-    {
-        if ( map.second == value )
-        {
-            return map.first;
-        }
-    }
+    { 0, TileSize::_50 },
+    { 1, TileSize::_75 },
+    { 2, TileSize::_100 },
+    { 3, TileSize::_125 },
+    { 4, TileSize::_150 }
+};
+
+
+BoardSize Mapped::getBoardSizeByInt( int value )
+{
+   return getMapKeyByValue( Mapped::BoardSizeInt, value );
+}
+
+
+int Mapped::getTileSizeByInt( TileSize value )
+{
+   return getMapKeyByValue( Mapped::sliderTileSizeMap, value );
+}
+
+
+template< typename T, typename U > T Mapped::getMapKeyByValue( map< T, U > pairs, U value )
+{
+    for ( auto& pair : pairs )
+     {
+         if ( pair.second == value )
+         {
+             return pair.first;
+         }
+     }
 }
 
