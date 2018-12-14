@@ -95,6 +95,9 @@ void Fifteen::setTilesGraphic( bool isRandom )
     TileSize tileSize = provider.getTileSize( boardSize );
     int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
 
+    FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
+    int fontSizeInt = Mapped::fontSizeInt.at( fontSize );
+
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
     int i = 0;
     for ( auto tile : tiles )
@@ -104,8 +107,6 @@ void Fifteen::setTilesGraphic( bool isRandom )
         if ( numOnImage->isNumberOnImage )
         {
             painter = new QPainter();
-            FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
-            int fontSizeInt = Mapped::fontSizeInt.at( fontSize );
             drawNumberOnGraphicTile( *painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i - 1 ));
         }
 
