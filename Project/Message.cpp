@@ -37,13 +37,13 @@ queue< QString > Message::messageQueue = {};
 
 map< MessageCode, QString > Message::message =
 {
-    { MessageCode::GRAPHIC_LOAD_OK,         "Graphic was loaded for a board " },
-    { MessageCode::GRAPHIC_LOAD_FAILURE,    "Failure of loading graphic for a board of size " },
-    { MessageCode::GRAPHIC_TOO_LOW_SIZE,    "Too low size of graphic for a board of size " },
-    { MessageCode::READ_BOARD_SIZE_ERROR,   "Error while reading size of a board from a file" },
-    { MessageCode::READ_BOARD_TYPE_ERROR,   "Error while reading kind of a board from a file" },
-    { MessageCode::READ_BOARD_VALUES_ERROR, "Error while reading board values from a file" },
-    { MessageCode::READ_BOARD_IMAGES_ERROR, "Error while reading board images from a file" },
-    { MessageCode::READ_BOARD_ERROR,        "Error while reading board from a file" },
+    { MessageCode::GRAPHIC_LOAD_OK,                     "Graphic was loaded for a board " },
+    { MessageCode::GRAPHIC_LOAD_FAILURE,                "Failure of loading graphic for a board of size " },
+    { MessageCode::GRAPHIC_TOO_LOW_SIZE,                "Too low size of graphic for a board of size " },
+    { MessageCode::READ_BOARD_SIZE_ERROR,               "Error reading file : size of a board" },
+    { MessageCode::READ_BOARD_TYPE_ERROR,               "Error reading file : kind of a board" },
+    { MessageCode::READ_BOARD_VALUES_ERROR,             "Error reading file : board values" },
+    { MessageCode::READ_BOARD_IMAGES_DATA_ERROR,        "Error reading file : images" },
+    { MessageCode::READ_BOARD_IMAGES_TILE_SIZE_ERROR,   "Error reading file : tile size" }
 };
 

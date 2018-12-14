@@ -89,12 +89,7 @@ bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize 
         return false;
     }
 
-    if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, tileSize ) == false )
-    {
-        removeBoard( images.at( boardSize ));
-        return false;
-    }
-
+    images.at( boardSize )->restoreImagesFromFile( stream, boardSize, tileSize );
     return true;
 }
 

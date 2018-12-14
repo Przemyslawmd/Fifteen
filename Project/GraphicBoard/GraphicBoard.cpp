@@ -84,31 +84,23 @@ void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSi
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize imageSize_ )
+void GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize tileSize )
 {
-    int imageSize = Mapped::tileSizeInt.at( imageSize_ );
     int bytesForSquare;
     stream >> bytesForSquare;
 
     int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-
     uchar* buffer = new uchar[bytesForSquare * boardSizeInt * boardSizeInt];
     QImage* image;
 
+    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
     for ( int i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {
         stream.readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare );
-        image = new (std::nothrow) QImage( buffer + i * bytesForSquare, imageSize, imageSize, QImage::Format_RGB32 );
-
-        if ( image == nullptr )
-        {
-            delete buffer;
-            return false;
-        }
+        image = new QImage( buffer + i * bytesForSquare, tileSizeInt, tileSizeInt, QImage::Format_RGB32 );
         images.push_back( image );
     }
 
-    this->tileSize = imageSize_;
-    return true;
+    this->tileSize = tileSize;
 }
 
