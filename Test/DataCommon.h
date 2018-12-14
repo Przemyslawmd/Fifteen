@@ -9,7 +9,6 @@ using std::vector;
 
 class DataCommon
 {
-
 public:
 
     DataCommon( BoardSize, vector< int > moves, vector< int > expected );

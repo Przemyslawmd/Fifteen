@@ -7,3 +7,4 @@ DataCommon::DataCommon( BoardSize boardSize, vector< int > moves, vector< int > 
     this->moves = moves;
     this->expectedSquares = expectedSquares;
 }
+

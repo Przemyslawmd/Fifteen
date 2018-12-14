@@ -6,7 +6,7 @@ DataGraphic::DataGraphic( BoardSize boardSize, TileSize tileSize, GraphicMode mo
                           bool four, bool five, bool six, bool seven )
 {
     this->boardSize = boardSize;
-    this->boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    this->boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     this->squareSize = tileSize;
     this->mode = mode;
     imagesPath = path;

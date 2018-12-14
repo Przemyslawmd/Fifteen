@@ -51,6 +51,7 @@ DataCommon& Data::getTestVector( int testNumber )
     return dataCommon.at( testNumber );
 }
 
+
 vector< DataCommon > Data::dataCommon;
 vector< DataGraphic > Data::dataGraphic;
 bool Data::isInit = false;

@@ -117,7 +117,7 @@ void Test::testSaveAndLoadBoard( int testNumber )
     int boardSizeInt = fileValues.back();
     fileValues.pop_back();
 
-    boardSize = Mapped::getKeyBoardSizeMap( boardSizeInt );
+    boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
     board->createBoard( fileValues, boardSize );
 
     vector< int >& currentValues  = board->sendBoard();
@@ -140,10 +140,10 @@ void Test::testCreateGraphicBoard( int testNumber )
 
     unique_ptr< OptionsData > options ( new OptionsData );
     options->graphicMode = testData.mode;
-    options->fourImageToBeLoaded = testData.isFourToBeLoaded;
-    options->fiveImageToBeLoaded = testData.isFiveToBeLoaded;
-    options->sixImageToBeLoaded = testData.isSixToBeLoaded;
-    options->sevenImageToBeLoaded = testData.isSevenToBeLoaded;
+    options->imageToLoad_4 = testData.isFourToBeLoaded;
+    options->imageToLoad_5 = testData.isFiveToBeLoaded;
+    options->imageToLoad_6 = testData.isSixToBeLoaded;
+    options->imageToLoad_7 = testData.isSevenToBeLoaded;
     Options::receiveData( move( options ));
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
