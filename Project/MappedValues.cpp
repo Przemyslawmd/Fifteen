@@ -67,8 +67,12 @@ BoardSize Mapped::getBoardSizeByInt( int value )
    return getMapKeyByValue( Mapped::boardSizeInt, value );
 }
 
+TileSize Mapped::getTileSizeByInt( int value )
+{
+    return getMapKeyByValue( Mapped::tileSizeInt, value );
+}
 
-int Mapped::getTileSizeByInt( TileSize value )
+int Mapped::getSliderByTileSize( TileSize value )
 {
    return getMapKeyByValue( Mapped::sliderTileSize, value );
 }

@@ -104,7 +104,8 @@ void Fifteen::setTilesGraphic( bool isRandom )
         if ( numOnImage->isNumberOnImage )
         {
             painter = new QPainter();
-            int fontSizeInt = Mapped::fontSizeInt.at( numOnImage->fontSize );
+            FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
+            int fontSizeInt = Mapped::fontSizeInt.at( fontSize );
             drawNumberOnGraphicTile( *painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i - 1 ));
         }
 
@@ -396,7 +397,7 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    BoardSize boardSize = ( BoardSize ) values.back();
+    BoardSize boardSize = Mapped::getBoardSizeByInt( values.back() );
     values.pop_back();
     board = Board::createBoard( values, boardSize );
     createTiles();

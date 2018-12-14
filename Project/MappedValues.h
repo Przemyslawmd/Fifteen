@@ -19,7 +19,8 @@ public:
     static const map< TileSize, FontSize > tileSizeFontSize;
 
     static BoardSize getBoardSizeByInt( int value );
-    static int getTileSizeByInt( TileSize value );
+    static TileSize getTileSizeByInt( int value );
+    static int getSliderByTileSize( TileSize value );
 
 private:
 

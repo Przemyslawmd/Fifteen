@@ -36,7 +36,6 @@ typedef struct
 {
     bool isNumberOnImage;
     QColor fontColor;
-    FontSize fontSize;
 } NumberOnImage;
 
 #endif // TYPES_H

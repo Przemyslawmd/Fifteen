@@ -120,7 +120,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     sliderLabels[3] = new QLabel( "200  " );
     sliderLabels[4] = new QLabel( "250" );
 
-    slider->setValue( Mapped::getTileSizeByInt( optionsCurrent->tileSize ));
+    slider->setValue( Mapped::getSliderByTileSize( optionsCurrent->tileSize ));
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 10, 20, 30, 20 );

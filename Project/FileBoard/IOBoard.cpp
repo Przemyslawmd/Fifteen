@@ -111,7 +111,9 @@ void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
 void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boardSize)
 {
     ImageProvider& provider = ImageProvider::getInstance();
-    stream << (int) provider.getTileSize( boardSize );
+    TileSize tileSize = provider.getTileSize( boardSize );
+    stream << Mapped::tileSizeInt.at( tileSize );
+
     vector< QImage* >& boardImages = provider.getImages( boardSize );
     int byteCountPerImage = boardImages.at( 0 )->byteCount();
     stream << byteCountPerImage;
