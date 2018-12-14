@@ -36,7 +36,7 @@ Board* Board::createBoard( vector< int >& values, BoardSize boardSize )
 
 Move Board::checkMove( int row, int col )
 {        
-    int size = Mapped::BoardSizeInt.at( boardSize );
+    int size = Mapped::boardSizeInt.at( boardSize );
 
     if ( row > 0 && ( values.at(( row - 1 ) * size + col ) == EMPTY_SQUARE ))
     {
@@ -73,7 +73,7 @@ vector< int >& Board::randomBoard()
     int emptyTill = findEmptyTill();
     int nullRow = emptyTill / 10;
     int nullCol = emptyTill % 10;
-    int size = Mapped::BoardSizeInt.at( boardSize );
+    int size = Mapped::boardSizeInt.at( boardSize );
 
     Move move;
     QList< Move > moves;
@@ -131,7 +131,7 @@ vector< int >& Board::randomBoard()
 
 void Board::solveBoard()
 {    
-    int size = Mapped::BoardSizeInt.at( boardSize );
+    int size = Mapped::boardSizeInt.at( boardSize );
 
     values.clear();
     for ( int i = 1; i <= size * size; i++ )
@@ -155,7 +155,7 @@ BoardSize Board::getSize()
 
 int Board::getIntSize()
 {
-    return Mapped::BoardSizeInt.at( boardSize );
+    return Mapped::boardSizeInt.at( boardSize );
 }
 
 /*********************************************************************************/
@@ -188,7 +188,7 @@ Board::Board( vector< int >& values, BoardSize boardSize ) : boardSize( boardSiz
 
 void Board::makeMove( int srcRow, int srcCol, int dstRow, int dstCol )
 {    
-    int size = Mapped::BoardSizeInt.at( boardSize );
+    int size = Mapped::boardSizeInt.at( boardSize );
     values.at( dstRow * size + dstCol ) += values.at( srcRow * size + srcCol );
     values.at( srcRow * size + srcCol ) = values.at( dstRow * size + dstCol ) - values.at( srcRow * size + srcCol );
     values.at( dstRow * size + dstCol ) -= values.at( srcRow * size + srcCol );
@@ -201,7 +201,7 @@ int Board::findEmptyTill()
 {
     auto result = std::find( std::begin( values ), std::end( values ), EMPTY_SQUARE );
     int pos =  std::distance( std::begin( values ), result );
-    int size = Mapped::BoardSizeInt.at( boardSize );
+    int size = Mapped::boardSizeInt.at( boardSize );
     return pos / size * 10 + pos % size;
 }
 

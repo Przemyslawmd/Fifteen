@@ -1,7 +1,7 @@
 
 #include "MappedValues.h"
 
-const map< TileSize, int > Mapped::tileSizeValues
+const map< TileSize, int > Mapped::tileSizeInt
 {
     { TileSize::_50,  50 },
     { TileSize::_75,  75 },
@@ -11,7 +11,7 @@ const map< TileSize, int > Mapped::tileSizeValues
 };
 
 
-const map< FontSize, int > Mapped::fontSizeValues
+const map< FontSize, int > Mapped::fontSizeInt
 {
     { FontSize::_20, 20 },
     { FontSize::_25, 25 },
@@ -24,7 +24,7 @@ const map< FontSize, int > Mapped::fontSizeValues
 #define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
 #define END_STYLE   "color:white; border:1px solid white"
 
-const map< TileColor, const QString > Mapped::tileColorStyles
+const map< TileColor, const QString > Mapped::tileColorStyle
 {
     { TileColor::BLUE,        BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE },
     { TileColor::GREEN,       BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE },
@@ -33,7 +33,7 @@ const map< TileColor, const QString > Mapped::tileColorStyles
 };
 
 
-const map< BoardSize, int > Mapped::BoardSizeInt
+const map< BoardSize, int > Mapped::boardSizeInt
 {
     { BoardSize::FOUR,  4 },
     { BoardSize::FIVE,  5 },
@@ -42,7 +42,7 @@ const map< BoardSize, int > Mapped::BoardSizeInt
 };
 
 
-const map< TileSize, FontSize > Mapped::mapTileFont
+const map< TileSize, FontSize > Mapped::tileSizeFontSize
 {
     { TileSize::_50,  FontSize::_20 },
     { TileSize::_75,  FontSize::_25 },
@@ -52,7 +52,7 @@ const map< TileSize, FontSize > Mapped::mapTileFont
 };
 
 
-const map< int, TileSize > Mapped::sliderTileSizeMap
+const map< int, TileSize > Mapped::sliderTileSize
 {
     { 0, TileSize::_50 },
     { 1, TileSize::_75 },
@@ -64,24 +64,24 @@ const map< int, TileSize > Mapped::sliderTileSizeMap
 
 BoardSize Mapped::getBoardSizeByInt( int value )
 {
-   return getMapKeyByValue( Mapped::BoardSizeInt, value );
+   return getMapKeyByValue( Mapped::boardSizeInt, value );
 }
 
 
 int Mapped::getTileSizeByInt( TileSize value )
 {
-   return getMapKeyByValue( Mapped::sliderTileSizeMap, value );
+   return getMapKeyByValue( Mapped::sliderTileSize, value );
 }
 
 
 template< typename T, typename U > T Mapped::getMapKeyByValue( map< T, U > pairs, U value )
 {
     for ( auto& pair : pairs )
-     {
-         if ( pair.second == value )
-         {
-             return pair.first;
-         }
-     }
+    {
+        if ( pair.second == value )
+        {
+            return pair.first;
+        }
+    }
 }
 

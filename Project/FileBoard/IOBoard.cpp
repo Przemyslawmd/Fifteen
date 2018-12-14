@@ -17,7 +17,7 @@ void IOBoard::saveNumericBoardInFile( Board& board, const QString& fileName )
     QDataStream& stream = file.getDataStream();
 
     stream << static_cast< int >( BoardMode::NUMERIC );
-    stream << Mapped::BoardSizeInt.at( board.getSize() );
+    stream << Mapped::boardSizeInt.at( board.getSize() );
     insertBoardValuesIntoStream( stream, board );
 }
 
@@ -31,7 +31,7 @@ void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
 
     stream << static_cast< int >( BoardMode::GRAPHIC );
     BoardSize boardSize = board.getSize();
-    stream << Mapped::BoardSizeInt.at( boardSize );
+    stream << Mapped::boardSizeInt.at( boardSize );
 
     insertBoardValuesIntoStream( stream, board );
     insertBoardPicturesIntoStream( stream, boardSize );

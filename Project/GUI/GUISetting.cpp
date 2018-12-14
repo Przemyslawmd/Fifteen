@@ -1,6 +1,7 @@
 
 #include "GUISetting.h"
 #include "MappedValues.h"
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGroupBox>
@@ -187,7 +188,7 @@ void GUISetting::acceptSettings()
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
     optionsNew->squareColor = getChoosenOption< TileColor >( mapRadioColor, groupRadioColor );
 
-    optionsNew->tileSize = Mapped::sliderTileSizeMap.at( slider->value() );
+    optionsNew->tileSize = Mapped::sliderTileSize.at( slider->value() );
 
     bool numberImageChanged = optionsNew->numberColor != optionsCurrent->numberColor;
     bool squareSizeChanged = optionsNew->tileSize != optionsCurrent->tileSize;

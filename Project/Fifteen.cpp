@@ -56,7 +56,7 @@ void Fifteen::setTilesNumeric( bool isRandom )
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< int >::iterator iter = values.begin();
     QFont font;
-    int fontSizeInt = Mapped::fontSizeValues.at( Options::getFontSize() );
+    int fontSizeInt = Mapped::fontSizeInt.at( Options::getFontSize() );
     font.setPixelSize( fontSizeInt );
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
@@ -93,7 +93,7 @@ void Fifteen::setTilesGraphic( bool isRandom )
     QPainter* painter = nullptr;
 
     TileSize tileSize = provider.getTileSize( boardSize );
-    int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
+    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
     int i = 0;
@@ -104,7 +104,7 @@ void Fifteen::setTilesGraphic( bool isRandom )
         if ( numOnImage->isNumberOnImage )
         {
             painter = new QPainter();
-            int fontSizeInt = Mapped::fontSizeValues.at( numOnImage->fontSize );
+            int fontSizeInt = Mapped::fontSizeInt.at( numOnImage->fontSize );
             drawNumberOnGraphicTile( *painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i - 1 ));
         }
 
@@ -274,7 +274,7 @@ void Fifteen::makeMove( Move move, int row, int col )
 void Fifteen::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     const QString& currentStyle = Options::getStyle();
-    int boardSize = Mapped::BoardSizeInt.at( board->getSize() );
+    int boardSize = Mapped::boardSizeInt.at( board->getSize() );
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
@@ -289,12 +289,12 @@ void Fifteen::moveNumericTile( int rowSource, int colSource, int rowDest, int co
 void Fifteen::moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest )
 {
     BoardSize boardSize = board->getSize();
-    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getTileSize( boardSize );
-    int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
+    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
     QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );

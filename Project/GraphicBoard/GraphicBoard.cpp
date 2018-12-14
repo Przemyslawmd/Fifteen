@@ -30,8 +30,8 @@ vector< QImage* >& GraphicBoard::getImages()
 
 void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
-    int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
-    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     int boardSizePixel = boardSizeInt * tileSizeInt;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
     createTiles( &scaledImage, boardSize, tileSizeInt );
@@ -43,8 +43,8 @@ void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSiz
 
 void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
-    int tileSizeInt = Mapped::tileSizeValues.at( tileSize );
-    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     int boardSizePixel = boardSizeInt * tileSizeInt;
     QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2,
                                        boardSizePixel, boardSizePixel );
@@ -61,7 +61,7 @@ void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSi
     image->fill( Qt::GlobalColor::white );
     images.push_back( image );
 
-    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     int pictureSize = boardSizeInt * tileSize;
 
     for ( int yPos = 0; yPos < pictureSize; yPos += tileSize )
@@ -86,11 +86,11 @@ void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSi
 
 bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize imageSize_ )
 {
-    int imageSize = Mapped::tileSizeValues.at( imageSize_ );
+    int imageSize = Mapped::tileSizeInt.at( imageSize_ );
     int bytesForSquare;
     stream >> bytesForSquare;
 
-    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
 
     uchar* buffer = new uchar[bytesForSquare * boardSizeInt * boardSizeInt];
     QImage* image;

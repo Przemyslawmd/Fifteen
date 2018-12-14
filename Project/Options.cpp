@@ -12,7 +12,7 @@ TileSize Options::getTileSize()
 
 FontSize Options::getFontSize()
 {
-    return Mapped::mapTileFont.at( tileSize );
+    return Mapped::tileSizeFontSize.at( tileSize );
 }
 
 /*********************************************************************************/
@@ -42,13 +42,13 @@ GraphicMode Options::getGraphicMode()
 
 const QString& Options::getStyle()
 {
-    return Mapped::tileColorStyles.at( currentColor );
+    return Mapped::tileColorStyle.at( currentColor );
 }
 
 
 const QString& Options::getEmptyStyle()
 {
-    return Mapped::tileColorStyles.at( TileColor::EMPTY_STYLE );
+    return Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE );
 }
 
 /*********************************************************************************/

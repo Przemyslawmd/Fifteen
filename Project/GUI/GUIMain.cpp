@@ -80,7 +80,7 @@ void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map<
         radioSizeLayout->addWidget( radioSizePair.second );
         radioSizePair.second->setStyleSheet( "margin-left:5px;" );
         groupRadioSize->addButton( radioSizePair.second );
-        groupRadioSize->setId( radioSizePair.second, Mapped::BoardSizeInt.at( radioSizePair.first ));
+        groupRadioSize->setId( radioSizePair.second, Mapped::boardSizeInt.at( radioSizePair.first ));
     }
     radioSizeLayout->addSpacing( 30 );
 
@@ -180,8 +180,8 @@ void GUI::createTiles( BoardSize boardSize, TileSize tileSize_ )
 {
     deleteTiles();
 
-    int tileSize = Mapped::tileSizeValues.at( tileSize_ );
-    int boardSizeInt = Mapped::BoardSizeInt.at( boardSize );
+    int tileSize = Mapped::tileSizeInt.at( tileSize_ );
+    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
 
     for ( int i = 0; i < boardSizeInt ; i++ )
     {
