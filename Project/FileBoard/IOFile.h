@@ -5,6 +5,7 @@
 #include <QDataStream>
 #include <QFile>
 
+
 class IOFile
 {
 
@@ -21,5 +22,5 @@ private:
     QDataStream* stream;
 };
 
-#endif // IOFILE_H
+#endif
 

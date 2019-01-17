@@ -5,6 +5,9 @@
 #include "../Message.h"
 #include "../GraphicBoard/ImageProvider.h"
 #include "IOFile.h"
+#include <memory>
+
+using std::unique_ptr;
 
 IOBoard::IOBoard(){}
 

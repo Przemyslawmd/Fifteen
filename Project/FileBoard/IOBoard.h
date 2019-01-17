@@ -3,11 +3,8 @@
 #define IOBoard_H
 
 #include "../Board.h"
-#include <QFile>
-#include <QIODevice>
-#include <memory>
+#include <QDataStream>
 
-using std::unique_ptr;
 
 class IOBoard
 {
@@ -26,5 +23,5 @@ private:
     bool checkReadValues( vector< int >& );
 };
 
-#endif // IOBoard_H
+#endif
 
