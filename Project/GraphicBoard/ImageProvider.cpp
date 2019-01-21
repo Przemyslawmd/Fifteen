@@ -79,15 +79,16 @@ bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize 
 
     int tileSizeInt;
     stream >> tileSizeInt;
-    TileSize tileSize = Mapped::getTileSizeByInt( tileSizeInt );
 
-    if ( tileSize != TileSize::_50  && tileSize != TileSize::_75   &&
-         tileSize != TileSize::_100 && tileSize != TileSize::_125  &&
-         tileSize != TileSize::_150 )
+    if ( tileSizeInt != 50   && tileSizeInt != 75   && tileSizeInt != 100 &&
+         tileSizeInt != 125  && tileSizeInt != 150 )
     {
+        removeBoard( images.at( boardSize ));
         Message::putMessage( MessageCode::READ_BOARD_IMAGES_TILE_SIZE_ERROR );
         return false;
     }
+
+    TileSize tileSize = Mapped::getTileSizeByInt( tileSizeInt );
 
     if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, tileSize ) == false )
     {
