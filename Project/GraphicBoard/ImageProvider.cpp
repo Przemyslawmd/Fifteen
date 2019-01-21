@@ -40,15 +40,15 @@ vector< QImage* >& ImageProvider::getImages( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::prepareGraphicBoard( QImage& image, TileSize imageSize )
+void ImageProvider::prepareGraphicBoard( QImage& image, TileSize tileSize )
 {
     createImage = ( Options::getGraphicMode() == GraphicMode::SCALED ) ? &GraphicBoard::createTilesFromScaledImage :
                                                                          &GraphicBoard::createTilesFromCroppedImage;
     for ( auto iter = images.begin(); iter != images.end(); iter++ )
     {
-        if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, imageSize )))
+        if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, tileSize )))
         {
-            letGraphicBoardPrepareImages( iter->first, imageSize, image );
+            createTilesForGraphicBoard( iter->first, tileSize, image );
         }
     }
 }
@@ -140,7 +140,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSi
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::letGraphicBoardPrepareImages( BoardSize boardSize, TileSize tileSize, QImage& image )
+void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, TileSize tileSize, QImage& image )
 {
     images.at( boardSize ) = new GraphicBoard();
     ( images.at( boardSize )->*createImage )( image, boardSize, tileSize );

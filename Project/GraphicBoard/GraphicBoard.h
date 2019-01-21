@@ -10,7 +10,6 @@ using std::vector;
 
 class GraphicBoard
 {
-
 private:
 
     friend class ImageProvider;
@@ -20,7 +19,7 @@ private:
 
     void createTilesFromScaledImage( QImage&, BoardSize, TileSize );
     void createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
-    void createTiles( QImage*, BoardSize, int tileSize );
+    void createTiles( QImage*, int boardSize, int tileSize );
     bool restoreImagesFromFile( QDataStream&, BoardSize, TileSize );
 
     vector< QImage* >& getImages();

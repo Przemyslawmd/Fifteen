@@ -34,7 +34,7 @@ void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSiz
     int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     int boardSizePixel = boardSizeInt * tileSizeInt;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
-    createTiles( &scaledImage, boardSize, tileSizeInt );
+    createTiles( &scaledImage, boardSizeInt, tileSizeInt );
     this->tileSize = tileSize;
 }
 
@@ -48,21 +48,20 @@ void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSi
     int boardSizePixel = boardSizeInt * tileSizeInt;
     QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2,
                                        boardSizePixel, boardSizePixel );
-    createTiles( &croppedImage, boardSize, tileSizeInt );
+    createTiles( &croppedImage, boardSizeInt, tileSizeInt );
     this->tileSize = tileSize;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSize )
+void GraphicBoard::createTiles( QImage* image, int boardSize, int tileSize )
 {
-    QImage* image = new QImage( tileSize, tileSize, QImage::Format_RGB32 );
-    image->fill( Qt::GlobalColor::white );
-    images.push_back( image );
+    QImage* tileImage = new QImage( tileSize, tileSize, QImage::Format_RGB32 );
+    tileImage->fill( Qt::GlobalColor::white );
+    images.push_back( tileImage );
 
-    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    int pictureSize = boardSizeInt * tileSize;
+    int pictureSize = boardSize * tileSize;
 
     for ( int yPos = 0; yPos < pictureSize; yPos += tileSize )
     {
@@ -73,12 +72,12 @@ void GraphicBoard::createTiles( QImage* picture, BoardSize boardSize, int tileSi
                 break;
             }
 
-            image = new QImage( picture->copy( xPos, yPos, tileSize, tileSize ));
-            images.push_back( image );
+            tileImage = new QImage( image->copy( xPos, yPos, tileSize, tileSize ));
+            images.push_back( tileImage );
         }
     }
 
-    Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSizeInt );
+    Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
 }
 
 /*********************************************************************************/
@@ -92,8 +91,8 @@ bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSi
     int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     uchar* buffer = new uchar[bytesForSquare * boardSizeInt * boardSizeInt];
     QImage* image;
-
     int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+
     for ( int i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {
         if ( stream.readRawData( (char*) ( buffer + i * bytesForSquare ), bytesForSquare ) == -1 )

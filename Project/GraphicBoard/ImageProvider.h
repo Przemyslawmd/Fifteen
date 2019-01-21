@@ -24,7 +24,7 @@ private:
     ~ImageProvider();
 
     bool checkImageSize( QImage&, BoardSize, TileSize ) ;
-    void letGraphicBoardPrepareImages( BoardSize, TileSize, QImage& );
+    void createTilesForGraphicBoard( BoardSize, TileSize, QImage& );
     void removeBoard( GraphicBoard*& );
 
     void ( GraphicBoard::*createImage )( QImage&, BoardSize, TileSize );
@@ -33,5 +33,5 @@ private:
     std::map< BoardSize, GraphicBoard* > images;
 };
 
-#endif // IMAGEPROVIDER_H
+#endif
 
