@@ -58,11 +58,12 @@ void Fifteen::setTilesNumeric( bool isRandom )
     QFont font;
     int fontSizeInt = Mapped::fontSizeInt.at( Options::getFontSize() );
     font.setPixelSize( fontSizeInt );
+    int emptyTile = board->getEmptyTile();
 
     vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
     for ( auto tile : tiles )
     {
-        if ( *iter != 0 )
+        if ( *iter != emptyTile )
         {
             tile->setText( QString::number( *iter ));
             tile->setStyleSheet( Options::getStyle() );

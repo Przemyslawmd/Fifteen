@@ -17,25 +17,28 @@ public:
     Move checkMove( int row, int col );
 
     BoardSize getSize();
-    int getIntSize();
+    int getSizeInt();
 
     vector< int >& sendBoard();
     vector< int >& randomBoard();
     void solveBoard();
+    int getEmptyTile();
 
     static Board* board;
 
 private:
 
-    Board( BoardSize );
-    Board( vector< int >& values, BoardSize );
+    Board( BoardSize,  int sizeInt );
+    Board( vector< int >& values, BoardSize, int sizeInt );
 
     void makeMove( int srcRow, int srcColumn, int dstRow, int dstColumn );
     int findEmptyTill();
 
-    const BoardSize boardSize;
+    const BoardSize size;
+    const int sizeInt;
+    const int emptyTile;
+
     vector< int > values;
-    const int EMPTY_SQUARE = 0;
 };
 
 #endif // BOARD_H
