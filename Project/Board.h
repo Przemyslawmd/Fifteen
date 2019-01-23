@@ -41,5 +41,5 @@ private:
     vector< int > values;
 };
 
-#endif // BOARD_H
+#endif
 

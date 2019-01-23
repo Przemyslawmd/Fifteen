@@ -65,7 +65,7 @@ void Fifteen::setTilesNumeric( bool isRandom )
     {
         if ( *iter != emptyTile )
         {
-            tile->setText( QString::number( *iter ));
+            tile->setText( QString::number( *iter + 1 ));
             tile->setStyleSheet( Options::getStyle() );
         }
         else
@@ -103,12 +103,12 @@ void Fifteen::setTilesGraphic( bool isRandom )
     int i = 0;
     for ( auto tile : tiles )
     {
-        pixmap = QPixmap::fromImage( *pictures.at( values.at( i++ )));
+        pixmap = QPixmap::fromImage( *pictures.at( values.at( i )));
 
         if ( numOnImage->isNumberOnImage )
         {
             painter = new QPainter();
-            drawNumberOnGraphicTile( *painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i - 1 ));
+            drawNumberOnGraphicTile( *painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i ));
         }
 
         QIcon icon( pixmap );
@@ -123,6 +123,7 @@ void Fifteen::setTilesGraphic( bool isRandom )
         tile->setIconSize( iconSize );
         tile->setIcon( icon );
         tile->setStyleSheet( "" );
+        i++;
     }
 
     Options::setBoardMode( BoardMode::GRAPHIC );
@@ -133,15 +134,13 @@ void Fifteen::setTilesGraphic( bool isRandom )
 
 void Fifteen::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
 {
-    if ( number == 0 )
+    if ( number != board->getEmptyTile() )
     {
-        return;
+        painter.begin( &pixmap );
+        painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
+        painter.setPen( penColor );
+        painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number + 1 ));;
     }
-
-    painter.begin( &pixmap );
-    painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
-    painter.setPen( penColor );
-    painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number ));
 }
 
 /*********************************************************************************/

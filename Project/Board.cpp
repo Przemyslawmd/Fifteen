@@ -6,7 +6,7 @@
 #include <QTime>
 
 
-Board* Board::createBoard( BoardSize boardSize ) //: EMPTY_SQUARE( 4 )
+Board* Board::createBoard( BoardSize boardSize )
 {
     if ( board )
     {
@@ -170,9 +170,9 @@ int Board::getEmptyTile()
 
 Board::Board( BoardSize size, int sizeInt ) : size( size ),
                                               sizeInt( sizeInt ),
-                                              emptyTile( sizeInt * sizeInt )
+                                              emptyTile( sizeInt * sizeInt - 1 )
 {
-    for ( int i = 1; i <= sizeInt * sizeInt; i++ )
+    for ( int i = 0; i < sizeInt * sizeInt; i++ )
     {
         values.push_back( i );
     }
@@ -183,7 +183,7 @@ Board::Board( BoardSize size, int sizeInt ) : size( size ),
 
 Board::Board( vector< int >& values, BoardSize size, int sizeInt ) : size( size ),
                                                                      sizeInt( sizeInt ),
-                                                                     emptyTile( sizeInt * sizeInt )
+                                                                     emptyTile( sizeInt * sizeInt - 1 )
 {
     this->values.clear();
     this->values = values;
