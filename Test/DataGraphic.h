@@ -7,11 +7,11 @@
 class DataGraphic
 {
 public:
+
     DataGraphic( BoardSize, TileSize, GraphicMode, QString imagesPath, bool, bool, bool, bool );
 
-    BoardSize boardSize;
-    int boardSizeInt;
-    TileSize squareSize;
+    BoardSize size;
+    TileSize tileSize;
     GraphicMode mode;
     QString imagesPath;
     bool isFourToBeLoaded;

@@ -18,15 +18,15 @@ void Test::testCreateBoardSolved( BoardSize size )
     Board* board = Board::createBoard( size );
     vector< int >& values = board->sendBoard();
 
-    int sizeInt = board->getIntSize();
+    int sizeInt = Mapped::boardSizeInt.at( size );
     QCOMPARE( sizeInt * sizeInt, static_cast< int >( values.size() ));
 
     for ( int i = 0; i < sizeInt * sizeInt - 1; i++ )
     {
-        QCOMPARE( values[i], i + 1 );
+        QCOMPARE( values[i], i );
     }
 
-    QCOMPARE( values[sizeInt * sizeInt - 1], 0 );
+    QCOMPARE( values[sizeInt * sizeInt - 1], board->getEmptyTile() );
 }
 
 /*********************************************************************************/
@@ -36,8 +36,8 @@ void Test::testCreateBoardRandom( BoardSize size )
 {
     Board* board = Board::createBoard( size );
     vector< int >& values = board->randomBoard();
-    int boardSizeInt = board->getIntSize();
-    checkTiles( boardSizeInt, values );
+    int sizeInt = Mapped::boardSizeInt.at( size );
+    checkTiles( sizeInt, values );
 }
 
 /*********************************************************************************/
@@ -50,15 +50,15 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
     board->randomBoard();
     vector< int >& values = board->randomBoard();
 
-    int boardSizeInt = board->getIntSize();
-    checkTiles( boardSizeInt, values );
+    int sizeInt = Mapped::boardSizeInt.at( firstSize );;
+    checkTiles( sizeInt, values );
 
     board = Board::createBoard( secondSize );
     board->randomBoard();
     values = board->randomBoard();
 
-    boardSizeInt = board->getIntSize();
-    checkTiles( boardSizeInt, values );
+    sizeInt = Mapped::boardSizeInt.at( secondSize );
+    checkTiles( sizeInt, values );
 }
 
 /*********************************************************************************/
@@ -147,10 +147,11 @@ void Test::testCreateGraphicBoard( int testNumber )
     Options::receiveData( move( options ));
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
-    imageProvider.prepareGraphicBoard( image, testData.squareSize );
-    vector< QImage* >& images = imageProvider.getImages( testData.boardSize );
+    imageProvider.prepareGraphicBoard( image, testData.tileSize );
+    vector< QImage* >& images = imageProvider.getImages( testData.size );
 
-    for ( int i = 1; i < testData.boardSizeInt * testData.boardSizeInt; i++ )
+    int sizeInt = Mapped::boardSizeInt.at( testData.size );
+    for ( int i = 0; i < sizeInt * sizeInt; i++ )
     {
         QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + QString::number( i ) + ".bmp" );
         compareQImage( *images.at( i ), image );

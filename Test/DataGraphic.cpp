@@ -5,9 +5,8 @@
 DataGraphic::DataGraphic( BoardSize boardSize, TileSize tileSize, GraphicMode mode, QString path,
                           bool four, bool five, bool six, bool seven )
 {
-    this->boardSize = boardSize;
-    this->boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    this->squareSize = tileSize;
+    this->size = boardSize;
+    this->tileSize = tileSize;
     this->mode = mode;
     imagesPath = path;
     isFourToBeLoaded = four;

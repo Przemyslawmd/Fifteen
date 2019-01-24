@@ -18,7 +18,7 @@ private:
 
     static bool isInit;
     static vector< DataCommon > dataCommon;
-    static vector< DataGraphic > dataGraphic;
+    static std::map< int, DataGraphic > dataGraphic;
 };
 
 #endif // DATATEST_H

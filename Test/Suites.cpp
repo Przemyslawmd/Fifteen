@@ -1,9 +1,11 @@
 
-#include <QString>
-#include <QtTest>
+#include "Test.h"
+#include "Defines.h"
 
 #include "../Project/Board.h"
-#include "Test.h"
+
+#include <QString>
+#include <QtTest>
 
 class TestFifteen : public QObject
 {
@@ -44,7 +46,6 @@ void TestFifteen::suiteMoveSquareDefined()
     test.testMoveSquareDefined( 1 );
 }
 
-
 void TestFifteen::suiteSaveAndLoadBoard()
 {
     Test test;
@@ -52,16 +53,11 @@ void TestFifteen::suiteSaveAndLoadBoard()
     test.testSaveAndLoadBoard( 1 );
 }
 
-
 void TestFifteen::suiteCreateGraphicBoard()
 {
     Test test;
-
-    // BoardSize: 5; SquareSize: 50, GraphicMode: Scalled
-    test.testCreateGraphicBoard( 0 );
-
-    // BoardSize: 6; SquareSize: 75, GraphicMode: Cropped
-    test.testCreateGraphicBoard( 1 );
+    test.testCreateGraphicBoard( GRAPH_FIVE_50_SCALED );
+    test.testCreateGraphicBoard( GRAPH_SIX_75_CROPPED );
 }
 
 

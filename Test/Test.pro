@@ -35,6 +35,7 @@ HEADERS += \
     ../Project/Message.h \
     Test.h \
     DataCommon.h \
-    DataGraphic.h
+    DataGraphic.h \
+    Defines.h
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
