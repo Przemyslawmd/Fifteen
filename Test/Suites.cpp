@@ -42,15 +42,15 @@ void TestFifteen::suiteCreateBoardRandom()
 void TestFifteen::suiteMoveSquareDefined()
 {
     Test test;
-    test.testMoveSquareDefined( 0 );
-    test.testMoveSquareDefined( 1 );
+    test.testMoveSquareDefined( NUMERIC_FOUR );
+    test.testMoveSquareDefined( NUMERIC_FIVE );
 }
 
 void TestFifteen::suiteSaveAndLoadBoard()
 {
     Test test;
-    test.testSaveAndLoadBoard( 0 );
-    test.testSaveAndLoadBoard( 1 );
+    test.testSaveAndLoadBoard( NUMERIC_FOUR );
+    test.testSaveAndLoadBoard( NUMERIC_FIVE );
 }
 
 void TestFifteen::suiteCreateGraphicBoard()

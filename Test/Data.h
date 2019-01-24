@@ -4,21 +4,21 @@
 
 #include "DataCommon.h"
 #include "DataGraphic.h"
+#include <map>
+
+using std::map;
 
 class Data
 {
 public:
-
-    static void DataInit();
 
     static DataCommon& getTestVector( int testNumber );
     static DataGraphic& getTestGraphic( int testNumber );
 
 private:
 
-    static bool isInit;
-    static vector< DataCommon > dataCommon;
-    static std::map< int, DataGraphic > dataGraphic;
+    static map< int, DataCommon > dataCommon;
+    static map< int, DataGraphic > dataGraphic;
 };
 
 #endif // DATATEST_H
