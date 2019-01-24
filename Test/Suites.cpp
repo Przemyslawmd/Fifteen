@@ -46,12 +46,14 @@ void TestFifteen::suiteMoveSquareDefined()
     test.testMoveSquareDefined( NUMERIC_FIVE );
 }
 
+
 void TestFifteen::suiteSaveAndLoadBoard()
 {
     Test test;
     test.testSaveAndLoadBoard( NUMERIC_FOUR );
     test.testSaveAndLoadBoard( NUMERIC_FIVE );
 }
+
 
 void TestFifteen::suiteCreateGraphicBoard()
 {

@@ -17,7 +17,6 @@ public:
     Move checkMove( int row, int col );
 
     BoardSize getSize();
-    int getSizeInt();
 
     vector< int >& sendBoard();
     vector< int >& randomBoard();
