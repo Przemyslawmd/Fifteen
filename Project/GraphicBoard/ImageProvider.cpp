@@ -152,11 +152,8 @@ void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, TileSize ti
 
 void ImageProvider::removeBoard( GraphicBoard*& board )
 {
-    if ( board != nullptr )
-    {
-        delete board;
-        board = nullptr;
-    }
+    delete board;
+    board = nullptr;
 }
 
 /*********************************************************************************/
