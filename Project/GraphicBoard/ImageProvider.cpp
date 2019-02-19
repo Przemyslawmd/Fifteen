@@ -20,11 +20,6 @@ ImageProvider& ImageProvider::getInstance()
 
 void ImageProvider::deleteInstance()
 {
-    if ( instance == nullptr )
-    {
-        return;
-    }
-
     delete instance;
     instance = nullptr;
 }
