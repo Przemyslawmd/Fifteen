@@ -4,7 +4,6 @@
 
 #include <QString>
 #include <QColor>
-#include <map>
 
 enum class BoardSize    { FOUR, FIVE, SIX, SEVEN };
 enum class GraphicMode  { SCALED, CROPPED };

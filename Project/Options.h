@@ -5,6 +5,7 @@
 #include "Types.h"
 #include <QString>
 #include <QColor>
+#include <map>
 #include <memory>
 
 using std::unique_ptr;

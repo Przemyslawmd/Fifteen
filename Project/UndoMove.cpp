@@ -45,9 +45,6 @@ int UndoMove::GetMove()
 
 void UndoMove::Reset()
 {
-    if ( moveStack.empty() == false )
-    {
-        moveStack.clear();
-    }
+    moveStack.clear();
 }
 
