@@ -462,7 +462,7 @@ void Fifteen::createUndoMovesService()
 
 void Fifteen::deleteUndoMovesService()
 {
-    UndoMove* undoMove = undoMoveService.release();// = nullptr;
+    UndoMove* undoMove = undoMoveService.release();
     delete undoMove;
     GUI::getGUI().setStatePushUndo( true );
 }
