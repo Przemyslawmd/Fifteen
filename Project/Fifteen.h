@@ -44,8 +44,10 @@ private:
     map< BoardMode, QRadioButton* > radioKind;
 
     void createTiles();
+    void setTiles( bool isRandom );
     void setTilesNumeric( bool isRandom );
     void setTilesGraphic( bool isRandom );
+
     void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, int number );
 
     void makeMove( Move, int row, int col );

@@ -51,6 +51,21 @@ void Fifteen::createTiles()
 /*********************************************************************************/
 /*********************************************************************************/
 
+void Fifteen::setTiles( bool isRandom )
+{
+    if ( Options::getBoardMode() == BoardMode::NUMERIC )
+    {
+        setTilesNumeric( isRandom );
+    }
+    else
+    {
+        setTilesGraphic( isRandom );
+    }
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 void Fifteen::setTilesNumeric( bool isRandom )
 {    
     vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
@@ -165,15 +180,14 @@ void Fifteen::slotGenerateBoard()
     if ( radioKind[BoardMode::NUMERIC]->isChecked() )
     {
         Options::setBoardMode( BoardMode::NUMERIC );
-        createTiles();
-        setTilesNumeric( true );
     }
     else
     {
         Options::setBoardMode( BoardMode::GRAPHIC );
-        createTiles();
-        setTilesGraphic( true );
     }
+
+    createTiles();
+    setTiles( true );
 
     if ( undoMoveService )
     {
@@ -187,15 +201,7 @@ void Fifteen::slotGenerateBoard()
 void Fifteen::slotSolveBoard()
 {
     board->solveBoard();
-
-    if ( Options::getBoardMode() == BoardMode::NUMERIC )
-    {
-        setTilesNumeric( false );
-    }
-    else
-    {
-        setTilesGraphic( false );
-    }
+    setTiles( false );
 
     if ( undoMoveService )
     {
@@ -402,15 +408,14 @@ void Fifteen::slotReadBoard()
     values.pop_back();
     board = Board::createBoard( values, boardSize );
     createTiles();
+    setTiles( false );
 
     if ( Options::getBoardMode() == BoardMode::NUMERIC )
     {
-        setTilesNumeric( false );
         radioKind[BoardMode::NUMERIC]->setChecked( true );
     }
     else
     {
-        setTilesGraphic( false );
         radioSize[boardSize]->setChecked( true );
         radioKind[BoardMode::GRAPHIC]->setChecked( true );
         action[Action::REM_GRAPHIC]->setEnabled( true );
@@ -440,15 +445,7 @@ void Fifteen::setColor()
 void Fifteen::redrawTiles()
 {
     createTiles();
-
-    if ( Options::getBoardMode() == BoardMode::NUMERIC )
-    {
-        setTilesNumeric( false );
-    }
-    else
-    {
-        setTilesGraphic( false );
-    }
+    setTiles( false );
 }
 
 /*********************************************************************************/
