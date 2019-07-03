@@ -9,8 +9,9 @@
 using std::map;
 using std::queue;
 
-enum class MessageCode
+enum class Result
 {
+    OK,
     GRAPHIC_LOAD_OK,
     GRAPHIC_LOAD_FAILURE,
     GRAPHIC_TOO_LOW_SIZE,
@@ -25,14 +26,14 @@ class Message
 {
 public:
 
-    static void putMessage( MessageCode );
-    static void putMessage( MessageCode, int arg );
+    static void putMessage( Result );
+    static void putMessage( Result, int arg );
     static QString getMessages();
+    static map< Result, QString > message;
 
 private:
 
     static queue< QString > messageQueue;
-    static map< MessageCode, QString > message;
 };
 
 #endif // MESSAGE_H
