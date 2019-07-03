@@ -3,6 +3,7 @@
 #define IOBoard_H
 
 #include "../Board.h"
+#include "../Message.h"
 #include <QDataStream>
 
 
@@ -14,13 +15,13 @@ public:
 
     void saveNumericBoardInFile( Board&, const QString& fileName );
     void saveGraphicBoardInFile( Board&, const QString& fileName );
-    bool readBoardFromFile( const QString& fileName, vector< int >& );
+    Result readBoardFromFile( const QString& fileName, vector< uint >& );
 
 private:
 
     void insertBoardValuesIntoStream( QDataStream&, Board& );
     void insertBoardPicturesIntoStream( QDataStream&, BoardSize );
-    bool checkReadValues( vector< int >& );
+    bool checkReadValues( vector< uint >& );
 };
 
 #endif

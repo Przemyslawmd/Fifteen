@@ -12,14 +12,14 @@ class Board
 public:
 
     static Board* createBoard( BoardSize );
-    static Board* createBoard( vector< int >& values, BoardSize );
+    static Board* createBoard( vector< uint >& values, BoardSize );
 
-    Move checkMove( int row, int col );
+    Move checkMove( uint row, uint col );
 
     BoardSize getSize();
 
-    vector< int >& sendBoard();
-    vector< int >& randomBoard();
+    vector< uint >& sendBoard();
+    vector< uint >& randomBoard();
     void solveBoard();
     int getEmptyTile();
 
@@ -27,17 +27,17 @@ public:
 
 private:
 
-    Board( BoardSize,  int sizeInt );
-    Board( vector< int >& values, BoardSize, int sizeInt );
+    Board( BoardSize,  uint sizeInt );
+    Board( vector< uint >& values, BoardSize, uint sizeInt );
 
-    void makeMove( int srcRow, int srcColumn, int dstRow, int dstColumn );
-    int findEmptyTill();
+    void makeMove( uint srcRow, uint srcColumn, uint dstRow, uint dstColumn );
+    uint findEmptyTill();
 
     const BoardSize size;
-    const int sizeInt;
-    const int emptyTile;
+    const uint sizeInt;
+    const uint emptyTile;
 
-    vector< int > values;
+    vector< uint > values;
 };
 
 #endif

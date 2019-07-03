@@ -33,7 +33,7 @@ const map< TileColor, const QString > Mapped::tileColorStyle
 };
 
 
-const map< BoardSize, int > Mapped::boardSizeInt
+const map< BoardSize, uint > Mapped::boardSizeInt
 {
     { BoardSize::FOUR,  4 },
     { BoardSize::FIVE,  5 },
@@ -62,7 +62,7 @@ const map< int, TileSize > Mapped::sliderTileSize
 };
 
 
-BoardSize Mapped::getBoardSizeByInt( int value )
+BoardSize Mapped::getBoardSizeByInt( uint value )
 {
    return getMapKeyByValue( Mapped::boardSizeInt, value );
 }

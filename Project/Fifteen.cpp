@@ -42,10 +42,10 @@ Fifteen::~Fifteen()
 void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
-    TileSize squareSize = ( Options::getBoardMode() == BoardMode::NUMERIC ) ?
-                            Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
+    TileSize tileSize = Options::getBoardMode() == BoardMode::NUMERIC ?
+                        Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
-    GUI::getGUI().createTiles( boardSize, squareSize );
+    GUI::getGUI().createTiles( boardSize, tileSize );
 }
 
 /*********************************************************************************/
@@ -68,15 +68,16 @@ void Fifteen::setTiles( bool isRandom )
 
 void Fifteen::setTilesNumeric( bool isRandom )
 {    
-    vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
-    vector< int >::iterator iter = values.begin();
-    QFont font;
-    int fontSizeInt = Mapped::fontSizeInt.at( Options::getFontSize() );
-    font.setPixelSize( fontSizeInt );
-    int emptyTile = board->getEmptyTile();
+    auto values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
+    auto iter = values.begin();
 
-    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
-    for ( auto tile : tiles )
+    int fontSizeInt = Mapped::fontSizeInt.at( Options::getFontSize() );
+    QFont font;
+    font.setPixelSize( fontSizeInt );
+
+    uint emptyTile = board->getEmptyTile();
+
+    for ( auto tile : GUI::getGUI().getTiles() )
     {
         if ( *iter != emptyTile )
         {
@@ -102,7 +103,7 @@ void Fifteen::setTilesGraphic( bool isRandom )
 {
     BoardSize boardSize = board->getSize();
     ImageProvider& provider = ImageProvider::getInstance();
-    vector< int >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
+    vector< uint >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
     unique_ptr< NumberOnImage > numOnImage = Options::isNumberOnImage();
     QPixmap pixmap;
@@ -322,17 +323,17 @@ void Fifteen::slotLoadGraphic()
         return;
     }
 
-    QImage picture;
-    picture.load( fileName );
+    QImage image;
+    image.load( fileName );
 
-    if ( picture.isNull() )
+    if ( image.isNull() )
     {
         QMessageBox::information( this, "", "Failure of loading an image\t" );
         return;
     }
 
     ImageProvider& provider = ImageProvider::getInstance();
-    provider.prepareGraphicBoard( picture, Options::getTileSize() );
+    provider.prepareGraphicBoard( image, Options::getTileSize() );
 
     if ( provider.isGraphicBoard( BoardSize::FOUR ) || provider.isGraphicBoard( BoardSize::FIVE ) ||
          provider.isGraphicBoard( BoardSize::SIX )  || provider.isGraphicBoard( BoardSize::SEVEN ))
@@ -396,11 +397,12 @@ void Fifteen::slotReadBoard()
     }
 
     IOBoard ioBoard;
-    vector< int > values( 0 );
+    vector< uint > values( 0 );
 
-    if ( ioBoard.readBoardFromFile( fileName, values ) == false )
+    Result result = ioBoard.readBoardFromFile( fileName, values );
+    if ( result != Result::OK )
     {
-        QMessageBox::information( this, "", Message::getMessages() );
+        QMessageBox::information( this, "", Message::message[ result ] );
         return;
     }
 

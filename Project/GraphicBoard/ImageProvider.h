@@ -4,6 +4,7 @@
 
 #include "GraphicBoard.h"
 #include "../Types.h"
+#include "../Message.h"
 
 class ImageProvider
 {
@@ -14,7 +15,7 @@ public:
 
     vector< QImage* >& getImages( BoardSize );
     void prepareGraphicBoard( QImage&, TileSize );
-    bool restoreGraphicBoardFromFile( QDataStream&, BoardSize );
+    Result restoreGraphicBoardFromFile( QDataStream&, BoardSize );
     bool isGraphicBoard( BoardSize );
     TileSize getTileSize( BoardSize );
 

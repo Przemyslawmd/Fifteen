@@ -43,7 +43,7 @@ void IOBoard::saveGraphicBoardInFile( Board& board, const QString& fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNumbers )
+Result IOBoard::readBoardFromFile( const QString& fileName, vector< uint >& boardNumbers )
 {
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
@@ -54,17 +54,15 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
 
     if ( boardMode != BoardMode::GRAPHIC && boardMode != BoardMode::NUMERIC )
     {
-        Message::putMessage( MessageCode::READ_BOARD_TYPE_ERROR );
-        return false;
+        return Result::READ_BOARD_TYPE_ERROR;
     }
 
-    int boardSizeInt;
+    uint boardSizeInt;
     stream >> boardSizeInt;
 
     if ( boardSizeInt < 4 || boardSizeInt > 7 )
     {
-        Message::putMessage( MessageCode::READ_BOARD_SIZE_ERROR );
-        return false;
+        return  Result::READ_BOARD_SIZE_ERROR;
     }
 
     boardNumbers.resize( boardSizeInt * boardSizeInt );
@@ -75,24 +73,23 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
 
     if ( checkReadValues( boardNumbers ) == false )
     {
-        Message::putMessage( MessageCode::READ_BOARD_VALUES_ERROR );
-        return false;
+        return Result::READ_BOARD_VALUES_ERROR;
     }
-
-    BoardSize boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
 
     if ( boardMode == BoardMode::GRAPHIC )
     {
         ImageProvider& imageProvider = ImageProvider::getInstance();
-        if ( imageProvider.restoreGraphicBoardFromFile( stream, boardSize ) == false )
+        BoardSize boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
+        Result result = imageProvider.restoreGraphicBoardFromFile( stream, boardSize );
+        if ( result != Result::OK )
         {
-            return false;
+            return result;
         }
     }
 
     Options::setBoardMode( boardMode );
     boardNumbers.push_back( boardSizeInt );
-    return true;
+    return Result::OK;
 }
 
 /*********************************************************************************/
@@ -100,9 +97,7 @@ bool IOBoard::readBoardFromFile( const QString& fileName, vector< int >& boardNu
 
 void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
 {
-    vector< int >& boardNumbers = board.sendBoard();
-
-    for ( int number : boardNumbers )
+    for ( uint number : board.sendBoard() )
     {
         stream << number;
     }
@@ -111,26 +106,26 @@ void IOBoard::insertBoardValuesIntoStream( QDataStream& stream, Board& board )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boardSize)
+void IOBoard::insertBoardPicturesIntoStream( QDataStream& stream, BoardSize boardSize )
 {
     ImageProvider& provider = ImageProvider::getInstance();
     TileSize tileSize = provider.getTileSize( boardSize );
     stream << Mapped::tileSizeInt.at( tileSize );
 
     vector< QImage* >& boardImages = provider.getImages( boardSize );
-    int byteCountPerImage = boardImages.at( 0 )->byteCount();
-    stream << byteCountPerImage;
+    int bytesOfImage = boardImages.at( 0 )->byteCount();
+    stream << bytesOfImage;
 
     for ( QImage* image : boardImages )
     {
-        stream.writeRawData( (char*) image->bits(), byteCountPerImage );
+        stream.writeRawData( reinterpret_cast< const char* >( image->bits() ), bytesOfImage );
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::checkReadValues( vector< int >& readNumbers )
+bool IOBoard::checkReadValues( vector< uint >& readNumbers )
 {
     for ( uint number = 0; number < readNumbers.size(); number++ )
     {
@@ -139,7 +134,6 @@ bool IOBoard::checkReadValues( vector< int >& readNumbers )
             return false;
         }
     }
-
     return true;
 }
 

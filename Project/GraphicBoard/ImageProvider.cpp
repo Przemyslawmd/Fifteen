@@ -67,7 +67,7 @@ TileSize ImageProvider::getTileSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize boardSize )
+Result ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize boardSize )
 {
     removeBoard( images.at( boardSize ));
     images.at( boardSize ) = new GraphicBoard();
@@ -79,8 +79,7 @@ bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize 
          tileSizeInt != 125  && tileSizeInt != 150 )
     {
         removeBoard( images.at( boardSize ));
-        Message::putMessage( MessageCode::READ_BOARD_IMAGES_TILE_SIZE_ERROR );
-        return false;
+        return Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR;
     }
 
     TileSize tileSize = Mapped::getTileSizeByInt( tileSizeInt );
@@ -88,11 +87,10 @@ bool ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize 
     if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, tileSize ) == false )
     {
         removeBoard( images.at( boardSize ));
-        Message::putMessage( MessageCode::READ_BOARD_IMAGES_DATA_ERROR );
-        return false;
+        return Result::READ_BOARD_IMAGES_DATA_ERROR;
     }
 
-    return true;
+    return Result::OK;
 }
 
 /*********************************************************************************/
@@ -126,7 +124,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSi
     int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     if (( picture.height() < boardSizeInt * tileSizeInt ) || ( picture.width() < boardSizeInt * tileSizeInt ))
     {
-        Message::putMessage( MessageCode::GRAPHIC_TOO_LOW_SIZE, boardSizeInt );
+        Message::putMessage( Result::GRAPHIC_TOO_LOW_SIZE, boardSizeInt );
         return false;
     }
 

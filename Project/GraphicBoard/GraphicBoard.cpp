@@ -77,7 +77,7 @@ void GraphicBoard::createTiles( QImage* image, int boardSize, int tileSize )
     tileImage = new QImage( tileSize, tileSize, QImage::Format_RGB32 );
     tileImage->fill( Qt::GlobalColor::white );
     images.push_back( tileImage );
-    Message::putMessage( MessageCode::GRAPHIC_LOAD_OK, boardSize );
+    Message::putMessage( Result::GRAPHIC_LOAD_OK, boardSize );
 }
 
 /*********************************************************************************/
