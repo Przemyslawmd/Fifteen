@@ -42,7 +42,7 @@ Fifteen::~Fifteen()
 void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
-    TileSize tileSize = Options::getBoardMode() == BoardMode::NUMERIC ?
+    TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
                         Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
     GUI::getGUI().createTiles( boardSize, tileSize );
@@ -53,7 +53,7 @@ void Fifteen::createTiles()
 
 void Fifteen::setTiles( bool isRandom )
 {
-    if ( Options::getBoardMode() == BoardMode::NUMERIC )
+    if ( Options::boardMode == BoardMode::NUMERIC )
     {
         setTilesNumeric( isRandom );
     }
@@ -93,7 +93,7 @@ void Fifteen::setTilesNumeric( bool isRandom )
         iter++;
     }
 
-    Options::setBoardMode( BoardMode::NUMERIC );
+    Options::boardMode = BoardMode::NUMERIC;
 }
 
 /*********************************************************************************/
@@ -142,7 +142,7 @@ void Fifteen::setTilesGraphic( bool isRandom )
         i++;
     }
 
-    Options::setBoardMode( BoardMode::GRAPHIC );
+    Options::boardMode = BoardMode::GRAPHIC;
 }
 
 /*********************************************************************************/
@@ -177,16 +177,7 @@ void Fifteen::slotGenerateBoard()
     }
 
     board = Board::createBoard( boardSize );
-
-    if ( radioKind[BoardMode::NUMERIC]->isChecked() )
-    {
-        Options::setBoardMode( BoardMode::NUMERIC );
-    }
-    else
-    {
-        Options::setBoardMode( BoardMode::GRAPHIC );
-    }
-
+    Options::boardMode = radioKind[BoardMode::NUMERIC]->isChecked() ? BoardMode::NUMERIC : BoardMode::GRAPHIC;
     createTiles();
     setTiles( true );
 
@@ -257,8 +248,8 @@ void Fifteen::pressTile()
 
 void Fifteen::makeMove( Move move, int row, int col )
 {
-    moveTile = ( Options::getBoardMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
-                                                                   &Fifteen::moveGraphicTile;
+    moveTile = ( Options::boardMode == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
+                                                              &Fifteen::moveGraphicTile;
 
     switch ( move )
     {
@@ -353,9 +344,9 @@ void Fifteen::slotRemoveGraphic()
     action[Action::REM_GRAPHIC]->setEnabled( false );
     radioKind[BoardMode::NUMERIC]->setChecked( true );
 
-    if ( Options::getBoardMode() == BoardMode::GRAPHIC )
+    if ( Options::boardMode == BoardMode::GRAPHIC )
     {
-        Options::setBoardMode( BoardMode::NUMERIC );
+        Options::boardMode = BoardMode::NUMERIC;
         createTiles();
         setTilesNumeric( false );
     }
@@ -374,7 +365,7 @@ void Fifteen::slotSaveBoard()
     }
 
     IOBoard ioBoard;
-    if ( Options::getBoardMode() == BoardMode::NUMERIC )
+    if ( Options::boardMode == BoardMode::NUMERIC )
     {
         ioBoard.saveNumericBoardInFile( *board, fileName );
     }
@@ -412,7 +403,7 @@ void Fifteen::slotReadBoard()
     createTiles();
     setTiles( false );
 
-    if ( Options::getBoardMode() == BoardMode::NUMERIC )
+    if ( Options::boardMode == BoardMode::NUMERIC )
     {
         radioKind[BoardMode::NUMERIC]->setChecked( true );
     }

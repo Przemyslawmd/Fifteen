@@ -87,7 +87,7 @@ Result IOBoard::readBoardFromFile( const QString& fileName, vector< uint >& boar
         }
     }
 
-    Options::setBoardMode( boardMode );
+    Options::boardMode = boardMode;
     boardNumbers.push_back( boardSizeInt );
     return Result::OK;
 }

@@ -18,20 +18,6 @@ FontSize Options::getFontSize()
 /*********************************************************************************/
 /*********************************************************************************/
 
-BoardMode Options::getBoardMode()
-{
-    return boardMode;
-}
-
-
-void Options::setBoardMode( BoardMode mode )
-{
-    boardMode = mode;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 GraphicMode Options::getGraphicMode()
 {
     return graphicMode;

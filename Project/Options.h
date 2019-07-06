@@ -14,11 +14,10 @@ class Options
 {
 public:
 
+    static BoardMode boardMode;
+
     static TileSize getTileSize();
     static FontSize getFontSize();
-
-    static BoardMode getBoardMode();
-    static void setBoardMode( BoardMode mode );
 
     static GraphicMode getGraphicMode();
 
@@ -35,7 +34,6 @@ public:
 
 private:
 
-    static BoardMode boardMode;
     static GraphicMode graphicMode;
 
     static TileSize tileSize;
