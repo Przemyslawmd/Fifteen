@@ -21,7 +21,7 @@ public:
     vector< uint >& sendBoard();
     vector< uint >& randomBoard();
     void solveBoard();
-    int getEmptyTile();
+    uint getEmptyTile();
 
     static Board* board;
 

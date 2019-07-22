@@ -10,7 +10,7 @@ void Message::putMessage( Result code )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Message::putMessage( Result code, int value )
+void Message::putMessage( Result code, uint value )
 {
     messageQueue.push( QString( message[code] + "%1 \t\n\n" ).arg( value ));
 }

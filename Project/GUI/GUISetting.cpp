@@ -27,10 +27,10 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton( "Image is to be cropped" );
     mapRadioGraphicMode[GraphicMode::SCALED]->setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
 
-    for ( auto& mapRadio : mapRadioGraphicMode )
+    for ( auto radio : mapRadioGraphicMode )
     {
-        mapRadio.second->setStyleSheet( "margin-left: 5px;" );
-        groupRadioGraphicMode.addButton( mapRadio.second );
+        radio.second->setStyleSheet( "margin-left: 5px;" );
+        groupRadioGraphicMode.addButton( radio.second );
     }
 
     mapRadioGraphicMode[ optionsCurrent->graphicMode]->setChecked( true );
@@ -49,17 +49,17 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
         check.second->setStyleSheet( "margin-left: 5px;" );
     }
 
-    radioNumberOnImage[NumberColor::NO] = new QRadioButton( "Number on a graphic tile : No" );
-    radioNumberOnImage[NumberColor::BLACK] = new QRadioButton( "Number on a graphic tile : Black" );
-    radioNumberOnImage[NumberColor::WHITE] = new QRadioButton( "Number on a graphic tile : White" );
+    mapRadioNumberOnImage[NumberColor::NO] = new QRadioButton( "Number on a graphic tile : No" );
+    mapRadioNumberOnImage[NumberColor::BLACK] = new QRadioButton( "Number on a graphic tile : Black" );
+    mapRadioNumberOnImage[NumberColor::WHITE] = new QRadioButton( "Number on a graphic tile : White" );
 
-    for ( auto radioMap : radioNumberOnImage )
+    for ( auto radio : mapRadioNumberOnImage )
     {
-        radioMap.second->setStyleSheet( "margin-left: 5px;" );
-        groupRadioNumberOnImage.addButton( radioMap.second );
+        radio.second->setStyleSheet( "margin-left: 5px;" );
+        groupRadioNumberOnImage.addButton( radio.second );
     }
 
-    radioNumberOnImage[ optionsCurrent->numberColor ]->setChecked( true );
+    mapRadioNumberOnImage[ optionsCurrent->numberColor ]->setChecked( true );
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -75,11 +75,11 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     layRadioImage.addSpacing( 8 );
     layRadioImage.addWidget( mapCheckImageToChose[BoardSize::SEVEN] );
     layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberColor::NO] );
+    layRadioImage.addWidget( mapRadioNumberOnImage[NumberColor::NO] );
     layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberColor::BLACK] );
+    layRadioImage.addWidget( mapRadioNumberOnImage[NumberColor::BLACK] );
     layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( radioNumberOnImage[NumberColor::WHITE] );
+    layRadioImage.addWidget( mapRadioNumberOnImage[NumberColor::WHITE] );
     layRadioImage.addSpacing( 15 );
     QGroupBox* boxRadioImage = new QGroupBox( "Image for a graphic board" );
     boxRadioImage->setLayout( &layRadioImage );
@@ -90,7 +90,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     mapRadioColor[TileColor::GREEN] = new QRadioButton( "Green" );
     mapRadioColor[TileColor::RED] = new QRadioButton( "Red" );
 
-    for ( auto& radio : mapRadioColor )
+    for ( auto radio : mapRadioColor )
     {
         radio.second->setStyleSheet( "margin-left:5px;" );
         groupRadioColor.addButton( radio.second );
@@ -184,7 +184,7 @@ void GUISetting::acceptSettings()
     optionsNew->imageToLoad_5 = mapCheckImageToChose[BoardSize::FIVE]->isChecked();
     optionsNew->imageToLoad_6 = mapCheckImageToChose[BoardSize::SIX]->isChecked();
     optionsNew->imageToLoad_7 = mapCheckImageToChose[BoardSize::SEVEN]->isChecked();
-    optionsNew->numberColor = getChoosenOption< NumberColor >( radioNumberOnImage, groupRadioNumberOnImage );
+    optionsNew->numberColor = getChoosenOption< NumberColor >( mapRadioNumberOnImage, groupRadioNumberOnImage );
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
     optionsNew->squareColor = getChoosenOption< TileColor >( mapRadioColor, groupRadioColor );
 
@@ -197,12 +197,8 @@ void GUISetting::acceptSettings()
 
     Options::receiveData( std::move( optionsNew ));
 
-    if ( squareSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
-    {
-        owner.redrawTiles();
-    }
-
-    if ( numberImageChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC )
+    if (( squareSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC  ) ||
+        ( numberImageChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC ))
     {
         owner.redrawTiles();
     }

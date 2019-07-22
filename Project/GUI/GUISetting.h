@@ -34,7 +34,7 @@ private:
 
     map< BoardSize, QCheckBox* > mapCheckImageToChose;
 
-    map< NumberColor, QRadioButton* > radioNumberOnImage;
+    map< NumberColor, QRadioButton* > mapRadioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
 
     map< TileColor, QRadioButton* > mapRadioColor;

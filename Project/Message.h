@@ -27,7 +27,7 @@ class Message
 public:
 
     static void putMessage( Result );
-    static void putMessage( Result, int arg );
+    static void putMessage( Result, uint arg );
     static QString getMessages();
     static map< Result, QString > message;
 
