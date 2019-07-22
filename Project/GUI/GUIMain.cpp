@@ -67,10 +67,11 @@ void GUI::createMenu( map< Action, QAction* >& actions )
 
 void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map< BoardSize, QRadioButton* >& mapRadioSize)
 {
-    mapRadioSize[BoardSize::FOUR] = new QRadioButton();
-    mapRadioSize[BoardSize::FIVE] = new QRadioButton();
-    mapRadioSize[BoardSize::SIX] = new QRadioButton();
-    mapRadioSize[BoardSize::SEVEN] = new QRadioButton();
+    mapRadioSize[BoardSize::FOUR] = new QRadioButton( "4" );
+    mapRadioSize[BoardSize::FIVE] = new QRadioButton( "5" );
+    mapRadioSize[BoardSize::SIX] = new QRadioButton( "6" );
+    mapRadioSize[BoardSize::SEVEN] = new QRadioButton( "7" );
+    mapRadioSize[BoardSize::FOUR]->setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
     groupRadioSize = unique_ptr< QButtonGroup >( new QButtonGroup () );
@@ -84,21 +85,12 @@ void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map<
     }
     radioSizeLayout->addSpacing( 30 );
 
-    mapRadioSize[BoardSize::FOUR]->setText( "4" );
-    mapRadioSize[BoardSize::FIVE]->setText( "5" );
-    mapRadioSize[BoardSize::SIX]->setText( "6" );
-    mapRadioSize[BoardSize::SEVEN]->setText( "7" );
-    mapRadioSize[BoardSize::FOUR]->setChecked( true );
-
     unique_ptr< QGroupBox > radioSizeBox = unique_ptr< QGroupBox >( new QGroupBox( " Dimension of Board " ));
     radioSizeBox->setLayout( radioSizeLayout );
 
-    mapRadioKind[BoardMode::NUMERIC] = new QRadioButton();
-    mapRadioKind[BoardMode::GRAPHIC] = new QRadioButton();
-
+    mapRadioKind[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
+    mapRadioKind[BoardMode::GRAPHIC] = new QRadioButton( "Graphic" );
     mapRadioKind[BoardMode::NUMERIC]->setChecked( true );
-    mapRadioKind[BoardMode::NUMERIC]->setText( "Numeric" );
-    mapRadioKind[BoardMode::GRAPHIC]->setText( "Graphic" );
 
     QVBoxLayout* radioKindLayout = new QVBoxLayout();
     unique_ptr< QButtonGroup > groupRadioKind = unique_ptr< QButtonGroup >( new QButtonGroup() );
@@ -123,7 +115,6 @@ void GUI::createRightLayout( map< BoardMode, QRadioButton* >& mapRadioKind, map<
     connect( pushSolve, &QPushButton::clicked, &owner, &Fifteen::slotSolveBoard );
 
     pushUndo = unique_ptr< QPushButton>( new QPushButton(" Undo Move " ));
-    pushUndo->setText("Undo Move");
     pushUndo->setStyleSheet( "height:20px;" );
     pushUndo->setDisabled( true );
     connect( pushUndo.get(), &QPushButton::clicked, &owner, &Fifteen::slotUndoMove );
