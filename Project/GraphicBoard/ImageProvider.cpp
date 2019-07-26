@@ -67,22 +67,13 @@ TileSize ImageProvider::getTileSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-Result ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize boardSize )
+Result ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSize boardSize, uint tileSizeInt, uint bytesForImage )
 {
-    int tileSizeInt;
-    stream >> tileSizeInt;
-
-    if ( tileSizeInt != 50   && tileSizeInt != 75   && tileSizeInt != 100 &&
-         tileSizeInt != 125  && tileSizeInt != 150 )
-    {
-        return Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR;
-    }
-
     TileSize tileSize = Mapped::getTileSizeByInt( tileSizeInt );
     removeBoard( images.at( boardSize ));
     images.at( boardSize ) = new GraphicBoard();
 
-    if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, tileSize ) == false )
+    if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, tileSize, bytesForImage ) == false )
     {
         removeBoard( images.at( boardSize ));
         return Result::READ_BOARD_IMAGES_DATA_ERROR;

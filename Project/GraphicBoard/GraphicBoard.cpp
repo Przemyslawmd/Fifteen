@@ -83,11 +83,8 @@ void GraphicBoard::createTiles( QImage* image, int boardSize, int tileSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize tileSize )
+bool GraphicBoard::restoreImagesFromFile( QDataStream& stream, BoardSize boardSize, TileSize tileSize, uint bytesForSquare )
 {
-    int bytesForSquare;
-    stream >> bytesForSquare;
-
     int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     uchar* buffer = new uchar[bytesForSquare * boardSizeInt * boardSizeInt];
     QImage* image;

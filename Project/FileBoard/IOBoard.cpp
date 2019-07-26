@@ -50,7 +50,9 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
     {
         ImageProvider& imageProvider = ImageProvider::getInstance();
         BoardSize boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
-        Result result = imageProvider.restoreGraphicBoardFromFile( stream, boardSize );
+        uint tileSize = dataModel.tileSize;
+        uint bytesForTileImage = dataModel.bytesForImage;
+        Result result = imageProvider.restoreGraphicBoardFromFile( stream, boardSize, tileSize, bytesForTileImage );
         if ( result != Result::OK )
         {
             Message::putMessage( result );

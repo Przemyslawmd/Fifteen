@@ -64,6 +64,14 @@ void IODataModel::readDataFromStream( QDataStream& stream )
     {
         stream >> *iter;
     }
+
+    if ( boardMode == 0 )
+    {
+        return;
+    }
+
+    stream >> tileSize;
+    stream >> bytesForImage;
 }
 
 /*********************************************************************************/
@@ -87,6 +95,16 @@ Result IODataModel::validateData()
         {
             return Result::READ_BOARD_VALUES_ERROR;
         }
+    }
+
+    if ( boardMode == 0 )
+    {
+        return Result::OK;
+    }
+
+    if ( tileSize != 50 && tileSize != 75 && tileSize != 100 && tileSize != 125 && tileSize != 150 )
+    {
+        return Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR;
     }
 
     return Result::OK;
