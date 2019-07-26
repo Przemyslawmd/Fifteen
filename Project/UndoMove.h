@@ -9,7 +9,7 @@ class UndoMove
 {
 public:
 
-    void PutMove( Move move, int row, int col );
+    void PutMove( Move move, uint row, uint col );
     int GetMove();
     void Reset();
 
