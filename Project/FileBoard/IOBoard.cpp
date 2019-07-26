@@ -27,7 +27,7 @@ void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QStri
 /*********************************************************************************/
 /*********************************************************************************/
 
-Result IOBoard::readBoardFromFile( const QString& fileName, vector< uint >& boardNumbers )
+vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
 {
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
@@ -38,22 +38,13 @@ Result IOBoard::readBoardFromFile( const QString& fileName, vector< uint >& boar
     Result result = dataModel.validateData();
     if ( result != Result::OK )
     {
-        return result;
+        Message::putMessage( result );
+        return nullptr;
     }
 
     BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
     uint boardSizeInt = dataModel.boardSize;
-
-    boardNumbers.resize( boardSizeInt * boardSizeInt );
-    for ( auto iter = boardNumbers.begin(); iter != boardNumbers.end(); iter++ )
-    {
-        stream >> *iter;
-    }
-
-    if ( checkReadValues( boardNumbers ) == false )
-    {
-        return Result::READ_BOARD_VALUES_ERROR;
-    }
+    vector< uint >* boardNumbers = dataModel.values;
 
     if ( boardMode == BoardMode::GRAPHIC )
     {
@@ -62,27 +53,13 @@ Result IOBoard::readBoardFromFile( const QString& fileName, vector< uint >& boar
         Result result = imageProvider.restoreGraphicBoardFromFile( stream, boardSize );
         if ( result != Result::OK )
         {
-            return result;
+            Message::putMessage( result );
+            return nullptr;
         }
     }
 
     Options::boardMode = boardMode;
-    boardNumbers.push_back( boardSizeInt );
-    return Result::OK;
-}
-
-/*********************************************************************************/
-/* PRIVATE ***********************************************************************/
-
-bool IOBoard::checkReadValues( vector< uint >& readNumbers )
-{
-    for ( uint number = 0; number < readNumbers.size(); number++ )
-    {
-        if ( std::find( readNumbers.begin(), readNumbers.end(), number ) == readNumbers.end() )
-        {
-            return false;
-        }
-    }
-    return true;
+    boardNumbers->push_back( boardSizeInt );
+    return boardNumbers;
 }
 

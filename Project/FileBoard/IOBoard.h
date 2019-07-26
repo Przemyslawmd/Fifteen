@@ -15,11 +15,7 @@ public:
     IOBoard();
 
     void writeBoardIntoFile( Board&, BoardMode, const QString& fileName );
-    Result readBoardFromFile( const QString& fileName, vector< uint >& );
-
-private:
-
-    bool checkReadValues( vector< uint >& );
+    vector< uint >* readBoardFromFile( const QString& fileName );
 };
 
 #endif

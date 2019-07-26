@@ -58,6 +58,12 @@ void IODataModel::readDataFromStream( QDataStream& stream )
 {
     stream >> boardMode;
     stream >> boardSize;
+
+    values = new vector< uint >( boardSize * boardSize );
+    for ( auto iter = values->begin(); iter != values->end(); iter++ )
+    {
+        stream >> *iter;
+    }
 }
 
 /*********************************************************************************/
@@ -73,6 +79,14 @@ Result IODataModel::validateData()
     if ( boardSize < 4 || boardSize > 7 )
     {
         return  Result::READ_BOARD_SIZE_ERROR;
+    }
+
+    for ( uint number = 0; number < values->size(); number++ )
+    {
+        if ( std::find( values->begin(), values->end(), number ) == values->end() )
+        {
+            return Result::READ_BOARD_VALUES_ERROR;
+        }
     }
 
     return Result::OK;

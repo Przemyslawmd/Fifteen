@@ -381,18 +381,17 @@ void Fifteen::slotReadBoard()
     }
 
     IOBoard ioBoard;
-    vector< uint > values( 0 );
 
-    Result result = ioBoard.readBoardFromFile( fileName, values );
-    if ( result != Result::OK )
+    vector< uint >* values = ioBoard.readBoardFromFile( fileName );
+    if ( values == nullptr )
     {
-        QMessageBox::information( this, "", Message::message[ result ] );
+        QMessageBox::information( this, "", Message::getMessages() );
         return;
     }
 
-    BoardSize boardSize = Mapped::getBoardSizeByInt( values.back() );
-    values.pop_back();
-    board = Board::createBoard( values, boardSize );
+    BoardSize boardSize = Mapped::getBoardSizeByInt( values->back() );
+    values->pop_back();
+    board = Board::createBoard( *values, boardSize );
     createTiles();
     setTiles( false );
 
