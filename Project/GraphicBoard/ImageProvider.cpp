@@ -79,14 +79,15 @@ Result ImageProvider::restoreGraphicBoardFromFile( QDataStream& stream, BoardSiz
     }
 
     TileSize tileSize = Mapped::getTileSizeByInt( tileSizeInt );
+    removeBoard( images.at( boardSize ));
+    images.at( boardSize ) = new GraphicBoard();
 
     if ( images.at( boardSize )->restoreImagesFromFile( stream, boardSize, tileSize ) == false )
     {
+        removeBoard( images.at( boardSize ));
         return Result::READ_BOARD_IMAGES_DATA_ERROR;
     }
 
-    removeBoard( images.at( boardSize ));
-    images.at( boardSize ) = new GraphicBoard();
     return Result::OK;
 }
 
