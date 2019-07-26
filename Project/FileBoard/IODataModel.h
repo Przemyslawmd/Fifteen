@@ -13,11 +13,12 @@ class IODataModel
 {
 public:
 
+    IODataModel();
     IODataModel( Board&, BoardMode );
 
     void writeDataIntoStream( QDataStream& );
-
-private:
+    void readDataFromStream( QDataStream& );
+    Result validateData();
 
     uint boardSize;
     uint boardMode;

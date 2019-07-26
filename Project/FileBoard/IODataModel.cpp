@@ -3,6 +3,8 @@
 #include "MappedValues.h"
 #include "GraphicBoard/ImageProvider.h"
 
+IODataModel::IODataModel() {}
+
 IODataModel::IODataModel( Board& board, BoardMode mode )
 {
     BoardSize size = board.getSize();
@@ -47,5 +49,32 @@ void IODataModel::writeDataIntoStream( QDataStream& stream )
     {
         stream.writeRawData( reinterpret_cast< const char* >( image->bits() ), bytesForImage );
     }
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void IODataModel::readDataFromStream( QDataStream& stream )
+{
+    stream >> boardMode;
+    stream >> boardSize;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+Result IODataModel::validateData()
+{
+    if ( boardMode != 0 && boardMode != 1 )
+    {
+        return Result::READ_BOARD_TYPE_ERROR;
+    }
+
+    if ( boardSize < 4 || boardSize > 7 )
+    {
+        return  Result::READ_BOARD_SIZE_ERROR;
+    }
+
+    return Result::OK;
 }
 

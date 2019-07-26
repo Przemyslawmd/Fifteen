@@ -32,22 +32,17 @@ Result IOBoard::readBoardFromFile( const QString& fileName, vector< uint >& boar
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
 
-    int integerFromStream;
-    stream >> integerFromStream;
-    BoardMode boardMode = static_cast< BoardMode >( integerFromStream );
+    IODataModel dataModel;
+    dataModel.readDataFromStream( stream );
 
-    if ( boardMode != BoardMode::GRAPHIC && boardMode != BoardMode::NUMERIC )
+    Result result = dataModel.validateData();
+    if ( result != Result::OK )
     {
-        return Result::READ_BOARD_TYPE_ERROR;
+        return result;
     }
 
-    uint boardSizeInt;
-    stream >> boardSizeInt;
-
-    if ( boardSizeInt < 4 || boardSizeInt > 7 )
-    {
-        return  Result::READ_BOARD_SIZE_ERROR;
-    }
+    BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
+    uint boardSizeInt = dataModel.boardSize;
 
     boardNumbers.resize( boardSizeInt * boardSizeInt );
     for ( auto iter = boardNumbers.begin(); iter != boardNumbers.end(); iter++ )
