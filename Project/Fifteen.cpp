@@ -365,14 +365,7 @@ void Fifteen::slotSaveBoard()
     }
 
     IOBoard ioBoard;
-    if ( Options::boardMode == BoardMode::NUMERIC )
-    {
-        ioBoard.saveNumericBoardInFile( *board, fileName );
-    }
-    else
-    {
-        ioBoard.saveGraphicBoardInFile( *board, fileName );
-    }
+    ioBoard.writeBoardIntoFile( *board, Options::boardMode, fileName );
 }
 
 /*********************************************************************************/

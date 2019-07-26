@@ -2,6 +2,7 @@
 SOURCES += \
     Board.cpp \
     Entry.cpp \
+    FileBoard/IODataModel.cpp \
     GraphicBoard/ImageProvider.cpp \
     Options.cpp \
     GraphicBoard/GraphicBoard.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     Board.h \
+    FileBoard/IODataModel.h \
     Types.h \
     GraphicBoard/ImageProvider.h \
     Options.h \
