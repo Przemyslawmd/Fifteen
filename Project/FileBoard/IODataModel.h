@@ -17,13 +17,12 @@ public:
     IODataModel( Board&, BoardMode );
 
     void writeDataIntoStream( QDataStream& );
-    void readDataFromStream( QDataStream& );
-    Result validateData();
+    Result readDataFromStream( QDataStream& );
 
     uint boardSize;
     uint boardMode;
     uint tileSize;
-    uint bytesForImage;
+    uint tileImageBytes;
     vector< uint >* values;
     vector< QImage* >* images;
     char* imagesData;

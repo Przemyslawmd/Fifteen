@@ -33,9 +33,7 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
     QDataStream& stream = file.getDataStream();
 
     IODataModel dataModel;
-    dataModel.readDataFromStream( stream );
-
-    Result result = dataModel.validateData();
+    Result result = dataModel.readDataFromStream( stream );
     if ( result != Result::OK )
     {
         Message::putMessage( result );
@@ -51,7 +49,7 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
         ImageProvider& imageProvider = ImageProvider::getInstance();
         BoardSize boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
         uint tileSize = dataModel.tileSize;
-        uint bytesForTileImage = dataModel.bytesForImage;
+        uint bytesForTileImage = dataModel.tileImageBytes;
         Result result = imageProvider.restoreGraphicBoardFromFile( stream, boardSize, tileSize, bytesForTileImage );
         if ( result != Result::OK )
         {
