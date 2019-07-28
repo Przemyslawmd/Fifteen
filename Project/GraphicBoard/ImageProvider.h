@@ -3,6 +3,7 @@
 #define IMAGEPROVIDER_H
 
 #include "GraphicBoard.h"
+#include "../FileBoard/IODataModel.h"
 #include "../Types.h"
 #include "../Message.h"
 
@@ -15,7 +16,7 @@ public:
 
     vector< QImage* >& getImages( BoardSize );
     void prepareGraphicBoard( QImage&, TileSize );
-    Result restoreGraphicBoardFromFile( uchar*, BoardSize, uint, uint );
+    Result restoreGraphicBoardFromFile( IODataModel& );
     bool isGraphicBoard( BoardSize );
     TileSize getTileSize( BoardSize );
 

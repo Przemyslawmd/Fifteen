@@ -2,6 +2,7 @@
 #ifndef GRAPHIC_BOARD__H
 #define GRAPHIC_BOARD__H
 
+#include "../FileBoard/IODataModel.h"
 #include "../Types.h"
 #include <QImage>
 #include <vector>
@@ -20,7 +21,7 @@ private:
     void createTilesFromScaledImage( QImage&, BoardSize, TileSize );
     void createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
     void createTiles( QImage*, int boardSize, int tileSize );
-    bool restoreImagesFromFile( uchar* buffer, BoardSize, TileSize, uint );
+    bool restoreImagesFromFile( IODataModel& );
 
     vector< QImage* >& getImages();
     TileSize tileSize;
