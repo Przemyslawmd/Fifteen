@@ -25,7 +25,7 @@ public:
     uint tileImageBytes;
     vector< uint >* values;
     vector< QImage* >* images;
-    char* imagesData;
+    uchar* imagesData;
 };
 
 #endif // IODATAMODEL_H

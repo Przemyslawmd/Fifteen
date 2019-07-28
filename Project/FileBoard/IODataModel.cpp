@@ -67,7 +67,8 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
         return  Result::READ_BOARD_SIZE_ERROR;
     }
 
-    values = new vector< uint >( boardSize * boardSize );
+    uint tilesCount = boardSize * boardSize;
+    values = new vector< uint >( tilesCount );
     for ( auto iter = values->begin(); iter != values->end(); iter++ )
     {
         stream >> *iter;
@@ -93,6 +94,12 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     }
 
     stream >> tileImageBytes;
+    imagesData = new uchar[tilesCount * tileImageBytes];
+    if ( stream.readRawData( (char*) imagesData, tilesCount * tileImageBytes ) == -1 )
+    {
+        return Result::READ_BOARD_IMAGES_DATA_ERROR;
+    }
+
     return Result::OK;
 }
 
