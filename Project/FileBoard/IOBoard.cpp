@@ -41,14 +41,11 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
     }
 
     BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
-    uint boardSizeInt = dataModel.boardSize;
     vector< uint >* boardNumbers = dataModel.values;
 
     if ( boardMode == BoardMode::GRAPHIC )
     {
-        ImageProvider& imageProvider = ImageProvider::getInstance();
-        BoardSize boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
-        Result result = imageProvider.restoreGraphicBoardFromFile( dataModel.imagesData, boardSize, dataModel.tileSize, dataModel.tileImageBytes );
+        Result result = ImageProvider::getInstance().restoreGraphicBoardFromFile( dataModel );
         if ( result != Result::OK )
         {
             Message::putMessage( result );
@@ -57,7 +54,7 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
     }
 
     Options::boardMode = boardMode;
-    boardNumbers->push_back( boardSizeInt );
+    boardNumbers->push_back( Mapped::boardSizeInt.at( dataModel.boardSize ));
     return boardNumbers;
 }
 

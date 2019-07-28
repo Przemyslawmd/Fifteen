@@ -19,9 +19,9 @@ public:
     void writeDataIntoStream( QDataStream& );
     Result readDataFromStream( QDataStream& );
 
-    uint boardSize;
-    uint boardMode;
-    uint tileSize;
+    BoardSize boardSize;
+    BoardMode boardMode;
+    TileSize tileSize;
     uint tileImageBytes;
     vector< uint >* values;
     vector< QImage* >* images;
