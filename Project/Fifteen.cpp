@@ -18,11 +18,11 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
 {
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
-    GUI::createGUI( *this );
+    GUI::createGUI();
     GUI& gui = GUI::getGUI();
-    gui.createMenu( action );
-    gui.createRightLayout( radioKind, radioSize );
-    gui.completeLayouts();
+    gui.createMenu( this, action );
+    gui.createRightLayout( this, radioKind, radioSize );
+    gui.completeLayouts( this );
     createTiles();
     setTilesNumeric( false );
     undoMoveService = nullptr;
@@ -45,7 +45,7 @@ void Fifteen::createTiles()
     TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
                         Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
-    GUI::getGUI().createTiles( boardSize, tileSize );
+    GUI::getGUI().createTiles( this, boardSize, tileSize );
 }
 
 /*********************************************************************************/

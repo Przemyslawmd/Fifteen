@@ -20,15 +20,15 @@ class GUI : public QMainWindow
 {
 public:
 
-    static void createGUI( Fifteen& );
+    static void createGUI();
     static void releaseGUI();
     static GUI& getGUI();
 
-    void createMenu( map< Action, QAction* >& );
-    void createRightLayout( map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
-    void completeLayouts();
+    void createMenu( Fifteen*, map< Action, QAction* >& );
+    void createRightLayout( Fifteen*, map< BoardMode, QRadioButton* >&, map< BoardSize, QRadioButton* >& );
+    void completeLayouts( Fifteen* );
 
-    void createTiles( BoardSize, TileSize );
+    void createTiles( Fifteen*, BoardSize, TileSize );
     void deleteTiles();
     vector< QPushButton* >& getTiles();
     BoardSize checkRadioBoardSize();
@@ -36,11 +36,10 @@ public:
 
 private:
 
-    GUI( Fifteen& );
-    void bindAction( QAction*&, SlotMainWindow, QString );
+    GUI();
+    void bindAction( Fifteen*, QAction*&, SlotMainWindow, QString );
 
     static GUI* gui;
-    Fifteen& owner;
 
     vector< QPushButton* > tiles;
     unique_ptr< QButtonGroup > groupRadioSize;

@@ -5,7 +5,7 @@ IOFile::IOFile( const QString& fileName, QIODevice::OpenModeFlag mode ) : file( 
 {
     file.open( mode );
     stream = new QDataStream( &file );
-    stream->setVersion( QDataStream::Qt_4_6 );
+    stream->setVersion( QDataStream::Qt_5_0 );
 }
 
 /*********************************************************************************/
