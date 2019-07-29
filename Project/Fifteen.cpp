@@ -307,15 +307,15 @@ void Fifteen::moveGraphicTile( int rowSource, int colSource, int rowDest, int co
 
 void Fifteen::slotLoadGraphic()
 {
-    QString fileName = nullptr;
-    if ( fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
-         fileName.isEmpty())
+    QString file = nullptr;
+    if ( file = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
+         file.isEmpty())
     {
         return;
     }
 
     QImage image;
-    if ( image.load( fileName ); image.isNull() )
+    if ( image.load( file ); image.isNull() )
     {
         QMessageBox::information( this, "", "Failure of loading an image\t" );
         return;
@@ -355,15 +355,15 @@ void Fifteen::slotRemoveGraphic()
 
 void Fifteen::slotSaveBoard()
 {
-    QString fileName = nullptr;
-    if ( fileName = QFileDialog::getSaveFileName( this, "", QDir::currentPath() );
-         fileName.isEmpty() )
+    QString file = nullptr;
+    if ( file = QFileDialog::getSaveFileName( this, "", QDir::currentPath() );
+         file.isEmpty() )
     {
         return;
     }
 
     IOBoard ioBoard;
-    ioBoard.writeBoardIntoFile( *board, Options::boardMode, fileName );
+    ioBoard.writeBoardIntoFile( *board, Options::boardMode, file );
 }
 
 /*********************************************************************************/
@@ -371,16 +371,16 @@ void Fifteen::slotSaveBoard()
 
 void Fifteen::slotReadBoard()
 {    
-    QString fileName = nullptr;
-    if ( fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
-         fileName.isEmpty() )
+    QString file = nullptr;
+    if ( file = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
+         file.isEmpty() )
     {
         return;
     }
 
     IOBoard ioBoard;
 
-    vector< uint >* values = ioBoard.readBoardFromFile( fileName );
+    vector< uint >* values = ioBoard.readBoardFromFile( file );
     if ( values == nullptr )
     {
         QMessageBox::information( this, "", Message::getMessages() );
