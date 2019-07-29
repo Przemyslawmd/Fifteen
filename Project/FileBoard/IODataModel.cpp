@@ -25,6 +25,15 @@ IODataModel::IODataModel( Board& board, BoardMode mode )
 /*********************************************************************************/
 /*********************************************************************************/
 
+IODataModel::~IODataModel()
+{
+    delete imagesData;
+    imagesData = nullptr;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 void IODataModel::writeDataIntoStream( QDataStream& stream )
 {
     stream << static_cast< int >( boardMode );

@@ -33,6 +33,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
 
 Fifteen::~Fifteen()
 {
+    ImageProvider::deleteInstance();
     GUI::releaseGUI();
 }
 

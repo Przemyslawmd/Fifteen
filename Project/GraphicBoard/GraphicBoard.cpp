@@ -57,7 +57,6 @@ void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSi
 
 void GraphicBoard::createTiles( QImage* image, int boardSize, int tileSize )
 {
-    QImage* tileImage;
     int pictureSize = boardSize * tileSize;
 
     for ( int yPos = 0; yPos < pictureSize; yPos += tileSize )
@@ -69,12 +68,12 @@ void GraphicBoard::createTiles( QImage* image, int boardSize, int tileSize )
                 break;
             }
 
-            tileImage = new QImage( image->copy( xPos, yPos, tileSize, tileSize ));
+            QImage* tileImage = new QImage( image->copy( xPos, yPos, tileSize, tileSize ));
             images.push_back( tileImage );
         }
     }
 
-    tileImage = new QImage( tileSize, tileSize, QImage::Format_RGB32 );
+    QImage* tileImage = new QImage( tileSize, tileSize, QImage::Format_RGB32 );
     tileImage->fill( Qt::GlobalColor::white );
     images.push_back( tileImage );
     Message::putMessage( Result::GRAPHIC_LOAD_OK, boardSize );

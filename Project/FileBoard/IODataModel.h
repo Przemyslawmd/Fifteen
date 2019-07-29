@@ -6,6 +6,7 @@
 #include "QImage"
 #include "Message.h"
 #include <vector>
+#include <memory>
 
 using std::vector;
 
@@ -15,6 +16,7 @@ public:
 
     IODataModel();
     IODataModel( Board&, BoardMode );
+    ~IODataModel();
 
     void writeDataIntoStream( QDataStream& );
     Result readDataFromStream( QDataStream& );
