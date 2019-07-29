@@ -71,7 +71,7 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     }
     boardMode = static_cast< BoardMode >( boardModeInt );
 
-    int boardSizeInt;
+    uint boardSizeInt;
     stream >> boardSizeInt;
     if ( boardSizeInt < 4 || boardSizeInt > 7 )
     {
@@ -99,7 +99,7 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
         return Result::OK;
     }
 
-    int tileSizeInt;
+    uint tileSizeInt;
     stream >> tileSizeInt;
     if ( tileSizeInt != 50 && tileSizeInt != 75 && tileSizeInt != 100 && tileSizeInt != 125 && tileSizeInt != 150 )
     {

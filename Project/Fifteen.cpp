@@ -307,18 +307,15 @@ void Fifteen::moveGraphicTile( int rowSource, int colSource, int rowDest, int co
 
 void Fifteen::slotLoadGraphic()
 {
-    QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(),
-                                                     tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
-
-    if ( fileName.isEmpty() )
+    QString fileName = nullptr;
+    if ( fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath(), tr( "JPG, PNG, GIF, BMP (*.jpg *.png *.gif *.bmp)" ));
+         fileName.isEmpty())
     {
         return;
     }
 
     QImage image;
-    image.load( fileName );
-
-    if ( image.isNull() )
+    if ( image.load( fileName ); image.isNull() )
     {
         QMessageBox::information( this, "", "Failure of loading an image\t" );
         return;
@@ -358,9 +355,9 @@ void Fifteen::slotRemoveGraphic()
 
 void Fifteen::slotSaveBoard()
 {
-    QString fileName = QFileDialog::getSaveFileName( this, "", QDir::currentPath() );
-
-    if ( fileName.isEmpty() )
+    QString fileName = nullptr;
+    if ( fileName = QFileDialog::getSaveFileName( this, "", QDir::currentPath() );
+         fileName.isEmpty() )
     {
         return;
     }
@@ -374,9 +371,9 @@ void Fifteen::slotSaveBoard()
 
 void Fifteen::slotReadBoard()
 {    
-    QString fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
-
-    if( fileName.isEmpty() )
+    QString fileName = nullptr;
+    if ( fileName = QFileDialog::getOpenFileName( this, "", QDir::currentPath() );
+         fileName.isEmpty() )
     {
         return;
     }

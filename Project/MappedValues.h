@@ -11,7 +11,7 @@ class Mapped
 {
 public:
 
-    static const map< TileSize, int > tileSizeInt;
+    static const map< TileSize, uint > tileSizeInt;
     static const map< FontSize, int > fontSizeInt;
     static const map< BoardSize, uint > boardSizeInt;
     static const map< TileColor, const QString > tileColorStyle;
@@ -19,7 +19,7 @@ public:
     static const map< TileSize, FontSize > tileSizeFontSize;
 
     static BoardSize getBoardSizeByInt( uint value );
-    static TileSize getTileSizeByInt( int value );
+    static TileSize getTileSizeByInt( uint value );
     static int getSliderByTileSize( TileSize value );
 
 private:

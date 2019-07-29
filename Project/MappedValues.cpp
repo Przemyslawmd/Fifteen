@@ -1,7 +1,7 @@
 
 #include "MappedValues.h"
 
-const map< TileSize, int > Mapped::tileSizeInt
+const map< TileSize, uint > Mapped::tileSizeInt
 {
     { TileSize::_50,  50 },
     { TileSize::_75,  75 },
@@ -68,7 +68,7 @@ BoardSize Mapped::getBoardSizeByInt( uint value )
 }
 
 
-TileSize Mapped::getTileSizeByInt( int value )
+TileSize Mapped::getTileSizeByInt( uint value )
 {
     return getMapKeyByValue( Mapped::tileSizeInt, value );
 }
