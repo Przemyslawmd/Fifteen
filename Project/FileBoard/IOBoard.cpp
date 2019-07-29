@@ -33,8 +33,7 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
     QDataStream& stream = file.getDataStream();
 
     IODataModel dataModel;
-    Result result = dataModel.readDataFromStream( stream );
-    if ( result != Result::OK )
+    if ( auto result = dataModel.readDataFromStream( stream ); result != Result::OK )
     {
         Message::putMessage( result );
         return nullptr;
@@ -45,8 +44,7 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
 
     if ( boardMode == BoardMode::GRAPHIC )
     {
-        Result result = ImageProvider::getInstance().restoreGraphicBoardFromFile( dataModel );
-        if ( result != Result::OK )
+        if ( auto result = ImageProvider::getInstance().restoreGraphicBoardFromFile( dataModel ); result != Result::OK )
         {
             Message::putMessage( result );
             return nullptr;

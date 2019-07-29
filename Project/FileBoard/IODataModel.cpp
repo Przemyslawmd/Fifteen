@@ -64,16 +64,14 @@ void IODataModel::writeDataIntoStream( QDataStream& stream )
 Result IODataModel::readDataFromStream( QDataStream& stream )
 {
     int boardModeInt;
-    stream >> boardModeInt;
-    if ( boardModeInt != 0 && boardModeInt != 1 )
+    if ( stream >> boardModeInt; boardModeInt != 0 && boardModeInt != 1 )
     {
         return Result::READ_BOARD_TYPE_ERROR;
     }
     boardMode = static_cast< BoardMode >( boardModeInt );
 
     uint boardSizeInt;
-    stream >> boardSizeInt;
-    if ( boardSizeInt < 4 || boardSizeInt > 7 )
+    if ( stream >> boardSizeInt; boardSizeInt < 4 || boardSizeInt > 7 )
     {
         return  Result::READ_BOARD_SIZE_ERROR;
     }
@@ -100,8 +98,8 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     }
 
     uint tileSizeInt;
-    stream >> tileSizeInt;
-    if ( tileSizeInt != 50 && tileSizeInt != 75 && tileSizeInt != 100 && tileSizeInt != 125 && tileSizeInt != 150 )
+    if ( stream >> tileSizeInt;
+         tileSizeInt != 50 && tileSizeInt != 75 && tileSizeInt != 100 && tileSizeInt != 125 && tileSizeInt != 150 )
     {
         return Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR;
     }
@@ -109,7 +107,7 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
 
     stream >> tileImageBytes;
     imagesData = new uchar[tilesCount * tileImageBytes];
-    if ( stream.readRawData( (char*) imagesData, tilesCount * tileImageBytes ) == -1 )
+    if ( stream.readRawData( reinterpret_cast< char* >( imagesData ), tilesCount * tileImageBytes ) == -1 )
     {
         return Result::READ_BOARD_IMAGES_DATA_ERROR;
     }
