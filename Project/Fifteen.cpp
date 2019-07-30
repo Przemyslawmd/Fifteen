@@ -93,8 +93,6 @@ void Fifteen::setTilesNumeric( bool isRandom )
         tile->setFont( font );
         iter++;
     }
-
-    Options::boardMode = BoardMode::NUMERIC;
 }
 
 /*********************************************************************************/
@@ -142,8 +140,6 @@ void Fifteen::setTilesGraphic( bool isRandom )
         tile->setStyleSheet( "" );
         i++;
     }
-
-    Options::boardMode = BoardMode::GRAPHIC;
 }
 
 /*********************************************************************************/
