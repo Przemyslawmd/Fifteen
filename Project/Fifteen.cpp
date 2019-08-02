@@ -78,7 +78,7 @@ void Fifteen::setTilesNumeric( bool isRandom )
 
     uint emptyTile = board->getEmptyTile();
 
-    for ( auto tile : GUI::getGUI().getTiles() )
+    for ( auto &tile : GUI::getGUI().getTiles() )
     {
         if ( *iter != emptyTile )
         {
@@ -109,14 +109,14 @@ void Fifteen::setTilesGraphic( bool isRandom )
     QPainter* painter = nullptr;
 
     TileSize tileSize = provider.getTileSize( boardSize );
-    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
 
     FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
     int fontSizeInt = Mapped::fontSizeInt.at( fontSize );
 
-    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
+    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
     int i = 0;
-    for ( auto tile : tiles )
+    for ( auto &tile : tiles )
     {
         pixmap = QPixmap::fromImage( *pictures.at( values.at( i )));
 
@@ -163,14 +163,10 @@ void Fifteen::slotGenerateBoard()
 {
     BoardSize boardSize = GUI::getGUI().checkRadioBoardSize();
 
-    if ( radioKind[BoardMode::GRAPHIC]->isChecked() )
+    if ( radioKind[BoardMode::GRAPHIC]->isChecked() && ImageProvider::getInstance().isGraphicBoard( boardSize ) == false )
     {
-        ImageProvider& provider = ImageProvider::getInstance();
-        if ( provider.isGraphicBoard( boardSize ) == false )
-        {
-            QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
-            return;
-        }
+        QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
+        return;
     }
 
     board = Board::createBoard( boardSize );
@@ -223,8 +219,8 @@ void Fifteen::pressTile()
 {
     int position = ( (QPushButton*) sender() )->accessibleName().toInt();
 
-    int row = position / 10;
-    int col = position % 10;
+    uint row = position / 10;
+    uint col = position % 10;
     Move move = board->checkMove( row, col );
 
     if ( move == Move::NOT_ALLOWED )
@@ -243,7 +239,7 @@ void Fifteen::pressTile()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::makeMove( Move move, int row, int col )
+void Fifteen::makeMove( Move move, uint row, uint col )
 {
     moveTile = ( Options::boardMode == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
                                                               &Fifteen::moveGraphicTile;
@@ -272,7 +268,7 @@ void Fifteen::moveNumericTile( int rowSource, int colSource, int rowDest, int co
 {
     const QString& currentStyle = Options::getStyle();
     int boardSize = Mapped::boardSizeInt.at( board->getSize() );
-    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
+    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
     tiles.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
@@ -287,7 +283,7 @@ void Fifteen::moveGraphicTile( int rowSource, int colSource, int rowDest, int co
 {
     BoardSize boardSize = board->getSize();
     int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
+    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getTileSize( boardSize );
@@ -407,9 +403,9 @@ void Fifteen::slotReadBoard()
 void Fifteen::setColor()
 {
     const QString& currentStyle = Options::getStyle();
-    vector< QPushButton* >& tiles = GUI::getGUI().getTiles();
+    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
 
-    for ( auto tile : tiles )
+    for ( auto &tile : tiles )
     {
         if ( tile->styleSheet() != Options::getEmptyStyle() )
         {

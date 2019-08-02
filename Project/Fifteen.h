@@ -50,7 +50,7 @@ private:
 
     void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, int number );
 
-    void makeMove( Move, int row, int col );
+    void makeMove( Move, uint row, uint col );
     void moveNumericTile( int rowSource, int colSource, int rowDest, int colDest );
     void moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest );
 

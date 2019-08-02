@@ -11,7 +11,7 @@ const map< TileSize, uint > Mapped::tileSizeInt
 };
 
 
-const map< FontSize, int > Mapped::fontSizeInt
+const map< FontSize, uint > Mapped::fontSizeInt
 {
     { FontSize::_20, 20 },
     { FontSize::_25, 25 },

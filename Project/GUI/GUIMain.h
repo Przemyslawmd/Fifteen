@@ -30,7 +30,7 @@ public:
 
     void createTiles( Fifteen*, BoardSize, TileSize );
     void deleteTiles();
-    vector< QPushButton* >& getTiles();
+    vector< unique_ptr< QPushButton >>& getTiles();
     BoardSize checkRadioBoardSize();
     void setStatePushUndo( bool state );
 
@@ -41,7 +41,7 @@ private:
 
     static GUI* gui;
 
-    vector< QPushButton* > tiles;
+    vector< unique_ptr< QPushButton >> tiles;
     unique_ptr< QButtonGroup > groupRadioSize;
     unique_ptr< QPushButton > pushUndo;
 

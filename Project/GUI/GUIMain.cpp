@@ -36,8 +36,7 @@ GUI::GUI() {}
 
 void GUI::createMenu( Fifteen* mainWidget, map< Action, QAction* >& actions )
 {
-    unique_ptr< QMenu > fileMenu = std::make_unique< QMenu >();
-    fileMenu->setTitle( "File" );
+    unique_ptr< QMenu > fileMenu = std::make_unique< QMenu >( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
     bindAction( mainWidget, actions[Action::OPEN_GRAPHIC], &Fifteen::slotLoadGraphic,   "Load Graphic File" );
@@ -172,33 +171,32 @@ void GUI::bindAction( Fifteen* mainWidget, QAction*& action, SlotMainWindow slot
 void GUI::createTiles( Fifteen* mainWidget, BoardSize boardSize, TileSize tileSize_ )
 {
     deleteTiles();
+    uint tileSize = Mapped::tileSizeInt.at( tileSize_ );
+    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
 
-    int tileSize = Mapped::tileSizeInt.at( tileSize_ );
-    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-
-    for ( int i = 0; i < boardSizeInt ; i++ )
+    for ( uint i = 0; i < boardSizeInt ; i++ )
     {
-        for ( int j = 0; j < boardSizeInt; j++ )
+        for ( uint j = 0; j < boardSizeInt; j++ )
         {
-            tiles.push_back( new QPushButton() );
+            tiles.push_back( std::make_unique< QPushButton >() );
             tiles.at( i * boardSizeInt + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
             tiles.at( i * boardSizeInt + j )->setMaximumSize( tileSize, tileSize );
             tiles.at( i * boardSizeInt + j )->setMinimumSize( tileSize, tileSize );
-            connect( tiles.at( i * boardSizeInt + j ), &QPushButton::clicked, mainWidget, &Fifteen::pressTile );
+            connect( tiles.at( i * boardSizeInt + j ).get(), &QPushButton::clicked, mainWidget, &Fifteen::pressTile );
         }
     }
 
     layVerticalBoard->addStretch();
 
-    for ( int i = 0; i < boardSizeInt; i++ )
+    for ( uint i = 0; i < boardSizeInt; i++ )
     {
         layHorizontalBoard.push_back( new QHBoxLayout() );
         layHorizontalBoard[i]->setSpacing(0);
         layHorizontalBoard[i]->addStretch();
 
-        for ( int j = 0; j < boardSizeInt; j++ )
+        for ( uint j = 0; j < boardSizeInt; j++ )
         {
-            layHorizontalBoard[i]->addWidget( tiles.at( i * boardSizeInt + j ));
+            layHorizontalBoard[i]->addWidget( tiles.at( i * boardSizeInt + j ).get() );
         }
 
         layHorizontalBoard[i]->addStretch();
@@ -213,15 +211,6 @@ void GUI::createTiles( Fifteen* mainWidget, BoardSize boardSize, TileSize tileSi
 
 void GUI::deleteTiles()
 {
-    if ( tiles.empty() )
-    {
-        return;
-    }
-
-    for ( auto tile : tiles )
-    {
-        delete tile;
-    }
     tiles.clear();
 
     QLayoutItem* item;
@@ -237,7 +226,7 @@ void GUI::deleteTiles()
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector< QPushButton* >& GUI::getTiles()
+vector< unique_ptr< QPushButton >>& GUI::getTiles()
 {
     return tiles;
 }

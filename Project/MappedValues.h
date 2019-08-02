@@ -12,7 +12,7 @@ class Mapped
 public:
 
     static const map< TileSize, uint > tileSizeInt;
-    static const map< FontSize, int > fontSizeInt;
+    static const map< FontSize, uint > fontSizeInt;
     static const map< BoardSize, uint > boardSizeInt;
     static const map< TileColor, const QString > tileColorStyle;
     static const map< int, TileSize > sliderTileSize;
