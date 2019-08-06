@@ -48,7 +48,7 @@ private:
     void setTilesNumeric( bool isRandom );
     void setTilesGraphic( bool isRandom );
 
-    void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, int number );
+    void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, uint number );
 
     void makeMove( Move, uint row, uint col );
     void moveNumericTile( int rowSource, int colSource, int rowDest, int colDest );

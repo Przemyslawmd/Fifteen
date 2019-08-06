@@ -44,7 +44,7 @@ void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
     TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
-                        Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
+                        Options::tileSize : ImageProvider::getInstance().getTileSize( boardSize );
 
     GUI::getGUI().createTiles( this, boardSize, tileSize );
 }
@@ -87,7 +87,7 @@ void Fifteen::setTilesNumeric( bool isRandom )
         }
         else
         {
-            tile->setStyleSheet( Options::getEmptyStyle() );
+            tile->setStyleSheet( Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE ));
         }
 
         tile->setFont( font );
@@ -105,20 +105,18 @@ void Fifteen::setTilesGraphic( bool isRandom )
     vector< uint >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
     vector< QImage* >& pictures = provider.getImages( boardSize );
     unique_ptr< NumberOnImage > numOnImage = Options::isNumberOnImage();
-    QPixmap pixmap;
     QPainter* painter = nullptr;
 
     TileSize tileSize = provider.getTileSize( boardSize );
     uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
 
     FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
-    int fontSizeInt = Mapped::fontSizeInt.at( fontSize );
+    uint fontSizeInt = Mapped::fontSizeInt.at( fontSize );
 
-    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
-    int i = 0;
-    for ( auto &tile : tiles )
+    uint i = 0;
+    for ( auto &tile : GUI::getGUI().getTiles() )
     {
-        pixmap = QPixmap::fromImage( *pictures.at( values.at( i )));
+        QPixmap pixmap = QPixmap::fromImage( *pictures.at( values.at( i )));
 
         if ( numOnImage->isNumberOnImage )
         {
@@ -145,14 +143,14 @@ void Fifteen::setTilesGraphic( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, int number )
+void Fifteen::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, uint number )
 {
     if ( number != board->getEmptyTile() )
     {
         painter.begin( &pixmap );
         painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
         painter.setPen( penColor );
-        painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number + 1 ));;
+        painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number + 1 ));
     }
 }
 
@@ -268,12 +266,12 @@ void Fifteen::moveNumericTile( int rowSource, int colSource, int rowDest, int co
 {
     const QString& currentStyle = Options::getStyle();
     int boardSize = Mapped::boardSizeInt.at( board->getSize() );
-    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
+    auto& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
     tiles.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
     tiles.at( rowSource * boardSize + colSource )->setText( "" );
-    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Options::getEmptyStyle() );
+    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE ));
 }
 
 /*********************************************************************************/
@@ -283,7 +281,7 @@ void Fifteen::moveGraphicTile( int rowSource, int colSource, int rowDest, int co
 {
     BoardSize boardSize = board->getSize();
     int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
+    auto& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getTileSize( boardSize );
@@ -314,7 +312,7 @@ void Fifteen::slotLoadGraphic()
     }
 
     ImageProvider& provider = ImageProvider::getInstance();
-    provider.prepareGraphicBoard( image, Options::getTileSize() );
+    provider.prepareGraphicBoard( image, Options::tileSize );
 
     if ( provider.isGraphicBoard( BoardSize::FOUR ) || provider.isGraphicBoard( BoardSize::FIVE ) ||
          provider.isGraphicBoard( BoardSize::SIX )  || provider.isGraphicBoard( BoardSize::SEVEN ))
@@ -403,11 +401,10 @@ void Fifteen::slotReadBoard()
 void Fifteen::setColor()
 {
     const QString& currentStyle = Options::getStyle();
-    vector< unique_ptr< QPushButton >>& tiles = GUI::getGUI().getTiles();
 
-    for ( auto &tile : tiles )
+    for ( auto &tile : GUI::getGUI().getTiles() )
     {
-        if ( tile->styleSheet() != Options::getEmptyStyle() )
+        if ( tile->styleSheet() != Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE ))
         {
             tile->setStyleSheet( currentStyle );
         }

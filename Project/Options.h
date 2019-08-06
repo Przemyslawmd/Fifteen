@@ -15,14 +15,12 @@ class Options
 public:
 
     static BoardMode boardMode;
+    static GraphicMode graphicMode;
+    static TileSize tileSize;
 
-    static TileSize getTileSize();
     static FontSize getFontSize();
 
-    static GraphicMode getGraphicMode();
-
     static const QString& getStyle();
-    static const QString& getEmptyStyle();
 
     static bool isImageToBeLoaded( BoardSize size );
 
@@ -34,9 +32,6 @@ public:
 
 private:
 
-    static GraphicMode graphicMode;
-
-    static TileSize tileSize;
     static TileColor currentColor;
 
     static std::map< BoardSize, bool > imagesToLoad;

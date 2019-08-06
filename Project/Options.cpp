@@ -4,12 +4,6 @@
 #include <QtGlobal>
 
 
-TileSize Options::getTileSize()
-{
-    return tileSize;
-}
-
-
 FontSize Options::getFontSize()
 {
     return Mapped::tileSizeFontSize.at( tileSize );
@@ -18,23 +12,9 @@ FontSize Options::getFontSize()
 /*********************************************************************************/
 /*********************************************************************************/
 
-GraphicMode Options::getGraphicMode()
-{
-    return graphicMode;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 const QString& Options::getStyle()
 {
     return Mapped::tileColorStyle.at( currentColor );
-}
-
-
-const QString& Options::getEmptyStyle()
-{
-    return Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE );
 }
 
 /*********************************************************************************/
