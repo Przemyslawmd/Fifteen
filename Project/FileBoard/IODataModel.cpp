@@ -17,18 +17,9 @@ IODataModel::IODataModel( Board& board, BoardMode mode )
     }
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
-    images = &imageProvider.getImages( boardSize );
+    images = std::make_unique< vector< QImage* >>( imageProvider.getImages( boardSize ));
     tileSize = imageProvider.getTileSize( boardSize );
     tileImageBytes = images->at( 0 )->byteCount();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-IODataModel::~IODataModel()
-{
-    delete imagesData;
-    imagesData = nullptr;
 }
 
 /*********************************************************************************/

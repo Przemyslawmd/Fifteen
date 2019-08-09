@@ -16,7 +16,6 @@ public:
 
     IODataModel();
     IODataModel( Board&, BoardMode );
-    ~IODataModel();
 
     void writeDataIntoStream( QDataStream& );
     Result readDataFromStream( QDataStream& );
@@ -26,7 +25,7 @@ public:
     TileSize tileSize;
     uint tileImageBytes;
     vector< uint >* values;
-    vector< QImage* >* images;
+    std::unique_ptr< vector< QImage* >> images;
     uchar* imagesData;
 };
 
