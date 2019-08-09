@@ -233,8 +233,8 @@ void Fifteen::pressTile()
 
 void Fifteen::makeMove( Move move, uint row, uint col )
 {
-    moveTile = ( Options::boardMode == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
-                                                              &Fifteen::moveGraphicTile;
+    auto moveTile = ( Options::boardMode == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
+                                                                   &Fifteen::moveGraphicTile;
 
     switch ( move )
     {
@@ -377,16 +377,11 @@ void Fifteen::slotReadBoard()
     createTiles();
     setTiles( false );
 
-    if ( Options::boardMode == BoardMode::NUMERIC )
-    {
-        radioKind[BoardMode::NUMERIC]->setChecked( true );
-    }
-    else
-    {
-        radioSize[boardSize]->setChecked( true );
-        radioKind[BoardMode::GRAPHIC]->setChecked( true );
-        action[Action::REM_GRAPHIC]->setEnabled( true );
-    }
+    radioSize[boardSize]->setChecked( true );
+    bool isNumeric = Options::boardMode == BoardMode::NUMERIC;
+    radioKind[BoardMode::NUMERIC]->setChecked( isNumeric );
+    radioKind[BoardMode::GRAPHIC]->setChecked( !isNumeric );
+    action[Action::REM_GRAPHIC]->setEnabled( !isNumeric );
 }
 
 /*********************************************************************************/
@@ -428,8 +423,7 @@ void Fifteen::createUndoMovesService()
 
 void Fifteen::deleteUndoMovesService()
 {
-    UndoMove* undoMove = undoMoveService.release();
-    delete undoMove;
+    delete undoMoveService.release();
     GUI::getGUI().setStatePushUndo( true );
 }
 

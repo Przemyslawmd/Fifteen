@@ -54,8 +54,6 @@ private:
     void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest );
     void moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest );
 
-    void ( Fifteen::*moveTile ) ( uint rowSource, uint colSource, uint rowDest, uint colDest );
-
 private slots:
 
     void slotLoadGraphic();
