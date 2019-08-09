@@ -51,10 +51,10 @@ private:
     void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, uint number );
 
     void makeMove( Move, uint row, uint col );
-    void moveNumericTile( int rowSource, int colSource, int rowDest, int colDest );
-    void moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest );
+    void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest );
+    void moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest );
 
-    void ( Fifteen::*moveTile ) ( int rowSource, int colSource, int rowDest, int colDest );
+    void ( Fifteen::*moveTile ) ( uint rowSource, uint colSource, uint rowDest, uint colDest );
 
 private slots:
 

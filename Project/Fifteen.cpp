@@ -24,7 +24,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
     gui.createRightLayout( this, radioKind, radioSize );
     gui.completeLayouts( this );
     createTiles();
-    setTilesNumeric( false );
+    setTiles( false );
     undoMoveService = nullptr;
 }
 
@@ -103,9 +103,8 @@ void Fifteen::setTilesGraphic( bool isRandom )
     BoardSize boardSize = board->getSize();
     ImageProvider& provider = ImageProvider::getInstance();
     vector< uint >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
-    vector< QImage* >& pictures = provider.getImages( boardSize );
+    vector< QImage* >& images = provider.getImages( boardSize );
     unique_ptr< NumberOnImage > numOnImage = Options::isNumberOnImage();
-    QPainter* painter = nullptr;
 
     TileSize tileSize = provider.getTileSize( boardSize );
     uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
@@ -113,24 +112,19 @@ void Fifteen::setTilesGraphic( bool isRandom )
     FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
     uint fontSizeInt = Mapped::fontSizeInt.at( fontSize );
 
+    QPainter painter;
     uint i = 0;
     for ( auto &tile : GUI::getGUI().getTiles() )
     {
-        QPixmap pixmap = QPixmap::fromImage( *pictures.at( values.at( i )));
+        QPixmap pixmap = QPixmap::fromImage( *images.at( values.at( i )));
 
         if ( numOnImage->isNumberOnImage )
         {
-            painter = new QPainter();
-            drawNumberOnGraphicTile( *painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i ));
+            drawNumberOnGraphicTile( painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i ));
         }
 
         QIcon icon( pixmap );
-        pixmap.detach();
-        if ( painter )
-        {
-            delete painter;
-            painter = nullptr;
-        }
+        painter.end();
 
         QSize iconSize( tileSizeInt, tileSizeInt );
         tile->setIconSize( iconSize );
@@ -262,10 +256,10 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveNumericTile( int rowSource, int colSource, int rowDest, int colDest )
+void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
 {
     const QString& currentStyle = Options::getStyle();
-    int boardSize = Mapped::boardSizeInt.at( board->getSize() );
+    uint boardSize = Mapped::boardSizeInt.at( board->getSize() );
     auto& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
@@ -277,15 +271,15 @@ void Fifteen::moveNumericTile( int rowSource, int colSource, int rowDest, int co
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveGraphicTile( int rowSource, int colSource, int rowDest, int colDest )
+void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
 {
     BoardSize boardSize = board->getSize();
-    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     auto& tiles = GUI::getGUI().getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getTileSize( boardSize );
-    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
     QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
@@ -336,7 +330,7 @@ void Fifteen::slotRemoveGraphic()
     {
         Options::boardMode = BoardMode::NUMERIC;
         createTiles();
-        setTilesNumeric( false );
+        setTiles( false );
     }
 }
 
