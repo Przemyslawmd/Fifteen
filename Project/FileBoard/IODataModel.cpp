@@ -1,7 +1,7 @@
 
 #include "IODataModel.h"
-#include "MappedValues.h"
-#include "GraphicBoard/ImageProvider.h"
+#include "../MappedValues.h"
+#include "../GraphicBoard/ImageProvider.h"
 
 IODataModel::IODataModel() {}
 

@@ -2,9 +2,9 @@
 #ifndef IODATAMODEL_H
 #define IODATAMODEL_H
 
-#include "Board.h"
+#include "../Board.h"
 #include "QImage"
-#include "Message.h"
+#include "../Message.h"
 #include <vector>
 #include <memory>
 
