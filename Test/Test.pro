@@ -22,7 +22,6 @@ SOURCES += \
     ../Project/Message.cpp \
     Suites.cpp \
     Test.cpp \
-    DataCommon.cpp \
     DataGraphic.cpp
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
@@ -34,7 +33,6 @@ HEADERS += \
     ../Project/GraphicBoard/ImageProvider.h \
     ../Project/Message.h \
     Test.h \
-    DataCommon.h \
     DataGraphic.h \
     Defines.h
 

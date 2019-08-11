@@ -4,6 +4,8 @@
 #include "../Project/Board.cpp"
 #include "../Project/FileBoard/IOBoard.h"
 #include "../Project/FileBoard/IOBoard.cpp"
+#include "../Project/FileBoard/IODataModel.h"
+#include "../Project/FileBoard/IODataModel.cpp"
 #include "../Project/FileBoard/IOFile.h"
 #include "../Project/FileBoard/IOFile.cpp"
 #include "../Project/Options.h"
@@ -16,17 +18,18 @@
 void Test::testCreateBoardSolved( BoardSize size )
 {
     Board* board = Board::createBoard( size );
-    vector< int >& values = board->sendBoard();
+    auto& values = board->sendBoard();
+    uint sizeInt = Mapped::boardSizeInt.at( size );
+    uint tilesCount = sizeInt * sizeInt;
 
-    int sizeInt = Mapped::boardSizeInt.at( size );
-    QCOMPARE( sizeInt * sizeInt, static_cast< int >( values.size() ));
+    QCOMPARE( tilesCount, values.size() );
 
-    for ( int i = 0; i < sizeInt * sizeInt - 1; i++ )
+    for ( uint i = 0; i < tilesCount - 1; i++ )
     {
         QCOMPARE( values[i], i );
     }
 
-    QCOMPARE( values[sizeInt * sizeInt - 1], board->getEmptyTile() );
+    QCOMPARE( values[tilesCount - 1], board->getEmptyTile() );
 }
 
 /*********************************************************************************/
@@ -35,8 +38,8 @@ void Test::testCreateBoardSolved( BoardSize size )
 void Test::testCreateBoardRandom( BoardSize size )
 {
     Board* board = Board::createBoard( size );
-    vector< int >& values = board->randomBoard();
-    int sizeInt = Mapped::boardSizeInt.at( size );
+    auto& values = board->randomBoard();
+    uint sizeInt = Mapped::boardSizeInt.at( size );
     checkTiles( sizeInt, values );
 }
 
@@ -48,9 +51,9 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
     Board* board = Board::createBoard( firstSize );
     board->randomBoard();
     board->randomBoard();
-    vector< int >& values = board->randomBoard();
+    auto& values = board->randomBoard();
 
-    int sizeInt = Mapped::boardSizeInt.at( firstSize );;
+    uint sizeInt = Mapped::boardSizeInt.at( firstSize );;
     checkTiles( sizeInt, values );
 
     board = Board::createBoard( secondSize );
@@ -64,64 +67,49 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testMoveSquareDefined( int testNumber )
+void Test::testMoveSquareDefined( vector< int >& moves, vector< uint >& expectedTiles, BoardSize boardSize )
 {
-    DataCommon& dataTest = Data::getTestVector( testNumber );
-    BoardSize boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
-    vector< int >& moves = dataTest.moves;
-    int numberOfMoves = moves[0];
-
-    for( int i = 1; i <= numberOfMoves ; i++ )
+    for( int move : moves  )
     {
-        board->checkMove( moves[i] / 10, moves[i] % 10 );
+        board->checkMove( move / 10, move % 10 );
     }
 
-    vector< int >& currentValues  = board->sendBoard();
-    vector< int >& expectedSquares = dataTest.expectedSquares;
-
-    QCOMPARE( currentValues, expectedSquares );
+    vector< uint >& currentValues  = board->sendBoard();
+    QCOMPARE( currentValues, expectedTiles );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testSaveAndLoadBoard( int testNumber )
+void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedTiles, BoardSize boardSize )
 {
-    DataCommon dataTest = Data::getTestVector( testNumber );
-    BoardSize boardSize = dataTest.boardSize;
     Board* board = Board::createBoard( boardSize );
 
-    vector< int > moves = dataTest.moves;
-    int numberOfMoves = moves[0];
-
-    for( int i = 1; i <= numberOfMoves ; i++ )
+    for( int move : moves )
     {
-        board->checkMove( moves[i] / 10, moves[i] % 10 );
+        board->checkMove( move / 10, move % 10 );
     }
 
     IOBoard io;
     QString fileName = "/fileData";
     QString currentDir = QDir::currentPath();
     QString filePath = currentDir + fileName;
-    io.saveNumericBoardInFile( *board, filePath );
+    io.writeBoardIntoFile( *board, BoardMode::NUMERIC, filePath );
 
     board->randomBoard();
     board->randomBoard();
 
-    vector< int > fileValues( 0 );
-    io.readBoardFromFile( filePath, fileValues );
-    int boardSizeInt = fileValues.back();
-    fileValues.pop_back();
+    vector< uint >* fileValues = io.readBoardFromFile( filePath );
+    uint boardSizeInt = fileValues->back();
+    fileValues->pop_back();
 
     boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
-    board->createBoard( fileValues, boardSize );
+    board->createBoard( *fileValues, boardSize );
 
-    vector< int >& currentValues  = board->sendBoard();
-    vector< int >& expectedSquares = dataTest.expectedSquares;
-
-    QCOMPARE( currentValues, expectedSquares );
+    vector< uint >& currentValues  = board->sendBoard();
+    QCOMPARE( currentValues, expectedTiles );
 }
 
 /*********************************************************************************/
@@ -158,19 +146,20 @@ void Test::testCreateGraphicBoard( int testNumber )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::checkTiles( int boardSize, vector< int >& squares )
+void Test::checkTiles( uint boardSize, vector< uint >& tiles )
 {
-    QList< int > values;
+    QList< uint > values;
+    uint tilesCount = boardSize * boardSize;
 
-    for ( int i = 0; i < boardSize * boardSize; i++ )
+    for ( uint i = 0; i < tilesCount; i++ )
     {
         values.append( i );
     }
 
-    for ( int i = 0; i < boardSize * boardSize; i++ )
+    for ( uint i = 0; i < tilesCount; i++ )
     {
-        QCOMPARE( values.contains( squares[i] ), true );
-        values.removeOne( squares[i] );
+        QCOMPARE( values.contains( tiles[i] ), true );
+        values.removeOne( tiles[i] );
     }
 
     QCOMPARE( values.size(), 0 );
