@@ -153,7 +153,7 @@ Board::Board( BoardSize size, uint sizeInt ) : size( size ),
                                                sizeInt( sizeInt ),
                                                emptyTile( sizeInt * sizeInt - 1 )
 {
-    for ( int i = 0; i < sizeInt * sizeInt; i++ )
+    for ( uint i = 0; i < sizeInt * sizeInt; i++ )
     {
         values.push_back( i );
     }

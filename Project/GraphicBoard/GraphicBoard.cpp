@@ -30,9 +30,9 @@ vector< QImage* >& GraphicBoard::getImages()
 
 void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
-    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
-    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    int boardSizePixel = boardSizeInt * tileSizeInt;
+    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint boardSizePixel = boardSizeInt * tileSizeInt;
     QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
     createTiles( &scaledImage, boardSizeInt, tileSizeInt );
     this->tileSize = tileSize;
@@ -43,9 +43,10 @@ void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSiz
 
 void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize tileSize )
 {
-    int tileSizeInt = Mapped::tileSizeInt.at( tileSize );
-    int boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    int boardSizePixel = boardSizeInt * tileSizeInt;
+    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint boardSizePixel = boardSizeInt * tileSizeInt;
+
     QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2,
                                        boardSizePixel, boardSizePixel );
     createTiles( &croppedImage, boardSizeInt, tileSizeInt );
@@ -55,13 +56,13 @@ void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSi
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTiles( QImage* image, int boardSize, int tileSize )
+void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
 {
-    int pictureSize = boardSize * tileSize;
+    uint pictureSize = boardSize * tileSize;
 
-    for ( int yPos = 0; yPos < pictureSize; yPos += tileSize )
+    for ( uint yPos = 0; yPos < pictureSize; yPos += tileSize )
     {
-        for ( int xPos = 0; xPos < pictureSize; xPos += tileSize )
+        for ( uint xPos = 0; xPos < pictureSize; xPos += tileSize )
         {
             if (( yPos == pictureSize - tileSize ) && ( xPos == pictureSize - tileSize ))
             {
@@ -85,7 +86,7 @@ void GraphicBoard::createTiles( QImage* image, int boardSize, int tileSize )
 bool GraphicBoard::restoreImagesFromFile( IODataModel& dataModel )
 {
     uint boardSizeInt = Mapped::boardSizeInt.at( dataModel.boardSize );
-    int tileSizeInt = Mapped::tileSizeInt.at( dataModel.tileSize );
+    uint tileSizeInt = Mapped::tileSizeInt.at( dataModel.tileSize );
 
     for ( uint i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {

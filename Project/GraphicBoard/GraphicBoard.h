@@ -20,7 +20,7 @@ private:
 
     void createTilesFromScaledImage( QImage&, BoardSize, TileSize );
     void createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
-    void createTiles( QImage*, int boardSize, int tileSize );
+    void createTiles( QImage*, uint boardSize, uint tileSize );
     bool restoreImagesFromFile( IODataModel& );
 
     vector< QImage* >& getImages();

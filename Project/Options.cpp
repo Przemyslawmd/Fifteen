@@ -38,16 +38,8 @@ unique_ptr< NumberOnImage > Options::isNumberOnImage()
         return numOnImage;
     }
 
-    if ( numberColor == NumberColor::BLACK )
-    {
-        numOnImage->fontColor = QColor{ 0, 0, 0 };
-    }
-    if ( numberColor == NumberColor::WHITE )
-    {
-        numOnImage->fontColor = QColor{ 255, 255, 255 };
-    }
-
     numOnImage->isNumberOnImage = true;
+    numOnImage->fontColor = numberColor == NumberColor::BLACK ? QColor{ 0, 0, 0 } : QColor{ 255, 255, 255 };
     return numOnImage;
 }
 
