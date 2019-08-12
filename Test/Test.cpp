@@ -1,6 +1,5 @@
 
 #include "Test.h"
-#include "Data.h"
 #include "../Project/Board.cpp"
 #include "../Project/FileBoard/IOBoard.h"
 #include "../Project/FileBoard/IOBoard.cpp"
@@ -18,7 +17,7 @@
 void Test::testCreateBoardSolved( BoardSize size )
 {
     Board* board = Board::createBoard( size );
-    auto& values = board->sendBoard();
+    auto values = board->sendBoard();
     uint sizeInt = Mapped::boardSizeInt.at( size );
     uint tilesCount = sizeInt * sizeInt;
 
@@ -51,9 +50,9 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
     Board* board = Board::createBoard( firstSize );
     board->randomBoard();
     board->randomBoard();
-    auto& values = board->randomBoard();
+    auto values = board->randomBoard();
 
-    uint sizeInt = Mapped::boardSizeInt.at( firstSize );;
+    uint sizeInt = Mapped::boardSizeInt.at( firstSize );
     checkTiles( sizeInt, values );
 
     board = Board::createBoard( secondSize );
@@ -67,7 +66,7 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testMoveSquareDefined( vector< int >& moves, vector< uint >& expectedTiles, BoardSize boardSize )
+void Test::testMoveSquareDefined( vector< int >& moves, vector< uint >& expectedValues, BoardSize boardSize )
 {
     Board* board = Board::createBoard( boardSize );
 
@@ -76,14 +75,14 @@ void Test::testMoveSquareDefined( vector< int >& moves, vector< uint >& expected
         board->checkMove( move / 10, move % 10 );
     }
 
-    vector< uint >& currentValues  = board->sendBoard();
-    QCOMPARE( currentValues, expectedTiles );
+    auto values  = board->sendBoard();
+    QCOMPARE( values, expectedValues );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedTiles, BoardSize boardSize )
+void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedValues, BoardSize boardSize )
 {
     Board* board = Board::createBoard( boardSize );
 
@@ -101,44 +100,42 @@ void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedT
     board->randomBoard();
     board->randomBoard();
 
-    vector< uint >* fileValues = io.readBoardFromFile( filePath );
-    uint boardSizeInt = fileValues->back();
-    fileValues->pop_back();
+    auto readValues = io.readBoardFromFile( filePath );
+    uint boardSizeInt = readValues->back();
+    readValues->pop_back();
 
     boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
-    board->createBoard( *fileValues, boardSize );
+    board->createBoard( *readValues, boardSize );
 
-    vector< uint >& currentValues  = board->sendBoard();
-    QCOMPARE( currentValues, expectedTiles );
+    auto values  = board->sendBoard();
+    QCOMPARE( values, expectedValues );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testCreateGraphicBoard( int testNumber )
+void Test::testCreateGraphicBoard( DataGraphic& data )
 {
-    DataGraphic testData = Data::getTestGraphic( testNumber );
-
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
-    QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + "initial.jpg" );
+    QImage image( currentDir.absolutePath() + "/Test/Images/" + data.imagesPath + "initial.jpg" );
 
     unique_ptr< OptionsData > options ( new OptionsData );
-    options->graphicMode = testData.mode;
-    options->imageToLoad_4 = testData.isFourToBeLoaded;
-    options->imageToLoad_5 = testData.isFiveToBeLoaded;
-    options->imageToLoad_6 = testData.isSixToBeLoaded;
-    options->imageToLoad_7 = testData.isSevenToBeLoaded;
+    options->graphicMode = data.mode;
+    options->imageToLoad_4 = data.isFourToBeLoaded;
+    options->imageToLoad_5 = data.isFiveToBeLoaded;
+    options->imageToLoad_6 = data.isSixToBeLoaded;
+    options->imageToLoad_7 = data.isSevenToBeLoaded;
     Options::receiveData( move( options ));
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
-    imageProvider.prepareGraphicBoard( image, testData.tileSize );
-    vector< QImage* >& images = imageProvider.getImages( testData.size );
+    imageProvider.prepareGraphicBoard( image, data.tileSize );
+    vector< QImage* >& images = imageProvider.getImages( data.size );
 
-    int sizeInt = Mapped::boardSizeInt.at( testData.size );
-    for ( int i = 0; i < sizeInt * sizeInt; i++ )
+    uint sizeInt = Mapped::boardSizeInt.at( data.size );
+    for ( uint i = 0; i < sizeInt * sizeInt; i++ )
     {
-        QImage image( currentDir.absolutePath() + "/Test/Images/" + testData.imagesPath + QString::number( i ) + ".bmp" );
+        QImage image( currentDir.absolutePath() + "/Test/Images/" + data.imagesPath + QString::number( i ) + ".bmp" );
         compareQImage( *images.at( i ), image );
     }
 }

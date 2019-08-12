@@ -15,7 +15,6 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 SOURCES += \
-    Data.cpp \
     ../Project/Options.cpp \
     ../Project/GraphicBoard/GraphicBoard.cpp \
     ../Project/GraphicBoard/ImageProvider.cpp \
@@ -27,13 +26,11 @@ SOURCES += \
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    Data.h \
     ../Project/Options.h \
     ../Project/GraphicBoard/GraphicBoard.h \
     ../Project/GraphicBoard/ImageProvider.h \
     ../Project/Message.h \
     Test.h \
-    DataGraphic.h \
-    Defines.h
+    DataGraphic.h
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

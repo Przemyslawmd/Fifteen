@@ -2,6 +2,7 @@
 #ifndef TEST_H
 #define TEST_H
 
+#include "DataGraphic.h"
 #include "../Project/Board.h"
 #include <QImage>
 
@@ -14,7 +15,7 @@ public:
     void testCreateBoardRandomWithChange( BoardSize, BoardSize );
     void testMoveSquareDefined( vector< int >& moves, vector< uint >& expectedTiles, BoardSize );
     void testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedTiles, BoardSize );
-    void testCreateGraphicBoard( int testNumber );
+    void testCreateGraphicBoard( DataGraphic& );
 
 private:
 
