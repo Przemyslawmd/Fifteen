@@ -171,36 +171,30 @@ void GUI::bindAction( Fifteen* mainWidget, QAction*& action, SlotMainWindow slot
 void GUI::createTiles( Fifteen* mainWidget, BoardSize boardSize, TileSize tileSize_ )
 {
     deleteTiles();
-    uint tileSize = Mapped::tileSizeInt.at( tileSize_ );
+    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize_ );
     uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-
-    for ( uint i = 0; i < boardSizeInt ; i++ )
-    {
-        for ( uint j = 0; j < boardSizeInt; j++ )
-        {
-            tiles.push_back( std::make_unique< QPushButton >() );
-            tiles.at( i * boardSizeInt + j )->setAccessibleName( QString::number( i ) + QString::number( j ));
-            tiles.at( i * boardSizeInt + j )->setMaximumSize( tileSize, tileSize );
-            tiles.at( i * boardSizeInt + j )->setMinimumSize( tileSize, tileSize );
-            connect( tiles.at( i * boardSizeInt + j ).get(), &QPushButton::clicked, mainWidget, &Fifteen::pressTile );
-        }
-    }
 
     layVerticalBoard->addStretch();
 
-    for ( uint i = 0; i < boardSizeInt; i++ )
+    for ( uint row = 0; row < boardSizeInt ; row++ )
     {
         layHorizontalBoard.push_back( new QHBoxLayout() );
-        layHorizontalBoard[i]->setSpacing(0);
-        layHorizontalBoard[i]->addStretch();
+        layHorizontalBoard[row]->setSpacing(0);
+        layHorizontalBoard[row]->addStretch();
 
-        for ( uint j = 0; j < boardSizeInt; j++ )
+        for ( uint col = 0; col < boardSizeInt; col++ )
         {
-            layHorizontalBoard[i]->addWidget( tiles.at( i * boardSizeInt + j ).get() );
+            auto tile = std::make_unique< QPushButton >();
+            tile->setAccessibleName( QString::number( row ) + QString::number( col ));
+            tile->setMaximumSize( tileSizeInt, tileSizeInt );
+            tile->setMinimumSize( tileSizeInt, tileSizeInt );
+            connect( tile.get(), &QPushButton::clicked, mainWidget, &Fifteen::pressTile );
+            layHorizontalBoard[row]->addWidget( tile.get() );
+            tiles.push_back( std::move( tile ));
         }
 
-        layHorizontalBoard[i]->addStretch();
-        layVerticalBoard->addLayout( layHorizontalBoard[i] );
+        layHorizontalBoard[row]->addStretch();
+        layVerticalBoard->addLayout( layHorizontalBoard[row] );
     }
 
     layVerticalBoard->addStretch();
