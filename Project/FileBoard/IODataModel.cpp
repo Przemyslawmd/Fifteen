@@ -17,9 +17,9 @@ IODataModel::IODataModel( Board& board, BoardMode mode )
     }
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
-    images = std::make_unique< vector< QImage* >>( imageProvider.getImages( boardSize ));
+    images = &imageProvider.getImages( boardSize );
     tileSize = imageProvider.getTileSize( boardSize );
-    tileImageBytes = images->at( 0 )->byteCount();
+    tileImageBytes = images->at( 0 ).get()->byteCount();
 }
 
 /*********************************************************************************/
@@ -43,9 +43,9 @@ void IODataModel::writeDataIntoStream( QDataStream& stream )
     stream << Mapped::tileSizeInt.at( tileSize );
     stream << tileImageBytes;
 
-    for ( QImage* image : *images )
+    for ( auto& image : *images )
     {
-        stream.writeRawData( reinterpret_cast< const char* >( image->bits() ), tileImageBytes );
+        stream.writeRawData( reinterpret_cast< const char* >( image.get()->bits() ), tileImageBytes );
     }
 }
 

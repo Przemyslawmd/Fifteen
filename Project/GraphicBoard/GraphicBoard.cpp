@@ -3,24 +3,9 @@
 #include "../Message.h"
 #include "../MappedValues.h"
 
+using std::make_unique;
 
-GraphicBoard::GraphicBoard() {}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-GraphicBoard::~GraphicBoard()
-{
-    for ( QImage* image : images )
-    {
-        delete image;
-    }
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-vector< QImage* >& GraphicBoard::getImages()
+vector< unique_ptr< QImage >>& GraphicBoard::getImages()
 {
     return images;
 }
@@ -69,32 +54,31 @@ void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
                 break;
             }
 
-            QImage* tileImage = new QImage( image->copy( xPos, yPos, tileSize, tileSize ));
-            images.push_back( tileImage );
+            images.push_back( std::make_unique< QImage >( image->copy( xPos, yPos, tileSize, tileSize )));
         }
     }
 
-    QImage* tileImage = new QImage( tileSize, tileSize, QImage::Format_RGB32 );
-    tileImage->fill( Qt::GlobalColor::white );
-    images.push_back( tileImage );
+    QImage tileImage ( tileSize, tileSize, QImage::Format_RGB32 );
+    tileImage.fill( Qt::GlobalColor::white );
+    images.push_back( make_unique< QImage >( tileImage ));
     Message::putMessage( Result::GRAPHIC_LOAD_OK, boardSize );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool GraphicBoard::restoreImagesFromFile( IODataModel& dataModel )
+bool GraphicBoard:: restoreImagesFromFile( IODataModel& data )
 {
-    uint boardSizeInt = Mapped::boardSizeInt.at( dataModel.boardSize );
-    uint tileSizeInt = Mapped::tileSizeInt.at( dataModel.tileSize );
+    uint boardSizeInt = Mapped::boardSizeInt.at( data.boardSize );
+    uint tileSizeInt = Mapped::tileSizeInt.at( data.tileSize );
 
     for ( uint i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {
-        QImage* image = new QImage( dataModel.imagesData + i * dataModel.tileImageBytes, tileSizeInt, tileSizeInt, QImage::Format_RGB32 );
-        images.push_back( image );
+        QImage tileImage( data.imagesData + i * data.tileImageBytes, tileSizeInt, tileSizeInt, QImage::Format_RGB32 );
+        images.push_back( make_unique< QImage >( tileImage ));
     }
 
-    this->tileSize = dataModel.tileSize;
+    this->tileSize = data.tileSize;
     return true;
 }
 

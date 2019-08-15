@@ -101,10 +101,12 @@ void Fifteen::setTilesNumeric( bool isRandom )
 void Fifteen::setTilesGraphic( bool isRandom )
 {
     BoardSize boardSize = board->getSize();
-    ImageProvider& provider = ImageProvider::getInstance();
     vector< uint >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
-    vector< QImage* >& images = provider.getImages( boardSize );
-    unique_ptr< NumberOnImage > numOnImage = Options::isNumberOnImage();
+
+    ImageProvider& provider = ImageProvider::getInstance();
+    auto& images = provider.getImages( boardSize );
+
+    auto numOnImage = Options::isNumberOnImage();
 
     TileSize tileSize = provider.getTileSize( boardSize );
     uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
@@ -116,7 +118,7 @@ void Fifteen::setTilesGraphic( bool isRandom )
     uint i = 0;
     for ( auto &tile : GUI::getGUI().getTiles() )
     {
-        QPixmap pixmap = QPixmap::fromImage( *images.at( values.at( i )));
+        QPixmap pixmap = QPixmap::fromImage( *images.at( values.at( i )).get() );
 
         if ( numOnImage->isNumberOnImage )
         {

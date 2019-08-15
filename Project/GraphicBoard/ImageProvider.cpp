@@ -27,7 +27,7 @@ void ImageProvider::deleteInstance()
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector< QImage* >& ImageProvider::getImages( BoardSize boardSize )
+vector< unique_ptr< QImage >>& ImageProvider::getImages( BoardSize boardSize )
 {
     return images.at( boardSize )->getImages();
 }

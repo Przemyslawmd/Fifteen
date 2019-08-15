@@ -7,6 +7,8 @@
 #include "../Types.h"
 #include "../Message.h"
 
+using std::unique_ptr;
+
 class ImageProvider
 {
 public:
@@ -14,7 +16,8 @@ public:
     static ImageProvider& getInstance();
     static void deleteInstance();
 
-    vector< QImage* >& getImages( BoardSize );
+    vector< unique_ptr< QImage >>& getImages( BoardSize );
+
     void prepareGraphicBoard( QImage&, TileSize );
     Result restoreGraphicBoardFromFile( IODataModel& );
     bool isGraphicBoard( BoardSize );

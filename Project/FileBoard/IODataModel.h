@@ -25,7 +25,7 @@ public:
     TileSize tileSize;
     uint tileImageBytes;
     vector< uint >* values;
-    std::unique_ptr< vector< QImage* >> images;
+    vector< std::unique_ptr< QImage >>* images;
     uchar* imagesData;
 };
 
