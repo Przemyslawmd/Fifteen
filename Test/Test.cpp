@@ -92,9 +92,7 @@ void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedV
     }
 
     IOBoard io;
-    QString fileName = "/fileData";
-    QString currentDir = QDir::currentPath();
-    QString filePath = currentDir + fileName;
+    QString filePath = QDir::currentPath() + "/fileData";
     io.writeBoardIntoFile( *board, BoardMode::NUMERIC, filePath );
 
     board->randomBoard();
@@ -130,13 +128,13 @@ void Test::testCreateGraphicBoard( DataGraphic& data )
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
     imageProvider.prepareGraphicBoard( image, data.tileSize );
-    vector< QImage* >& images = imageProvider.getImages( data.size );
+    auto& images = imageProvider.getImages( data.size );
 
     uint sizeInt = Mapped::boardSizeInt.at( data.size );
     for ( uint i = 0; i < sizeInt * sizeInt; i++ )
     {
         QImage image( currentDir.absolutePath() + "/Test/Images/" + data.imagesPath + QString::number( i ) + ".bmp" );
-        compareQImage( *images.at( i ), image );
+        compareQImage( *images.at( i ).get(), image );
     }
 }
 
