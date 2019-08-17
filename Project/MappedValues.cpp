@@ -89,5 +89,6 @@ template< typename T, typename U > T Mapped::getMapKeyByValue( map< T, U > pairs
             return pair.first;
         }
     }
+    throw "Exception : no key found in a map for a provided value";
 }
 

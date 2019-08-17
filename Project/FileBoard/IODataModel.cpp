@@ -62,11 +62,15 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     boardMode = static_cast< BoardMode >( boardModeInt );
 
     uint boardSizeInt;
-    if ( stream >> boardSizeInt; boardSizeInt < 4 || boardSizeInt > 7 )
+    stream >> boardSizeInt;
+    try
+    {
+        boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
+    }
+    catch (...)
     {
         return  Result::READ_BOARD_SIZE_ERROR;
     }
-    boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
 
     uint tilesCount = boardSizeInt * boardSizeInt;
     values = new vector< uint >( tilesCount );
@@ -89,12 +93,15 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     }
 
     uint tileSizeInt;
-    if ( stream >> tileSizeInt;
-         tileSizeInt != 50 && tileSizeInt != 75 && tileSizeInt != 100 && tileSizeInt != 125 && tileSizeInt != 150 )
+    stream >> tileSizeInt;
+    try
+    {
+        tileSize = Mapped::getTileSizeByInt( tileSizeInt );
+    }
+    catch (...)
     {
         return Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR;
     }
-    tileSize = Mapped::getTileSizeByInt( tileSizeInt );
 
     stream >> tileImageBytes;
     imagesData = new uchar[tilesCount * tileImageBytes];
