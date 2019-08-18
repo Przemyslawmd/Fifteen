@@ -112,6 +112,22 @@ void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedV
 /*********************************************************************************/
 /*********************************************************************************/
 
+void Test::testLoadImproperBoard( QString fileName, QString expectedMessage )
+{
+    QDir currentDir = QDir::currentPath();
+    currentDir.cdUp();
+    QString filePath = currentDir.absolutePath() + "/Test/SavedBoards/" + fileName;
+
+    IOBoard io;
+    auto readValues = io.readBoardFromFile( filePath );
+
+    QCOMPARE( readValues, nullptr );
+    QCOMPARE( expectedMessage, Message::getMessages() );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 void Test::testCreateGraphicBoard( DataGraphic& data )
 {
     QDir currentDir = QDir::currentPath();

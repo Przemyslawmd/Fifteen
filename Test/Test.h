@@ -15,6 +15,7 @@ public:
     void testCreateBoardRandomWithChange( BoardSize, BoardSize );
     void testMoveSquareDefined( vector< int >& moves, vector< uint >& expectedTiles, BoardSize );
     void testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedTiles, BoardSize );
+    void testLoadImproperBoard( QString fileName, QString message );
     void testCreateGraphicBoard( DataGraphic& );
 
 private:

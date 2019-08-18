@@ -22,6 +22,8 @@ private Q_SLOTS:
     void moveTiles_2();
     void saveAndLoadBoard_1();
     void saveAndLoadBoard_2();
+    void loadImproperBoard_1();
+    void loadImproperBoard_2();
     void createGraphicBoard_1();
     void createGraphicBoard_2();
 };
@@ -108,6 +110,18 @@ void TestFifteen::createGraphicBoard_2()
     DataGraphic data { BoardSize::SIX, TileSize::_75, GraphicMode::CROPPED, "Cropped_6_75/", false, false, true, false };
     Test test;
     test.testCreateGraphicBoard( data );
+}
+
+void TestFifteen::loadImproperBoard_1()
+{
+    Test test;
+    test.testLoadImproperBoard( "improperBoardSize", "Error reading file : size of a board" );
+}
+
+void TestFifteen::loadImproperBoard_2()
+{
+    Test test;
+    test.testLoadImproperBoard( "improperBoardMode", "Error reading file : kind of a board" );
 }
 
 QTEST_APPLESS_MAIN(TestFifteen)
