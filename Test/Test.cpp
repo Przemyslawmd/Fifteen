@@ -112,7 +112,7 @@ void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedV
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testLoadImproperBoard( QString fileName, QString expectedMessage )
+void Test::testLoadImproperBoard( QString fileName, Result expectedResult )
 {
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
@@ -122,7 +122,10 @@ void Test::testLoadImproperBoard( QString fileName, QString expectedMessage )
     auto readValues = io.readBoardFromFile( filePath );
 
     QCOMPARE( readValues, nullptr );
-    QCOMPARE( expectedMessage, Message::getMessages() );
+
+    QString message = Message::getMessages();
+    Message::putMessage( expectedResult );
+    QCOMPARE( message, Message::getMessages() );
 }
 
 /*********************************************************************************/

@@ -115,13 +115,13 @@ void TestFifteen::createGraphicBoard_2()
 void TestFifteen::loadImproperBoard_1()
 {
     Test test;
-    test.testLoadImproperBoard( "improperBoardSize", "Error reading file : size of a board" );
+    test.testLoadImproperBoard( "improperBoardSize", Result::READ_BOARD_SIZE_ERROR );
 }
 
 void TestFifteen::loadImproperBoard_2()
 {
     Test test;
-    test.testLoadImproperBoard( "improperBoardMode", "Error reading file : kind of a board" );
+    test.testLoadImproperBoard( "improperBoardMode", Result::READ_BOARD_TYPE_ERROR );
 }
 
 QTEST_APPLESS_MAIN(TestFifteen)

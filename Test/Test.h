@@ -4,6 +4,7 @@
 
 #include "DataGraphic.h"
 #include "../Project/Board.h"
+#include "../Project/Message.h"
 #include <QImage>
 
 class Test
@@ -15,7 +16,7 @@ public:
     void testCreateBoardRandomWithChange( BoardSize, BoardSize );
     void testMoveSquareDefined( vector< int >& moves, vector< uint >& expectedTiles, BoardSize );
     void testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedTiles, BoardSize );
-    void testLoadImproperBoard( QString fileName, QString message );
+    void testLoadImproperBoard( QString fileName, Result );
     void testCreateGraphicBoard( DataGraphic& );
 
 private:
