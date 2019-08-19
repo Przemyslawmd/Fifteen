@@ -24,6 +24,8 @@ private Q_SLOTS:
     void saveAndLoadBoard_2();
     void loadImproperBoard_1();
     void loadImproperBoard_2();
+    void loadImproperBoard_3();
+    void loadImproperBoard_4();
     void createGraphicBoard_1();
     void createGraphicBoard_2();
 };
@@ -122,6 +124,18 @@ void TestFifteen::loadImproperBoard_2()
 {
     Test test;
     test.testLoadImproperBoard( "improperBoardMode", Result::READ_BOARD_TYPE_ERROR );
+}
+
+void TestFifteen::loadImproperBoard_3()
+{
+    Test test;
+    test.testLoadImproperBoard( "improperBoardValues", Result::READ_BOARD_VALUES_ERROR );
+}
+
+void TestFifteen::loadImproperBoard_4()
+{
+    Test test;
+    test.testLoadImproperBoard( "improperBoardNotAllValues", Result::READ_BOARD_VALUES_ERROR );
 }
 
 QTEST_APPLESS_MAIN(TestFifteen)
