@@ -131,6 +131,26 @@ void Test::testLoadImproperBoard( QString fileName, Result expectedResult )
 /*********************************************************************************/
 /*********************************************************************************/
 
+void Test::testLoadGraphicBoard( QString fileName, Result expectedResult, BoardSize boardSize, TileSize tileSize )
+{
+    QDir currentDir = QDir::currentPath();
+    currentDir.cdUp();
+    QString filePath = currentDir.absolutePath() + "/Test/SavedBoards/" + fileName;
+
+    IOBoard io;
+    auto readValues = io.readBoardFromFile( filePath );
+    BoardSize size = Mapped::getBoardSizeByInt( readValues->back() );
+    QCOMPARE( size, boardSize );
+    QCOMPARE( ImageProvider::getInstance().getTileSize( size ), tileSize );
+
+    QString message = Message::getMessages();
+    Message::putMessage( expectedResult );
+    QCOMPARE( message, Message::getMessages() );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 void Test::testCreateGraphicBoard( DataGraphic& data )
 {
     QDir currentDir = QDir::currentPath();

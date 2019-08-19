@@ -26,6 +26,9 @@ private Q_SLOTS:
     void loadImproperBoard_2();
     void loadImproperBoard_3();
     void loadImproperBoard_4();
+    void loadImproperBoard_5();
+    void loadImproperBoard_6();
+    void loadGraphicBoard();
     void createGraphicBoard_1();
     void createGraphicBoard_2();
 };
@@ -136,6 +139,24 @@ void TestFifteen::loadImproperBoard_4()
 {
     Test test;
     test.testLoadImproperBoard( "improperBoardNotAllValues", Result::READ_BOARD_VALUES_ERROR );
+}
+
+void TestFifteen::loadImproperBoard_5()
+{
+    Test test;
+    test.testLoadImproperBoard( "improperBoardTileSize", Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR );
+}
+
+void TestFifteen::loadImproperBoard_6()
+{
+    Test test;
+    test.testLoadImproperBoard( "improperBoardNotAllGraphicData", Result::READ_BOARD_IMAGES_DATA_ERROR );
+}
+
+void TestFifteen::loadGraphicBoard()
+{
+    Test test;
+    test.testLoadGraphicBoard( "graphicBoardSize5Tile75", Result::OK, BoardSize::FIVE, TileSize::_75 );
 }
 
 QTEST_APPLESS_MAIN(TestFifteen)
