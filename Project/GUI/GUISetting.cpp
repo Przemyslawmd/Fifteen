@@ -115,10 +115,10 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     slider->setRange( 0, 4 );
     slider->setSingleStep( 1 );
     sliderLabels[0] = new QLabel( " 50" );
-    sliderLabels[1] = new QLabel( "  100" );
-    sliderLabels[2] = new QLabel( "150" );
-    sliderLabels[3] = new QLabel( "200  " );
-    sliderLabels[4] = new QLabel( "250" );
+    sliderLabels[1] = new QLabel( "   75" );
+    sliderLabels[2] = new QLabel( "100" );
+    sliderLabels[3] = new QLabel( "125  " );
+    sliderLabels[4] = new QLabel( "150" );
 
     slider->setValue( Mapped::getSliderByTileSize( optionsCurrent->tileSize ));
 
