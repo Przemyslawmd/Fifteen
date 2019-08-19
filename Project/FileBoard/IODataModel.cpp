@@ -104,8 +104,9 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     }
 
     stream >> tileImageBytes;
-    imagesData = new uchar[tilesCount * tileImageBytes];
-    if ( stream.readRawData( reinterpret_cast< char* >( imagesData ), tilesCount * tileImageBytes ) == -1 )
+    uint imagesDataBytes = tilesCount * tileImageBytes;
+    imagesData = new uchar[imagesDataBytes];
+    if ( stream.readRawData( reinterpret_cast< char* >( imagesData ), imagesDataBytes ) != imagesDataBytes )
     {
         return Result::READ_BOARD_IMAGES_DATA_ERROR;
     }
