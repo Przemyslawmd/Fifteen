@@ -22,6 +22,8 @@ void UndoMove::PutMove( Move move, uint row, uint col )
         case Move::LEFT:
             moveStack.push_back( row * 10 + col -1  );
             break;
+         default:
+            break;
     }
 }
 

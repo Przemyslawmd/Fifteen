@@ -241,16 +241,14 @@ void Fifteen::makeMove( Move move, uint row, uint col )
     switch ( move )
     {
         case Move::UP:
-            ( this->*moveTile )( row, col, row - 1, col );
-            return;
+            return ( this->*moveTile )( row, col, row - 1, col );
         case Move::RIGHT:
-            ( this->*moveTile )( row, col, row, col + 1 );
-            return;
+            return ( this->*moveTile )( row, col, row, col + 1 );
         case Move::DOWN:
-            ( this->*moveTile )( row, col, row + 1, col );
-            return;
+            return ( this->*moveTile )( row, col, row + 1, col );
         case Move::LEFT:
-            ( this->*moveTile )( row, col, row, col - 1 );
+            return ( this->*moveTile )( row, col, row, col - 1 );
+        default:
             return;
     }
 }
