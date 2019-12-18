@@ -193,15 +193,15 @@ void Fifteen::slotSolveBoard()
 
 void Fifteen::slotUndoMove()
 {
-    int position = undoMoveService->GetMove();
+    uint position = undoMoveService->GetMove();
 
-    if ( position == -1 )
+    if ( position == MOVE_STACK_EMPTY )
     {
         return;
     }
 
-    int row = position / 10;
-    int col = position % 10;
+    uint row = position / 10;
+    uint col = position % 10;
     Move move = board->checkMove( row, col );
     makeMove( move, row, col );
 }
@@ -211,7 +211,7 @@ void Fifteen::slotUndoMove()
 
 void Fifteen::pressTile()
 {
-    int position = ( (QPushButton*) sender() )->accessibleName().toInt();
+    uint position = ( static_cast< QPushButton* >( sender() ))->accessibleName().toUInt();
 
     uint row = position / 10;
     uint col = position % 10;

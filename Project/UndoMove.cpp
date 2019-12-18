@@ -30,14 +30,14 @@ void UndoMove::PutMove( Move move, uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-int UndoMove::GetMove()
+uint UndoMove::GetMove()
 {
     if ( moveStack.empty() )
     {
-        return -1;
+        return MOVE_STACK_EMPTY;
     }
 
-    int move = moveStack.back();
+    uint move = moveStack.back();
     moveStack.pop_back();
     return move;
 }

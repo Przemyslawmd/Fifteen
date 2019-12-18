@@ -5,17 +5,19 @@
 #include "Types.h"
 #include <deque>
 
+#define MOVE_STACK_EMPTY 10000
+
 class UndoMove
 {
 public:
 
     void PutMove( Move move, uint row, uint col );
-    int GetMove();
+    uint GetMove();
     void Reset();
 
 private:
 
-    std::deque< int > moveStack;
+    std::deque< uint > moveStack;
     const unsigned int MOVE_STACK_LIMIT = 10;
 };
 
