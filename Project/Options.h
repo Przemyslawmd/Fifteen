@@ -27,8 +27,8 @@ public:
     static unique_ptr< NumberOnImage > isNumberOnImage();
     static bool isUndoEnabled();
 
-    static unique_ptr< OptionsData > sendData();
-    static void receiveData( unique_ptr< OptionsData > messageData );
+    static unique_ptr< OptionsData > readOptions();
+    static void saveOptions( unique_ptr< OptionsData > messageData );
 
 private:
 

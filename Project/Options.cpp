@@ -54,7 +54,7 @@ bool Options::isUndoEnabled()
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr< OptionsData > Options::sendData()
+unique_ptr< OptionsData > Options::readOptions()
 {
     unique_ptr< OptionsData > messageData( new OptionsData );
     messageData->boardMode = boardMode;
@@ -71,7 +71,7 @@ unique_ptr< OptionsData > Options::sendData()
 }
 
 
-void Options::receiveData( unique_ptr< OptionsData >  messageData )
+void Options::saveOptions( unique_ptr< OptionsData >  messageData )
 {
     graphicMode = messageData->graphicMode;
     tileSize = messageData->tileSize;

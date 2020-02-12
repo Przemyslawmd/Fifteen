@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGroupBox>
+#include <QMessageBox>
 #include <memory>
 
 using std::unique_ptr;
@@ -19,7 +20,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     setAttribute( Qt::WA_DeleteOnClose );
 
     QVBoxLayout layWindow;
-    optionsCurrent = Options::sendData();
+    optionsCurrent = Options::readOptions();
 
     /* Graphic loading box *****************************************/
 
@@ -179,6 +180,16 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 void GUISetting::acceptSettings()
 {
     unique_ptr< OptionsData > optionsNew ( new OptionsData );
+
+    optionsNew->tileSize = Mapped::sliderTileSize.at( slider->value() );
+    bool tileSizeChanged = optionsNew->tileSize != optionsCurrent->tileSize;
+    if ( tileSizeChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC )
+    {
+        QMessageBox::information( this, "",
+                                  "\nSize of a tile can not be changed in graphic mode\t \nwhen an image has been loaded" );
+        return;
+    }
+
     optionsNew->graphicMode = mapRadioGraphicMode[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
     optionsNew->imageToLoad_4 = mapCheckImageToChose[BoardSize::FOUR]->isChecked();
     optionsNew->imageToLoad_5 = mapCheckImageToChose[BoardSize::FIVE]->isChecked();
@@ -188,16 +199,13 @@ void GUISetting::acceptSettings()
     optionsNew->undoEnabled = checkUndoEnabled.isChecked();
     optionsNew->squareColor = getChoosenOption< TileColor >( mapRadioColor, groupRadioColor );
 
-    optionsNew->tileSize = Mapped::sliderTileSize.at( slider->value() );
-
     bool numberImageChanged = optionsNew->numberColor != optionsCurrent->numberColor;
-    bool squareSizeChanged = optionsNew->tileSize != optionsCurrent->tileSize;
     bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
     bool colorChanged = optionsNew->squareColor != optionsCurrent->squareColor;
 
-    Options::receiveData( std::move( optionsNew ));
+    Options::saveOptions( std::move( optionsNew ));
 
-    if (( squareSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC  ) ||
+    if (( tileSizeChanged && optionsCurrent->boardMode == BoardMode::NUMERIC  ) ||
         ( numberImageChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC ))
     {
         owner.redrawTiles();
