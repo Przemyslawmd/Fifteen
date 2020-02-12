@@ -32,8 +32,6 @@ private:
     void createTilesForGraphicBoard( BoardSize, TileSize, QImage& );
     void removeBoard( GraphicBoard*& );
 
-    void ( GraphicBoard::*createImage )( QImage&, BoardSize, TileSize );
-
     static ImageProvider* instance;
     std::map< BoardSize, GraphicBoard* > images;
 };

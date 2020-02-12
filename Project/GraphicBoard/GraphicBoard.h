@@ -1,6 +1,6 @@
 
-#ifndef GRAPHIC_BOARD__H
-#define GRAPHIC_BOARD__H
+#ifndef GRAPHIC_BOARD_H
+#define GRAPHIC_BOARD_H
 
 #include "../FileBoard/IODataModel.h"
 #include "../Types.h"
@@ -16,7 +16,7 @@ private:
 
     friend class ImageProvider;
 
-    GraphicBoard() {};
+    GraphicBoard() {}
 
     void createTilesFromScaledImage( QImage&, BoardSize, TileSize );
     void createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
@@ -28,5 +28,5 @@ private:
     vector< std::unique_ptr< QImage >> images;
 };
 
-#endif // GRAPHIC_BOARD__H
+#endif // GRAPHIC_BOARD_H
 
