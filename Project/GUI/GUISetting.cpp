@@ -23,8 +23,8 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     /* Graphic loading box *****************************************/
 
-    mapRadioGraphicMode[GraphicMode::SCALED] = new QRadioButton( "Image is to be scalled" );
-    mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton( "Image is to be cropped" );
+    mapRadioGraphicMode[GraphicMode::SCALED] = new QRadioButton( "Scalled image" );
+    mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton( "Cropped image" );
     mapRadioGraphicMode[GraphicMode::SCALED]->setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
 
     for ( auto radio : mapRadioGraphicMode )
@@ -35,13 +35,13 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     mapRadioGraphicMode[ optionsCurrent->graphicMode]->setChecked( true );
 
-    mapCheckImageToChose[BoardSize::FOUR] = new QCheckBox( "Image is to be loaded for a board  4x4" );
+    mapCheckImageToChose[BoardSize::FOUR] = new QCheckBox( "Load image for board  4x4" );
     mapCheckImageToChose[BoardSize::FOUR]->setChecked( optionsCurrent->imageToLoad_4 );
-    mapCheckImageToChose[BoardSize::FIVE] = new QCheckBox( "Image is to be loaded for a board  5x5" );
+    mapCheckImageToChose[BoardSize::FIVE] = new QCheckBox( "Load Image for board  5x5" );
     mapCheckImageToChose[BoardSize::FIVE]->setChecked( optionsCurrent->imageToLoad_5 );
-    mapCheckImageToChose[BoardSize::SIX] = new QCheckBox( "Image is to be loaded for a board  6x6" );
+    mapCheckImageToChose[BoardSize::SIX] = new QCheckBox( "Load image for board  6x6" );
     mapCheckImageToChose[BoardSize::SIX]->setChecked( optionsCurrent->imageToLoad_6 );
-    mapCheckImageToChose[BoardSize::SEVEN] = new QCheckBox( "Image is to be loaded for a board  7x7" );
+    mapCheckImageToChose[BoardSize::SEVEN] = new QCheckBox( "Load image for board  7x7" );
     mapCheckImageToChose[BoardSize::SEVEN]->setChecked( optionsCurrent->imageToLoad_7 );
 
     for ( auto& check : mapCheckImageToChose )
@@ -49,9 +49,9 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
         check.second->setStyleSheet( "margin-left: 5px;" );
     }
 
-    mapRadioNumberOnImage[NumberColor::NO] = new QRadioButton( "Number on a graphic tile : No" );
-    mapRadioNumberOnImage[NumberColor::BLACK] = new QRadioButton( "Number on a graphic tile : Black" );
-    mapRadioNumberOnImage[NumberColor::WHITE] = new QRadioButton( "Number on a graphic tile : White" );
+    mapRadioNumberOnImage[NumberColor::NO] = new QRadioButton( "Number on graphic tile : No" );
+    mapRadioNumberOnImage[NumberColor::BLACK] = new QRadioButton( "Number on graphic tile : Black" );
+    mapRadioNumberOnImage[NumberColor::WHITE] = new QRadioButton( "Number on graphic tile : White" );
 
     for ( auto radio : mapRadioNumberOnImage )
     {
