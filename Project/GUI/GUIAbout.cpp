@@ -15,7 +15,7 @@ GUIAbout::GUIAbout()
     QString html;
 
     html.append( "<br/><pre>  Version:      1.9" );
-    html.append( "<pre>  Author:       Przemyslaw Madej, Warsaw 2018</pre>" );
+    html.append( "<pre>  Author:       Przemyslaw Madej</pre>" );
     html.append( "<pre>  Page:         http://przemeknet.pl/fifteen</pre>" );
 
     QTextDocument* doc = new QTextDocument();
