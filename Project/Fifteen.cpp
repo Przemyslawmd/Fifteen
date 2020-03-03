@@ -21,7 +21,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
     GUI::createGUI();
     GUI& gui = GUI::getGUI();
     gui.createMenu( this, action );
-    gui.createRightLayout( this, radioKind, radioSize );
+    gui.createRightLayout( this, radioKind );
     gui.completeLayouts( this );
     createTiles();
     setTiles( false );
@@ -377,7 +377,7 @@ void Fifteen::slotReadBoard()
     createTiles();
     setTiles( false );
 
-    radioSize[boardSize]->setChecked( true );
+    GUI::getGUI().setRadioSize( boardSize );
     bool isNumeric = Options::boardMode == BoardMode::NUMERIC;
     radioKind[BoardMode::NUMERIC]->setChecked( isNumeric );
     radioKind[BoardMode::GRAPHIC]->setChecked( !isNumeric );

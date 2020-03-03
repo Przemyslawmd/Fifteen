@@ -66,7 +66,7 @@ void GUI::createMenu( Fifteen* mainWidget, map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( Fifteen* mainWidget, map< BoardMode, QRadioButton* >& mapRadioKind, map< BoardSize, QRadioButton* >& mapRadioSize )
+void GUI::createRightLayout( Fifteen* mainWidget, map< BoardMode, QRadioButton* >& mapRadioKind )
 {
     mapRadioSize[BoardSize::FOUR] = new QRadioButton( "4" );
     mapRadioSize[BoardSize::FIVE] = new QRadioButton( "5" );
@@ -232,6 +232,11 @@ BoardSize GUI::checkRadioBoardSize()
 {
     int id = groupRadioSize->checkedId();
     return Mapped::getBoardSizeByInt( id );
+}
+
+void GUI::setRadioSize( BoardSize boardSize )
+{
+    mapRadioSize[boardSize]->setChecked( true );
 }
 
 /*********************************************************************************/
