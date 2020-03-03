@@ -26,8 +26,10 @@ void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSiz
     }
     else
     {
-        boardImage = sourceImage.copy(( sourceImage.width() - boardSizePixel ) / 2, ( sourceImage.height() - boardSizePixel ) / 2,
-                           boardSizePixel, boardSizePixel );
+        boardImage = sourceImage.copy(( sourceImage.width() - boardSizePixel ) / 2,
+                                      ( sourceImage.height() - boardSizePixel ) / 2,
+                                        boardSizePixel,
+                                        boardSizePixel );
     }
 
     createTiles( &boardImage, boardSizeInt, tileSizeInt );
