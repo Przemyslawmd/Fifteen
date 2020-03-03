@@ -21,7 +21,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
     GUI::createGUI();
     GUI& gui = GUI::getGUI();
     gui.createMenu( this, action );
-    gui.createRightLayout( this, radioKind );
+    gui.createRightLayout( this );
     gui.completeLayouts( this );
     createTiles();
     setTiles( false );
@@ -155,16 +155,18 @@ void Fifteen::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColo
 
 void Fifteen::slotGenerateBoard()
 {
-    BoardSize boardSize = GUI::getGUI().checkRadioBoardSize();
+    GUI& gui = GUI::getGUI();
+    BoardSize boardSize = gui.checkRadioBoardSize();
 
-    if ( radioKind[BoardMode::GRAPHIC]->isChecked() && ImageProvider::getInstance().isGraphicBoard( boardSize ) == false )
+    BoardMode requestedBoardMode = gui.checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
+    if ( requestedBoardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().isGraphicBoard( boardSize ) == false )
     {
         QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
         return;
     }
 
+    Options::boardMode = requestedBoardMode;
     board = Board::createBoard( boardSize );
-    Options::boardMode = radioKind[BoardMode::NUMERIC]->isChecked() ? BoardMode::NUMERIC : BoardMode::GRAPHIC;
     createTiles();
     setTiles( true );
 
@@ -324,7 +326,8 @@ void Fifteen::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
     action[Action::REM_GRAPHIC]->setEnabled( false );
-    radioKind[BoardMode::NUMERIC]->setChecked( true );
+
+    GUI::getGUI().setRadioBoardMode( BoardMode::NUMERIC );
 
     if ( Options::boardMode == BoardMode::GRAPHIC )
     {
@@ -377,11 +380,10 @@ void Fifteen::slotReadBoard()
     createTiles();
     setTiles( false );
 
-    GUI::getGUI().setRadioSize( boardSize );
-    bool isNumeric = Options::boardMode == BoardMode::NUMERIC;
-    radioKind[BoardMode::NUMERIC]->setChecked( isNumeric );
-    radioKind[BoardMode::GRAPHIC]->setChecked( !isNumeric );
-    action[Action::REM_GRAPHIC]->setEnabled( !isNumeric );
+    GUI& gui = GUI::getGUI();
+    gui.setRadioSize( boardSize );
+    gui.setRadioBoardMode( Options::boardMode );
+    action[Action::REM_GRAPHIC]->setEnabled( Options::boardMode == BoardMode::GRAPHIC );
 }
 
 /*********************************************************************************/

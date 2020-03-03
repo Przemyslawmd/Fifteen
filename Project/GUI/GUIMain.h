@@ -25,7 +25,7 @@ public:
     static GUI& getGUI();
 
     void createMenu( Fifteen*, map< Action, QAction* >& );
-    void createRightLayout( Fifteen*, map< BoardMode, QRadioButton* >& );
+    void createRightLayout( Fifteen* );
     void completeLayouts( Fifteen* );
 
     void createTiles( Fifteen*, BoardSize, TileSize );
@@ -34,6 +34,8 @@ public:
     BoardSize checkRadioBoardSize();
     void setStatePushUndo( bool state );
     void setRadioSize( BoardSize );
+    bool checkRadioBoardMode( BoardMode );
+    void setRadioBoardMode( BoardMode );
 
 private:
 
@@ -46,7 +48,8 @@ private:
     unique_ptr< QButtonGroup > groupRadioSize;
     unique_ptr< QPushButton > pushUndo;
 
-    map< BoardSize, QRadioButton* > mapRadioSize;
+    map< BoardSize, QRadioButton* > mapRadioBoardSize;
+    map< BoardMode, QRadioButton* > mapRadioBoardMode;
 
     QVBoxLayout* layVerticalBoard;
     vector< QHBoxLayout* > layHorizontalBoard;

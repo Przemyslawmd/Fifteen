@@ -40,8 +40,6 @@ private:
     unique_ptr< UndoMove > undoMoveService;
     map< Action, QAction* > action;
 
-    map< BoardMode, QRadioButton* > radioKind;
-
     void createTiles();
     void setTiles( bool isRandom );
     void setTilesNumeric( bool isRandom );

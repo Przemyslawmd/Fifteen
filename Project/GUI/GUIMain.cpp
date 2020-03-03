@@ -66,17 +66,17 @@ void GUI::createMenu( Fifteen* mainWidget, map< Action, QAction* >& actions )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( Fifteen* mainWidget, map< BoardMode, QRadioButton* >& mapRadioKind )
+void GUI::createRightLayout( Fifteen* mainWidget )
 {
-    mapRadioSize[BoardSize::FOUR] = new QRadioButton( "4" );
-    mapRadioSize[BoardSize::FIVE] = new QRadioButton( "5" );
-    mapRadioSize[BoardSize::SIX] = new QRadioButton( "6" );
-    mapRadioSize[BoardSize::SEVEN] = new QRadioButton( "7" );
-    mapRadioSize[BoardSize::FOUR]->setChecked( true );
+    mapRadioBoardSize[BoardSize::FOUR] = new QRadioButton( "4" );
+    mapRadioBoardSize[BoardSize::FIVE] = new QRadioButton( "5" );
+    mapRadioBoardSize[BoardSize::SIX] = new QRadioButton( "6" );
+    mapRadioBoardSize[BoardSize::SEVEN] = new QRadioButton( "7" );
+    mapRadioBoardSize[BoardSize::FOUR]->setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
     groupRadioSize = unique_ptr< QButtonGroup >( new QButtonGroup () );
-    for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapRadioSize )
+    for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapRadioBoardSize )
     {
         radioSizeLayout->addSpacing( 10 );
         radioSizeLayout->addWidget( radioSizePair.second );
@@ -89,13 +89,13 @@ void GUI::createRightLayout( Fifteen* mainWidget, map< BoardMode, QRadioButton* 
     unique_ptr< QGroupBox > radioSizeBox = unique_ptr< QGroupBox >( new QGroupBox( " Dimension of Board " ));
     radioSizeBox->setLayout( radioSizeLayout );
 
-    mapRadioKind[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
-    mapRadioKind[BoardMode::GRAPHIC] = new QRadioButton( "Graphic" );
-    mapRadioKind[BoardMode::NUMERIC]->setChecked( true );
+    mapRadioBoardMode[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
+    mapRadioBoardMode[BoardMode::GRAPHIC] = new QRadioButton( "Graphic" );
+    mapRadioBoardMode[BoardMode::NUMERIC]->setChecked( true );
 
     QVBoxLayout* radioKindLayout = new QVBoxLayout();
     unique_ptr< QButtonGroup > groupRadioKind = unique_ptr< QButtonGroup >( new QButtonGroup() );
-    for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapRadioKind )
+    for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapRadioBoardMode )
     {
         radioKindLayout->addSpacing( 10 );
         radioKindLayout->addWidget( radioKindPair.second );
@@ -234,9 +234,28 @@ BoardSize GUI::checkRadioBoardSize()
     return Mapped::getBoardSizeByInt( id );
 }
 
+/*********************************************************************************/
+/*********************************************************************************/
+
 void GUI::setRadioSize( BoardSize boardSize )
 {
-    mapRadioSize[boardSize]->setChecked( true );
+    mapRadioBoardSize.at( boardSize )->setChecked( true );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+bool GUI::checkRadioBoardMode( BoardMode boardMode )
+{
+    return mapRadioBoardMode.at( boardMode )->isChecked();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void GUI::setRadioBoardMode( BoardMode boardMode )
+{
+    mapRadioBoardMode.at( boardMode )->setChecked( true );
 }
 
 /*********************************************************************************/
