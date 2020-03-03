@@ -13,28 +13,24 @@ vector< unique_ptr< QImage >>& GraphicBoard::getImages()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTilesFromScaledImage( QImage& image, BoardSize boardSize, TileSize tileSize )
-{
-    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
-    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    uint boardSizePixel = boardSizeInt * tileSizeInt;
-    QImage scaledImage = image.scaled( boardSizePixel, boardSizePixel );
-    createTiles( &scaledImage, boardSizeInt, tileSizeInt );
-    this->tileSize = tileSize;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GraphicBoard::createTilesFromCroppedImage( QImage& image, BoardSize boardSize, TileSize tileSize )
+void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSize, TileSize tileSize, GraphicMode graphicMode )
 {
     uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
     uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     uint boardSizePixel = boardSizeInt * tileSizeInt;
 
-    QImage croppedImage = image.copy(( image.width() - boardSizePixel ) / 2, ( image.height() - boardSizePixel ) / 2,
-                                       boardSizePixel, boardSizePixel );
-    createTiles( &croppedImage, boardSizeInt, tileSizeInt );
+    QImage boardImage;
+    if ( graphicMode == GraphicMode::SCALED )
+    {
+        boardImage = sourceImage.scaled( boardSizePixel, boardSizePixel );
+    }
+    else
+    {
+        boardImage = sourceImage.copy(( sourceImage.width() - boardSizePixel ) / 2, ( sourceImage.height() - boardSizePixel ) / 2,
+                           boardSizePixel, boardSizePixel );
+    }
+
+    createTiles( &boardImage, boardSizeInt, tileSizeInt );
     this->tileSize = tileSize;
 }
 

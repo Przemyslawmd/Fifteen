@@ -18,8 +18,7 @@ private:
 
     GraphicBoard() {}
 
-    void createTilesFromScaledImage( QImage&, BoardSize, TileSize );
-    void createTilesFromCroppedImage( QImage&, BoardSize, TileSize );
+    void createTilesFromImage( QImage&, BoardSize, TileSize, GraphicMode );
     void createTiles( QImage*, uint boardSize, uint tileSize );
     bool restoreImagesFromFile( IODataModel& );
     vector< unique_ptr< QImage >>& getImages();

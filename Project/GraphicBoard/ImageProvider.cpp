@@ -105,9 +105,9 @@ ImageProvider::~ImageProvider()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize imageSize )
+bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize tileSize )
 {
-    uint tileSizeInt = Mapped::tileSizeInt.at( imageSize );
+    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
     uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
     if (( picture.height() < boardSizeInt * tileSizeInt ) || ( picture.width() < boardSizeInt * tileSizeInt ))
     {
@@ -124,15 +124,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSi
 void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, TileSize tileSize, QImage& image )
 {
     images.at( boardSize ) = new GraphicBoard();
-
-    if ( Options::graphicMode == GraphicMode::SCALED )
-    {
-        images.at( boardSize )->createTilesFromScaledImage( image, boardSize, tileSize );
-    }
-    else
-    {
-        images.at( boardSize )->createTilesFromCroppedImage( image, boardSize, tileSize );
-    }
+    images.at( boardSize )->createTilesFromImage( image, boardSize, tileSize, Options::graphicMode );
 }
 
 /*********************************************************************************/
