@@ -2,7 +2,6 @@
 #ifndef FIFTEEN_H
 #define FIFTEEN_H
 
-//#include "GUI/GUIMain.h"
 #include "Board.h"
 #include "Types.h"
 #include "UndoMove.h"

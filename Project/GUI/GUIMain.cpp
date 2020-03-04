@@ -3,7 +3,6 @@
 #include "MappedValues.h"
 #include <memory>
 #include <iostream>
-#include <Fifteen.h>
 
 
 void GUI::createGUI()
@@ -35,7 +34,7 @@ GUI::GUI() {}
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createMenu( QMainWindow* mainWidget, std::array< std::function< void( void ) >, 6 > funcs )
+void GUI::createMenu( QMainWindow* mainWidget, array< function< void( void ) >, 6 > funcs )
 {
     unique_ptr< QMenu > fileMenu = std::make_unique< QMenu >( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
@@ -67,7 +66,7 @@ void GUI::createMenu( QMainWindow* mainWidget, std::array< std::function< void( 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( Fifteen* mainWidget )
+void GUI::createRightLayout( QMainWindow* mainWidget, array< function< void( void ) >, 3 > funcs )
 {
     mapRadioBoardSize[BoardSize::FOUR] = new QRadioButton( "4" );
     mapRadioBoardSize[BoardSize::FIVE] = new QRadioButton( "5" );
@@ -110,16 +109,16 @@ void GUI::createRightLayout( Fifteen* mainWidget )
 
     QPushButton* pushRandom = new QPushButton(" Generate Board ");
     pushRandom->setStyleSheet( "height:20px;" );
-    connect( pushRandom, &QPushButton::clicked, mainWidget, &Fifteen::slotGenerateBoard );
+    connect( pushRandom, &QPushButton::clicked, mainWidget, funcs.at( 0 ));
 
     QPushButton* pushSolve = new QPushButton(" Solve Board ");
     pushSolve->setStyleSheet( "height:20px;" );
-    connect( pushSolve, &QPushButton::clicked, mainWidget, &Fifteen::slotSolveBoard );
+    connect( pushSolve, &QPushButton::clicked, mainWidget, funcs.at( 1 ));
 
     pushUndo = unique_ptr< QPushButton>( new QPushButton(" Undo Move " ));
     pushUndo->setStyleSheet( "height:20px;" );
     pushUndo->setDisabled( true );
-    connect( pushUndo.get(), &QPushButton::clicked, mainWidget, &Fifteen::slotUndoMove );
+    connect( pushUndo.get(), &QPushButton::clicked, mainWidget, funcs.at( 2 ));
 
     layRight = new QVBoxLayout();
     layRight->setContentsMargins( 30, 0, 20, 0 );
@@ -159,7 +158,7 @@ void GUI::completeLayouts( QMainWindow* mainWidget )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::bindAction( QMainWindow* mainWidget, QAction*& action, std::function< void( void ) > slot, QString text )
+void GUI::bindAction( QMainWindow* mainWidget, QAction*& action, function< void( void ) > slot, QString text )
 {
     action = new QAction( mainWidget );
     action->setText( text );
@@ -169,7 +168,7 @@ void GUI::bindAction( QMainWindow* mainWidget, QAction*& action, std::function< 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( Fifteen* mainWidget, BoardSize boardSize, TileSize tileSize_ )
+void GUI::createTiles( const QMainWindow* mainWidget, BoardSize boardSize, TileSize tileSize_, function< void( void )> func )
 {
     deleteTiles();
     uint tileSizeInt = Mapped::tileSizeInt.at( tileSize_ );
@@ -189,7 +188,7 @@ void GUI::createTiles( Fifteen* mainWidget, BoardSize boardSize, TileSize tileSi
             tile->setAccessibleName( QString::number( row ) + QString::number( col ));
             tile->setMaximumSize( tileSizeInt, tileSizeInt );
             tile->setMinimumSize( tileSizeInt, tileSizeInt );
-            connect( tile.get(), &QPushButton::clicked, mainWidget, &Fifteen::pressTile );
+            connect( tile.get(), &QPushButton::clicked, mainWidget, func );
             layHorizontalBoard[row]->addWidget( tile.get() );
             tiles.push_back( std::move( tile ));
         }

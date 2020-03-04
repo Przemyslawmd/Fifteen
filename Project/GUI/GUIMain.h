@@ -2,7 +2,6 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include "Fifteen.h"
 #include "Types.h"
 #include <QMainWindow>
 #include <QMenu>
@@ -11,10 +10,16 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QButtonGroup>
+#include <QPushButton>
+#include <QRadioButton>
 #include <map>
 #include <memory>
 
-typedef void ( Fifteen::*SlotMainWindow )();
+using std::vector;
+using std::unique_ptr;
+using std::map;
+using std::function;
+using std::array;
 
 class GUI : public QMainWindow
 {
@@ -24,11 +29,11 @@ public:
     static void releaseGUI();
     static GUI& getGUI();
 
-    void createMenu( QMainWindow*, std::array< std::function< void( void ) >, 6 > funcs );
-    void createRightLayout( Fifteen* );
+    void createMenu( QMainWindow*, array< function< void( void ) >, 6 > funcs );
+    void createRightLayout( QMainWindow*, array< function< void( void ) >, 3 > funcs );
     void completeLayouts( QMainWindow* );
 
-    void createTiles( Fifteen*, BoardSize, TileSize );
+    void createTiles( const QMainWindow*, BoardSize, TileSize, function< void( void ) > func );
     void deleteTiles();
     vector< unique_ptr< QPushButton >>& getTiles();
     BoardSize checkRadioBoardSize();
@@ -41,7 +46,7 @@ public:
 private:
 
     GUI();
-    void bindAction( QMainWindow*, QAction*&, std::function< void( void ) >, QString );
+    void bindAction( QMainWindow*, QAction*&, function< void( void ) >, QString );
 
     static GUI* gui;
 

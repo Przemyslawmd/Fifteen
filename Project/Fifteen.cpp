@@ -35,9 +35,15 @@ void Fifteen::initGame()
         std::bind( &Fifteen::slotSettings, this ),
         std::bind( &Fifteen::slotAbout, this ),
     };
-
     gui.createMenu( this, funcs );
-    gui.createRightLayout( this );
+
+    std::array< std::function< void( void ) >, 3 > func =
+    {
+        std::bind( &Fifteen::slotGenerateBoard, this ),
+        std::bind( &Fifteen::slotSolveBoard, this ),
+        std::bind( &Fifteen::slotUndoMove, this ),
+    };
+    gui.createRightLayout( this, func );
     gui.completeLayouts( this );
 
     createTiles();
@@ -63,7 +69,7 @@ void Fifteen::createTiles()
     TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
                         Options::tileSize : ImageProvider::getInstance().getTileSize( boardSize );
 
-    GUI::getGUI().createTiles( this, boardSize, tileSize );
+    GUI::getGUI().createTiles( this, boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
 }
 
 /*********************************************************************************/
