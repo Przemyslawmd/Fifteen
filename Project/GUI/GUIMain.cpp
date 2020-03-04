@@ -3,6 +3,7 @@
 #include "MappedValues.h"
 #include <memory>
 #include <iostream>
+#include <Fifteen.h>
 
 
 void GUI::createGUI()
@@ -34,17 +35,17 @@ GUI::GUI() {}
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createMenu( Fifteen* mainWidget )
+void GUI::createMenu( QMainWindow* mainWidget, std::array< std::function< void( void ) >, 6 > funcs )
 {
     unique_ptr< QMenu > fileMenu = std::make_unique< QMenu >( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    bindAction( mainWidget, mapActionMenu[ActionMenu::OPEN_GRAPHIC], &Fifteen::slotLoadGraphic,   "Load Graphic File" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::REM_GRAPHIC],  &Fifteen::slotRemoveGraphic, "Remove Graphic" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::SAVE_BOARD],   &Fifteen::slotSaveBoard,     "Save Board" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::LOAD_BOARD],   &Fifteen::slotReadBoard,     "Load Board" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::SETTINGS],     &Fifteen::slotSettings,      "Settings" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::ABOUT],        &Fifteen::slotAbout,         "About" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::OPEN_GRAPHIC], funcs.at( 0 ), "Load Graphic File" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::REM_GRAPHIC],  funcs.at( 1 ), "Remove Graphic" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::SAVE_BOARD],   funcs.at( 2 ), "Save Board" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::LOAD_BOARD],   funcs.at( 3 ), "Load Board" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::SETTINGS],     funcs.at( 4 ), "Settings" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::ABOUT],        funcs.at( 5 ), "About" );
 
     fileMenu->addAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC] );
     fileMenu->addSeparator();
@@ -137,7 +138,7 @@ void GUI::createRightLayout( Fifteen* mainWidget )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::completeLayouts( Fifteen* mainWidget )
+void GUI::completeLayouts( QMainWindow* mainWidget )
 {
     QWidget* mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 10 );
@@ -158,7 +159,7 @@ void GUI::completeLayouts( Fifteen* mainWidget )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::bindAction( Fifteen* mainWidget, QAction*& action, SlotMainWindow slot, QString text )
+void GUI::bindAction( QMainWindow* mainWidget, QAction*& action, std::function< void( void ) > slot, QString text )
 {
     action = new QAction( mainWidget );
     action->setText( text );

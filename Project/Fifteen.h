@@ -2,6 +2,7 @@
 #ifndef FIFTEEN_H
 #define FIFTEEN_H
 
+//#include "GUI/GUIMain.h"
 #include "Board.h"
 #include "Types.h"
 #include "UndoMove.h"
@@ -25,6 +26,7 @@ public:
     explicit Fifteen( QWidget *parent = 0 );
     ~Fifteen();
 
+    void initGame();
     void setColor();
     void redrawTiles();
     void createUndoMovesService();
@@ -58,7 +60,6 @@ private slots:
     void slotReadBoard();
     void slotSettings();
     void slotAbout();
-
     void slotGenerateBoard();
     void slotSolveBoard();
     void slotUndoMove();

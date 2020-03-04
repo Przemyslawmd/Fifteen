@@ -24,9 +24,9 @@ public:
     static void releaseGUI();
     static GUI& getGUI();
 
-    void createMenu( Fifteen* );
+    void createMenu( QMainWindow*, std::array< std::function< void( void ) >, 6 > funcs );
     void createRightLayout( Fifteen* );
-    void completeLayouts( Fifteen* );
+    void completeLayouts( QMainWindow* );
 
     void createTiles( Fifteen*, BoardSize, TileSize );
     void deleteTiles();
@@ -41,7 +41,7 @@ public:
 private:
 
     GUI();
-    void bindAction( Fifteen*, QAction*&, SlotMainWindow, QString );
+    void bindAction( QMainWindow*, QAction*&, std::function< void( void ) >, QString );
 
     static GUI* gui;
 

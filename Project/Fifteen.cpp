@@ -1,6 +1,5 @@
 
 #include "Fifteen.h"
-
 #include "Message.h"
 #include "GUI/GUIMain.h"
 #include "GUI/GUISetting.h"
@@ -15,15 +14,32 @@
 #include <QFileDialog>
 #include <QFont>
 
-Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
+Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void Fifteen::initGame()
 {
     board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
     GUI::createGUI();
     GUI& gui = GUI::getGUI();
-    gui.createMenu( this );
+
+    std::array< std::function< void( void ) >, 6 > funcs =
+    {
+        std::bind( &Fifteen::slotLoadGraphic, this ),
+        std::bind( &Fifteen::slotRemoveGraphic, this ),
+        std::bind( &Fifteen::slotSaveBoard, this ),
+        std::bind( &Fifteen::slotReadBoard, this ),
+        std::bind( &Fifteen::slotSettings, this ),
+        std::bind( &Fifteen::slotAbout, this ),
+    };
+
+    gui.createMenu( this, funcs );
     gui.createRightLayout( this );
     gui.completeLayouts( this );
+
     createTiles();
     setTiles( false );
     undoMoveService = nullptr;
