@@ -38,7 +38,6 @@ private:
 
     Board* board;
     unique_ptr< UndoMove > undoMoveService;
-    map< Action, QAction* > action;
 
     void createTiles();
     void setTiles( bool isRandom );

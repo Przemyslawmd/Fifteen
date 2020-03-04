@@ -1,7 +1,8 @@
 
 #include "Fifteen.h"
-#include "GUI/GUIMain.h"
+
 #include "Message.h"
+#include "GUI/GUIMain.h"
 #include "GUI/GUISetting.h"
 #include "GUI/GUIAbout.h"
 #include "FileBoard/IOBoard.h"
@@ -20,7 +21,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent }
     resize( 750, 550 );
     GUI::createGUI();
     GUI& gui = GUI::getGUI();
-    gui.createMenu( this, action );
+    gui.createMenu( this );
     gui.createRightLayout( this );
     gui.completeLayouts( this );
     createTiles();
@@ -313,7 +314,7 @@ void Fifteen::slotLoadGraphic()
     if ( provider.isGraphicBoard( BoardSize::FOUR ) || provider.isGraphicBoard( BoardSize::FIVE ) ||
          provider.isGraphicBoard( BoardSize::SIX )  || provider.isGraphicBoard( BoardSize::SEVEN ))
     {
-        action[Action::REM_GRAPHIC]->setEnabled( true );
+        GUI::getGUI().setActionMenuState( ActionMenu::REM_GRAPHIC, true );
     }
 
     QMessageBox::information( this, "", Message::getMessages() );
@@ -325,9 +326,10 @@ void Fifteen::slotLoadGraphic()
 void Fifteen::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
-    action[Action::REM_GRAPHIC]->setEnabled( false );
 
-    GUI::getGUI().setRadioBoardMode( BoardMode::NUMERIC );
+    GUI& gui = GUI::getGUI();
+    gui.setActionMenuState( ActionMenu::REM_GRAPHIC, false );
+    gui.setRadioBoardMode( BoardMode::NUMERIC );
 
     if ( Options::boardMode == BoardMode::GRAPHIC )
     {
@@ -383,7 +385,7 @@ void Fifteen::slotReadBoard()
     GUI& gui = GUI::getGUI();
     gui.setRadioSize( boardSize );
     gui.setRadioBoardMode( Options::boardMode );
-    action[Action::REM_GRAPHIC]->setEnabled( Options::boardMode == BoardMode::GRAPHIC );
+    gui.setActionMenuState( ActionMenu::REM_GRAPHIC, Options::boardMode == BoardMode::GRAPHIC );
 }
 
 /*********************************************************************************/

@@ -34,30 +34,30 @@ GUI::GUI() {}
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createMenu( Fifteen* mainWidget, map< Action, QAction* >& actions )
+void GUI::createMenu( Fifteen* mainWidget )
 {
     unique_ptr< QMenu > fileMenu = std::make_unique< QMenu >( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    bindAction( mainWidget, actions[Action::OPEN_GRAPHIC], &Fifteen::slotLoadGraphic,   "Load Graphic File" );
-    bindAction( mainWidget, actions[Action::REM_GRAPHIC],  &Fifteen::slotRemoveGraphic, "Remove Graphic" );
-    bindAction( mainWidget, actions[Action::SAVE_BOARD],   &Fifteen::slotSaveBoard,     "Save Board" );
-    bindAction( mainWidget, actions[Action::LOAD_BOARD],   &Fifteen::slotReadBoard,     "Load Board" );
-    bindAction( mainWidget, actions[Action::SETTINGS],     &Fifteen::slotSettings,      "Settings" );
-    bindAction( mainWidget, actions[Action::ABOUT],        &Fifteen::slotAbout,         "About" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::OPEN_GRAPHIC], &Fifteen::slotLoadGraphic,   "Load Graphic File" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::REM_GRAPHIC],  &Fifteen::slotRemoveGraphic, "Remove Graphic" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::SAVE_BOARD],   &Fifteen::slotSaveBoard,     "Save Board" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::LOAD_BOARD],   &Fifteen::slotReadBoard,     "Load Board" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::SETTINGS],     &Fifteen::slotSettings,      "Settings" );
+    bindAction( mainWidget, mapActionMenu[ActionMenu::ABOUT],        &Fifteen::slotAbout,         "About" );
 
-    fileMenu->addAction( actions[Action::OPEN_GRAPHIC] );
+    fileMenu->addAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC] );
     fileMenu->addSeparator();
-    fileMenu->addAction( actions[Action::REM_GRAPHIC] );
+    fileMenu->addAction( mapActionMenu[ActionMenu::REM_GRAPHIC] );
     fileMenu->addSeparator();
-    fileMenu->addAction( actions[Action::SAVE_BOARD] );
+    fileMenu->addAction( mapActionMenu[ActionMenu::SAVE_BOARD] );
     fileMenu->addSeparator();
-    fileMenu->addAction( actions[Action::LOAD_BOARD] );
+    fileMenu->addAction( mapActionMenu[ActionMenu::LOAD_BOARD] );
 
     unique_ptr< QMenuBar > menuBar = std::make_unique< QMenuBar >();
     menuBar->addMenu( fileMenu.release() );
-    menuBar->addAction( actions[Action::SETTINGS] );
-    menuBar->addAction( actions[Action::ABOUT] );
+    menuBar->addAction( mapActionMenu[ActionMenu::SETTINGS] );
+    menuBar->addAction( mapActionMenu[ActionMenu::ABOUT] );
     menuBar->setStyleSheet( "padding-left: 5px; margin: 3px;" );
 
     mainWidget->setMenuBar( menuBar.release() );
@@ -256,6 +256,14 @@ bool GUI::checkRadioBoardMode( BoardMode boardMode )
 void GUI::setRadioBoardMode( BoardMode boardMode )
 {
     mapRadioBoardMode.at( boardMode )->setChecked( true );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void GUI::setActionMenuState( ActionMenu actionMenu, bool state )
+{
+    mapActionMenu.at( actionMenu )->setEnabled( state );
 }
 
 /*********************************************************************************/
