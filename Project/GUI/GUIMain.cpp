@@ -117,7 +117,7 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
 void GUI::completeLayouts( QMainWindow* widget )
 {
     QWidget* mainPanel = new QWidget();
-    mainPanel->setContentsMargins( 20, 20, 0, 10 );
+    mainPanel->setContentsMargins( 20, 20, 0, 20 );
 
     layVerticalBoard = new QVBoxLayout();
     layVerticalBoard->setSpacing( 0 );

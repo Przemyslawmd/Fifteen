@@ -21,7 +21,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 
 void Fifteen::initGame()
 {
-    resize( 750, 550 );
+    resize( 850, 600 );
     board = std::make_unique< Board >( BoardSize::FOUR );
     gui = std::make_unique< GUI >();
 

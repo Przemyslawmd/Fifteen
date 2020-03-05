@@ -92,7 +92,7 @@ void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
 
 BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
-TileSize Options::tileSize = TileSize::_50;
+TileSize Options::tileSize = TileSize::_100;
 TileColor Options::currentColor = TileColor::BLUE;
 NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;
