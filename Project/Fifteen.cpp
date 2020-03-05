@@ -25,18 +25,18 @@ void Fifteen::initGame()
     board = std::make_unique< Board >( BoardSize::FOUR );
     gui = std::make_unique< GUI >();
 
-    std::array< std::function< void( void ) >, 6 > funcsMenu =
+    map< ActionMenu, std::function< void( void ) >> funcsMenu =
     {
-        std::bind( &Fifteen::slotLoadGraphic, this ),
-        std::bind( &Fifteen::slotRemoveGraphic, this ),
-        std::bind( &Fifteen::slotSaveBoard, this ),
-        std::bind( &Fifteen::slotReadBoard, this ),
-        std::bind( &Fifteen::slotSettings, this ),
-        std::bind( &Fifteen::slotAbout, this ),
+        { ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this )},
+        { ActionMenu::REM_GRAPHIC,  std::bind( &Fifteen::slotRemoveGraphic, this )},
+        { ActionMenu::SAVE_BOARD,   std::bind( &Fifteen::slotSaveBoard, this )},
+        { ActionMenu::LOAD_BOARD,   std::bind( &Fifteen::slotReadBoard, this )},
+        { ActionMenu::SETTINGS,     std::bind( &Fifteen::slotSettings, this )},
+        { ActionMenu::ABOUT,        std::bind( &Fifteen::slotAbout, this )},
     };
     gui->createMenu( this, funcsMenu );
 
-    std::array< std::function< void( void ) >, 3 > funcsRightLayout =
+    array< std::function< void( void ) >, 3 > funcsRightLayout =
     {
         std::bind( &Fifteen::slotGenerateBoard, this ),
         std::bind( &Fifteen::slotSolveBoard, this ),
@@ -46,7 +46,6 @@ void Fifteen::initGame()
 
     gui->completeLayouts( this );
     redrawTiles();
-
     undoMoveService = nullptr;
 }
 
