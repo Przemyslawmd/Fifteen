@@ -45,9 +45,8 @@ void Fifteen::initGame()
     gui->createRightLayout( this, funcsRightLayout );
 
     gui->completeLayouts( this );
+    redrawTiles();
 
-    createTiles();
-    setTiles( false );
     undoMoveService = nullptr;
 }
 
@@ -74,24 +73,24 @@ void Fifteen::createTiles()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::setTiles( bool isRandom )
+void Fifteen::setTiles()
 {
     if ( Options::boardMode == BoardMode::NUMERIC )
     {
-        setTilesNumeric( isRandom );
+        setTilesNumeric();
     }
     else
     {
-        setTilesGraphic( isRandom );
+        setTilesGraphic();
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::setTilesNumeric( bool isRandom )
+void Fifteen::setTilesNumeric()
 {    
-    auto values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
+    auto values = board->sendBoard();
     auto iter = values.begin();
 
     int fontSizeInt = Mapped::fontSizeInt.at( Options::getFontSize() );
@@ -120,10 +119,10 @@ void Fifteen::setTilesNumeric( bool isRandom )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::setTilesGraphic( bool isRandom )
+void Fifteen::setTilesGraphic()
 {
     BoardSize boardSize = board->getSize();
-    vector< uint >& values = ( isRandom ) ? board->randomBoard() : board->sendBoard();
+    vector< uint >& values = board->sendBoard();
 
     ImageProvider& provider = ImageProvider::getInstance();
     auto& images = provider.getImages( boardSize );
@@ -188,8 +187,8 @@ void Fifteen::slotGenerateBoard()
 
     Options::boardMode = requestedBoardMode;
     board.reset( new Board( boardSize ));
-    createTiles();
-    setTiles( true );
+    board->randomBoard();
+    redrawTiles();
 
     if ( undoMoveService )
     {
@@ -203,7 +202,7 @@ void Fifteen::slotGenerateBoard()
 void Fifteen::slotSolveBoard()
 {
     board->solveBoard();
-    setTiles( false );
+    setTiles();
 
     if ( undoMoveService )
     {
@@ -352,8 +351,7 @@ void Fifteen::slotRemoveGraphic()
     if ( Options::boardMode == BoardMode::GRAPHIC )
     {
         Options::boardMode = BoardMode::NUMERIC;
-        createTiles();
-        setTiles( false );
+        redrawTiles();
     }
 }
 
@@ -396,8 +394,7 @@ void Fifteen::slotReadBoard()
     BoardSize boardSize = Mapped::getBoardSizeByInt( values->back() );
     values->pop_back();
     board.reset( new Board( *values, boardSize ));
-    createTiles();
-    setTiles( false );
+    redrawTiles();
 
     gui->setRadioSize( boardSize );
     gui->setRadioBoardMode( Options::boardMode );
@@ -426,7 +423,7 @@ void Fifteen::setColor()
 void Fifteen::redrawTiles()
 {
     createTiles();
-    setTiles( false );
+    setTiles();
 }
 
 /*********************************************************************************/

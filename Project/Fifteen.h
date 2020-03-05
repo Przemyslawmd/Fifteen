@@ -43,9 +43,9 @@ private:
     unique_ptr< UndoMove > undoMoveService;
 
     void createTiles();
-    void setTiles( bool isRandom );
-    void setTilesNumeric( bool isRandom );
-    void setTilesGraphic( bool isRandom );
+    void setTiles();
+    void setTilesNumeric();
+    void setTilesGraphic();
 
     void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, uint number );
 
