@@ -21,10 +21,9 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 
 void Fifteen::initGame()
 {
-    board = Board::createBoard( BoardSize::FOUR );
     resize( 750, 550 );
-    GUI::createGUI();
-    GUI& gui = GUI::getGUI();
+    board = Board::createBoard( BoardSize::FOUR );
+    gui = std::make_unique< GUI >();
 
     std::array< std::function< void( void ) >, 6 > funcs =
     {
@@ -35,7 +34,7 @@ void Fifteen::initGame()
         std::bind( &Fifteen::slotSettings, this ),
         std::bind( &Fifteen::slotAbout, this ),
     };
-    gui.createMenu( this, funcs );
+    gui->createMenu( this, funcs );
 
     std::array< std::function< void( void ) >, 3 > func =
     {
@@ -43,8 +42,8 @@ void Fifteen::initGame()
         std::bind( &Fifteen::slotSolveBoard, this ),
         std::bind( &Fifteen::slotUndoMove, this ),
     };
-    gui.createRightLayout( this, func );
-    gui.completeLayouts( this );
+    gui->createRightLayout( this, func );
+    gui->completeLayouts( this );
 
     createTiles();
     setTiles( false );
@@ -57,7 +56,6 @@ void Fifteen::initGame()
 Fifteen::~Fifteen()
 {
     ImageProvider::deleteInstance();
-    GUI::releaseGUI();
 }
 
 /*********************************************************************************/
@@ -69,7 +67,7 @@ void Fifteen::createTiles()
     TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
                         Options::tileSize : ImageProvider::getInstance().getTileSize( boardSize );
 
-    GUI::getGUI().createTiles( this, boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
+    gui->createTiles( this, boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
 }
 
 /*********************************************************************************/
@@ -101,7 +99,7 @@ void Fifteen::setTilesNumeric( bool isRandom )
 
     uint emptyTile = board->getEmptyTile();
 
-    for ( auto &tile : GUI::getGUI().getTiles() )
+    for ( auto &tile : gui->getTiles() )
     {
         if ( *iter != emptyTile )
         {
@@ -139,7 +137,7 @@ void Fifteen::setTilesGraphic( bool isRandom )
 
     QPainter painter;
     uint i = 0;
-    for ( auto &tile : GUI::getGUI().getTiles() )
+    for ( auto &tile : gui->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( *images.at( values.at( i )).get() );
 
@@ -178,10 +176,9 @@ void Fifteen::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColo
 
 void Fifteen::slotGenerateBoard()
 {
-    GUI& gui = GUI::getGUI();
-    BoardSize boardSize = gui.checkRadioBoardSize();
+    BoardSize boardSize = gui->checkRadioBoardSize();
+    BoardMode requestedBoardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
-    BoardMode requestedBoardMode = gui.checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
     if ( requestedBoardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().isGraphicBoard( boardSize ) == false )
     {
         QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
@@ -285,7 +282,7 @@ void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uin
 {
     const QString& currentStyle = Options::getStyle();
     uint boardSize = Mapped::boardSizeInt.at( board->getSize() );
-    auto& tiles = GUI::getGUI().getTiles();
+    auto& tiles = gui->getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
     tiles.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
@@ -300,7 +297,7 @@ void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uin
 {
     BoardSize boardSize = board->getSize();
     uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
-    auto& tiles = GUI::getGUI().getTiles();
+    auto& tiles = gui->getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getTileSize( boardSize );
@@ -336,7 +333,7 @@ void Fifteen::slotLoadGraphic()
     if ( provider.isGraphicBoard( BoardSize::FOUR ) || provider.isGraphicBoard( BoardSize::FIVE ) ||
          provider.isGraphicBoard( BoardSize::SIX )  || provider.isGraphicBoard( BoardSize::SEVEN ))
     {
-        GUI::getGUI().setActionMenuState( ActionMenu::REM_GRAPHIC, true );
+        gui->setActionMenuState( ActionMenu::REM_GRAPHIC, true );
     }
 
     QMessageBox::information( this, "", Message::getMessages() );
@@ -348,10 +345,8 @@ void Fifteen::slotLoadGraphic()
 void Fifteen::slotRemoveGraphic()
 {
     ImageProvider::deleteInstance();    
-
-    GUI& gui = GUI::getGUI();
-    gui.setActionMenuState( ActionMenu::REM_GRAPHIC, false );
-    gui.setRadioBoardMode( BoardMode::NUMERIC );
+    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
+    gui->setRadioBoardMode( BoardMode::NUMERIC );
 
     if ( Options::boardMode == BoardMode::GRAPHIC )
     {
@@ -404,10 +399,9 @@ void Fifteen::slotReadBoard()
     createTiles();
     setTiles( false );
 
-    GUI& gui = GUI::getGUI();
-    gui.setRadioSize( boardSize );
-    gui.setRadioBoardMode( Options::boardMode );
-    gui.setActionMenuState( ActionMenu::REM_GRAPHIC, Options::boardMode == BoardMode::GRAPHIC );
+    gui->setRadioSize( boardSize );
+    gui->setRadioBoardMode( Options::boardMode );
+    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, Options::boardMode == BoardMode::GRAPHIC );
 }
 
 /*********************************************************************************/
@@ -417,7 +411,7 @@ void Fifteen::setColor()
 {
     const QString& currentStyle = Options::getStyle();
 
-    for ( auto &tile : GUI::getGUI().getTiles() )
+    for ( auto &tile : gui->getTiles() )
     {
         if ( tile->styleSheet() != Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE ))
         {
@@ -441,7 +435,7 @@ void Fifteen::redrawTiles()
 void Fifteen::createUndoMovesService()
 {
     undoMoveService = unique_ptr< UndoMove >( new UndoMove() );
-    GUI::getGUI().setStatePushUndo( false );
+    gui->setStatePushUndo( false );
 }
 
 /*********************************************************************************/
@@ -450,7 +444,7 @@ void Fifteen::createUndoMovesService()
 void Fifteen::deleteUndoMovesService()
 {
     delete undoMoveService.release();
-    GUI::getGUI().setStatePushUndo( true );
+    gui->setStatePushUndo( true );
 }
 
 /*********************************************************************************/

@@ -25,9 +25,7 @@ class GUI : public QMainWindow
 {
 public:
 
-    static void createGUI();
-    static void releaseGUI();
-    static GUI& getGUI();
+    GUI();
 
     void createMenu( QMainWindow*, array< function< void( void ) >, 6 > funcs );
     void createRightLayout( QMainWindow*, array< function< void( void ) >, 3 > funcs );
@@ -45,10 +43,7 @@ public:
 
 private:
 
-    GUI();
     void bindAction( QMainWindow*, QAction*&, function< void( void ) >, QString );
-
-    static GUI* gui;
 
     vector< unique_ptr< QPushButton >> tiles;
     unique_ptr< QButtonGroup > groupRadioSize;

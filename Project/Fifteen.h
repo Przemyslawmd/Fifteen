@@ -2,6 +2,7 @@
 #ifndef FIFTEEN_H
 #define FIFTEEN_H
 
+#include "GUI/GUIMain.h"
 #include "Board.h"
 #include "Types.h"
 #include "UndoMove.h"
@@ -38,6 +39,7 @@ public slots:
 private:
 
     Board* board;
+    unique_ptr< GUI > gui;
     unique_ptr< UndoMove > undoMoveService;
 
     void createTiles();
