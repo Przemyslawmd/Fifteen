@@ -386,7 +386,6 @@ void Fifteen::slotReadBoard()
     }
 
     IOBoard ioBoard;
-
     vector< uint >* values = ioBoard.readBoardFromFile( file );
     if ( values == nullptr )
     {

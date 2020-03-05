@@ -17,13 +17,10 @@ public:
     Move checkMove( uint row, uint col );
 
     BoardSize getSize();
-
     vector< uint >& sendBoard();
     vector< uint >& randomBoard();
     void solveBoard();
     uint getEmptyTile();
-
-    static Board* board;
 
 private:
 
