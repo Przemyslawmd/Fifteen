@@ -22,10 +22,10 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 void Fifteen::initGame()
 {
     resize( 750, 550 );
-    board = Board::createBoard( BoardSize::FOUR );
+    board = std::make_unique< Board >( BoardSize::FOUR );
     gui = std::make_unique< GUI >();
 
-    std::array< std::function< void( void ) >, 6 > funcs =
+    std::array< std::function< void( void ) >, 6 > funcsMenu =
     {
         std::bind( &Fifteen::slotLoadGraphic, this ),
         std::bind( &Fifteen::slotRemoveGraphic, this ),
@@ -34,15 +34,16 @@ void Fifteen::initGame()
         std::bind( &Fifteen::slotSettings, this ),
         std::bind( &Fifteen::slotAbout, this ),
     };
-    gui->createMenu( this, funcs );
+    gui->createMenu( this, funcsMenu );
 
-    std::array< std::function< void( void ) >, 3 > func =
+    std::array< std::function< void( void ) >, 3 > funcsRightLayout =
     {
         std::bind( &Fifteen::slotGenerateBoard, this ),
         std::bind( &Fifteen::slotSolveBoard, this ),
         std::bind( &Fifteen::slotUndoMove, this ),
     };
-    gui->createRightLayout( this, func );
+    gui->createRightLayout( this, funcsRightLayout );
+
     gui->completeLayouts( this );
 
     createTiles();
@@ -186,7 +187,7 @@ void Fifteen::slotGenerateBoard()
     }
 
     Options::boardMode = requestedBoardMode;
-    board = Board::createBoard( boardSize );
+    board.reset( new Board( boardSize ));
     createTiles();
     setTiles( true );
 
@@ -395,7 +396,7 @@ void Fifteen::slotReadBoard()
 
     BoardSize boardSize = Mapped::getBoardSizeByInt( values->back() );
     values->pop_back();
-    board = Board::createBoard( *values, boardSize );
+    board.reset( new Board( *values, boardSize ));
     createTiles();
     setTiles( false );
 

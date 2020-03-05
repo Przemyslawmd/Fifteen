@@ -27,8 +27,8 @@ public:
 
     GUI();
 
-    void createMenu( QMainWindow*, array< function< void( void ) >, 6 > funcs );
-    void createRightLayout( QMainWindow*, array< function< void( void ) >, 3 > funcs );
+    void createMenu( QMainWindow*, array< function< void( void ) >, 6 >& funcs );
+    void createRightLayout( QMainWindow*, array< function< void( void ) >, 3 >& funcs );
     void completeLayouts( QMainWindow* );
 
     void createTiles( const QMainWindow*, BoardSize, TileSize, function< void( void ) > func );

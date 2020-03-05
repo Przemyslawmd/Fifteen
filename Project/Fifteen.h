@@ -38,7 +38,7 @@ public slots:
 
 private:
 
-    Board* board;
+    unique_ptr< Board > board;
     unique_ptr< GUI > gui;
     unique_ptr< UndoMove > undoMoveService;
 

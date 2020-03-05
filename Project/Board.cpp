@@ -6,21 +6,25 @@
 #include <QTime>
 
 
-Board* Board::createBoard( BoardSize boardSize )
+Board::Board( BoardSize size ) : size( size ),
+                                 sizeInt( Mapped::boardSizeInt.at( size )),
+                                 emptyTile( sizeInt * sizeInt - 1 )
 {
-    delete board;
-    board = new Board( boardSize, Mapped::boardSizeInt.at( boardSize ) );
-    return board;
+    for ( uint i = 0; i < sizeInt * sizeInt; i++ )
+    {
+        values.push_back( i );
+    }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board* Board::createBoard( vector< uint >& values, BoardSize boardSize )
+Board::Board( vector< uint >& values, BoardSize size ) : size( size ),
+                                                         sizeInt( Mapped::boardSizeInt.at( size )),
+                                                         emptyTile( sizeInt * sizeInt - 1 )
 {
-    delete board;
-    board = new Board( values, boardSize, Mapped::boardSizeInt.at( boardSize ));
-    return board;
+    this->values.clear();
+    this->values = values;
 }
 
 /*********************************************************************************/
@@ -149,30 +153,6 @@ uint Board::getEmptyTile()
 /*********************************************************************************/
 /* PRIVATE ***********************************************************************/
 
-Board::Board( BoardSize size, uint sizeInt ) : size( size ),
-                                               sizeInt( sizeInt ),
-                                               emptyTile( sizeInt * sizeInt - 1 )
-{
-    for ( uint i = 0; i < sizeInt * sizeInt; i++ )
-    {
-        values.push_back( i );
-    }
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-Board::Board( vector< uint >& values, BoardSize size, uint sizeInt ) : size( size ),
-                                                                       sizeInt( sizeInt ),
-                                                                       emptyTile( sizeInt * sizeInt - 1 )
-{
-    this->values.clear();
-    this->values = values;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 void Board::makeMove( uint srcRow, uint srcCol, uint dstRow, uint dstCol )
 {    
     values.at( dstRow * sizeInt + dstCol ) += values.at( srcRow * sizeInt + srcCol );
@@ -189,9 +169,4 @@ uint Board::findEmptyTill()
     uint pos =  std::distance( std::begin( values ), result );
     return pos / sizeInt * 10 + pos % sizeInt;
 }
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-Board* Board::board = nullptr;
 

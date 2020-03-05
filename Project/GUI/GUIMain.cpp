@@ -10,17 +10,17 @@ GUI::GUI() {}
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createMenu( QMainWindow* mainWidget, array< function< void( void ) >, 6 > funcs )
+void GUI::createMenu( QMainWindow* widget, array< function< void( void ) >, 6 >& funcs )
 {
     unique_ptr< QMenu > fileMenu = std::make_unique< QMenu >( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    bindAction( mainWidget, mapActionMenu[ActionMenu::OPEN_GRAPHIC], funcs.at( 0 ), "Load Graphic File" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::REM_GRAPHIC],  funcs.at( 1 ), "Remove Graphic" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::SAVE_BOARD],   funcs.at( 2 ), "Save Board" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::LOAD_BOARD],   funcs.at( 3 ), "Load Board" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::SETTINGS],     funcs.at( 4 ), "Settings" );
-    bindAction( mainWidget, mapActionMenu[ActionMenu::ABOUT],        funcs.at( 5 ), "About" );
+    bindAction( widget, mapActionMenu[ActionMenu::OPEN_GRAPHIC], funcs.at( 0 ), "Load Graphic File" );
+    bindAction( widget, mapActionMenu[ActionMenu::REM_GRAPHIC],  funcs.at( 1 ), "Remove Graphic" );
+    bindAction( widget, mapActionMenu[ActionMenu::SAVE_BOARD],   funcs.at( 2 ), "Save Board" );
+    bindAction( widget, mapActionMenu[ActionMenu::LOAD_BOARD],   funcs.at( 3 ), "Load Board" );
+    bindAction( widget, mapActionMenu[ActionMenu::SETTINGS],     funcs.at( 4 ), "Settings" );
+    bindAction( widget, mapActionMenu[ActionMenu::ABOUT],        funcs.at( 5 ), "About" );
 
     fileMenu->addAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC] );
     fileMenu->addSeparator();
@@ -36,13 +36,13 @@ void GUI::createMenu( QMainWindow* mainWidget, array< function< void( void ) >, 
     menuBar->addAction( mapActionMenu[ActionMenu::ABOUT] );
     menuBar->setStyleSheet( "padding-left: 5px; margin: 3px;" );
 
-    mainWidget->setMenuBar( menuBar.release() );
+    widget->setMenuBar( menuBar.release() );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( QMainWindow* mainWidget, array< function< void( void ) >, 3 > funcs )
+void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) >, 3 >& funcs )
 {
     mapRadioBoardSize[BoardSize::FOUR] = new QRadioButton( "4" );
     mapRadioBoardSize[BoardSize::FIVE] = new QRadioButton( "5" );
@@ -85,16 +85,16 @@ void GUI::createRightLayout( QMainWindow* mainWidget, array< function< void( voi
 
     QPushButton* pushRandom = new QPushButton(" Generate Board ");
     pushRandom->setStyleSheet( "height:20px;" );
-    connect( pushRandom, &QPushButton::clicked, mainWidget, funcs.at( 0 ));
+    connect( pushRandom, &QPushButton::clicked, widget, funcs.at( 0 ));
 
     QPushButton* pushSolve = new QPushButton(" Solve Board ");
     pushSolve->setStyleSheet( "height:20px;" );
-    connect( pushSolve, &QPushButton::clicked, mainWidget, funcs.at( 1 ));
+    connect( pushSolve, &QPushButton::clicked, widget, funcs.at( 1 ));
 
     pushUndo = unique_ptr< QPushButton>( new QPushButton(" Undo Move " ));
     pushUndo->setStyleSheet( "height:20px;" );
     pushUndo->setDisabled( true );
-    connect( pushUndo.get(), &QPushButton::clicked, mainWidget, funcs.at( 2 ));
+    connect( pushUndo.get(), &QPushButton::clicked, widget, funcs.at( 2 ));
 
     layRight = new QVBoxLayout();
     layRight->setContentsMargins( 30, 0, 20, 0 );
@@ -113,7 +113,7 @@ void GUI::createRightLayout( QMainWindow* mainWidget, array< function< void( voi
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::completeLayouts( QMainWindow* mainWidget )
+void GUI::completeLayouts( QMainWindow* widget )
 {
     QWidget* mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 10 );
@@ -128,23 +128,23 @@ void GUI::completeLayouts( QMainWindow* mainWidget )
     mainLayout->addWidget( boxImages );
     mainLayout->addLayout( layRight );
 
-    mainWidget->setCentralWidget( mainPanel );
+    widget->setCentralWidget( mainPanel );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::bindAction( QMainWindow* mainWidget, QAction*& action, function< void( void ) > slot, QString text )
+void GUI::bindAction( QMainWindow* widget, QAction*& action, function< void( void ) > slot, QString text )
 {
-    action = new QAction( mainWidget );
+    action = new QAction( widget );
     action->setText( text );
-    connect( action, &QAction::triggered, mainWidget, slot );
+    connect( action, &QAction::triggered, widget, slot );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( const QMainWindow* mainWidget, BoardSize boardSize, TileSize tileSize_, function< void( void )> func )
+void GUI::createTiles( const QMainWindow* widget, BoardSize boardSize, TileSize tileSize_, function< void( void )> func )
 {
     deleteTiles();
     uint tileSizeInt = Mapped::tileSizeInt.at( tileSize_ );
@@ -164,7 +164,7 @@ void GUI::createTiles( const QMainWindow* mainWidget, BoardSize boardSize, TileS
             tile->setAccessibleName( QString::number( row ) + QString::number( col ));
             tile->setMaximumSize( tileSizeInt, tileSizeInt );
             tile->setMinimumSize( tileSizeInt, tileSizeInt );
-            connect( tile.get(), &QPushButton::clicked, mainWidget, func );
+            connect( tile.get(), &QPushButton::clicked, widget, func );
             layHorizontalBoard[row]->addWidget( tile.get() );
             tiles.push_back( std::move( tile ));
         }
