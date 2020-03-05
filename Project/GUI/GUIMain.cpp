@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 
+using std::make_unique;
 
 GUI::GUI() {}
 
@@ -51,7 +52,7 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
     mapRadioBoardSize[BoardSize::FOUR]->setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    groupRadioSize = unique_ptr< QButtonGroup >( new QButtonGroup () );
+    groupRadioSize = make_unique< QButtonGroup >();
     for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapRadioBoardSize )
     {
         radioSizeLayout->addSpacing( 10 );
@@ -70,7 +71,7 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
     mapRadioBoardMode[BoardMode::NUMERIC]->setChecked( true );
 
     QVBoxLayout* radioKindLayout = new QVBoxLayout();
-    unique_ptr< QButtonGroup > groupRadioKind = unique_ptr< QButtonGroup >( new QButtonGroup() );
+    unique_ptr< QButtonGroup > groupRadioKind = make_unique< QButtonGroup >();
     for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapRadioBoardMode )
     {
         radioKindLayout->addSpacing( 10 );
@@ -80,27 +81,27 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
     }
     radioKindLayout->addSpacing( 30 );
 
-    unique_ptr< QGroupBox > radioKindBox = unique_ptr< QGroupBox> (new QGroupBox(" Kind of Board "));
+    unique_ptr< QGroupBox > radioKindBox = make_unique< QGroupBox>( " Kind of Board " );
     radioKindBox->setLayout( radioKindLayout );
 
-    QPushButton* pushRandom = new QPushButton(" Generate Board ");
+    unique_ptr< QPushButton > pushRandom = make_unique< QPushButton >(" Generate Board ");
     pushRandom->setStyleSheet( "height:20px;" );
-    connect( pushRandom, &QPushButton::clicked, widget, funcs.at( 0 ));
+    connect( pushRandom.get(), &QPushButton::clicked, widget, funcs.at( 0 ));
 
-    QPushButton* pushSolve = new QPushButton(" Solve Board ");
+    unique_ptr< QPushButton > pushSolve = make_unique< QPushButton >(" Solve Board ");
     pushSolve->setStyleSheet( "height:20px;" );
-    connect( pushSolve, &QPushButton::clicked, widget, funcs.at( 1 ));
+    connect( pushSolve.get(), &QPushButton::clicked, widget, funcs.at( 1 ));
 
-    pushUndo = unique_ptr< QPushButton>( new QPushButton(" Undo Move " ));
+    pushUndo = make_unique< QPushButton >( " Undo Move " );
     pushUndo->setStyleSheet( "height:20px;" );
     pushUndo->setDisabled( true );
     connect( pushUndo.get(), &QPushButton::clicked, widget, funcs.at( 2 ));
 
     layRight = new QVBoxLayout();
     layRight->setContentsMargins( 30, 0, 20, 0 );
-    layRight->addWidget( pushRandom );
+    layRight->addWidget( pushRandom.release() );
     layRight->addSpacing( 15 );
-    layRight->addWidget( pushSolve );
+    layRight->addWidget( pushSolve.release() );
     layRight->addSpacing( 15 );
     layRight->addWidget( pushUndo.get() );
     layRight->addSpacing( 30 );
