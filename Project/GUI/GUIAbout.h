@@ -16,5 +16,5 @@ private:
     QTextBrowser browser;
 };
 
-#endif // GUI_ABOUT_H
+#endif
 

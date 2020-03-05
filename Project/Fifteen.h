@@ -66,5 +66,5 @@ private slots:
     void slotUndoMove();
 };
 
-#endif // FIFTEEN_H
+#endif
 

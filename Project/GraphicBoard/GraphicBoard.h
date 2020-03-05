@@ -24,8 +24,8 @@ private:
     vector< unique_ptr< QImage >>& getImages();
 
     TileSize tileSize;
-    vector< std::unique_ptr< QImage >> images;
+    vector< unique_ptr< QImage >> images;
 };
 
-#endif // GRAPHIC_BOARD_H
+#endif
 

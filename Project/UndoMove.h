@@ -21,5 +21,5 @@ private:
     const unsigned int MOVE_STACK_LIMIT = 10;
 };
 
-#endif // UNDOMOVE_H
+#endif
 

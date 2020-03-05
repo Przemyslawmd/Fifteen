@@ -59,5 +59,5 @@ private:
     QGroupBox* boxImages;
 };
 
-#endif // GUI_H
+#endif
 

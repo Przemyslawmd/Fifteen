@@ -29,5 +29,5 @@ public:
     uchar* imagesData;
 };
 
-#endif // IODATAMODEL_H
+#endif
 

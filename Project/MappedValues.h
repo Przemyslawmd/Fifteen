@@ -27,5 +27,5 @@ private:
     template< typename T, typename U > static T getMapKeyByValue( map< T, U >, U  value );
 };
 
-#endif // MAPPEDVALUES_H
+#endif
 

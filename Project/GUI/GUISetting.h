@@ -56,5 +56,5 @@ private slots:
     void acceptSettings();
 };
 
-#endif // SETTING_H
+#endif
 

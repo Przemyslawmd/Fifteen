@@ -10,8 +10,7 @@ IODataModel::IODataModel( Board& board, BoardMode mode )
     boardSize = board.getSize();
     values = &board.sendBoard();
 
-    boardMode = mode;
-    if ( boardMode == BoardMode::NUMERIC )
+    if ( boardMode = mode; boardMode == BoardMode::NUMERIC )
     {
         return;
     }
@@ -19,7 +18,7 @@ IODataModel::IODataModel( Board& board, BoardMode mode )
     ImageProvider& imageProvider = ImageProvider::getInstance();
     images = &imageProvider.getImages( boardSize );
     tileSize = imageProvider.getTileSize( boardSize );
-    tileImageBytes = images->at( 0 ).get()->byteCount();
+    tileImageBytes = images->at( 0 ).get()->sizeInBytes();
 }
 
 /*********************************************************************************/

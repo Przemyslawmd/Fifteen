@@ -36,5 +36,5 @@ private:
     static queue< QString > messageQueue;
 };
 
-#endif // MESSAGE_H
+#endif
 

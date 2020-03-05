@@ -8,6 +8,7 @@
 #include "../Message.h"
 
 using std::unique_ptr;
+using std::map;
 
 class ImageProvider
 {
@@ -33,7 +34,7 @@ private:
     void removeBoard( GraphicBoard*& );
 
     static ImageProvider* instance;
-    std::map< BoardSize, GraphicBoard* > images;
+    map< BoardSize, GraphicBoard* > images;
 };
 
 #endif

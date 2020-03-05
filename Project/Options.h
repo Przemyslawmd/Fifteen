@@ -40,5 +40,5 @@ private:
     static bool undoEnabled;
 };
 
-#endif // OPTIONS_H
+#endif
 

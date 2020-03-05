@@ -37,5 +37,5 @@ typedef struct
     QColor fontColor;
 } NumberOnImage;
 
-#endif // TYPES_H
+#endif
 

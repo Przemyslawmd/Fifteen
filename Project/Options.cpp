@@ -3,6 +3,7 @@
 #include "MappedValues.h"
 #include <QtGlobal>
 
+using std::make_unique;
 
 FontSize Options::getFontSize()
 {
@@ -30,7 +31,7 @@ bool Options::isImageToBeLoaded( BoardSize boardSize )
 
 unique_ptr< NumberOnImage > Options::isNumberOnImage()
 {
-    unique_ptr< NumberOnImage > numOnImage( new NumberOnImage );
+    unique_ptr< NumberOnImage > numOnImage = make_unique< NumberOnImage >();
 
     if ( numberColor == NumberColor::NO )
     {
@@ -56,32 +57,34 @@ bool Options::isUndoEnabled()
 
 unique_ptr< OptionsData > Options::readOptions()
 {
-    unique_ptr< OptionsData > messageData( new OptionsData );
-    messageData->boardMode = boardMode;
-    messageData->graphicMode = graphicMode;
-    messageData->tileSize = tileSize;
-    messageData->imageToLoad_4 = imagesToLoad.at( BoardSize::FOUR );
-    messageData->imageToLoad_5 = imagesToLoad.at( BoardSize::FIVE );
-    messageData->imageToLoad_6 = imagesToLoad.at( BoardSize::SIX );
-    messageData->imageToLoad_7 = imagesToLoad.at( BoardSize::SEVEN );
-    messageData->squareColor = currentColor;
-    messageData->numberColor = numberColor;
-    messageData->undoEnabled = undoEnabled;
-    return messageData;
+    unique_ptr< OptionsData > optionsData = make_unique< OptionsData >();
+    optionsData->boardMode = boardMode;
+    optionsData->graphicMode = graphicMode;
+    optionsData->tileSize = tileSize;
+    optionsData->imageToLoad_4 = imagesToLoad.at( BoardSize::FOUR );
+    optionsData->imageToLoad_5 = imagesToLoad.at( BoardSize::FIVE );
+    optionsData->imageToLoad_6 = imagesToLoad.at( BoardSize::SIX );
+    optionsData->imageToLoad_7 = imagesToLoad.at( BoardSize::SEVEN );
+    optionsData->squareColor = currentColor;
+    optionsData->numberColor = numberColor;
+    optionsData->undoEnabled = undoEnabled;
+    return optionsData;
 }
 
+/*********************************************************************************/
+/*********************************************************************************/
 
-void Options::saveOptions( unique_ptr< OptionsData >  messageData )
+void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
 {
-    graphicMode = messageData->graphicMode;
-    tileSize = messageData->tileSize;
-    imagesToLoad.at( BoardSize::FOUR ) = messageData->imageToLoad_4;
-    imagesToLoad.at( BoardSize::FIVE ) = messageData->imageToLoad_5;
-    imagesToLoad.at( BoardSize::SIX ) = messageData->imageToLoad_6;
-    imagesToLoad.at( BoardSize::SEVEN ) = messageData->imageToLoad_7;
-    currentColor = messageData->squareColor;
-    numberColor = messageData->numberColor;
-    undoEnabled = messageData->undoEnabled;
+    graphicMode = optionsData->graphicMode;
+    tileSize = optionsData->tileSize;
+    imagesToLoad.at( BoardSize::FOUR ) = optionsData->imageToLoad_4;
+    imagesToLoad.at( BoardSize::FIVE ) = optionsData->imageToLoad_5;
+    imagesToLoad.at( BoardSize::SIX ) = optionsData->imageToLoad_6;
+    imagesToLoad.at( BoardSize::SEVEN ) = optionsData->imageToLoad_7;
+    currentColor = optionsData->squareColor;
+    numberColor = optionsData->numberColor;
+    undoEnabled = optionsData->undoEnabled;
 }
 
 /*********************************************************************************/
