@@ -14,11 +14,11 @@
 #include <QtTest>
 
 
-void Test::testCreateBoardSolved( BoardSize size )
+void Test::testCreateBoardSolved( BoardSize boardSize )
 {
-    Board* board = Board::createBoard( size );
+    auto board = std::make_unique< Board >( boardSize );
     auto values = board->sendBoard();
-    uint sizeInt = Mapped::boardSizeInt.at( size );
+    uint sizeInt = Mapped::boardSizeInt.at( boardSize );
     uint tilesCount = sizeInt * sizeInt;
 
     QCOMPARE( tilesCount, values.size() );
@@ -34,32 +34,32 @@ void Test::testCreateBoardSolved( BoardSize size )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testCreateBoardRandom( BoardSize size )
+void Test::testCreateBoardRandom( BoardSize boardSize )
 {
-    Board* board = Board::createBoard( size );
+    auto board = std::make_unique< Board >( boardSize );
     auto& values = board->randomBoard();
-    uint sizeInt = Mapped::boardSizeInt.at( size );
+    uint sizeInt = Mapped::boardSizeInt.at( boardSize );
     checkTiles( sizeInt, values );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secondSize )
+void Test::testCreateBoardRandomWithChange( BoardSize firstBoardSize, BoardSize secondBoardSize )
 {
-    Board* board = Board::createBoard( firstSize );
+    auto board = std::make_unique< Board >( firstBoardSize );
     board->randomBoard();
     board->randomBoard();
     auto values = board->randomBoard();
 
-    uint sizeInt = Mapped::boardSizeInt.at( firstSize );
+    uint sizeInt = Mapped::boardSizeInt.at( firstBoardSize );
     checkTiles( sizeInt, values );
 
-    board = Board::createBoard( secondSize );
+    board.reset( new Board( secondBoardSize ));
     board->randomBoard();
     values = board->randomBoard();
 
-    sizeInt = Mapped::boardSizeInt.at( secondSize );
+    sizeInt = Mapped::boardSizeInt.at( secondBoardSize );
     checkTiles( sizeInt, values );
 }
 
@@ -68,7 +68,7 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstSize, BoardSize secon
 
 void Test::testMoveSquareDefined( vector< int >& moves, vector< uint >& expectedValues, BoardSize boardSize )
 {
-    Board* board = Board::createBoard( boardSize );
+    auto board = std::make_unique< Board >( boardSize );
 
     for( int move : moves  )
     {
@@ -84,7 +84,7 @@ void Test::testMoveSquareDefined( vector< int >& moves, vector< uint >& expected
 
 void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedValues, BoardSize boardSize )
 {
-    Board* board = Board::createBoard( boardSize );
+    auto board = std::make_unique< Board >( boardSize );
 
     for( int move : moves )
     {
@@ -103,7 +103,7 @@ void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedV
     readValues->pop_back();
 
     boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
-    board->createBoard( *readValues, boardSize );
+    board.reset( new Board( *readValues, boardSize ));
 
     auto values  = board->sendBoard();
     QCOMPARE( values, expectedValues );
@@ -163,7 +163,7 @@ void Test::testCreateGraphicBoard( DataGraphic& data )
     options->imageToLoad_5 = data.isFiveToBeLoaded;
     options->imageToLoad_6 = data.isSixToBeLoaded;
     options->imageToLoad_7 = data.isSevenToBeLoaded;
-    Options::receiveData( move( options ));
+    Options::saveOptions( move( options ));
 
     ImageProvider& imageProvider = ImageProvider::getInstance();
     imageProvider.prepareGraphicBoard( image, data.tileSize );
