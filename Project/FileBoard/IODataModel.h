@@ -9,6 +9,7 @@
 #include <memory>
 
 using std::vector;
+using std::unique_ptr;
 
 class IODataModel
 {
@@ -24,8 +25,8 @@ public:
     BoardMode boardMode;
     TileSize tileSize;
     uint tileImageBytes;
-    vector< uint >* values;
-    vector< std::unique_ptr< QImage >>* images;
+    unique_ptr< vector< uint >> values;
+    vector< unique_ptr< QImage >>* images;
     uchar* imagesData;
 };
 

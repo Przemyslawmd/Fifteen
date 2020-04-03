@@ -3,12 +3,14 @@
 #include "../MappedValues.h"
 #include "../GraphicBoard/ImageProvider.h"
 
+using std::make_unique;
+
 IODataModel::IODataModel() {}
 
 IODataModel::IODataModel( Board& board, BoardMode mode )
 {
     boardSize = board.getSize();
-    values = &board.sendBoard();
+    values = make_unique< vector< uint >>( board.sendBoard() );
 
     if ( boardMode = mode; boardMode == BoardMode::NUMERIC )
     {
@@ -72,7 +74,7 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     }
 
     uint tilesCount = boardSizeInt * boardSizeInt;
-    values = new vector< uint >( tilesCount );
+    values = make_unique< vector< uint >>( tilesCount );
     for ( auto iter = values->begin(); iter != values->end(); iter++ )
     {
         stream >> *iter;

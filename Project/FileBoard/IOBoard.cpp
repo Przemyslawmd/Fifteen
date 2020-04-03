@@ -1,14 +1,10 @@
 
 #include "IOBoard.h"
-#include "IODataModel.h"
 #include "IOFile.h"
 #include "../MappedValues.h"
 #include "../Options.h"
-#include "../Message.h"
 #include "../GraphicBoard/ImageProvider.h"
-#include <memory>
 
-using std::unique_ptr;
 
 IOBoard::IOBoard(){}
 
@@ -27,7 +23,7 @@ void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QStri
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
+unique_ptr< vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
 {
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
@@ -40,7 +36,7 @@ vector< uint >* IOBoard::readBoardFromFile( const QString& fileName )
     }
 
     BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
-    vector< uint >* boardNumbers = dataModel.values;
+    auto boardNumbers = move( dataModel.values );
 
     if ( boardMode == BoardMode::GRAPHIC )
     {

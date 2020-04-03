@@ -383,7 +383,7 @@ void Fifteen::slotReadBoard()
     }
 
     IOBoard ioBoard;
-    vector< uint >* values = ioBoard.readBoardFromFile( file );
+    auto values = ioBoard.readBoardFromFile( file );
     if ( values == nullptr )
     {
         QMessageBox::information( this, "", Message::getMessages() );
