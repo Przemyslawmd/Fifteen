@@ -47,7 +47,7 @@ private:
     void setTilesNumeric();
     void setTilesGraphic();
 
-    void drawNumberOnGraphicTile( QPainter&, QPixmap&, QColor, int fontSize, uint number );
+    void prepareIconWithNumber( QIcon&, QPixmap&, QColor, int fontSize, uint number );
 
     void makeMove( Move, uint row, uint col );
     void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest );

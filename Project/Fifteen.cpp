@@ -126,29 +126,30 @@ void Fifteen::setTilesGraphic()
     ImageProvider& provider = ImageProvider::getInstance();
     auto& images = provider.getImages( boardSize );
 
-    auto numOnImage = Options::isNumberOnImage();
-
     TileSize tileSize = provider.getTileSize( boardSize );
     uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    QSize iconSize( tileSizeInt, tileSizeInt );
 
     FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
     uint fontSizeInt = Mapped::fontSizeInt.at( fontSize );
 
-    QPainter painter;
+    auto numOnImage = Options::isNumberOnImage();
+
     uint i = 0;
     for ( auto &tile : gui->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( *images.at( values.at( i )).get() );
 
+        QIcon icon;
         if ( numOnImage->isNumberOnImage )
         {
-            drawNumberOnGraphicTile( painter, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i ));
+            prepareIconWithNumber( icon, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i ));
+        }
+        else
+        {
+            icon.addPixmap( pixmap );
         }
 
-        QIcon icon( pixmap );
-        painter.end();
-
-        QSize iconSize( tileSizeInt, tileSizeInt );
         tile->setIconSize( iconSize );
         tile->setIcon( icon );
         tile->setStyleSheet( "" );
@@ -159,14 +160,16 @@ void Fifteen::setTilesGraphic()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::drawNumberOnGraphicTile( QPainter& painter, QPixmap& pixmap, QColor penColor, int fontSize, uint number )
+void Fifteen::prepareIconWithNumber( QIcon& icon, QPixmap& pixmap, QColor penColor, int fontSize, uint number )
 {
     if ( number != board->getEmptyTile() )
     {
-        painter.begin( &pixmap );
+        QPainter painter( &pixmap );
         painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
         painter.setPen( penColor );
         painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number + 1 ));
+        icon.addPixmap( pixmap );
+        painter.end();
     }
 }
 
