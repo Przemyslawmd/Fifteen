@@ -9,6 +9,7 @@
 #include <memory>
 
 using std::unique_ptr;
+using std::map;
 
 class Options
 {
@@ -18,7 +19,7 @@ public:
     static GraphicMode graphicMode;
     static TileSize tileSize;
 
-    static const QString& getStyle();
+    static TileColor getTileColor();
 
     static bool isImageToBeLoaded( BoardSize size );
 
@@ -30,11 +31,10 @@ public:
 
 private:
 
-    static std::map< BoardSize, bool > imagesToLoad;
-
     static TileColor tileColor;
     static NumberColor numberColor;
     static bool undoEnabled;
+    static map< BoardSize, bool > imagesToLoad;
 };
 
 #endif

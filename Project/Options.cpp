@@ -5,9 +5,9 @@
 
 using std::make_unique;
 
-const QString& Options::getStyle()
+TileColor Options::getTileColor()
 {
-    return Maps::tileColorStyle.at( tileColor );
+    return Options::tileColor;
 }
 
 /*********************************************************************************/
@@ -89,7 +89,7 @@ TileColor Options::tileColor = TileColor::BLUE;
 NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;
 
-std::map< BoardSize, bool > Options::imagesToLoad
+map< BoardSize, bool > Options::imagesToLoad
 {
     { BoardSize::FOUR, true }, { BoardSize::FIVE, true },
     { BoardSize::SIX, true },  { BoardSize::SEVEN, true }
