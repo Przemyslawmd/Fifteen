@@ -1,12 +1,5 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2017-04-22T19:06:52
-#
-#-------------------------------------------------
 
 QT       += testlib
-
-#QT       -= gui
 
 TARGET = testfifteen
 CONFIG   += console
@@ -33,4 +26,7 @@ HEADERS += \
     Test.h \
     DataGraphic.h
 
+QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++14
+QMAKE_CXXFLAGS += -std=c++17
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
