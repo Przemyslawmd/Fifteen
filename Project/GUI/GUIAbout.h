@@ -11,9 +11,9 @@ public:
 
     GUIAbout();
 
-private:
+//private:
 
-    QTextBrowser browser;
+    //QTextBrowser browser;
 };
 
 #endif

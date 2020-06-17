@@ -121,7 +121,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     sliderLabels[3] = new QLabel( "125  " );
     sliderLabels[4] = new QLabel( "150" );
 
-    slider->setValue( Mapped::getSliderByTileSize( optionsCurrent->tileSize ));
+    slider->setValue( Maps::getSliderByTileSize( optionsCurrent->tileSize ));
 
     QGridLayout layoutSlider;
     layoutSlider.setContentsMargins( 10, 20, 30, 20 );
@@ -181,7 +181,7 @@ void GUISetting::acceptSettings()
 {
     unique_ptr< OptionsData > optionsNew ( new OptionsData );
 
-    optionsNew->tileSize = Mapped::sliderTileSize.at( slider->value() );
+    optionsNew->tileSize = Maps::sliderTileSize.at( slider->value() );
     bool tileSizeChanged = optionsNew->tileSize != optionsCurrent->tileSize;
     if ( tileSizeChanged && optionsCurrent->boardMode == BoardMode::GRAPHIC )
     {

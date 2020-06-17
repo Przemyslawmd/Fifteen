@@ -48,7 +48,7 @@ unique_ptr< vector< uint >> IOBoard::readBoardFromFile( const QString& fileName 
     }
 
     Options::boardMode = boardMode;
-    boardNumbers->push_back( Mapped::boardSizeInt.at( dataModel.boardSize ));
+    boardNumbers->push_back( Maps::boardSizeInt.at( dataModel.boardSize ));
     return boardNumbers;
 }
 

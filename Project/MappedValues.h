@@ -7,7 +7,7 @@
 
 using std::map;
 
-class Mapped
+class Maps
 {
 public:
 
@@ -18,6 +18,7 @@ public:
     static const map< int, TileSize > sliderTileSize;
     static const map< TileSize, FontSize > tileSizeFontSize;
 
+    static int getFontSizeInt( TileSize tileSize );
     static BoardSize getBoardSizeByInt( uint value );
     static TileSize getTileSizeByInt( uint value );
     static int getSliderByTileSize( TileSize value );

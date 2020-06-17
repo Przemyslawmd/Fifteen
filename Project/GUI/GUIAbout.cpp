@@ -20,6 +20,7 @@ GUIAbout::GUIAbout()
 
     QTextDocument* doc = new QTextDocument();
     doc->setHtml( html );
+    QTextBrowser browser;
     browser.setDocument( doc );
     layout.addWidget( &browser );
     show();

@@ -59,7 +59,7 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
         radioSizeLayout->addWidget( radioSizePair.second );
         radioSizePair.second->setStyleSheet( "margin-left:5px;" );
         groupRadioSize->addButton( radioSizePair.second );
-        groupRadioSize->setId( radioSizePair.second, Mapped::boardSizeInt.at( radioSizePair.first ));
+        groupRadioSize->setId( radioSizePair.second, Maps::boardSizeInt.at( radioSizePair.first ));
     }
     radioSizeLayout->addSpacing( 30 );
 
@@ -148,8 +148,8 @@ void GUI::bindAction( QMainWindow* widget, QAction*& action, function< void( voi
 void GUI::createTiles( const QMainWindow* widget, BoardSize boardSize, TileSize tileSize_, function< void( void )> func )
 {
     deleteTiles();
-    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize_ );
-    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint tileSizeInt = Maps::tileSizeInt.at( tileSize_ );
+    uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
 
     layVerticalBoard->addStretch();
 
@@ -208,7 +208,7 @@ vector< unique_ptr< QPushButton >>& GUI::getTiles()
 BoardSize GUI::checkRadioBoardSize()
 {
     int id = groupRadioSize->checkedId();
-    return Mapped::getBoardSizeByInt( id );
+    return Maps::getBoardSizeByInt( id );
 }
 
 /*********************************************************************************/

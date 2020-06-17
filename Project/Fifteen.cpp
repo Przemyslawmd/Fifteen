@@ -92,7 +92,7 @@ void Fifteen::setTilesNumeric()
     auto values = board->sendBoard();
     auto iter = values.begin();
 
-    int fontSizeInt = Mapped::fontSizeInt.at( Options::getFontSize() );
+    int fontSizeInt = Maps::getFontSizeInt( Options::tileSize );
     QFont font;
     font.setPixelSize( fontSizeInt );
 
@@ -107,7 +107,7 @@ void Fifteen::setTilesNumeric()
         }
         else
         {
-            tile->setStyleSheet( Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE ));
+            tile->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ));
         }
 
         tile->setFont( font );
@@ -127,11 +127,10 @@ void Fifteen::setTilesGraphic()
     auto& images = provider.getImages( boardSize );
 
     TileSize tileSize = provider.getTileSize( boardSize );
-    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
     QSize iconSize( tileSizeInt, tileSizeInt );
 
-    FontSize fontSize = Mapped::tileSizeFontSize.at( tileSize );
-    uint fontSizeInt = Mapped::fontSizeInt.at( fontSize );
+    int fontSizeInt = Maps::getFontSizeInt( Options::tileSize );
 
     auto numOnImage = Options::isNumberOnImage();
 
@@ -283,13 +282,13 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
 {
     const QString& currentStyle = Options::getStyle();
-    uint boardSize = Mapped::boardSizeInt.at( board->getSize() );
+    uint boardSize = Maps::boardSizeInt.at( board->getSize() );
     auto& tiles = gui->getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
     tiles.at( rowDest * boardSize + colDest )->setStyleSheet( currentStyle );
     tiles.at( rowSource * boardSize + colSource )->setText( "" );
-    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE ));
+    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ));
 }
 
 /*********************************************************************************/
@@ -298,12 +297,12 @@ void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uin
 void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
 {
     BoardSize boardSize = board->getSize();
-    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
     auto& tiles = gui->getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
     TileSize tileSize = ImageProvider::getInstance().getTileSize( boardSize );
-    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
+    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
     QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
@@ -393,7 +392,7 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    BoardSize boardSize = Mapped::getBoardSizeByInt( values->back() );
+    BoardSize boardSize = Maps::getBoardSizeByInt( values->back() );
     values->pop_back();
     board.reset( new Board( *values, boardSize ));
     redrawTiles();
@@ -412,7 +411,7 @@ void Fifteen::setColor()
 
     for ( auto &tile : gui->getTiles() )
     {
-        if ( tile->styleSheet() != Mapped::tileColorStyle.at( TileColor::EMPTY_STYLE ))
+        if ( tile->styleSheet() != Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ))
         {
             tile->setStyleSheet( currentStyle );
         }

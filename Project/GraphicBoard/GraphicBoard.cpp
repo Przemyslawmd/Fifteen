@@ -15,8 +15,8 @@ vector< unique_ptr< QImage >>& GraphicBoard::getImages()
 
 void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSize, TileSize tileSize, GraphicMode graphicMode )
 {
-    uint tileSizeInt = Mapped::tileSizeInt.at( tileSize );
-    uint boardSizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
+    uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
     uint boardSizePixel = boardSizeInt * tileSizeInt;
 
     QImage boardImage;
@@ -67,8 +67,8 @@ void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
 
 bool GraphicBoard:: restoreImagesFromFile( IODataModel& data )
 {
-    uint boardSizeInt = Mapped::boardSizeInt.at( data.boardSize );
-    uint tileSizeInt = Mapped::tileSizeInt.at( data.tileSize );
+    uint boardSizeInt = Maps::boardSizeInt.at( data.boardSize );
+    uint tileSizeInt = Maps::tileSizeInt.at( data.tileSize );
 
     for ( uint i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {

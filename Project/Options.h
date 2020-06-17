@@ -18,8 +18,6 @@ public:
     static GraphicMode graphicMode;
     static TileSize tileSize;
 
-    static FontSize getFontSize();
-
     static const QString& getStyle();
 
     static bool isImageToBeLoaded( BoardSize size );
@@ -32,10 +30,9 @@ public:
 
 private:
 
-    static TileColor currentColor;
-
     static std::map< BoardSize, bool > imagesToLoad;
 
+    static TileColor tileColor;
     static NumberColor numberColor;
     static bool undoEnabled;
 };

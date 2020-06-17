@@ -1,7 +1,7 @@
 
 #include "MappedValues.h"
 
-const map< TileSize, uint > Mapped::tileSizeInt
+const map< TileSize, uint > Maps::tileSizeInt
 {
     { TileSize::_50,  50 },
     { TileSize::_75,  75 },
@@ -11,7 +11,7 @@ const map< TileSize, uint > Mapped::tileSizeInt
 };
 
 
-const map< FontSize, uint > Mapped::fontSizeInt
+const map< FontSize, uint > Maps::fontSizeInt
 {
     { FontSize::_20, 20 },
     { FontSize::_25, 25 },
@@ -24,7 +24,7 @@ const map< FontSize, uint > Mapped::fontSizeInt
 #define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
 #define END_STYLE   "color:white; border:1px solid white"
 
-const map< TileColor, const QString > Mapped::tileColorStyle
+const map< TileColor, const QString > Maps::tileColorStyle
 {
     { TileColor::BLUE,        BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE },
     { TileColor::GREEN,       BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE },
@@ -33,7 +33,7 @@ const map< TileColor, const QString > Mapped::tileColorStyle
 };
 
 
-const map< BoardSize, uint > Mapped::boardSizeInt
+const map< BoardSize, uint > Maps::boardSizeInt
 {
     { BoardSize::FOUR,  4 },
     { BoardSize::FIVE,  5 },
@@ -42,7 +42,7 @@ const map< BoardSize, uint > Mapped::boardSizeInt
 };
 
 
-const map< TileSize, FontSize > Mapped::tileSizeFontSize
+const map< TileSize, FontSize > Maps::tileSizeFontSize
 {
     { TileSize::_50,  FontSize::_20 },
     { TileSize::_75,  FontSize::_25 },
@@ -52,7 +52,7 @@ const map< TileSize, FontSize > Mapped::tileSizeFontSize
 };
 
 
-const map< int, TileSize > Mapped::sliderTileSize
+const map< int, TileSize > Maps::sliderTileSize
 {
     { 0, TileSize::_50 },
     { 1, TileSize::_75 },
@@ -62,25 +62,32 @@ const map< int, TileSize > Mapped::sliderTileSize
 };
 
 
-BoardSize Mapped::getBoardSizeByInt( uint value )
+BoardSize Maps::getBoardSizeByInt( uint value )
 {
-   return getMapKeyByValue( Mapped::boardSizeInt, value );
+   return getMapKeyByValue( Maps::boardSizeInt, value );
 }
 
 
-TileSize Mapped::getTileSizeByInt( uint value )
+TileSize Maps::getTileSizeByInt( uint value )
 {
-    return getMapKeyByValue( Mapped::tileSizeInt, value );
+    return getMapKeyByValue( Maps::tileSizeInt, value );
 }
 
 
-int Mapped::getSliderByTileSize( TileSize value )
+int Maps::getSliderByTileSize( TileSize value )
 {
-   return getMapKeyByValue( Mapped::sliderTileSize, value );
+   return getMapKeyByValue( Maps::sliderTileSize, value );
 }
 
 
-template< typename T, typename U > T Mapped::getMapKeyByValue( map< T, U > pairs, U value )
+int Maps::getFontSizeInt( TileSize tileSize )
+{
+    FontSize fontSize = Maps::tileSizeFontSize.at( tileSize );
+    return Maps::fontSizeInt.at( fontSize );
+}
+
+
+template< typename T, typename U > T Maps::getMapKeyByValue( map< T, U > pairs, U value )
 {
     for ( auto& pair : pairs )
     {

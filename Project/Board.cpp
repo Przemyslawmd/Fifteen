@@ -7,7 +7,7 @@
 
 
 Board::Board( BoardSize size ) : size( size ),
-                                 sizeInt( Mapped::boardSizeInt.at( size )),
+                                 sizeInt( Maps::boardSizeInt.at( size )),
                                  emptyTile( sizeInt * sizeInt - 1 )
 {
     for ( uint i = 0; i < sizeInt * sizeInt; i++ )
@@ -20,7 +20,7 @@ Board::Board( BoardSize size ) : size( size ),
 /*********************************************************************************/
 
 Board::Board( vector< uint >& values, BoardSize size ) : size( size ),
-                                                         sizeInt( Mapped::boardSizeInt.at( size )),
+                                                         sizeInt( Maps::boardSizeInt.at( size )),
                                                          emptyTile( sizeInt * sizeInt - 1 )
 {
     this->values.clear();

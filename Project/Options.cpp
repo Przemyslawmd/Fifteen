@@ -5,17 +5,9 @@
 
 using std::make_unique;
 
-FontSize Options::getFontSize()
-{
-    return Mapped::tileSizeFontSize.at( tileSize );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 const QString& Options::getStyle()
 {
-    return Mapped::tileColorStyle.at( currentColor );
+    return Maps::tileColorStyle.at( tileColor );
 }
 
 /*********************************************************************************/
@@ -65,7 +57,7 @@ unique_ptr< OptionsData > Options::readOptions()
     optionsData->imageToLoad_5 = imagesToLoad.at( BoardSize::FIVE );
     optionsData->imageToLoad_6 = imagesToLoad.at( BoardSize::SIX );
     optionsData->imageToLoad_7 = imagesToLoad.at( BoardSize::SEVEN );
-    optionsData->squareColor = currentColor;
+    optionsData->squareColor = tileColor;
     optionsData->numberColor = numberColor;
     optionsData->undoEnabled = undoEnabled;
     return optionsData;
@@ -82,7 +74,7 @@ void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
     imagesToLoad.at( BoardSize::FIVE ) = optionsData->imageToLoad_5;
     imagesToLoad.at( BoardSize::SIX ) = optionsData->imageToLoad_6;
     imagesToLoad.at( BoardSize::SEVEN ) = optionsData->imageToLoad_7;
-    currentColor = optionsData->squareColor;
+    tileColor = optionsData->squareColor;
     numberColor = optionsData->numberColor;
     undoEnabled = optionsData->undoEnabled;
 }
@@ -93,7 +85,7 @@ void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
 BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 TileSize Options::tileSize = TileSize::_100;
-TileColor Options::currentColor = TileColor::BLUE;
+TileColor Options::tileColor = TileColor::BLUE;
 NumberColor Options::numberColor = NumberColor::NO;
 bool Options::undoEnabled = false;
 

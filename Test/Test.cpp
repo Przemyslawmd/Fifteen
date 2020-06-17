@@ -18,7 +18,7 @@ void Test::testCreateBoardSolved( BoardSize boardSize )
 {
     auto board = std::make_unique< Board >( boardSize );
     auto values = board->sendBoard();
-    uint sizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint sizeInt = Maps::boardSizeInt.at( boardSize );
     uint tilesCount = sizeInt * sizeInt;
 
     QCOMPARE( tilesCount, values.size() );
@@ -38,7 +38,7 @@ void Test::testCreateBoardRandom( BoardSize boardSize )
 {
     auto board = std::make_unique< Board >( boardSize );
     auto& values = board->randomBoard();
-    uint sizeInt = Mapped::boardSizeInt.at( boardSize );
+    uint sizeInt = Maps::boardSizeInt.at( boardSize );
     checkTiles( sizeInt, values );
 }
 
@@ -52,14 +52,14 @@ void Test::testCreateBoardRandomWithChange( BoardSize firstBoardSize, BoardSize 
     board->randomBoard();
     auto values = board->randomBoard();
 
-    uint sizeInt = Mapped::boardSizeInt.at( firstBoardSize );
+    uint sizeInt = Maps::boardSizeInt.at( firstBoardSize );
     checkTiles( sizeInt, values );
 
     board.reset( new Board( secondBoardSize ));
     board->randomBoard();
     values = board->randomBoard();
 
-    sizeInt = Mapped::boardSizeInt.at( secondBoardSize );
+    sizeInt = Maps::boardSizeInt.at( secondBoardSize );
     checkTiles( sizeInt, values );
 }
 
@@ -102,7 +102,7 @@ void Test::testSaveAndLoadBoard( vector< int >& moves, vector< uint >& expectedV
     uint boardSizeInt = readValues->back();
     readValues->pop_back();
 
-    boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
+    boardSize = Maps::getBoardSizeByInt( boardSizeInt );
     board.reset( new Board( *readValues, boardSize ));
 
     auto values  = board->sendBoard();
@@ -139,7 +139,7 @@ void Test::testLoadGraphicBoard( QString fileName, Result expectedResult, BoardS
 
     IOBoard io;
     auto readValues = io.readBoardFromFile( filePath );
-    BoardSize size = Mapped::getBoardSizeByInt( readValues->back() );
+    BoardSize size = Maps::getBoardSizeByInt( readValues->back() );
     QCOMPARE( size, boardSize );
     QCOMPARE( ImageProvider::getInstance().getTileSize( size ), tileSize );
 
@@ -169,7 +169,7 @@ void Test::testCreateGraphicBoard( DataGraphic& data )
     imageProvider.prepareGraphicBoard( image, data.tileSize );
     auto& images = imageProvider.getImages( data.size );
 
-    uint sizeInt = Mapped::boardSizeInt.at( data.size );
+    uint sizeInt = Maps::boardSizeInt.at( data.size );
     for ( uint i = 0; i < sizeInt * sizeInt; i++ )
     {
         QImage image( currentDir.absolutePath() + "/Test/Images/" + data.imagesPath + QString::number( i ) + ".bmp" );

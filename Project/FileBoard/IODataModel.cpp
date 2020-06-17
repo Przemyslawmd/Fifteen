@@ -29,7 +29,7 @@ IODataModel::IODataModel( Board& board, BoardMode mode )
 void IODataModel::writeDataIntoStream( QDataStream& stream )
 {
     stream << static_cast< int >( boardMode );
-    stream << Mapped::boardSizeInt.at( boardSize );
+    stream << Maps::boardSizeInt.at( boardSize );
 
     for ( uint number : *values )
     {
@@ -41,7 +41,7 @@ void IODataModel::writeDataIntoStream( QDataStream& stream )
         return;
     }
 
-    stream << Mapped::tileSizeInt.at( tileSize );
+    stream << Maps::tileSizeInt.at( tileSize );
     stream << tileImageBytes;
 
     for ( auto& image : *images )
@@ -66,7 +66,7 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     stream >> boardSizeInt;
     try
     {
-        boardSize = Mapped::getBoardSizeByInt( boardSizeInt );
+        boardSize = Maps::getBoardSizeByInt( boardSizeInt );
     }
     catch (...)
     {
@@ -97,7 +97,7 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
     stream >> tileSizeInt;
     try
     {
-        tileSize = Mapped::getTileSizeByInt( tileSizeInt );
+        tileSize = Maps::getTileSizeByInt( tileSizeInt );
     }
     catch (...)
     {
