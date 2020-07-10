@@ -17,9 +17,9 @@ public:
 
     static BoardMode boardMode;
     static GraphicMode graphicMode;
-    static TileSize tileSize;
 
     static TileColor getTileColor();
+    static TileSize getTileSize();
 
     static bool isImageToBeLoaded( BoardSize size );
 
@@ -31,6 +31,7 @@ public:
 
 private:
 
+    static TileSize tileSize;
     static TileColor tileColor;
     static NumberColor numberColor;
     static bool undoEnabled;

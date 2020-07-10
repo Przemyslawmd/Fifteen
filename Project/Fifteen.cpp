@@ -64,7 +64,7 @@ void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
     TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
-                        Options::tileSize : ImageProvider::getInstance().getTileSize( boardSize );
+                        Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
     gui->createTiles( this, boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
 }
@@ -92,7 +92,7 @@ void Fifteen::setTilesNumeric()
     auto values = board->sendBoard();
     auto iter = values.begin();
 
-    int fontSizeInt = Maps::getFontSizeInt( Options::tileSize );
+    int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
     QFont font;
     font.setPixelSize( fontSizeInt );
 
@@ -131,7 +131,7 @@ void Fifteen::setTilesGraphic()
     uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
     QSize iconSize( tileSizeInt, tileSizeInt );
 
-    int fontSizeInt = Maps::getFontSizeInt( Options::tileSize );
+    int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
 
     auto numOnImage = Options::isNumberOnImage();
 
@@ -330,7 +330,7 @@ void Fifteen::slotLoadGraphic()
     }
 
     ImageProvider& provider = ImageProvider::getInstance();
-    provider.prepareGraphicBoard( image, Options::tileSize );
+    provider.prepareGraphicBoard( image, Options::getTileSize() );
 
     if ( provider.isGraphicBoard( BoardSize::FOUR ) || provider.isGraphicBoard( BoardSize::FIVE ) ||
          provider.isGraphicBoard( BoardSize::SIX )  || provider.isGraphicBoard( BoardSize::SEVEN ))

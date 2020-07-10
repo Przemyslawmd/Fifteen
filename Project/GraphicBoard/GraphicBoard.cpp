@@ -72,8 +72,15 @@ bool GraphicBoard:: restoreImagesFromFile( IODataModel& data )
 
     for ( uint i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
     {
-        QImage tileImage( data.imagesData + i * data.tileImageBytes, tileSizeInt, tileSizeInt, QImage::Format_RGB32 );
-        images.push_back( make_unique< QImage >( tileImage ));
+        try
+        {
+            QImage tileImage( data.imagesData + i * data.tileImageBytes, tileSizeInt, tileSizeInt, QImage::Format_RGB32 );
+            images.push_back( make_unique< QImage >( tileImage ));
+        }
+        catch (...)
+        {
+            return false;
+        }
     }
 
     this->tileSize = data.tileSize;
