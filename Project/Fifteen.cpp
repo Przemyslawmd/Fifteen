@@ -221,6 +221,7 @@ void Fifteen::slotUndoMove()
 
     if ( position == MOVE_STACK_EMPTY )
     {
+        QMessageBox::information( this, "", "There are no moves\t" );
         return;
     }
 

@@ -21,6 +21,10 @@ using std::map;
 using std::function;
 using std::array;
 
+enum class ActionMenu {
+    OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT
+};
+
 class GUI : public QMainWindow
 {
 public:
