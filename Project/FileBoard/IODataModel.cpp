@@ -5,7 +5,6 @@
 
 using std::make_unique;
 
-IODataModel::IODataModel() {}
 
 IODataModel::IODataModel( Board& board, BoardMode mode )
 {

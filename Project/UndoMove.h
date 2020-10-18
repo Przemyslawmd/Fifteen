@@ -11,6 +11,9 @@ class UndoMove
 {
 public:
 
+    UndoMove() = default;
+    UndoMove( const UndoMove& ) = delete;
+
     void PutMove( Move move, uint row, uint col );
     uint GetMove();
     void Reset();

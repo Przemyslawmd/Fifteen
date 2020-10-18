@@ -15,8 +15,9 @@ class IODataModel
 {
 public:
 
-    IODataModel();
+    IODataModel() = default;
     IODataModel( Board&, BoardMode );
+    IODataModel( const IODataModel& ) = delete;
 
     void writeDataIntoStream( QDataStream& );
     Result readDataFromStream( QDataStream& );

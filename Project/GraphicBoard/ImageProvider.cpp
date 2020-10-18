@@ -65,7 +65,7 @@ TileSize ImageProvider::getTileSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-Result ImageProvider::restoreGraphicBoardFromFile( IODataModel& dataModel )
+bool ImageProvider::restoreBoardFromFile( IODataModel& dataModel )
 {
     BoardSize boardSize = dataModel.boardSize;
     removeBoard( images.at( boardSize ));
@@ -74,10 +74,10 @@ Result ImageProvider::restoreGraphicBoardFromFile( IODataModel& dataModel )
     if ( images.at( boardSize )->restoreImagesFromFile( dataModel ) == false )
     {
         removeBoard( images.at( boardSize ));
-        return Result::READ_BOARD_IMAGES_DATA_ERROR;
+        return false;
     }
 
-    return Result::OK;
+    return true;
 }
 
 /*********************************************************************************/

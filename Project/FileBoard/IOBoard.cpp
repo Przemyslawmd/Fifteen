@@ -5,11 +5,8 @@
 #include "../Options.h"
 #include "../GraphicBoard/ImageProvider.h"
 
+using std::move;
 
-IOBoard::IOBoard(){}
-
-/*********************************************************************************/
-/*********************************************************************************/
 
 void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QString& fileName )
 {
@@ -38,13 +35,10 @@ unique_ptr< vector< uint >> IOBoard::readBoardFromFile( const QString& fileName 
     BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
     auto boardNumbers = move( dataModel.values );
 
-    if ( boardMode == BoardMode::GRAPHIC )
+    if ( boardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().restoreBoardFromFile( dataModel ) == false )
     {
-        if ( auto result = ImageProvider::getInstance().restoreGraphicBoardFromFile( dataModel ); result != Result::OK )
-        {
-            Message::putMessage( result );
-            return nullptr;
-        }
+        Message::putMessage( Result::READ_BOARD_IMAGES_DATA_ERROR );
+        return nullptr;
     }
 
     Options::boardMode = boardMode;

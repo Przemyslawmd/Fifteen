@@ -24,6 +24,7 @@ class Fifteen : public QMainWindow
 public:
 
     explicit Fifteen( QWidget *parent = 0 );
+    Fifteen( const Fifteen& ) = delete;
     ~Fifteen();
 
     void initGame();

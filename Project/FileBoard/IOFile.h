@@ -14,6 +14,7 @@ friend class IOBoard;
 private:
 
     IOFile( const QString& filePath, QIODevice::OpenModeFlag );
+    IOFile( const IOFile& ) = delete;
     ~IOFile();
 
     QDataStream& getDataStream();

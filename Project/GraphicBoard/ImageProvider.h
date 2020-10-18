@@ -10,6 +10,7 @@
 using std::unique_ptr;
 using std::map;
 
+
 class ImageProvider
 {
 public:
@@ -20,7 +21,7 @@ public:
     vector< unique_ptr< QImage >>& getImages( BoardSize );
 
     void prepareGraphicBoard( QImage&, TileSize );
-    Result restoreGraphicBoardFromFile( IODataModel& );
+    bool restoreBoardFromFile( IODataModel& );
     bool isGraphicBoard( BoardSize );
     TileSize getTileSize( BoardSize );
 

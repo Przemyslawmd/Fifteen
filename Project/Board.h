@@ -13,6 +13,7 @@ public:
 
     Board( BoardSize );
     Board( vector< uint >& values, BoardSize );
+    Board( const Board& ) = delete;
 
     Move checkMove( uint row, uint col );
 
