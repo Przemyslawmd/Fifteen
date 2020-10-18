@@ -6,10 +6,6 @@
 
 using std::make_unique;
 
-GUI::GUI() {}
-
-/*********************************************************************************/
-/*********************************************************************************/
 
 void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void ) >>& funcs )
 {

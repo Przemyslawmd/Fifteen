@@ -25,11 +25,13 @@ enum class ActionMenu {
     OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT
 };
 
+
 class GUI : public QMainWindow
 {
 public:
 
-    GUI();
+    GUI() = default;
+    GUI( const GUI& ) = delete;
 
     void createMenu( QMainWindow*, map< ActionMenu, function< void( void ) >>& funcs );
     void createRightLayout( QMainWindow*, array< function< void( void ) >, 3 >& funcs );

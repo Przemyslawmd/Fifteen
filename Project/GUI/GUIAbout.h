@@ -9,6 +9,7 @@ class GUIAbout : public QDialog
 public:
 
     GUIAbout();
+    GUIAbout( const GUIAbout& ) = delete;
 };
 
 #endif

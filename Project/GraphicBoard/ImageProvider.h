@@ -28,6 +28,7 @@ public:
 private:
 
     ImageProvider();
+    ImageProvider( const ImageProvider& ) = delete;
     ~ImageProvider();
 
     bool checkImageSize( QImage&, BoardSize, TileSize ) ;

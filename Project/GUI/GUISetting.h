@@ -24,6 +24,7 @@ class GUISetting : public QDialog
 public:
 
     GUISetting( Fifteen& owner );
+    GUISetting( const GUISetting& ) = delete;
 
 private:
 
