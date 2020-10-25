@@ -1,10 +1,11 @@
 
 #include "IOFile.h"
 
+
 IOFile::IOFile( const QString& fileName, QIODevice::OpenModeFlag mode ) : file( fileName )
 {
     file.open( mode );
-    stream = new QDataStream( &file );
+    stream = std::make_unique< QDataStream >( &file );
     stream->setVersion( QDataStream::Qt_5_0 );
 }
 
@@ -13,7 +14,6 @@ IOFile::IOFile( const QString& fileName, QIODevice::OpenModeFlag mode ) : file( 
 
 IOFile::~IOFile()
 {
-    delete stream;
     file.close();
 }
 

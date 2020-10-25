@@ -4,23 +4,23 @@
 
 #include <QDataStream>
 #include <QFile>
-
+#include <memory>
 
 class IOFile
 {
-
-friend class IOBoard;
-
 private:
+
+    friend class IOBoard;
 
     IOFile( const QString& filePath, QIODevice::OpenModeFlag );
     IOFile( const IOFile& ) = delete;
+    IOFile operator=( const IOFile& ) = delete;
     ~IOFile();
 
     QDataStream& getDataStream();
 
     QFile file;
-    QDataStream* stream;
+    std::unique_ptr< QDataStream > stream;
 };
 
 #endif
