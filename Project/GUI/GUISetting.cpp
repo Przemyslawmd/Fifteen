@@ -19,14 +19,12 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     setMinimumSize( 400, 870 );
     setAttribute( Qt::WA_DeleteOnClose );
 
-    QVBoxLayout layWindow;
     optionsCurrent = Options::readOptions();
 
     /* Graphic loading box *****************************************/
 
     mapRadioGraphicMode[GraphicMode::SCALED] = new QRadioButton( "Scalled image" );
     mapRadioGraphicMode[GraphicMode::CROPPED] = new QRadioButton( "Cropped image" );
-    mapRadioGraphicMode[GraphicMode::SCALED]->setChecked( optionsCurrent->graphicMode == GraphicMode::SCALED );
 
     for ( auto radio : mapRadioGraphicMode )
     {
@@ -34,7 +32,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
         groupRadioGraphicMode.addButton( radio.second );
     }
 
-    mapRadioGraphicMode[ optionsCurrent->graphicMode]->setChecked( true );
+    mapRadioGraphicMode[optionsCurrent->graphicMode]->setChecked( true );
 
     mapCheckImageToChose[BoardSize::FOUR] = new QCheckBox( "Load image for board  4x4" );
     mapCheckImageToChose[BoardSize::FOUR]->setChecked( optionsCurrent->imageToLoad_4 );
@@ -60,7 +58,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
         groupRadioNumberOnImage.addButton( radio.second );
     }
 
-    mapRadioNumberOnImage[ optionsCurrent->numberColor ]->setChecked( true );
+    mapRadioNumberOnImage[optionsCurrent->numberColor]->setChecked( true );
 
     QVBoxLayout layRadioImage;
     layRadioImage.addSpacing( 8 );
@@ -148,6 +146,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     /* General layout **********************************************/
 
+    QVBoxLayout layWindow;
     QHBoxLayout layControls;
     pushAccept = new QPushButton( "Accept ");
     pushAccept->setStyleSheet( "height:20px;" );

@@ -20,7 +20,6 @@ using std::map;
 
 class GUISetting : public QDialog
 {
-
 public:
 
     GUISetting( Fifteen& owner );
