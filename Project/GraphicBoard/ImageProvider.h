@@ -3,13 +3,11 @@
 #define IMAGEPROVIDER_H
 
 #include "GraphicBoard.h"
-#include "../FileBoard/IODataModel.h"
 #include "../Types.h"
 #include "../Message.h"
 
 using std::unique_ptr;
 using std::map;
-
 
 class ImageProvider
 {
@@ -29,14 +27,13 @@ private:
 
     ImageProvider();
     ImageProvider( const ImageProvider& ) = delete;
-    ~ImageProvider();
+    ImageProvider operator=( const ImageProvider& ) = delete;
 
     bool checkImageSize( QImage&, BoardSize, TileSize ) ;
     void createTilesForGraphicBoard( BoardSize, TileSize, QImage& );
-    void removeBoard( GraphicBoard*& );
 
     static ImageProvider* instance;
-    map< BoardSize, GraphicBoard* > images;
+    map< BoardSize, unique_ptr< GraphicBoard >> images;
 };
 
 #endif

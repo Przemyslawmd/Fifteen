@@ -68,12 +68,11 @@ TileSize ImageProvider::getTileSize( BoardSize boardSize )
 bool ImageProvider::restoreBoardFromFile( IODataModel& dataModel )
 {
     BoardSize boardSize = dataModel.boardSize;
-    removeBoard( images.at( boardSize ));
-    images.at( boardSize ) = new GraphicBoard();
+    images.at( boardSize ).reset( new GraphicBoard() );
 
     if ( images.at( boardSize )->restoreImagesFromFile( dataModel ) == false )
     {
-        removeBoard( images.at( boardSize ));
+        images.at( boardSize ).reset();
         return false;
     }
 
@@ -85,21 +84,10 @@ bool ImageProvider::restoreBoardFromFile( IODataModel& dataModel )
 
 ImageProvider::ImageProvider()
 {
-    images.insert( std::pair< BoardSize, GraphicBoard* >( BoardSize::FOUR,  nullptr ));
-    images.insert( std::pair< BoardSize, GraphicBoard* >( BoardSize::FIVE,  nullptr ));
-    images.insert( std::pair< BoardSize, GraphicBoard* >( BoardSize::SIX,   nullptr ));
-    images.insert( std::pair< BoardSize, GraphicBoard* >( BoardSize::SEVEN, nullptr ));
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-ImageProvider::~ImageProvider()
-{
-    removeBoard( images.at( BoardSize::FOUR ));
-    removeBoard( images.at( BoardSize::FIVE ));
-    removeBoard( images.at( BoardSize::SIX ));
-    removeBoard( images.at( BoardSize::SEVEN ));
+    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FOUR,  nullptr ));
+    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FIVE,  nullptr ));
+    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SIX,   nullptr ));
+    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SEVEN, nullptr ));
 }
 
 /*********************************************************************************/
@@ -123,17 +111,8 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSi
 
 void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, TileSize tileSize, QImage& image )
 {
-    images.at( boardSize ) = new GraphicBoard();
+    images.at( boardSize ) = std::make_unique< GraphicBoard >();
     images.at( boardSize )->createTilesFromImage( image, boardSize, tileSize, Options::graphicMode );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void ImageProvider::removeBoard( GraphicBoard*& board )
-{
-    delete board;
-    board = nullptr;
 }
 
 /*********************************************************************************/

@@ -10,15 +10,17 @@
 using std::vector;
 using std::unique_ptr;
 
-
 class GraphicBoard
 {
-private:
-
-    friend class ImageProvider;
+public:
 
     GraphicBoard() = default;
     GraphicBoard( const GraphicBoard& ) = delete;
+    GraphicBoard operator=( const GraphicBoard& ) = delete;
+
+private:
+
+    friend class ImageProvider;
 
     void createTilesFromImage( QImage&, BoardSize, TileSize, GraphicMode );
     void createTiles( QImage*, uint boardSize, uint tileSize );
