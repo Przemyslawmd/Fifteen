@@ -25,6 +25,7 @@ public:
 
     explicit Fifteen( QWidget *parent = 0 );
     Fifteen( const Fifteen& ) = delete;
+    Fifteen operator=( const Fifteen& ) = delete;
     ~Fifteen();
 
     void initGame();
@@ -48,7 +49,7 @@ private:
     void setTilesNumeric();
     void setTilesGraphic();
 
-    void prepareIconWithNumber( QIcon&, QPixmap&, QColor, int fontSize, uint number );
+    void prepareQIconForTile( QIcon&, QPixmap&, int fontSize, uint number, NumberColor );
 
     void makeMove( Move, uint row, uint col );
     void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest );

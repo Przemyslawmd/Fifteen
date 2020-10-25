@@ -12,7 +12,7 @@
 #include <QBuffer>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QFont>
+
 
 Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 
@@ -89,8 +89,7 @@ void Fifteen::setTiles()
 
 void Fifteen::setTilesNumeric()
 {    
-    auto values = board->sendBoard();
-    auto iter = values.begin();
+    auto iter = board->sendBoard().begin();
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
     QFont font;
@@ -122,7 +121,7 @@ void Fifteen::setTilesNumeric()
 void Fifteen::setTilesGraphic()
 {
     BoardSize boardSize = board->getSize();
-    vector< uint >& values = board->sendBoard();
+    auto iter = board->sendBoard().begin();
 
     ImageProvider& provider = ImageProvider::getInstance();
     auto& images = provider.getImages( boardSize );
@@ -132,45 +131,38 @@ void Fifteen::setTilesGraphic()
     QSize iconSize( tileSizeInt, tileSizeInt );
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
+    NumberColor numberColor = Options::getNumberOnImageColor();
+    QIcon icon;
 
-    auto numOnImage = Options::isNumberOnImage();
-
-    uint i = 0;
     for ( auto &tile : gui->getTiles() )
     {
-        QPixmap pixmap = QPixmap::fromImage( *images.at( values.at( i )).get() );
-
-        QIcon icon;
-        if ( numOnImage->isNumberOnImage )
-        {
-            prepareIconWithNumber( icon, pixmap, numOnImage->fontColor, fontSizeInt, values.at( i ));
-        }
-        else
-        {
-            icon.addPixmap( pixmap );
-        }
-
+        QPixmap pixmap = QPixmap::fromImage( *images.at( *iter ).get() );
+        prepareQIconForTile( icon, pixmap, fontSizeInt, *iter, numberColor );
         tile->setIconSize( iconSize );
         tile->setIcon( icon );
         tile->setStyleSheet( "" );
-        i++;
+        iter++;
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::prepareIconWithNumber( QIcon& icon, QPixmap& pixmap, QColor penColor, int fontSize, uint number )
+void Fifteen::prepareQIconForTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
 {
-    if ( number != board->getEmptyTile() )
+    if ( numberColor == NumberColor::NO || number == board->getEmptyTile() )
     {
-        QPainter painter( &pixmap );
-        painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
-        painter.setPen( penColor );
-        painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number + 1 ));
         icon.addPixmap( pixmap );
-        painter.end();
+        return;
     }
+
+    QPainter painter( &pixmap );
+    painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
+    QColor color = numberColor == NumberColor::WHITE ? QColor( 255, 255, 255 ) : QColor( 0, 0, 0 );
+    painter.setPen( color );
+    painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number + 1 ));
+    icon.addPixmap( pixmap );
+    painter.end();
 }
 
 /*********************************************************************************/
@@ -443,7 +435,7 @@ void Fifteen::createUndoMovesService()
 
 void Fifteen::deleteUndoMovesService()
 {
-    delete undoMoveService.release();
+    undoMoveService.reset();
     gui->setStatePushUndo( true );
 }
 

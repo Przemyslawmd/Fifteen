@@ -1,9 +1,7 @@
 
 #include "Options.h"
 #include "MappedValues.h"
-#include <QtGlobal>
 
-using std::make_unique;
 
 TileColor Options::getTileColor()
 {
@@ -29,19 +27,9 @@ bool Options::isImageToBeLoaded( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr< NumberOnImage > Options::isNumberOnImage()
+NumberColor Options::getNumberOnImageColor()
 {
-    unique_ptr< NumberOnImage > numOnImage = make_unique< NumberOnImage >();
-
-    if ( numberColor == NumberColor::NO )
-    {
-        numOnImage->isNumberOnImage = false;
-        return numOnImage;
-    }
-
-    numOnImage->isNumberOnImage = true;
-    numOnImage->fontColor = numberColor == NumberColor::BLACK ? QColor{ 0, 0, 0 } : QColor{ 255, 255, 255 };
-    return numOnImage;
+    return Options::numberColor;
 }
 
 /*********************************************************************************/
@@ -57,7 +45,7 @@ bool Options::isUndoEnabled()
 
 unique_ptr< OptionsData > Options::readOptions()
 {
-    unique_ptr< OptionsData > optionsData = make_unique< OptionsData >();
+    unique_ptr< OptionsData > optionsData = std::make_unique< OptionsData >();
     optionsData->boardMode = boardMode;
     optionsData->graphicMode = graphicMode;
     optionsData->tileSize = tileSize;

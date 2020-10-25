@@ -3,7 +3,7 @@
 #define TYPES_H
 
 #include <QString>
-#include <QColor>
+
 
 enum class BoardSize    { FOUR, FIVE, SIX, SEVEN };
 enum class GraphicMode  { SCALED, CROPPED };
@@ -28,13 +28,6 @@ typedef struct
     NumberColor numberColor;
     bool undoEnabled;
 } OptionsData;
-
-
-typedef struct
-{
-    bool isNumberOnImage;
-    QColor fontColor;
-} NumberOnImage;
 
 #endif
 
