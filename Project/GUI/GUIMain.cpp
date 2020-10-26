@@ -48,18 +48,15 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
     mapRadioBoardSize[BoardSize::FOUR]->setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    groupRadioSize = make_unique< QButtonGroup >();
     for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapRadioBoardSize )
     {
         radioSizeLayout->addSpacing( 10 );
         radioSizeLayout->addWidget( radioSizePair.second );
         radioSizePair.second->setStyleSheet( "margin-left:5px;" );
-        groupRadioSize->addButton( radioSizePair.second );
-        groupRadioSize->setId( radioSizePair.second, Maps::boardSizeInt.at( radioSizePair.first ));
     }
     radioSizeLayout->addSpacing( 30 );
 
-    unique_ptr< QGroupBox > radioSizeBox = unique_ptr< QGroupBox >( new QGroupBox( " Dimension of Board " ));
+    QGroupBox* radioSizeBox = new QGroupBox( " Dimension of Board " );
     radioSizeBox->setLayout( radioSizeLayout );
 
     mapRadioBoardMode[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
@@ -67,42 +64,40 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
     mapRadioBoardMode[BoardMode::NUMERIC]->setChecked( true );
 
     QVBoxLayout* radioKindLayout = new QVBoxLayout();
-    unique_ptr< QButtonGroup > groupRadioKind = make_unique< QButtonGroup >();
     for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapRadioBoardMode )
     {
         radioKindLayout->addSpacing( 10 );
         radioKindLayout->addWidget( radioKindPair.second );
         radioKindPair.second->setStyleSheet( "margin-left:5px;" );
-        groupRadioKind->addButton( radioKindPair.second );
     }
     radioKindLayout->addSpacing( 30 );
 
-    unique_ptr< QGroupBox > radioKindBox = make_unique< QGroupBox>( " Kind of Board " );
+    QGroupBox* radioKindBox = new QGroupBox( " Kind of Board " );
     radioKindBox->setLayout( radioKindLayout );
 
-    unique_ptr< QPushButton > pushRandom = make_unique< QPushButton >(" Generate Board ");
+    QPushButton* pushRandom = new QPushButton(" Generate Board ");
     pushRandom->setStyleSheet( "height:20px;" );
-    connect( pushRandom.get(), &QPushButton::clicked, widget, funcs.at( 0 ));
+    connect( pushRandom, &QPushButton::clicked, widget, funcs.at( 0 ));
 
-    unique_ptr< QPushButton > pushSolve = make_unique< QPushButton >(" Solve Board ");
+    QPushButton* pushSolve = new QPushButton(" Solve Board ");
     pushSolve->setStyleSheet( "height:20px;" );
-    connect( pushSolve.get(), &QPushButton::clicked, widget, funcs.at( 1 ));
+    connect( pushSolve, &QPushButton::clicked, widget, funcs.at( 1 ));
 
-    pushUndo = make_unique< QPushButton >( " Undo Move " );
+    QPushButton* pushUndo = new QPushButton( " Undo Move " );
     pushUndo->setStyleSheet( "height:20px;" );
-    connect( pushUndo.get(), &QPushButton::clicked, widget, funcs.at( 2 ));
+    connect( pushUndo, &QPushButton::clicked, widget, funcs.at( 2 ));
 
     layRight = new QVBoxLayout();
     layRight->setContentsMargins( 30, 0, 20, 0 );
-    layRight->addWidget( pushRandom.release() );
+    layRight->addWidget( pushRandom );
     layRight->addSpacing( 15 );
-    layRight->addWidget( pushSolve.release() );
+    layRight->addWidget( pushSolve );
     layRight->addSpacing( 15 );
-    layRight->addWidget( pushUndo.get() );
+    layRight->addWidget( pushUndo );
     layRight->addSpacing( 30 );
-    layRight->addWidget( radioSizeBox.release() );
+    layRight->addWidget( radioSizeBox );
     layRight->addStretch();
-    layRight->addWidget( radioKindBox.release() );
+    layRight->addWidget( radioKindBox );
     layRight->addStretch();
 }
 
@@ -202,8 +197,19 @@ vector< unique_ptr< QPushButton >>& GUI::getTiles()
 
 BoardSize GUI::checkRadioBoardSize()
 {
-    int id = groupRadioSize->checkedId();
-    return Maps::getBoardSizeByInt( id );
+    if ( mapRadioBoardSize.at( BoardSize::FOUR )->isChecked() )
+    {
+        return BoardSize::FOUR;
+    }
+    if ( mapRadioBoardSize.at( BoardSize::FIVE )->isChecked() )
+    {
+        return BoardSize::FIVE;
+    }
+    if ( mapRadioBoardSize.at( BoardSize::SIX )->isChecked() )
+    {
+        return BoardSize::SIX;
+    }
+    return BoardSize::SEVEN;
 }
 
 /*********************************************************************************/

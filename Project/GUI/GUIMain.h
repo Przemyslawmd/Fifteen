@@ -9,7 +9,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>
-#include <QButtonGroup>
 #include <QPushButton>
 #include <QRadioButton>
 #include <map>
@@ -24,7 +23,6 @@ using std::array;
 enum class ActionMenu {
     OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT
 };
-
 
 class GUI : public QMainWindow
 {
@@ -52,8 +50,6 @@ private:
     void bindAction( QMainWindow*, QAction*&, function< void( void ) >, QString );
 
     vector< unique_ptr< QPushButton >> tiles;
-    unique_ptr< QButtonGroup > groupRadioSize;
-    unique_ptr< QPushButton > pushUndo;
 
     map< BoardSize, QRadioButton* > mapRadioBoardSize;
     map< BoardMode, QRadioButton* > mapRadioBoardMode;
