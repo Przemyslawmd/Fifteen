@@ -17,6 +17,7 @@
 
 using std::array;
 using std::map;
+using std::unique_ptr;
 
 class GUISetting : public QDialog
 {
@@ -24,6 +25,7 @@ public:
 
     GUISetting( Fifteen& owner );
     GUISetting( const GUISetting& ) = delete;
+    GUISetting operator=( const GUISetting& ) = delete;
 
 private:
 
@@ -42,8 +44,6 @@ private:
 
     QSlider* slider;
     array< QLabel*, 5 > sliderLabels;
-
-    QCheckBox checkUndoEnabled;
 
     unique_ptr< OptionsData > optionsCurrent;
     QPushButton* pushAccept;

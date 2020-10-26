@@ -8,15 +8,14 @@
 #include <QMessageBox>
 #include <memory>
 
-using std::unique_ptr;
 
 GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 {
     setModal( true );
     setWindowTitle( "" );
     setGeometry( 100, 100, 400, 560 );
-    setMaximumSize( 400, 870 );
-    setMinimumSize( 400, 870 );
+    setMaximumSize( 400, 800 );
+    setMinimumSize( 400, 800 );
     setAttribute( Qt::WA_DeleteOnClose );
 
     optionsCurrent = Options::readOptions();
@@ -43,7 +42,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     mapCheckImageToChose[BoardSize::SEVEN] = new QCheckBox( "Load image for board  7x7" );
     mapCheckImageToChose[BoardSize::SEVEN]->setChecked( optionsCurrent->imageToLoad_7 );
 
-    for ( auto& check : mapCheckImageToChose )
+    for ( auto check : mapCheckImageToChose )
     {
         check.second->setStyleSheet( "margin-left: 5px;" );
     }
@@ -132,18 +131,6 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     QGroupBox* boxSquareSize = new QGroupBox( "Size of tile ");
     boxSquareSize->setLayout( &layoutSlider );
 
-    /* Undo availability *******************************************/
-
-    checkUndoEnabled.setText( "Enable undo to ten moves" );
-    checkUndoEnabled.setChecked( optionsCurrent->undoEnabled );
-    checkUndoEnabled.setStyleSheet( "margin-left: 5px" );
-    QVBoxLayout layoutUndoEnabled;
-    layoutUndoEnabled.addSpacing( 10 );
-    layoutUndoEnabled.addWidget( &checkUndoEnabled );
-    layoutUndoEnabled.addSpacing( 10 );
-    QGroupBox* boxUndoEnabled = new QGroupBox();
-    boxUndoEnabled->setLayout( &layoutUndoEnabled );
-
     /* General layout **********************************************/
 
     QVBoxLayout layWindow;
@@ -162,8 +149,6 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     layWindow.addWidget( boxRadioColor);
     layWindow.addSpacing( 20 );
     layWindow.addWidget( boxSquareSize );
-    layWindow.addSpacing( 20 );
-    layWindow.addWidget( boxUndoEnabled );
     layWindow.addSpacing( 20 );
     layWindow.addLayout( &layControls );
     layWindow.addSpacing( 10 );
@@ -195,11 +180,9 @@ void GUISetting::acceptSettings()
     optionsNew->imageToLoad_6 = mapCheckImageToChose[BoardSize::SIX]->isChecked();
     optionsNew->imageToLoad_7 = mapCheckImageToChose[BoardSize::SEVEN]->isChecked();
     optionsNew->numberColor = getChoosenOption< NumberColor >( mapRadioNumberOnImage, groupRadioNumberOnImage );
-    optionsNew->undoEnabled = checkUndoEnabled.isChecked();
     optionsNew->squareColor = getChoosenOption< TileColor >( mapRadioColor, groupRadioColor );
 
     bool numberImageChanged = optionsNew->numberColor != optionsCurrent->numberColor;
-    bool undoMovesChanged = optionsNew->undoEnabled != optionsCurrent->undoEnabled;
     bool colorChanged = optionsNew->squareColor != optionsCurrent->squareColor;
 
     Options::saveOptions( std::move( optionsNew ));
@@ -213,18 +196,6 @@ void GUISetting::acceptSettings()
     if ( colorChanged && optionsCurrent->boardMode == BoardMode::NUMERIC )
     {
         owner.setColor();
-    }
-
-    if ( undoMovesChanged )
-    {
-        if ( optionsCurrent->undoEnabled )
-        {
-            owner.deleteUndoMovesService();
-        }
-        else
-        {
-            owner.createUndoMovesService();
-        }
     }
 
     close();

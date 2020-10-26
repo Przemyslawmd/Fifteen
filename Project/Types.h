@@ -26,7 +26,6 @@ typedef struct
     TileColor squareColor;
     TileSize tileSize;
     NumberColor numberColor;
-    bool undoEnabled;
 } OptionsData;
 
 #endif
