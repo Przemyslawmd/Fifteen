@@ -4,7 +4,6 @@
 
 #include "Types.h"
 #include <QString>
-#include <QColor>
 #include <map>
 #include <memory>
 
@@ -34,7 +33,6 @@ private:
     static TileSize tileSize;
     static TileColor tileColor;
     static NumberColor numberColor;
-    static bool undoEnabled;
     static map< BoardSize, bool > imagesToLoad;
 };
 

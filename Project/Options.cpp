@@ -35,14 +35,6 @@ NumberColor Options::getNumberOnImageColor()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool Options::isUndoEnabled()
-{
-    return undoEnabled;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 unique_ptr< OptionsData > Options::readOptions()
 {
     unique_ptr< OptionsData > optionsData = std::make_unique< OptionsData >();
@@ -55,7 +47,6 @@ unique_ptr< OptionsData > Options::readOptions()
     optionsData->imageToLoad_7 = imagesToLoad.at( BoardSize::SEVEN );
     optionsData->squareColor = tileColor;
     optionsData->numberColor = numberColor;
-    optionsData->undoEnabled = undoEnabled;
     return optionsData;
 }
 
@@ -72,7 +63,6 @@ void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
     imagesToLoad.at( BoardSize::SEVEN ) = optionsData->imageToLoad_7;
     tileColor = optionsData->squareColor;
     numberColor = optionsData->numberColor;
-    undoEnabled = optionsData->undoEnabled;
 }
 
 /*********************************************************************************/
@@ -83,7 +73,6 @@ GraphicMode Options::graphicMode = GraphicMode::SCALED;
 TileSize Options::tileSize = TileSize::_100;
 TileColor Options::tileColor = TileColor::BLUE;
 NumberColor Options::numberColor = NumberColor::NO;
-bool Options::undoEnabled = false;
 
 map< BoardSize, bool > Options::imagesToLoad
 {

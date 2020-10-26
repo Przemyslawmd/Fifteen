@@ -239,11 +239,7 @@ void Fifteen::pressTile()
         return;
     }
 
-    if ( Options::isUndoEnabled() )
-    {
-        undoMoveService->PutMove( move, row, col );
-    }
-
+    undoMoveService->PutMove( move, row, col );
     makeMove( move, row, col );
 }
 
