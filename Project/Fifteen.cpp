@@ -46,7 +46,7 @@ void Fifteen::initGame()
 
     gui->completeLayouts( this );
     redrawTiles();
-    undoMoveService = nullptr;
+    undoMoveService = unique_ptr< UndoMove >( new UndoMove() );;
 }
 
 /*********************************************************************************/
@@ -183,11 +183,7 @@ void Fifteen::slotGenerateBoard()
     board.reset( new Board( boardSize ));
     board->randomBoard();
     redrawTiles();
-
-    if ( undoMoveService )
-    {
-        undoMoveService->Reset();
-    }
+    undoMoveService->Reset();
 }
 
 /*********************************************************************************/
@@ -197,11 +193,7 @@ void Fifteen::slotSolveBoard()
 {
     board->solveBoard();
     setTiles();
-
-    if ( undoMoveService )
-    {
-        undoMoveService->Reset();
-    }
+    undoMoveService->Reset();
 }
 
 /*********************************************************************************/
@@ -415,24 +407,6 @@ void Fifteen::redrawTiles()
 {
     createTiles();
     setTiles();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void Fifteen::createUndoMovesService()
-{
-    undoMoveService = unique_ptr< UndoMove >( new UndoMove() );
-    gui->setStatePushUndo( false );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void Fifteen::deleteUndoMovesService()
-{
-    undoMoveService.reset();
-    gui->setStatePushUndo( true );
 }
 
 /*********************************************************************************/

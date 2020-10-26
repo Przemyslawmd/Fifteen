@@ -90,7 +90,6 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
 
     pushUndo = make_unique< QPushButton >( " Undo Move " );
     pushUndo->setStyleSheet( "height:20px;" );
-    pushUndo->setDisabled( true );
     connect( pushUndo.get(), &QPushButton::clicked, widget, funcs.at( 2 ));
 
     layRight = new QVBoxLayout();
@@ -237,13 +236,5 @@ void GUI::setRadioBoardMode( BoardMode boardMode )
 void GUI::setActionMenuState( ActionMenu actionMenu, bool state )
 {
     mapActionMenu.at( actionMenu )->setEnabled( state );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GUI::setStatePushUndo( bool state )
-{
-    pushUndo->setDisabled( state );
 }
 

@@ -32,6 +32,7 @@ public:
 
     GUI() = default;
     GUI( const GUI& ) = delete;
+    GUI operator=( const GUI& ) = delete;
 
     void createMenu( QMainWindow*, map< ActionMenu, function< void( void ) >>& funcs );
     void createRightLayout( QMainWindow*, array< function< void( void ) >, 3 >& funcs );
@@ -41,7 +42,6 @@ public:
     void deleteTiles();
     vector< unique_ptr< QPushButton >>& getTiles();
     BoardSize checkRadioBoardSize();
-    void setStatePushUndo( bool state );
     void setRadioSize( BoardSize );
     bool checkRadioBoardMode( BoardMode );
     void setRadioBoardMode( BoardMode );

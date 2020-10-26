@@ -31,8 +31,6 @@ public:
     void initGame();
     void setColor();
     void redrawTiles();
-    void createUndoMovesService();
-    void deleteUndoMovesService();
 
 public slots:
 
