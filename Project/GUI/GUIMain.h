@@ -4,11 +4,8 @@
 
 #include "Types.h"
 #include <QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QGroupBox>
 #include <QPushButton>
 #include <QRadioButton>
 #include <map>
@@ -58,7 +55,6 @@ private:
     QVBoxLayout* layVerticalBoard;
     vector< QHBoxLayout* > layHorizontalBoard;
     QVBoxLayout* layRight;
-    QGroupBox* boxImages;
 };
 
 #endif

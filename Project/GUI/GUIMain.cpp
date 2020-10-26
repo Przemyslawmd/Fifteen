@@ -1,15 +1,16 @@
 
 #include "GUIMain.h"
 #include "MappedValues.h"
+#include <QGroupBox>
+#include <QMenu>
+#include <QMenuBar>
 #include <memory>
 #include <iostream>
-
-using std::make_unique;
 
 
 void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void ) >>& funcs )
 {
-    unique_ptr< QMenu > fileMenu = std::make_unique< QMenu >( "File" );
+    QMenu* fileMenu = new QMenu( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
     bindAction( widget, mapActionMenu[ActionMenu::OPEN_GRAPHIC], funcs.at( ActionMenu::OPEN_GRAPHIC ), "Load Graphic File" );
@@ -27,13 +28,13 @@ void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void
     fileMenu->addSeparator();
     fileMenu->addAction( mapActionMenu[ActionMenu::LOAD_BOARD] );
 
-    unique_ptr< QMenuBar > menuBar = std::make_unique< QMenuBar >();
-    menuBar->addMenu( fileMenu.release() );
+    QMenuBar* menuBar = new QMenuBar();
+    menuBar->addMenu( fileMenu );
     menuBar->addAction( mapActionMenu[ActionMenu::SETTINGS] );
     menuBar->addAction( mapActionMenu[ActionMenu::ABOUT] );
     menuBar->setStyleSheet( "padding-left: 5px; margin: 3px;" );
 
-    widget->setMenuBar( menuBar.release() );
+    widget->setMenuBar( menuBar );
 }
 
 /*********************************************************************************/
@@ -112,7 +113,7 @@ void GUI::completeLayouts( QMainWindow* widget )
     layVerticalBoard = new QVBoxLayout();
     layVerticalBoard->setSpacing( 0 );
 
-    boxImages = new QGroupBox();
+    QGroupBox* boxImages = new QGroupBox();
     boxImages->setLayout( layVerticalBoard );
 
     QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
