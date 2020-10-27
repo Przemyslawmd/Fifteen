@@ -7,6 +7,9 @@
 #include <memory>
 #include <iostream>
 
+#define STYLE_MARGIN_LEFT "margin-left: 5px;"
+#define STYLE_HEIGHT "height:20px;"
+
 
 void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void ) >>& funcs )
 {
@@ -53,11 +56,11 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
     {
         radioSizeLayout->addSpacing( 10 );
         radioSizeLayout->addWidget( radioSizePair.second );
-        radioSizePair.second->setStyleSheet( "margin-left:5px;" );
+        radioSizePair.second->setStyleSheet( STYLE_MARGIN_LEFT );
     }
     radioSizeLayout->addSpacing( 30 );
 
-    QGroupBox* radioSizeBox = new QGroupBox( " Dimension of Board " );
+    QGroupBox* radioSizeBox = new QGroupBox( "Dimension of Board" );
     radioSizeBox->setLayout( radioSizeLayout );
 
     mapRadioBoardMode[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
@@ -69,23 +72,23 @@ void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) 
     {
         radioKindLayout->addSpacing( 10 );
         radioKindLayout->addWidget( radioKindPair.second );
-        radioKindPair.second->setStyleSheet( "margin-left:5px;" );
+        radioKindPair.second->setStyleSheet( STYLE_MARGIN_LEFT );
     }
     radioKindLayout->addSpacing( 30 );
 
-    QGroupBox* radioKindBox = new QGroupBox( " Kind of Board " );
+    QGroupBox* radioKindBox = new QGroupBox( "Kind of Board" );
     radioKindBox->setLayout( radioKindLayout );
 
-    QPushButton* pushRandom = new QPushButton(" Generate Board ");
-    pushRandom->setStyleSheet( "height:20px;" );
+    QPushButton* pushRandom = new QPushButton( "Generate Board" );
+    pushRandom->setStyleSheet( STYLE_HEIGHT );
     connect( pushRandom, &QPushButton::clicked, widget, funcs.at( 0 ));
 
-    QPushButton* pushSolve = new QPushButton(" Solve Board ");
-    pushSolve->setStyleSheet( "height:20px;" );
+    QPushButton* pushSolve = new QPushButton( "Solve Board" );
+    pushSolve->setStyleSheet( STYLE_HEIGHT );
     connect( pushSolve, &QPushButton::clicked, widget, funcs.at( 1 ));
 
-    QPushButton* pushUndo = new QPushButton( " Undo Move " );
-    pushUndo->setStyleSheet( "height:20px;" );
+    QPushButton* pushUndo = new QPushButton( "Undo Move" );
+    pushUndo->setStyleSheet( STYLE_HEIGHT );
     connect( pushUndo, &QPushButton::clicked, widget, funcs.at( 2 ));
 
     layRight = new QVBoxLayout();

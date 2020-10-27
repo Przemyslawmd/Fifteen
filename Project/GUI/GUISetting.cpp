@@ -9,6 +9,8 @@
 #include <QMessageBox>
 #include <memory>
 
+#define STYLE_MARGIN_LEFT "margin-left: 5px;"
+
 
 GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 {
@@ -28,7 +30,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     for ( auto radio : mapRadioGraphicMode )
     {
-        radio.second->setStyleSheet( "margin-left: 5px;" );
+        radio.second->setStyleSheet( STYLE_MARGIN_LEFT );
     }
 
     mapRadioGraphicMode[optionsCurrent->graphicMode]->setChecked( true );
@@ -44,7 +46,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     for ( auto check : mapCheckImageToChose )
     {
-        check.second->setStyleSheet( "margin-left: 5px;" );
+        check.second->setStyleSheet( STYLE_MARGIN_LEFT );
     }
 
     mapRadioNumberOnImage[NumberColor::NO] = new QRadioButton( "Number on graphic tile : No" );
@@ -53,7 +55,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     for ( auto radio : mapRadioNumberOnImage )
     {
-        radio.second->setStyleSheet( "margin-left: 5px;" );
+        radio.second->setStyleSheet( STYLE_MARGIN_LEFT );
         groupRadioNumberOnImage.addButton( radio.second );
     }
 
@@ -90,7 +92,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     for ( auto radio : mapRadioColor )
     {
-        radio.second->setStyleSheet( "margin-left:5px;" );
+        radio.second->setStyleSheet( STYLE_MARGIN_LEFT );
         groupRadioColor.addButton( radio.second );
     }
 
@@ -122,14 +124,14 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     layoutSlider.addWidget( new QLabel( "100" ),   1, 2, 1, 1, Qt::AlignCenter );
     layoutSlider.addWidget( new QLabel( "125  " ), 1, 3, 1, 1, Qt::AlignRight );
     layoutSlider.addWidget( new QLabel( "150" ),   1, 4, 1, 1, Qt::AlignRight );
-    QGroupBox* boxSquareSize = new QGroupBox( "Size of tile ");
+    QGroupBox* boxSquareSize = new QGroupBox( "Size of tile" );
     boxSquareSize->setLayout( &layoutSlider );
 
     /* General layout **********************************************/
 
     QVBoxLayout layWindow;
     QHBoxLayout layControls;
-    QPushButton* pushAccept = new QPushButton( "Accept ");
+    QPushButton* pushAccept = new QPushButton( "Accept" );
     pushAccept->setStyleSheet( "height:20px;" );
     connect( pushAccept, SIGNAL( clicked() ), this, SLOT( acceptSettings() ));
 
