@@ -10,6 +10,7 @@ public:
 
     GUIAbout();
     GUIAbout( const GUIAbout& ) = delete;
+    GUIAbout operator=( const GUIAbout& ) = delete;
 };
 
 #endif

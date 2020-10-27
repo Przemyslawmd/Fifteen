@@ -8,14 +8,11 @@
 
 #include <QRadioButton>
 #include <QButtonGroup>
-#include <QPushButton>
 #include <QCheckBox>
 #include <QSlider>
 #include <QDialog>
 #include <QLabel>
-#include <array>
 
-using std::array;
 using std::map;
 using std::unique_ptr;
 
@@ -32,7 +29,6 @@ private:
     Q_OBJECT
 
     map< GraphicMode, QRadioButton* > mapRadioGraphicMode;
-    QButtonGroup groupRadioGraphicMode;
 
     map< BoardSize, QCheckBox* > mapCheckImageToChose;
 
@@ -43,10 +39,9 @@ private:
     QButtonGroup groupRadioColor;
 
     QSlider* slider;
-    array< QLabel*, 5 > sliderLabels;
 
     unique_ptr< OptionsData > optionsCurrent;
-    QPushButton* pushAccept;
+
     Fifteen& owner;
 
     template< typename T > T getChoosenOption( map< T, QRadioButton* >&, QButtonGroup& );
