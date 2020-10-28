@@ -61,28 +61,29 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     mapRadioNumberOnImage[optionsCurrent->numberColor]->setChecked( true );
 
-    QVBoxLayout layRadioImage;
-    layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( mapRadioGraphicMode[GraphicMode::SCALED] );
-    layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( mapRadioGraphicMode[GraphicMode::CROPPED] );
-    layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( mapCheckImageToChose[BoardSize::FOUR] );
-    layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( mapCheckImageToChose[BoardSize::FIVE] );
-    layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( mapCheckImageToChose[BoardSize::SIX] );
-    layRadioImage.addSpacing( 8 );
-    layRadioImage.addWidget( mapCheckImageToChose[BoardSize::SEVEN] );
-    layRadioImage.addSpacing( 15 );
-    layRadioImage.addWidget( mapRadioNumberOnImage[NumberColor::NO] );
-    layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( mapRadioNumberOnImage[NumberColor::BLACK] );
-    layRadioImage.addSpacing( 12 );
-    layRadioImage.addWidget( mapRadioNumberOnImage[NumberColor::WHITE] );
-    layRadioImage.addSpacing( 15 );
+    QVBoxLayout* layoutImages = new QVBoxLayout();
+    layoutImages->addSpacing( 8 );
+    layoutImages->addWidget( mapRadioGraphicMode[GraphicMode::SCALED] );
+    layoutImages->addSpacing( 8 );
+    layoutImages->addWidget( mapRadioGraphicMode[GraphicMode::CROPPED] );
+    layoutImages->addSpacing( 15 );
+    layoutImages->addWidget( mapCheckImageToChose[BoardSize::FOUR] );
+    layoutImages->addSpacing( 8 );
+    layoutImages->addWidget( mapCheckImageToChose[BoardSize::FIVE] );
+    layoutImages->addSpacing( 8 );
+    layoutImages->addWidget( mapCheckImageToChose[BoardSize::SIX] );
+    layoutImages->addSpacing( 8 );
+    layoutImages->addWidget( mapCheckImageToChose[BoardSize::SEVEN] );
+    layoutImages->addSpacing( 15 );
+    layoutImages->addWidget( mapRadioNumberOnImage[NumberColor::NO] );
+    layoutImages->addSpacing( 12 );
+    layoutImages->addWidget( mapRadioNumberOnImage[NumberColor::BLACK] );
+    layoutImages->addSpacing( 12 );
+    layoutImages->addWidget( mapRadioNumberOnImage[NumberColor::WHITE] );
+    layoutImages->addSpacing( 15 );
+
     QGroupBox* boxRadioImage = new QGroupBox( "Image for a graphic board" );
-    boxRadioImage->setLayout( &layRadioImage );
+    boxRadioImage->setLayout( layoutImages );
 
     /* Color of numeric board **************************************/
 
@@ -98,16 +99,17 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
 
     mapRadioColor[ optionsCurrent->squareColor ]->setChecked( true );
 
-    QVBoxLayout layRadioColor;
-    layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[TileColor::BLUE] );
-    layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[TileColor::GREEN] );
-    layRadioColor.addSpacing( 7 );
-    layRadioColor.addWidget( mapRadioColor[TileColor::RED] );
-    layRadioColor.addSpacing( 7 );
+    QVBoxLayout* layoutTileColor = new QVBoxLayout();
+    layoutTileColor->addSpacing( 7 );
+    layoutTileColor->addWidget( mapRadioColor[TileColor::BLUE] );
+    layoutTileColor->addSpacing( 7 );
+    layoutTileColor->addWidget( mapRadioColor[TileColor::GREEN] );
+    layoutTileColor->addSpacing( 7 );
+    layoutTileColor->addWidget( mapRadioColor[TileColor::RED] );
+    layoutTileColor->addSpacing( 7 );
+
     QGroupBox* boxRadioColor = new QGroupBox( "Color of numeric board" );
-    boxRadioColor->setLayout( &layRadioColor );
+    boxRadioColor->setLayout( layoutTileColor );
 
     /* Slider for square size **************************************/
 
@@ -116,28 +118,30 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     slider->setSingleStep( 1 );
     slider->setValue( Maps::getSliderByTileSize( optionsCurrent->tileSize ));
 
-    QGridLayout layoutSlider;
-    layoutSlider.setContentsMargins( 10, 20, 30, 20 );
-    layoutSlider.addWidget( slider,          0, 0, 1, 5 );
-    layoutSlider.addWidget( new QLabel( " 50" ),   1, 0, 1, 1, Qt::AlignLeft );
-    layoutSlider.addWidget( new QLabel( "   75" ), 1, 1, 1, 1, Qt::AlignLeft );
-    layoutSlider.addWidget( new QLabel( "100" ),   1, 2, 1, 1, Qt::AlignCenter );
-    layoutSlider.addWidget( new QLabel( "125  " ), 1, 3, 1, 1, Qt::AlignRight );
-    layoutSlider.addWidget( new QLabel( "150" ),   1, 4, 1, 1, Qt::AlignRight );
+    QGridLayout* layoutSlider = new QGridLayout();
+    layoutSlider->setContentsMargins( 10, 20, 30, 20 );
+    layoutSlider->addWidget( slider,          0, 0, 1, 5 );
+    layoutSlider->addWidget( new QLabel( " 50" ),   1, 0, 1, 1, Qt::AlignLeft );
+    layoutSlider->addWidget( new QLabel( "   75" ), 1, 1, 1, 1, Qt::AlignLeft );
+    layoutSlider->addWidget( new QLabel( "100" ),   1, 2, 1, 1, Qt::AlignCenter );
+    layoutSlider->addWidget( new QLabel( "125  " ), 1, 3, 1, 1, Qt::AlignRight );
+    layoutSlider->addWidget( new QLabel( "150" ),   1, 4, 1, 1, Qt::AlignRight );
+
     QGroupBox* boxSquareSize = new QGroupBox( "Size of tile" );
-    boxSquareSize->setLayout( &layoutSlider );
+    boxSquareSize->setLayout( layoutSlider );
 
     /* General layout **********************************************/
 
     QVBoxLayout layWindow;
-    QHBoxLayout layControls;
+
     QPushButton* pushAccept = new QPushButton( "Accept" );
     pushAccept->setStyleSheet( "height:20px;" );
     connect( pushAccept, SIGNAL( clicked() ), this, SLOT( acceptSettings() ));
 
-    layControls.addSpacing( 120 );
-    layControls.addWidget( pushAccept );
-    layControls.addSpacing( 120 );
+    QHBoxLayout* layoutAccept = new QHBoxLayout();
+    layoutAccept->addSpacing( 120 );
+    layoutAccept->addWidget( pushAccept );
+    layoutAccept->addSpacing( 120 );
 
     layWindow.addSpacing( 20 );
     layWindow.addWidget( boxRadioImage );
@@ -146,7 +150,7 @@ GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
     layWindow.addSpacing( 20 );
     layWindow.addWidget( boxSquareSize );
     layWindow.addSpacing( 20 );
-    layWindow.addLayout( &layControls );
+    layWindow.addLayout( layoutAccept );
     layWindow.addSpacing( 10 );
     layWindow.addStretch();
 
