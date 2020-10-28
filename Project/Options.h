@@ -23,7 +23,6 @@ public:
     static bool isImageToBeLoaded( BoardSize size );
 
     static NumberColor getNumberOnImageColor();
-    static bool isUndoEnabled();
 
     static unique_ptr< OptionsData > readOptions();
     static void saveOptions( unique_ptr< OptionsData > messageData );
