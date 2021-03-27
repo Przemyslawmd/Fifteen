@@ -1,11 +1,10 @@
 
-#ifndef IOBoard_H
-#define IOBoard_H
+#ifndef IO_BOARD_H
+#define IO_BOARD_H
 
 #include "../Board.h"
 #include <memory>
 
-using std::unique_ptr;
 
 class IOBoard
 {
@@ -16,7 +15,7 @@ public:
     IOBoard operator=( const IOBoard& ) = delete;
 
     void writeBoardIntoFile( Board&, BoardMode, const QString& fileName );
-    unique_ptr< vector< uint >> readBoardFromFile( const QString& fileName );
+    std::unique_ptr< vector< uint >> readBoardFromFile( const QString& fileName );
 };
 
 #endif
