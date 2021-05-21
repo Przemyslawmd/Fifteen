@@ -4,7 +4,7 @@
 
 void Message::putMessage( Result code )
 {
-    messageQueue.push( message[code] );
+    messageQueue.push( message.at( code ));
 }
 
 /*********************************************************************************/
@@ -12,7 +12,7 @@ void Message::putMessage( Result code )
 
 void Message::putMessage( Result code, uint value )
 {
-    messageQueue.push( QString( message[code] + "%1 \t\n\n" ).arg( value ));
+    messageQueue.push( QString( message.at( code ) + "%1 \t\n\n" ).arg( value ));
 }
 
 /*********************************************************************************/
@@ -35,7 +35,7 @@ QString Message::getMessages()
 
 queue< QString > Message::messageQueue = {};
 
-map< Result, QString > Message::message =
+const map< Result, QString > Message::message =
 {
     { Result::GRAPHIC_LOAD_OK,                     "Graphic was loaded for a board " },
     { Result::GRAPHIC_LOAD_FAILURE,                "Failure of loading graphic for a board of size " },

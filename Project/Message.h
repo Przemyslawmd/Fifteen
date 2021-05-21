@@ -29,10 +29,11 @@ public:
     static void putMessage( Result );
     static void putMessage( Result, uint arg );
     static QString getMessages();
-    static map< Result, QString > message;
+
 
 private:
 
+    static const map< Result, QString > message;
     static queue< QString > messageQueue;
 };
 
