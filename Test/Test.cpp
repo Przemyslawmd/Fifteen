@@ -144,8 +144,7 @@ void Test::testLoadGraphicBoard( QString fileName, Result expectedResult, BoardS
     QCOMPARE( ImageProvider::getInstance().getTileSize( size ), tileSize );
 
     QString message = Message::getMessages();
-    Message::putMessage( expectedResult );
-    QCOMPARE( message, Message::getMessages() );
+    QCOMPARE( message, nullptr );
 }
 
 /*********************************************************************************/

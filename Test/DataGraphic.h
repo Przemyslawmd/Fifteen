@@ -1,6 +1,6 @@
 
-#ifndef DATAGRAPHIC_H
-#define DATAGRAPHIC_H
+#ifndef DATA_GRAPHIC_H
+#define DATA_GRAPHIC_H
 
 #include "../Project/Types.h"
 

@@ -1,10 +1,13 @@
 
-#include "Test.h"
-
 #include "../Project/Board.h"
 
 #include <QString>
 #include <QtTest>
+
+#include "Test.h"
+
+using std::vector;
+
 
 class TestFifteen : public QObject
 {
