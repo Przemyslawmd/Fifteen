@@ -4,6 +4,8 @@
 #include "../GraphicBoard/ImageProvider.h"
 
 using std::make_unique;
+using std::unique_ptr;
+using std::vector;
 
 
 IODataModel::IODataModel( Board& board, BoardMode mode )

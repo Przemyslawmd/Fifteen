@@ -2,9 +2,10 @@
 #ifndef IOFILE_H
 #define IOFILE_H
 
+#include <memory>
 #include <QDataStream>
 #include <QFile>
-#include <memory>
+
 
 class IOFile
 {

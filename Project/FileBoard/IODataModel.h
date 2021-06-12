@@ -2,14 +2,12 @@
 #ifndef IODATAMODEL_H
 #define IODATAMODEL_H
 
-#include "../Board.h"
-#include "QImage"
-#include "../Message.h"
-#include <vector>
 #include <memory>
+#include <vector>
+#include "../Board.h"
+#include "../Message.h"
+#include "QImage"
 
-using std::vector;
-using std::unique_ptr;
 
 class IODataModel
 {
@@ -26,8 +24,8 @@ public:
     BoardMode boardMode;
     TileSize tileSize;
     uint tileImageBytes;
-    unique_ptr< vector< uint >> values;
-    vector< unique_ptr< QImage >>* images;
+    std::unique_ptr< std::vector< uint >> values;
+    std::vector< std::unique_ptr< QImage >>* images;
     uchar* imagesData;
 };
 

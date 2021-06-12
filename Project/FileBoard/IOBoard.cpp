@@ -18,7 +18,7 @@ void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QStri
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::unique_ptr< vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
+std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
 {
     IOFile file( fileName, QIODevice::ReadOnly );
     QDataStream& stream = file.getDataStream();
@@ -31,7 +31,7 @@ std::unique_ptr< vector< uint >> IOBoard::readBoardFromFile( const QString& file
     }
 
     BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
-    std::unique_ptr< vector< uint >> boardData = std::move( dataModel.values );
+    std::unique_ptr< std::vector< uint >> boardData = std::move( dataModel.values );
 
     if ( boardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().restoreBoardFromFile( dataModel ) == false )
     {

@@ -4,6 +4,9 @@
 #include "../Message.h"
 #include "../MappedValues.h"
 
+using std::pair;
+using std::unique_ptr;
+
 
 ImageProvider& ImageProvider::getInstance()
 {
@@ -27,7 +30,7 @@ void ImageProvider::deleteInstance()
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector< unique_ptr< QImage >>& ImageProvider::getImages( BoardSize boardSize )
+std::vector< unique_ptr< QImage >>& ImageProvider::getImages( BoardSize boardSize )
 {
     return images.at( boardSize )->getImages();
 }
@@ -84,10 +87,10 @@ bool ImageProvider::restoreBoardFromFile( IODataModel& dataModel )
 
 ImageProvider::ImageProvider()
 {
-    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FOUR,  nullptr ));
-    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FIVE,  nullptr ));
-    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SIX,   nullptr ));
-    images.insert( std::pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SEVEN, nullptr ));
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FOUR,  nullptr ));
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FIVE,  nullptr ));
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SIX,   nullptr ));
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SEVEN, nullptr ));
 }
 
 /*********************************************************************************/

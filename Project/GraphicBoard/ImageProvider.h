@@ -6,8 +6,6 @@
 #include "../Types.h"
 #include "../Message.h"
 
-using std::unique_ptr;
-using std::map;
 
 class ImageProvider
 {
@@ -16,7 +14,7 @@ public:
     static ImageProvider& getInstance();
     static void deleteInstance();
 
-    vector< unique_ptr< QImage >>& getImages( BoardSize );
+    std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
     void prepareGraphicBoard( QImage&, TileSize );
     bool restoreBoardFromFile( IODataModel& );
@@ -33,7 +31,7 @@ private:
     void createTilesForGraphicBoard( BoardSize, TileSize, QImage& );
 
     static ImageProvider* instance;
-    map< BoardSize, unique_ptr< GraphicBoard >> images;
+    std::map< BoardSize, std::unique_ptr< GraphicBoard >> images;
 };
 
 #endif

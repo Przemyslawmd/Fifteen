@@ -25,7 +25,7 @@ void Fifteen::initGame()
     board = std::make_unique< Board >( BoardSize::FOUR );
     gui = std::make_unique< GUI >();
 
-    map< ActionMenu, std::function< void( void ) >> funcsMenu =
+    std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
     {
         { ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this )},
         { ActionMenu::REM_GRAPHIC,  std::bind( &Fifteen::slotRemoveGraphic, this )},
@@ -46,7 +46,7 @@ void Fifteen::initGame()
 
     gui->completeLayouts( this );
     redrawTiles();
-    undoMoveService = unique_ptr< UndoMove >( new UndoMove() );
+    undoMoveService = std::make_unique< UndoMove >();
 }
 
 /*********************************************************************************/

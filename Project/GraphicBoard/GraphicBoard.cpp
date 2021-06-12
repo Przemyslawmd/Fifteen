@@ -3,9 +3,8 @@
 #include "../Message.h"
 #include "../MappedValues.h"
 
-using std::make_unique;
 
-vector< unique_ptr< QImage >>& GraphicBoard::getImages()
+std::vector< std::unique_ptr< QImage >>& GraphicBoard::getImages()
 {
     return images;
 }
@@ -58,7 +57,7 @@ void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
 
     QImage tileImage ( tileSize, tileSize, QImage::Format_RGB32 );
     tileImage.fill( Qt::GlobalColor::white );
-    images.push_back( make_unique< QImage >( tileImage ));
+    images.push_back( std::make_unique< QImage >( tileImage ));
     Message::putMessage( Result::GRAPHIC_LOAD_OK, boardSize );
 }
 
@@ -75,7 +74,7 @@ bool GraphicBoard:: restoreImagesFromFile( IODataModel& data )
         try
         {
             QImage tileImage( data.imagesData + i * data.tileImageBytes, tileSizeInt, tileSizeInt, QImage::Format_RGB32 );
-            images.push_back( make_unique< QImage >( tileImage ));
+            images.push_back( std::make_unique< QImage >( tileImage ));
         }
         catch (...)
         {
