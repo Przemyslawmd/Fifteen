@@ -36,7 +36,7 @@ void Fifteen::initGame()
     };
     gui->createMenu( this, funcsMenu );
 
-    array< std::function< void( void ) >, 3 > funcsRightLayout =
+    std::array< std::function< void( void ) >, 3 > funcsRightLayout =
     {
         std::bind( &Fifteen::slotGenerateBoard, this ),
         std::bind( &Fifteen::slotSolveBoard, this ),
@@ -46,7 +46,7 @@ void Fifteen::initGame()
 
     gui->completeLayouts( this );
     redrawTiles();
-    undoMoveService = unique_ptr< UndoMove >( new UndoMove() );;
+    undoMoveService = unique_ptr< UndoMove >( new UndoMove() );
 }
 
 /*********************************************************************************/

@@ -44,7 +44,7 @@ private:
 
     Fifteen& owner;
 
-    template< typename T > T getChoosenOption( map< T, QRadioButton* >&, QButtonGroup& );
+    template< typename T > T getChoosenOption( std::map< T, QRadioButton* >&, QButtonGroup& );
 
 private slots:
 

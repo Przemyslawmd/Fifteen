@@ -1,14 +1,22 @@
 
 #include "GUIMain.h"
-#include "MappedValues.h"
+
+#include <iostream>
+#include <memory>
+
 #include <QGroupBox>
 #include <QMenu>
 #include <QMenuBar>
-#include <memory>
-#include <iostream>
 
-#define STYLE_MARGIN_LEFT "margin-left: 5px;"
-#define STYLE_HEIGHT "height:20px;"
+#include "MappedValues.h"
+
+constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
+constexpr const char STYLE_HEIGHT[] = "height:20px";
+
+using std::function;
+using std::map;
+using std::vector;
+using std::unique_ptr;
 
 
 void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void ) >>& funcs )
@@ -43,7 +51,7 @@ void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( QMainWindow* widget, array< function< void( void ) >, 3 >& funcs )
+void GUI::createRightLayout( QMainWindow* widget, std::array< function< void( void ) >, 3 >& funcs )
 {
     mapRadioBoardSize[BoardSize::FOUR] = new QRadioButton( "4" );
     mapRadioBoardSize[BoardSize::FIVE] = new QRadioButton( "5" );

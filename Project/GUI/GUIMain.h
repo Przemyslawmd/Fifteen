@@ -1,25 +1,29 @@
 
-#ifndef GUI_H
-#define GUI_H
+#ifndef GUI_MAIN_H
+#define GUI_MAIN_H
 
-#include "Types.h"
-#include <QMainWindow>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QPushButton>
-#include <QRadioButton>
 #include <map>
 #include <memory>
 
-using std::vector;
-using std::unique_ptr;
-using std::map;
-using std::function;
-using std::array;
+#include <QHBoxLayout>
+#include <QMainWindow>
+
+#include <QPushButton>
+#include <QRadioButton>
+#include <QVBoxLayout>
+
+#include "Types.h"
+
 
 enum class ActionMenu {
-    OPEN_GRAPHIC, REM_GRAPHIC, SAVE_BOARD, LOAD_BOARD, SETTINGS, ABOUT
+    ABOUT,
+    LOAD_BOARD,
+    OPEN_GRAPHIC,
+    REM_GRAPHIC,
+    SAVE_BOARD,
+    SETTINGS,
 };
+
 
 class GUI : public QMainWindow
 {
@@ -29,13 +33,13 @@ public:
     GUI( const GUI& ) = delete;
     GUI operator=( const GUI& ) = delete;
 
-    void createMenu( QMainWindow*, map< ActionMenu, function< void( void ) >>& funcs );
-    void createRightLayout( QMainWindow*, array< function< void( void ) >, 3 >& funcs );
+    void createMenu( QMainWindow*, std::map< ActionMenu, std::function< void( void ) >>& funcs );
+    void createRightLayout( QMainWindow*, std::array< std::function< void( void ) >, 3 >& funcs );
     void completeLayouts( QMainWindow* );
 
-    void createTiles( const QMainWindow*, BoardSize, TileSize, function< void( void ) > func );
+    void createTiles( const QMainWindow*, BoardSize, TileSize, std::function< void( void ) > func );
     void deleteTiles();
-    vector< unique_ptr< QPushButton >>& getTiles();
+    std::vector< std::unique_ptr< QPushButton >>& getTiles();
     BoardSize checkRadioBoardSize();
     void setRadioSize( BoardSize );
     bool checkRadioBoardMode( BoardMode );
@@ -44,16 +48,16 @@ public:
 
 private:
 
-    void bindAction( QMainWindow*, QAction*&, function< void( void ) >, QString );
+    void bindAction( QMainWindow*, QAction*&, std::function< void( void ) >, QString );
 
-    vector< unique_ptr< QPushButton >> tiles;
+    std::vector< std::unique_ptr< QPushButton >> tiles;
 
-    map< BoardSize, QRadioButton* > mapRadioBoardSize;
-    map< BoardMode, QRadioButton* > mapRadioBoardMode;
-    map< ActionMenu, QAction* > mapActionMenu;
+    std::map< BoardSize, QRadioButton* > mapRadioBoardSize;
+    std::map< BoardMode, QRadioButton* > mapRadioBoardMode;
+    std::map< ActionMenu, QAction* > mapActionMenu;
 
     QVBoxLayout* layVerticalBoard;
-    vector< QHBoxLayout* > layHorizontalBoard;
+    std::vector< QHBoxLayout* > layHorizontalBoard;
     QVBoxLayout* layRight;
 };
 
