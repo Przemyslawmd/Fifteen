@@ -1,6 +1,8 @@
 
-#include "Options.h"
 #include "MappedValues.h"
+#include "Options.h"
+
+using std::unique_ptr;
 
 
 TileColor Options::getTileColor()
@@ -74,7 +76,7 @@ TileSize Options::tileSize = TileSize::_100;
 TileColor Options::tileColor = TileColor::BLUE;
 NumberColor Options::numberColor = NumberColor::NO;
 
-map< BoardSize, bool > Options::imagesToLoad
+std::map< BoardSize, bool > Options::imagesToLoad
 {
     { BoardSize::FOUR, true }, { BoardSize::FIVE, true },
     { BoardSize::SIX, true },  { BoardSize::SEVEN, true }

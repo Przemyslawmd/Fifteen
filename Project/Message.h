@@ -6,9 +6,6 @@
 #include <queue>
 #include <QString>
 
-using std::map;
-using std::queue;
-
 enum class Result
 {
     OK,
@@ -33,8 +30,8 @@ public:
 
 private:
 
-    static const map< Result, QString > message;
-    static queue< QString > messageQueue;
+    static const std::map< Result, QString > message;
+    static std::queue< QString > messageQueue;
 };
 
 #endif

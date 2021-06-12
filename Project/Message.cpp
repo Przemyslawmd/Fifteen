@@ -33,9 +33,9 @@ QString Message::getMessages()
 /*********************************************************************************/
 /*********************************************************************************/
 
-queue< QString > Message::messageQueue = {};
+std::queue< QString > Message::messageQueue = {};
 
-const map< Result, QString > Message::message =
+const std::map< Result, QString > Message::message =
 {
     { Result::GRAPHIC_LOAD_OK,                     "Graphic was loaded for a board " },
     { Result::GRAPHIC_LOAD_FAILURE,                "Failure of loading graphic for a board of size " },
