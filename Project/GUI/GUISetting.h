@@ -1,20 +1,20 @@
 
-#ifndef SETTING_H
-#define SETTING_H
+#ifndef GUI_SETTING_H
+#define GUI_SETTING_H
+
+#include <memory>
+
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QDialog>
+#include <QLabel>
+#include <QRadioButton>
+#include <QSlider>
 
 #include "Fifteen.h"
 #include "Types.h"
 #include "Options.h"
 
-#include <QRadioButton>
-#include <QButtonGroup>
-#include <QCheckBox>
-#include <QSlider>
-#include <QDialog>
-#include <QLabel>
-
-using std::map;
-using std::unique_ptr;
 
 class GUISetting : public QDialog
 {
@@ -28,19 +28,19 @@ private:
 
     Q_OBJECT
 
-    map< GraphicMode, QRadioButton* > mapRadioGraphicMode;
+    std::map< GraphicMode, QRadioButton* > mapRadioGraphicMode;
 
-    map< BoardSize, QCheckBox* > mapCheckImageToChose;
+    std::map< BoardSize, QCheckBox* > mapCheckImageToChose;
 
-    map< NumberColor, QRadioButton* > mapRadioNumberOnImage;
+    std::map< NumberColor, QRadioButton* > mapRadioNumberOnImage;
     QButtonGroup groupRadioNumberOnImage;
 
-    map< TileColor, QRadioButton* > mapRadioColor;
+    std::map< TileColor, QRadioButton* > mapRadioColor;
     QButtonGroup groupRadioColor;
 
     QSlider* slider;
 
-    unique_ptr< OptionsData > optionsCurrent;
+    std::unique_ptr< OptionsData > optionsCurrent;
 
     Fifteen& owner;
 

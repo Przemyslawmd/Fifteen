@@ -1,15 +1,17 @@
 
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+
 #include "GUISetting.h"
 #include "MappedValues.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QPushButton>
-#include <QGroupBox>
-#include <QMessageBox>
-#include <memory>
+constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 
-#define STYLE_MARGIN_LEFT "margin-left: 5px;"
+using std::map;
+using std::unique_ptr;
 
 
 GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
