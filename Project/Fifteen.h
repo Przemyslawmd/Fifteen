@@ -2,18 +2,18 @@
 #ifndef FIFTEEN_H
 #define FIFTEEN_H
 
-#include "GUI/GUIMain.h"
-#include "Board.h"
-#include "Types.h"
-#include "UndoMove.h"
+#include <map>
+#include <memory>
+
 #include <QMainWindow>
 #include <QPushButton>
 #include <QRadioButton>
-#include <memory>
-#include <map>
 
-using std::map;
-using std::unique_ptr;
+#include "Board.h"
+#include "GUI/GUIMain.h"
+#include "Types.h"
+#include "UndoMove.h"
+
 
 class Fifteen : public QMainWindow
 {
@@ -38,9 +38,9 @@ public slots:
 
 private:
 
-    unique_ptr< Board > board;
-    unique_ptr< GUI > gui;
-    unique_ptr< UndoMove > undoMoveService;
+    std::unique_ptr< Board > board;
+    std::unique_ptr< GUI > gui;
+    std::unique_ptr< UndoMove > undoMoveService;
 
     void createTiles();
     void setTiles();

@@ -2,24 +2,23 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Types.h"
 #include <vector>
+#include "Types.h"
 
-using std::vector;
 
 class Board
 {
 public:
 
     Board( BoardSize );
-    Board( vector< uint >& values, BoardSize );
+    Board( std::vector< uint >& values, BoardSize );
     Board( const Board& ) = delete;
 
     Move checkMove( uint row, uint col );
 
     BoardSize getSize();
-    vector< uint >& sendBoard();
-    vector< uint >& randomBoard();
+    std::vector< uint >& sendBoard();
+    std::vector< uint >& randomBoard();
     void solveBoard();
     uint getEmptyTile();
 
@@ -32,7 +31,7 @@ private:
     const uint sizeInt;
     const uint emptyTile;
 
-    vector< uint > values;
+    std::vector< uint > values;
 };
 
 #endif

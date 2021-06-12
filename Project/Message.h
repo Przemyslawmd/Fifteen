@@ -6,6 +6,7 @@
 #include <queue>
 #include <QString>
 
+
 enum class Result
 {
     OK,
@@ -19,6 +20,7 @@ enum class Result
     READ_BOARD_IMAGES_TILE_SIZE_ERROR
 };
 
+
 class Message
 {
 public:
@@ -26,7 +28,6 @@ public:
     static void putMessage( Result );
     static void putMessage( Result, uint arg );
     static QString getMessages();
-
 
 private:
 

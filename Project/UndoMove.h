@@ -1,11 +1,12 @@
 
-#ifndef UNDOMOVE_H
-#define UNDOMOVE_H
+#ifndef UNDO_MOVE_H
+#define UNDO_MOVE_H
 
-#include "Types.h"
 #include <deque>
+#include "Types.h"
 
 constexpr int MOVE_STACK_EMPTY = 10000;
+
 
 class UndoMove
 {

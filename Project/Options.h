@@ -2,10 +2,11 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "Types.h"
-#include <QString>
 #include <map>
 #include <memory>
+#include <QString>
+#include "Types.h"
+
 
 class Options
 {

@@ -1,10 +1,12 @@
 
 #include "Board.h"
-#include "MappedValues.h"
+
 #include <iterator>
 #include <QList>
 #include <QTime>
+#include "MappedValues.h"
 
+using std::vector;
 
 Board::Board( BoardSize size ) : size( size ),
                                  sizeInt( Maps::boardSizeInt.at( size )),
