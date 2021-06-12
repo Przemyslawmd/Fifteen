@@ -1,17 +1,19 @@
 
 #include "Fifteen.h"
-#include "Message.h"
+
+#include <QBuffer>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QPainter>
+
+#include "FileBoard/IOBoard.h"
+#include "GraphicBoard/ImageProvider.h"
+#include "GUI/GUIAbout.h"
 #include "GUI/GUIMain.h"
 #include "GUI/GUISetting.h"
-#include "GUI/GUIAbout.h"
-#include "FileBoard/IOBoard.h"
-#include "Options.h"
-#include "GraphicBoard/ImageProvider.h"
 #include "MappedValues.h"
-#include <QPainter>
-#include <QBuffer>
-#include <QMessageBox>
-#include <QFileDialog>
+#include "Message.h"
+#include "Options.h"
 
 
 Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
@@ -23,7 +25,7 @@ void Fifteen::initGame()
 {
     resize( 850, 600 );
     board = std::make_unique< Board >( BoardSize::FOUR );
-    gui = std::make_unique< GUI >();
+    gui = std::make_unique< GUI >( this );
 
     std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
     {
@@ -34,7 +36,7 @@ void Fifteen::initGame()
         { ActionMenu::SETTINGS,     std::bind( &Fifteen::slotSettings, this )},
         { ActionMenu::ABOUT,        std::bind( &Fifteen::slotAbout, this )},
     };
-    gui->createMenu( this, funcsMenu );
+    gui->createMenu( funcsMenu );
 
     std::array< std::function< void( void ) >, 3 > funcsRightLayout =
     {
@@ -42,9 +44,9 @@ void Fifteen::initGame()
         std::bind( &Fifteen::slotSolveBoard, this ),
         std::bind( &Fifteen::slotUndoMove, this ),
     };
-    gui->createRightLayout( this, funcsRightLayout );
+    gui->createRightLayout( funcsRightLayout );
 
-    gui->completeLayouts( this );
+    gui->completeLayouts();
     redrawTiles();
     undoMoveService = std::make_unique< UndoMove >();
 }
@@ -66,7 +68,7 @@ void Fifteen::createTiles()
     TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
                         Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
-    gui->createTiles( this, boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
+    gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
 }
 
 /*********************************************************************************/
@@ -98,7 +100,7 @@ void Fifteen::setTilesNumeric()
     uint emptyTile = board->getEmptyTile();
     auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
 
-    for ( auto &tile : gui->getTiles() )
+    for ( auto& tile : gui->getTiles() )
     {
         if ( *iter != emptyTile )
         {
@@ -134,7 +136,7 @@ void Fifteen::setTilesGraphic()
     NumberColor numberColor = Options::getNumberOnImageColor();
     QIcon icon;
 
-    for ( auto &tile : gui->getTiles() )
+    for ( auto& tile : gui->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( *images.at( *iter ).get() );
         prepareQIconForTile( icon, pixmap, fontSizeInt, *iter, numberColor );

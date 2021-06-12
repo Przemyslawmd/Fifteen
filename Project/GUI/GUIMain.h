@@ -29,15 +29,15 @@ class GUI : public QMainWindow
 {
 public:
 
-    GUI() = default;
+    GUI( QMainWindow* widget );
     GUI( const GUI& ) = delete;
     GUI operator=( const GUI& ) = delete;
 
-    void createMenu( QMainWindow*, std::map< ActionMenu, std::function< void( void ) >>& funcs );
-    void createRightLayout( QMainWindow*, std::array< std::function< void( void ) >, 3 >& funcs );
-    void completeLayouts( QMainWindow* );
+    void createMenu( std::map< ActionMenu, std::function< void( void ) >>& funcs );
+    void createRightLayout( std::array< std::function< void( void ) >, 3 >& funcs );
+    void completeLayouts();
 
-    void createTiles( const QMainWindow*, BoardSize, TileSize, std::function< void( void ) > func );
+    void createTiles( BoardSize, TileSize, std::function< void( void ) > func );
     void deleteTiles();
     std::vector< std::unique_ptr< QPushButton >>& getTiles();
     BoardSize checkRadioBoardSize();
@@ -48,7 +48,9 @@ public:
 
 private:
 
-    void bindAction( QMainWindow*, QAction*&, std::function< void( void ) >, QString );
+    void bindAction( QAction*&, std::function< void( void ) >, QString );
+
+    QMainWindow* const widget;
 
     std::vector< std::unique_ptr< QPushButton >> tiles;
 

@@ -19,17 +19,22 @@ using std::vector;
 using std::unique_ptr;
 
 
-void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void ) >>& funcs )
+GUI::GUI( QMainWindow* widget ) : widget( widget ) {}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void GUI::createMenu( map< ActionMenu, function< void( void ) >>& funcs )
 {
     QMenu* fileMenu = new QMenu( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    bindAction( widget, mapActionMenu[ActionMenu::OPEN_GRAPHIC], funcs.at( ActionMenu::OPEN_GRAPHIC ), "Load Graphic File" );
-    bindAction( widget, mapActionMenu[ActionMenu::REM_GRAPHIC],  funcs.at( ActionMenu::REM_GRAPHIC ),  "Remove Graphic" );
-    bindAction( widget, mapActionMenu[ActionMenu::SAVE_BOARD],   funcs.at( ActionMenu::SAVE_BOARD ),   "Save Board" );
-    bindAction( widget, mapActionMenu[ActionMenu::LOAD_BOARD],   funcs.at( ActionMenu::LOAD_BOARD ),   "Load Board" );
-    bindAction( widget, mapActionMenu[ActionMenu::SETTINGS],     funcs.at( ActionMenu::SETTINGS ),     "Settings" );
-    bindAction( widget, mapActionMenu[ActionMenu::ABOUT],        funcs.at( ActionMenu::ABOUT ),        "About" );
+    bindAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC], funcs.at( ActionMenu::OPEN_GRAPHIC ), "Load Graphic File" );
+    bindAction( mapActionMenu[ActionMenu::REM_GRAPHIC],  funcs.at( ActionMenu::REM_GRAPHIC ),  "Remove Graphic" );
+    bindAction( mapActionMenu[ActionMenu::SAVE_BOARD],   funcs.at( ActionMenu::SAVE_BOARD ),   "Save Board" );
+    bindAction( mapActionMenu[ActionMenu::LOAD_BOARD],   funcs.at( ActionMenu::LOAD_BOARD ),   "Load Board" );
+    bindAction( mapActionMenu[ActionMenu::SETTINGS],     funcs.at( ActionMenu::SETTINGS ),     "Settings" );
+    bindAction( mapActionMenu[ActionMenu::ABOUT],        funcs.at( ActionMenu::ABOUT ),        "About" );
 
     fileMenu->addAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC] );
     fileMenu->addSeparator();
@@ -51,7 +56,7 @@ void GUI::createMenu( QMainWindow* widget, map< ActionMenu, function< void( void
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( QMainWindow* widget, std::array< function< void( void ) >, 3 >& funcs )
+void GUI::createRightLayout( std::array< function< void( void ) >, 3 >& funcs )
 {
     mapRadioBoardSize[BoardSize::FOUR] = new QRadioButton( "4" );
     mapRadioBoardSize[BoardSize::FIVE] = new QRadioButton( "5" );
@@ -116,7 +121,7 @@ void GUI::createRightLayout( QMainWindow* widget, std::array< function< void( vo
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::completeLayouts( QMainWindow* widget )
+void GUI::completeLayouts()
 {
     QWidget* mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 20 );
@@ -137,7 +142,7 @@ void GUI::completeLayouts( QMainWindow* widget )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::bindAction( QMainWindow* widget, QAction*& action, function< void( void ) > slot, QString text )
+void GUI::bindAction( QAction*& action, function< void( void ) > slot, QString text )
 {
     action = new QAction( widget );
     action->setText( text );
@@ -147,7 +152,7 @@ void GUI::bindAction( QMainWindow* widget, QAction*& action, function< void( voi
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( const QMainWindow* widget, BoardSize boardSize, TileSize tileSize_, function< void( void )> func )
+void GUI::createTiles( BoardSize boardSize, TileSize tileSize_, function< void( void )> func )
 {
     deleteTiles();
     uint tileSizeInt = Maps::tileSizeInt.at( tileSize_ );
