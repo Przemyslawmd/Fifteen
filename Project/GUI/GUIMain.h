@@ -2,6 +2,7 @@
 #ifndef GUI_MAIN_H
 #define GUI_MAIN_H
 
+#include <functional>
 #include <map>
 #include <memory>
 
