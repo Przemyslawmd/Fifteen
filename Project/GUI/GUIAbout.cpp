@@ -16,7 +16,7 @@ GUIAbout::GUIAbout()
     QString html;
 
     html.append( "<br/><pre>  Author:       Przemyslaw Madej</pre>" );
-    html.append( "<pre>  Web page:     http://przemeknet.pl/fifteen</pre>" );
+    html.append( "<pre>  Web page:     http://przemeknet.pl/fifteen.html</pre>" );
 
     QTextDocument* doc = new QTextDocument();
     doc->setHtml( html );
