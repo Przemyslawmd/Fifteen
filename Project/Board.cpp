@@ -80,7 +80,7 @@ vector< uint >& Board::randomBoard()
         moves.append( Move::RIGHT );
         moves.append( Move::DOWN );
         moves.append( Move::LEFT );
-        Move move = moves.at( qrand() % moves.size() );
+        Move move = moves.at( rand() % moves.size() );
 
         while( true )
         {
@@ -113,7 +113,7 @@ vector< uint >& Board::randomBoard()
             }
 
             moves.removeOne( move );
-            move = moves.at(( qrand() * static_cast< uint >( time.msec()) ) % moves.size() );
+            move = moves.at(( rand() * static_cast< uint >( time.msec()) ) % moves.size() );
         }
     }
 
