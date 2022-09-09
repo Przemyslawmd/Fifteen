@@ -11,34 +11,34 @@
 #include <vector>
 
     
-void runRandomBoard(BoardSize boardSize)
+void runTestRandomBoard(BoardSize boardSize)
 {
-    auto board = std::make_unique< Board >( boardSize );
+    auto board = std::make_unique<Board>(boardSize);
     auto values = board->randomBoard();
-    uint sizeInt = Maps::boardSizeInt.at( boardSize );
+    uint sizeInt = Maps::boardSizeInt.at(boardSize);
     
     Utils utils;
     utils.checkTiles(sizeInt, values);
 }
 
 
-TEST(RandomBoard, Four)
+TEST(testRandomBoard, Four)
 {
-    runRandomBoard(BoardSize::FOUR);
+    runTestRandomBoard(BoardSize::FOUR);
 }
 
-TEST(Random, Five)
+TEST(testRandomBoard, Five)
 {
-    runRandomBoard(BoardSize::FIVE);
+    runTestRandomBoard(BoardSize::FIVE);
 }
 
-TEST(RandomBoard, Six)
+TEST(testRandomBoard, Six)
 {
-    runRandomBoard(BoardSize::SIX);
+    runTestRandomBoard(BoardSize::SIX);
 }
 
-TEST(RandomBoard, Seven)
+TEST(testRandomBoard, Seven)
 {
-    runRandomBoard(BoardSize::SEVEN);
+    runTestRandomBoard(BoardSize::SEVEN);
 }
 

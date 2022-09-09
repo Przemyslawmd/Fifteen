@@ -6,11 +6,11 @@
 #include <gtest/gtest.h>
 
     
-void runTest(BoardSize boardSize)
+void runTestInitialBoard(BoardSize boardSize)
 {
-    auto board = std::make_unique< Board >( boardSize );
+    auto board = std::make_unique<Board>(boardSize );
     auto values = board->sendBoard();
-    uint sizeInt = Maps::boardSizeInt.at( boardSize );
+    uint sizeInt = Maps::boardSizeInt.at(boardSize);
     uint tilesCount = sizeInt * sizeInt;
 
     EXPECT_EQ(tilesCount, values.size());
@@ -21,23 +21,23 @@ void runTest(BoardSize boardSize)
     EXPECT_EQ(values[tilesCount - 1], board->getEmptyTile());   
 }
 
-TEST(InitialBoard, Four)
+TEST(testInitialBoard, Four)
 {
-    runTest(BoardSize::FOUR);
+    runTestInitialBoard(BoardSize::FOUR);
 }
 
-TEST( InitialBoard, Five)
+TEST(testInitialBoard, Five)
 {
-    runTest(BoardSize::FIVE);
+    runTestInitialBoard(BoardSize::FIVE);
 }
 
-TEST(InitialBoard, Six)
+TEST(testInitialBoard, Six)
 {
-    runTest(BoardSize::SIX);
+    runTestInitialBoard(BoardSize::SIX);
 }
 
-TEST(InitialBoard, Seven)
+TEST(testInitialBoard, Seven)
 {
-    runTest(BoardSize::SEVEN);
+    runTestInitialBoard(BoardSize::SEVEN);
 }
 
