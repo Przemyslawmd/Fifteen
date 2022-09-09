@@ -26,7 +26,7 @@ TEST(InitialBoard, Four)
     runTest(BoardSize::FOUR);
 }
 
-TEST( InitialBoard, Five )
+TEST( InitialBoard, Five)
 {
     runTest(BoardSize::FIVE);
 }

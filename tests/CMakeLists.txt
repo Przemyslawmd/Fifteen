@@ -21,10 +21,10 @@ enable_testing()
 
 add_executable(
   FifteenTests
-  InitialBoard.cpp
-  RandomBoard.cpp
-  ChangeBoard.cpp
-  testMoves.cpp
+  TestInitialBoard.cpp
+  TestRandomBoard.cpp
+  TestChangeBoard.cpp
+  TestMoves.cpp
   ${SRC}/Board.cpp
   ${SRC}/MappedValues.cpp
   
