@@ -6,5 +6,7 @@ Project/Fifteen.pro.user
 Project/*.o
 Project/moc_*
 Test/Test.pro.user
+tests/build/*
+tests/.vscode/*
 build-*
 
