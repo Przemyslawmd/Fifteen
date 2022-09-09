@@ -21,24 +21,20 @@ void runTest(BoardSize boardSize)
     EXPECT_EQ(values[tilesCount - 1], board->getEmptyTile());   
 }
 
-
 TEST(InitialBoard, Four)
 {
     runTest(BoardSize::FOUR);
 }
-
 
 TEST( InitialBoard, Five )
 {
     runTest(BoardSize::FIVE);
 }
 
-
 TEST(InitialBoard, Six)
 {
     runTest(BoardSize::SIX);
 }
-
 
 TEST(InitialBoard, Seven)
 {
