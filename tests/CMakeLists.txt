@@ -24,6 +24,7 @@ add_executable(
   InitialBoard.cpp
   RandomBoard.cpp
   ChangeBoard.cpp
+  testMoves.cpp
   ${SRC}/Board.cpp
   ${SRC}/MappedValues.cpp
   
