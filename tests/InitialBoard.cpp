@@ -1,9 +1,9 @@
 
-#include <gtest/gtest.h>
-
 #include "../Project/Board.h"
 #include "../Project/Types.h"
 #include "../Project/MappedValues.h"
+
+#include <gtest/gtest.h>
 
     
 void runTest(BoardSize boardSize)

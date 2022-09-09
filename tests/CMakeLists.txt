@@ -23,6 +23,7 @@ add_executable(
   FifteenTests
   InitialBoard.cpp
   RandomBoard.cpp
+  ChangeBoard.cpp
   ${SRC}/Board.cpp
   ${SRC}/MappedValues.cpp
   
