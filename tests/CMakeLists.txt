@@ -8,6 +8,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(SRC "../Project/")
 
 find_package(Qt5 REQUIRED Core)
+find_package(Qt5 REQUIRED COMPONENTS Gui) 
 
 include(FetchContent)
 FetchContent_Declare(
@@ -19,20 +20,28 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)
+
 add_executable(
   FifteenTests
+  TestGraphicBoard.cpp
   TestInitialBoard.cpp
   TestRandomBoard.cpp
   TestChangeBoard.cpp
   TestMoves.cpp
   ${SRC}/Board.cpp
   ${SRC}/MappedValues.cpp
-  
+  ${SRC}/Message.cpp
+  ${SRC}/Options.cpp
+  ${SRC}/GraphicBoard/GraphicBoard.cpp
+  ${SRC}/GraphicBoard/ImageProvider.cpp
 )
+
 target_link_libraries(
   FifteenTests
   GTest::gtest_main
   Qt5::Core
+  Qt5::Gui
 )
 
 include(GoogleTest)
