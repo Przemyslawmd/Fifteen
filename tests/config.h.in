@@ -1,4 +1,5 @@
 
 #pragma once
 
-#define IMAGES_DIR "${PROJECT_SOURCE_DIR}/images"
+#define ROOT_DIR "${PROJECT_SOURCE_DIR}/"
+#define IMAGES_DIR "${PROJECT_SOURCE_DIR}/images/"
