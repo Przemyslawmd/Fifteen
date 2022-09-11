@@ -29,12 +29,16 @@ add_executable(
   TestRandomBoard.cpp
   TestChangeBoard.cpp
   TestMoves.cpp
+  TestSaveNumericBoard.cpp
   ${SRC}/Board.cpp
   ${SRC}/MappedValues.cpp
   ${SRC}/Message.cpp
   ${SRC}/Options.cpp
   ${SRC}/GraphicBoard/GraphicBoard.cpp
   ${SRC}/GraphicBoard/ImageProvider.cpp
+  ${SRC}/FileBoard/IOBoard.cpp
+  ${SRC}/FileBoard/IODataModel.cpp
+  ${SRC}/FileBoard/IOFile.cpp
 )
 
 target_link_libraries(
