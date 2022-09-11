@@ -2,6 +2,7 @@
 *.o
 *.moc 
 moc_*
+build/*
 Project/Fifteen.pro.user
 Project/*.o
 Project/moc_*
