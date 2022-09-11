@@ -2,10 +2,10 @@
 #include "config.h"
 #include "Utils.h"
 
-#include "../Project/Board.h"
-#include "../Project/Types.h"
-#include "../Project/MappedValues.h"
-#include "../Project/FileBoard/IOBoard.h"
+#include "../src/Board.h"
+#include "../src/Types.h"
+#include "../src/MappedValues.h"
+#include "../src/FileBoard/IOBoard.h"
 
 #include <gtest/gtest.h>
 

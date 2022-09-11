@@ -5,7 +5,7 @@ project(FifteenTests)
 set(CMAKE_CXX_STANDARD 17)
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-set(SRC "../Project/")
+set(SRC "../src/")
 
 find_package(Qt5 REQUIRED Core)
 find_package(Qt5 REQUIRED COMPONENTS Gui) 

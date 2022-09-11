@@ -1,7 +1,7 @@
 
-#include "../Project/Board.h"
-#include "../Project/Types.h"
-#include "../Project/MappedValues.h"
+#include "../src/Board.h"
+#include "../src/Types.h"
+#include "../src/MappedValues.h"
 
 #include <gtest/gtest.h>
 

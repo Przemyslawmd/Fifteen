@@ -2,11 +2,11 @@
 #include "Utils.h"
 #include "config.h"
 
-#include "../Project/Board.h"
-#include "../Project/Options.h"
-#include "../Project/Types.h"
-#include "../Project/MappedValues.h"
-#include "../Project/GraphicBoard/ImageProvider.h"
+#include "../src/Board.h"
+#include "../src/Options.h"
+#include "../src/Types.h"
+#include "../src/MappedValues.h"
+#include "../src/GraphicBoard/ImageProvider.h"
 
 
 #include <gtest/gtest.h>
