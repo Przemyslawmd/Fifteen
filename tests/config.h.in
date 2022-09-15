@@ -2,4 +2,5 @@
 #pragma once
 
 #define ROOT_DIR "${PROJECT_SOURCE_DIR}/"
+#define IMPROPER_BOARD_DIR "${PROJECT_SOURCE_DIR}/improperBoards/"
 #define IMAGES_DIR "${PROJECT_SOURCE_DIR}/images/"

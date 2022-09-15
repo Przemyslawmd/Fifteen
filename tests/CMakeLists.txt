@@ -24,6 +24,7 @@ configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 add_executable(
   FifteenTests
+  TestErrorRestore.cpp
   TestGraphicBoard.cpp
   TestInitialBoard.cpp
   TestRandomBoard.cpp
