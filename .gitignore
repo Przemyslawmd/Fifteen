@@ -1,13 +1,6 @@
 
-*.o
-*.moc 
-moc_*
-build/*
-Project/Fifteen.pro.user
-Project/*.o
-Project/moc_*
-Test/Test.pro.user
-tests/build/*
+.vscode/*
 tests/.vscode/*
-build-*
 
+build/*
+tests/build/*
