@@ -17,10 +17,7 @@ public:
         for (uint i = 0; i < tilesCount; i++)
         {
             EXPECT_NE(std::find(testValues.begin(), testValues.end(), tiles[i]), testValues.end());
-            //EXPECT_NE(it, testValues.end());
-            //testValues.erase(it);
         }
-        //EXPECT_EQ(testValues.size(), 0);
     };
 };
 
