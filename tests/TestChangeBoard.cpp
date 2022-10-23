@@ -16,37 +16,37 @@ void runTestChangeBoard(BoardSize firstSize, BoardSize secondSize)
     auto board = std::make_unique<Board>(firstSize);
     board->randomBoard();
     board->randomBoard();
-    auto values = board->randomBoard();
+    auto const& values_1 = board->randomBoard();
     
     Utils utils;
     uint sizeInt = Maps::boardSizeInt.at(firstSize);
-    utils.checkTiles(sizeInt, values);
+    utils.checkTiles(sizeInt, values_1);
 
     board.reset(new Board(secondSize));
     board->randomBoard();
-    values = board->randomBoard();
+    auto const& values_2 = board->randomBoard();
 
     sizeInt = Maps::boardSizeInt.at(secondSize);
-    utils.checkTiles(sizeInt, values);
+    utils.checkTiles(sizeInt, values_2);
 }
 
 
-TEST(testChangeBoard, FourToSeven)
+TEST(testChangeBoard, BoardSizeFourToSeven)
 {
     runTestChangeBoard(BoardSize::FOUR, BoardSize::SEVEN);
 }
 
-TEST(testChangeRandom, SevenToFive)
+TEST(testChangeRandom, BoardSizeSevenToFive)
 {
     runTestChangeBoard(BoardSize::SEVEN, BoardSize::FIVE);
 }
 
-TEST(testChangeBoard, SixToSeven)
+TEST(testChangeBoard, BoardSizeSixToSeven)
 {
     runTestChangeBoard(BoardSize::SIX, BoardSize::SEVEN);
 }
 
-TEST(testChangeBoard, SevenToSeven)
+TEST(testChangeBoard, BoardSizeSevenToSeven)
 {
     runTestChangeBoard(BoardSize::SEVEN, BoardSize::SEVEN);
 }
