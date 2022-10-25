@@ -2,6 +2,7 @@
 #ifndef IOFILE_H
 #define IOFILE_H
 
+#include <fstream>
 #include <memory>
 #include <QDataStream>
 #include <QFile>

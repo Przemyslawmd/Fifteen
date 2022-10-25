@@ -1,8 +1,9 @@
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef FIFTEEN_TYPES_H
+#define FIFTEEN_TYPES_H
 
 #include <QString>
+
 
 enum class BoardSize    { FOUR, FIVE, SIX, SEVEN };
 enum class GraphicMode  { SCALED, CROPPED };

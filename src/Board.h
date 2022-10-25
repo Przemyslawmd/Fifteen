@@ -1,9 +1,10 @@
 
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef FIFTEEN_BOARD_H
+#define FIFTEEN_BOARD_H
+
+#include "Types.h"
 
 #include <vector>
-#include "Types.h"
 
 
 class Board

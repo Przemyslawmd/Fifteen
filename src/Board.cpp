@@ -1,21 +1,21 @@
 
 #include "Board.h"
-
-#include <iterator>
-#include <QList>
-#include <QTime>
 #include "MappedValues.h"
 
+#include <QList>
+#include <QTime>
+
+#include <iterator>
+
 using std::vector;
+
 
 Board::Board( BoardSize size ) : size( size ),
                                  sizeInt( Maps::boardSizeInt.at( size )),
                                  emptyTile( sizeInt * sizeInt - 1 )
 {
-    for ( uint i = 0; i < sizeInt * sizeInt; i++ )
-    {
-        values.push_back( i );
-    }
+    values.resize( sizeInt * sizeInt );
+    std::iota( values.begin(), values.end(), 0 );
 }
 
 /*********************************************************************************/

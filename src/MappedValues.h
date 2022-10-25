@@ -1,9 +1,10 @@
 
-#ifndef MAPPED_VALUES_H
-#define MAPPED_VALUES_H
+#ifndef FIFTEEN_MAPPED_VALUES_H
+#define FIFTEEN_MAPPED_VALUES_H
+
+#include "Types.h"
 
 #include <map>
-#include "Types.h"
 
 
 class Maps

@@ -1,18 +1,18 @@
 
-#ifndef FIFTEEN_H
-#define FIFTEEN_H
-
-#include <map>
-#include <memory>
-
-#include <QMainWindow>
-#include <QPushButton>
-#include <QRadioButton>
+#ifndef FIFTEEN_FIFTEEN_H
+#define FIFTEEN_FIFTEEN_H
 
 #include "Board.h"
 #include "GUI/GUIMain.h"
 #include "Types.h"
 #include "UndoMove.h"
+
+#include <QMainWindow>
+#include <QPushButton>
+#include <QRadioButton>
+
+#include <map>
+#include <memory>
 
 
 class Fifteen : public QMainWindow

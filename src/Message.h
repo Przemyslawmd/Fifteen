@@ -1,10 +1,11 @@
 
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#ifndef FIFTEEN_MESSAGE_H
+#define FIFTEEN_MESSAGE_H
+
+#include <QString>
 
 #include <map>
 #include <queue>
-#include <QString>
 
 
 enum class Result

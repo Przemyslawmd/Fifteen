@@ -1,11 +1,6 @@
 
 #include "Fifteen.h"
 
-#include <QBuffer>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPainter>
-
 #include "FileBoard/IOBoard.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "GUI/GUIAbout.h"
@@ -14,6 +9,11 @@
 #include "MappedValues.h"
 #include "Message.h"
 #include "Options.h"
+
+#include <QBuffer>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QPainter>
 
 
 Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}

@@ -1,9 +1,11 @@
 
-#ifndef UNDO_MOVE_H
-#define UNDO_MOVE_H
+#ifndef FIFTEEN_UNDO_MOVE_H
+#define FIFTEEN_UNDO_MOVE_H
+
+#include "Types.h"
 
 #include <deque>
-#include "Types.h"
+
 
 constexpr int MOVE_STACK_EMPTY = 10000;
 

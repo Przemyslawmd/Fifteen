@@ -1,11 +1,13 @@
 
-#ifndef OPTIONS_H
-#define OPTIONS_H
+#ifndef FIFTEEN_OPTIONS_H
+#define FIFTEEN_OPTIONS_H
+
+#include "Types.h"
+
+#include <QString>
 
 #include <map>
 #include <memory>
-#include <QString>
-#include "Types.h"
 
 
 class Options
