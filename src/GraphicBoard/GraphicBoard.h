@@ -22,7 +22,6 @@ private:
 
     void createTilesFromImage( QImage&, BoardSize, TileSize, GraphicMode );
     void createTiles( QImage*, uint boardSize, uint tileSize );
-    bool restoreImagesFromFile( IODataModel& );
     std::vector< std::unique_ptr< QImage >>& getImages();
 
     TileSize tileSize;

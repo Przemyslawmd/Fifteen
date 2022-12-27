@@ -17,7 +17,6 @@ public:
     std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
     void prepareGraphicBoard( QImage&, TileSize );
-    bool restoreBoardFromFile( IODataModel& );
     bool isGraphicBoard( BoardSize );
     TileSize getTileSize( BoardSize );
 
