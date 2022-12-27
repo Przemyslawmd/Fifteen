@@ -386,9 +386,6 @@ void Fifteen::slotReadBoard()
     values->pop_back();
     board.reset( new Board( *values, savedBoardSize ));
     redrawTiles();
-
-    gui->setRadioBoardMode( Options::boardMode );
-    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, Options::boardMode == BoardMode::GRAPHIC );
 }
 
 /*********************************************************************************/

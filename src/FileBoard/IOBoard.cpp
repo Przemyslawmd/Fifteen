@@ -33,13 +33,6 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString&
     BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
     std::unique_ptr< std::vector< uint >> boardData = std::move( dataModel.values );
 
-    if ( boardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().restoreBoardFromFile( dataModel ) == false )
-    {
-        Message::putMessage( Result::READ_BOARD_IMAGES_DATA_ERROR );
-        return nullptr;
-    }
-
-    Options::boardMode = boardMode;
     boardData->push_back( Maps::boardSizeInt.at( dataModel.boardSize ));
     return boardData;
 }

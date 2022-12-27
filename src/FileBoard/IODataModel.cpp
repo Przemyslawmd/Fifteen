@@ -41,14 +41,6 @@ void IODataModel::writeDataIntoStream( QDataStream& stream )
     {
         return;
     }
-
-    stream << Maps::tileSizeInt.at( tileSize );
-    stream << tileImageBytes;
-
-    for ( auto& image : *images )
-    {
-        stream.writeRawData( reinterpret_cast< const char* >( image.get()->bits() ), tileImageBytes );
-    }
 }
 
 /*********************************************************************************/
@@ -87,30 +79,6 @@ Result IODataModel::readDataFromStream( QDataStream& stream )
         {
             return Result::READ_BOARD_VALUES_ERROR;
         }
-    }
-
-    if ( boardMode == BoardMode::NUMERIC )
-    {
-        return Result::OK;
-    }
-
-    uint tileSizeInt;
-    stream >> tileSizeInt;
-    try
-    {
-        tileSize = Maps::getTileSizeByInt( tileSizeInt );
-    }
-    catch (...)
-    {
-        return Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR;
-    }
-
-    stream >> tileImageBytes;
-    uint imagesDataBytes = tilesCount * tileImageBytes;
-    imagesData = new uchar[imagesDataBytes];
-    if ( stream.readRawData( reinterpret_cast< char* >( imagesData ), imagesDataBytes ) != imagesDataBytes )
-    {
-        return Result::READ_BOARD_IMAGES_DATA_ERROR;
     }
 
     return Result::OK;
