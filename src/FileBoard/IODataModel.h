@@ -22,11 +22,7 @@ public:
 
     BoardSize boardSize;
     BoardMode boardMode;
-    TileSize tileSize;
-    uint tileImageBytes;
     std::unique_ptr< std::vector< uint >> values;
-    std::vector< std::unique_ptr< QImage >>* images;
-    uchar* imagesData;
 };
 
 #endif

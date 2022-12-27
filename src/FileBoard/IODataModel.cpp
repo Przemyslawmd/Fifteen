@@ -17,11 +17,6 @@ IODataModel::IODataModel( Board& board, BoardMode mode )
     {
         return;
     }
-
-    ImageProvider& imageProvider = ImageProvider::getInstance();
-    images = &imageProvider.getImages( boardSize );
-    tileSize = imageProvider.getTileSize( boardSize );
-    tileImageBytes = images->at( 0 ).get()->sizeInBytes();
 }
 
 /*********************************************************************************/
