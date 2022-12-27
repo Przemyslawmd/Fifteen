@@ -45,13 +45,3 @@ TEST(testErrorRestore, BoardNotAllValues)
     runTestErrorRestore("improperBoardNotAllValues", "Error reading file : board values");
 }
 
-TEST(testErrorRestore, BoardTileSizeError)
-{
-    runTestErrorRestore("improperBoardTileSize", "Error reading file : tile size");
-}
-
-TEST(testErrorRestore, BoardNotAllGraphicData)
-{
-    runTestErrorRestore("improperBoardNotAllGraphicData", "Error reading file : images");
-}
-
