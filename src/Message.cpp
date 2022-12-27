@@ -41,6 +41,7 @@ const std::map< Result, QString > Message::message =
     { Result::GRAPHIC_LOAD_FAILURE,                "Failure of loading graphic for a board of size " },
     { Result::GRAPHIC_TOO_LOW_SIZE,                "Too low size of graphic for a board of size " },
     { Result::READ_BOARD_SIZE_ERROR,               "Error reading file : size of a board" },
+    { Result::READ_BOARD_SIZE_IMPROPER,            "File error: board to restore and current board must have the same size: " },
     { Result::READ_BOARD_TYPE_ERROR,               "Error reading file : kind of a board" },
     { Result::READ_BOARD_VALUES_ERROR,             "Error reading file : board values" },
     { Result::READ_BOARD_IMAGES_DATA_ERROR,        "Error reading file : images" },
