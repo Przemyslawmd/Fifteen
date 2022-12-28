@@ -20,7 +20,7 @@ std::unique_ptr<Board> createAndSaveBoard(BoardSize size)
     
     IOBoard io;
     std::string filePath = ROOT_DIR + std::string("savedBoard");
-    io.writeBoardIntoFile(*board, BoardMode::NUMERIC, QString::fromStdString(filePath));
+    io.writeBoardIntoFile(*board, QString::fromStdString(filePath));
     return board;
 }
 

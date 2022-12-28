@@ -16,6 +16,10 @@ public:
 
     void writeBoardIntoFile( Board&, const QString& fileName );
     std::unique_ptr< std::vector< uint >> readBoardFromFile( const QString& fileName );
+
+private:
+
+    bool validate(const std::vector< uint >);
 };
 
 #endif

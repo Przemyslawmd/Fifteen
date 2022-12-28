@@ -18,7 +18,7 @@ void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
     for ( uint v : values ) {
         ofs << v <<',';
     }
-    ofs << Maps::boardSizeInt.at( board.getSize() );
+    ofs << board.getSizeInt();
     ofs << '\n';
 }
 
@@ -27,19 +27,35 @@ void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
 
 std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
 {
-    std::vector< uint > numbers;
     std::ifstream ifs( fileName.toStdString() );
     if ( !ifs ) {
+        Message::putMessage( Result::READ_BOARD_ERROR );
         return nullptr;
     }
 
     std::stringstream sstr;
     sstr << ifs.rdbuf();
 
+    std::vector< uint > numbers;
     std::string number_as_string;
-    while(std::getline( sstr, number_as_string, ',' ))  {
-        numbers.push_back( std::stoi(number_as_string ));
+    uint boardValue;
+    while( std::getline( sstr, number_as_string, ',' ))  {
+        try
+        {
+            boardValue = std::stoi( number_as_string );
+        }
+        catch (...)
+        {
+            Message::putMessage( Result::READ_BOARD_ERROR_VALUE_NOT_NUMBER );
+            return nullptr;
+        }
+        numbers.push_back( boardValue );
     }
     return std::make_unique<std::vector< uint >>( numbers );
+}
+
+bool IOBoard::validate( const std::vector< uint > )
+{
+    return true;
 }
 
