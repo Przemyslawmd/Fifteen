@@ -353,7 +353,7 @@ void Fifteen::slotSaveBoard()
     }
 
     IOBoard ioBoard;
-    ioBoard.writeBoardIntoFile( *board, Options::boardMode, file );
+    ioBoard.writeBoardIntoFile( *board, file );
 }
 
 /*********************************************************************************/

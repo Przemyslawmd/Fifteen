@@ -14,7 +14,7 @@ public:
     IOBoard( const IOBoard& ) = delete;
     IOBoard operator=( const IOBoard& ) = delete;
 
-    void writeBoardIntoFile( Board&, BoardMode, const QString& fileName );
+    void writeBoardIntoFile( Board&, const QString& fileName );
     std::unique_ptr< std::vector< uint >> readBoardFromFile( const QString& fileName );
 };
 

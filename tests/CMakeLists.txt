@@ -1,8 +1,8 @@
 
 cmake_minimum_required(VERSION 3.14)
 project(FifteenTests)
-
 set(CMAKE_CXX_STANDARD 17)
+
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(SRC "../src/")
@@ -38,8 +38,6 @@ add_executable(
   ${SRC}/GraphicBoard/GraphicBoard.cpp
   ${SRC}/GraphicBoard/ImageProvider.cpp
   ${SRC}/FileBoard/IOBoard.cpp
-  ${SRC}/FileBoard/IODataModel.cpp
-  ${SRC}/FileBoard/IOFile.cpp
 )
 
 target_link_libraries(

@@ -6,6 +6,8 @@
 #include "../Types.h"
 #include "../Message.h"
 
+#include <memory>
+
 
 class ImageProvider
 {

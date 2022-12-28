@@ -1,18 +1,25 @@
 
 #include "IOBoard.h"
-#include "IOFile.h"
 #include "../MappedValues.h"
 #include "../Options.h"
 #include "../GraphicBoard/ImageProvider.h"
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
-void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QString& fileName )
+
+void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
 {
-    IOFile file( fileName, QIODevice::WriteOnly );
-    QDataStream& stream = file.getDataStream();
+    std::ofstream ofs( fileName.toStdString() );
+    auto values = board.sendBoard();
 
-    IODataModel dataModel( board, boardMode );
-    dataModel.writeDataIntoStream( stream );
+    for ( uint v : values ) {
+        ofs << v <<',';
+    }
+    ofs << Maps::boardSizeInt.at( board.getSize() );
+    ofs << '\n';
 }
 
 /*********************************************************************************/
@@ -20,20 +27,19 @@ void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QStri
 
 std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
 {
-    IOFile file( fileName, QIODevice::ReadOnly );
-    QDataStream& stream = file.getDataStream();
-
-    IODataModel dataModel;
-    if ( auto result = dataModel.readDataFromStream( stream ); result != Result::OK )
-    {
-        Message::putMessage( result );
+    std::vector< uint > numbers;
+    std::ifstream ifs( fileName.toStdString() );
+    if ( !ifs ) {
         return nullptr;
     }
 
-    BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
-    std::unique_ptr< std::vector< uint >> boardData = std::move( dataModel.values );
+    std::stringstream sstr;
+    sstr << ifs.rdbuf();
 
-    boardData->push_back( Maps::boardSizeInt.at( dataModel.boardSize ));
-    return boardData;
+    std::string number_as_string;
+    while(std::getline( sstr, number_as_string, ',' ))  {
+        numbers.push_back( std::stoi(number_as_string ));
+    }
+    return std::make_unique<std::vector< uint >>( numbers );
 }
 

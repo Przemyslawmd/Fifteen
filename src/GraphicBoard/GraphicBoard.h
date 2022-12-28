@@ -2,11 +2,11 @@
 #ifndef GRAPHIC_BOARD_H
 #define GRAPHIC_BOARD_H
 
-#include <vector>
 #include <QImage>
-#include "../FileBoard/IODataModel.h"
 #include "../Types.h"
 
+#include <memory>
+#include <vector>
 
 class GraphicBoard
 {
