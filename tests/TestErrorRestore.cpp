@@ -27,17 +27,22 @@ void runTestErrorRestore(std::string fileName, QString errorLog)
 
 TEST(testErrorRestore, BoardSizeError)
 {
-    runTestErrorRestore("improperBoardSize", "Error reading file : size of a board");
-}
-
-TEST(testErrorRestore, BoardModeError)
-{
-    runTestErrorRestore("improperBoardMode", "Error reading file : kind of a board");
+    runTestErrorRestore("boardSize", "File error: read board size is not between five and seven");
 }
 
 TEST(testErrorRestore, BoardValuesError)
 {
-    runTestErrorRestore("improperBoardValues", "Error reading file : board values");
+    runTestErrorRestore("boardValue", "File error: board value is not a number");
+}
+
+TEST(testErrorRestore, BoardSizeNotFitValues_1)
+{
+    runTestErrorRestore("boardSizeNotFitValues_1", "File error: read board size doesn't fit to read board values");
+}
+
+TEST(testErrorRestore, BoardSizeNotFitValues_2)
+{
+    runTestErrorRestore("boardSizeNotFitValues_2", "File error: read board size doesn't fit to read board values");
 }
 
 TEST(testErrorRestore, BoardNotAllValues)

@@ -41,12 +41,10 @@ const std::map< Result, QString > Message::message =
     { Result::GRAPHIC_LOAD_FAILURE,                "Failure of loading graphic for a board of size " },
     { Result::GRAPHIC_TOO_LOW_SIZE,                "Too low size of graphic for a board of size " },
     { Result::READ_BOARD_ERROR,                    "Error reading file" },
-    { Result::READ_BOARD_ERROR_VALUE_NOT_NUMBER,   "File error: board value is not a number" },
-    { Result::READ_BOARD_SIZE_ERROR,               "Error reading file : size of a board" },
+    { Result::FILE_ERROR_VALUE_NOT_NUMBER,         "File error: board value is not a number" },
+    { Result::FILE_ERROR_IMPROPER_SIZE,            "File error: read board size is not between five and seven" },
+    { Result::FILE_ERROR_SIZE_NOT_FIT_VALUES,      "File error: read board size doesn't fit to read board values" },
     { Result::READ_BOARD_SIZE_IMPROPER,            "File error: board to restore and current board must have the same size: " },
-    { Result::READ_BOARD_TYPE_ERROR,               "Error reading file : kind of a board" },
     { Result::READ_BOARD_VALUES_ERROR,             "Error reading file : board values" },
-    { Result::READ_BOARD_IMAGES_DATA_ERROR,        "Error reading file : images" },
-    { Result::READ_BOARD_IMAGES_TILE_SIZE_ERROR,   "Error reading file : tile size" }
 };
 

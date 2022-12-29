@@ -376,15 +376,15 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    BoardSize savedBoardSize = Maps::getBoardSizeByInt( values->back() );
-    if (savedBoardSize != board->getSize()) {
+    uint savedBoardSize = values->back();
+    if ( savedBoardSize != board->getSizeInt() ) {
         Message::putMessage( Result::READ_BOARD_SIZE_IMPROPER, values->back() );
         QMessageBox::information( this, "", Message::getMessages() );
         return;
     }
 
     values->pop_back();
-    board.reset( new Board( *values, savedBoardSize ));
+    board.reset( new Board( *values, board->getSize() ));
     redrawTiles();
 }
 

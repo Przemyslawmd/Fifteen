@@ -46,16 +46,38 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString&
         }
         catch (...)
         {
-            Message::putMessage( Result::READ_BOARD_ERROR_VALUE_NOT_NUMBER );
+            Message::putMessage( Result::FILE_ERROR_VALUE_NOT_NUMBER );
             return nullptr;
         }
         numbers.push_back( boardValue );
     }
+
+    if ( validate( numbers ) == false ) {
+        return nullptr;
+    }
+
     return std::make_unique<std::vector< uint >>( numbers );
 }
 
-bool IOBoard::validate( const std::vector< uint > )
+/*********************************************************************************/
+/*********************************************************************************/
+
+bool IOBoard::validate( const std::vector< uint >& values )
 {
+    uint boardSize = values[values.size() -1];
+
+    if ( boardSize < 4 || boardSize > 7 )
+    {
+        Message::putMessage( Result::FILE_ERROR_IMPROPER_SIZE );
+        return false;
+    }
+
+    if ( values.size() != boardSize * boardSize + 1 )
+    {
+        Message::putMessage( Result::FILE_ERROR_SIZE_NOT_FIT_VALUES );
+        return false;
+    }
+
     return true;
 }
 

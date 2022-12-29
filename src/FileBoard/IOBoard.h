@@ -19,7 +19,7 @@ public:
 
 private:
 
-    bool validate(const std::vector< uint >);
+    bool validate( const std::vector< uint >& );
 };
 
 #endif
