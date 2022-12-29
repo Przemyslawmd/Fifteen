@@ -2,6 +2,7 @@
 #include "Message.h"
 
 
+
 void Message::putMessage( Result code )
 {
     messageQueue.push( message.at( code ));
@@ -45,6 +46,6 @@ const std::map< Result, QString > Message::message =
     { Result::FILE_ERROR_VALUE_NOT_NUMBER,         "File error: board value is not a number" },
     { Result::FILE_ERROR_SIZE_IMPROPER,            "File error: read board size is not between five and seven" },
     { Result::FILE_ERROR_SIZE_NOT_FIT_VALUES,      "File error: read board size doesn't fit to read board values" },
-    { Result::FILE_INFO_SIZE_IMPROPER,            "File error: board to restore and current board must have the same size: " },
+    { Result::FILE_INFO_SIZE_IMPROPER,             "File error: board to restore and current board must have the same size: " },
 };
 

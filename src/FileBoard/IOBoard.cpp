@@ -9,6 +9,9 @@
 #include <sstream>
 #include <vector>
 
+//#include <QMessageBox>
+//#include <QMessageBox>
+
 
 void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
 {
@@ -28,7 +31,8 @@ void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
 std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
 {
     std::ifstream ifs( fileName.toStdString() );
-    if ( !ifs ) {
+    if ( !ifs )
+    {
         Message::putMessage( Result::READ_BOARD_ERROR );
         return nullptr;
     }
@@ -39,7 +43,8 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString&
     std::vector< uint > numbers;
     std::string number_as_string;
     uint boardValue;
-    while( std::getline( sstr, number_as_string, ',' ))  {
+    while( std::getline( sstr, number_as_string, ',' ))
+    {
         try
         {
             boardValue = std::stoi( number_as_string );
@@ -52,10 +57,10 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString&
         numbers.push_back( boardValue );
     }
 
-    if ( validate( numbers ) == false ) {
+    if ( validate( numbers ) == false )
+    {
         return nullptr;
     }
-
     return std::make_unique<std::vector< uint >>( numbers );
 }
 
