@@ -13,7 +13,7 @@
     
 void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expectedValues, BoardSize boardSize)
 {
-    auto board = std::make_unique<Board>(boardSize);
+    auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
     for (int move : moves)
     {
         board->checkMove(move / 10, move % 10);

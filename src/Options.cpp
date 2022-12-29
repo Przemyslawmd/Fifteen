@@ -40,7 +40,6 @@ NumberColor Options::getNumberOnImageColor()
 unique_ptr< OptionsData > Options::readOptions()
 {
     unique_ptr< OptionsData > optionsData = std::make_unique< OptionsData >();
-    optionsData->boardMode = boardMode;
     optionsData->graphicMode = graphicMode;
     optionsData->tileSize = tileSize;
     optionsData->imageToLoad_4 = imagesToLoad.at( BoardSize::FOUR );
@@ -70,7 +69,6 @@ void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
 /*********************************************************************************/
 /*********************************************************************************/
 
-BoardMode Options::boardMode = BoardMode::NUMERIC;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 TileSize Options::tileSize = TileSize::_100;
 TileColor Options::tileColor = TileColor::BLUE;

@@ -11,8 +11,8 @@ class Board
 {
 public:
 
-    Board( BoardSize );
-    Board( std::vector< uint >& values, BoardSize );
+    Board( BoardSize, BoardMode mode );
+    Board( std::vector< uint >& values, BoardSize, BoardMode mode );
     Board( const Board& ) = delete;
     Board operator=( const Board& ) = delete;
 
@@ -20,6 +20,8 @@ public:
 
     BoardSize getSize();
     uint getSizeInt() const;
+    BoardMode getMode() const;
+    void setMode( BoardMode );
 
     std::vector< uint >& sendBoard();
     std::vector< uint >& randomBoard();
@@ -33,6 +35,8 @@ private:
 
     const BoardSize size;
     const uint sizeInt;
+
+    BoardMode mode;
     const uint emptyTile;
 
     std::vector< uint > values;

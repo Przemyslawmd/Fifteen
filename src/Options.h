@@ -14,7 +14,6 @@ class Options
 {
 public:
 
-    static BoardMode boardMode;
     static GraphicMode graphicMode;
 
     static TileColor getTileColor();

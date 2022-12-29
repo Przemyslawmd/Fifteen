@@ -13,7 +13,7 @@
     
 void runTestRandomBoard(BoardSize boardSize)
 {
-    auto board = std::make_unique<Board>(boardSize);
+    auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
     auto values = board->randomBoard();
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
     

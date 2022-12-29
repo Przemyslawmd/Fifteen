@@ -24,7 +24,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 void Fifteen::initGame()
 {
     resize( 850, 600 );
-    board = std::make_unique< Board >( BoardSize::FOUR );
+    board = std::make_unique< Board >( BoardSize::FOUR, BoardMode::NUMERIC );
     gui = std::make_unique< GUI >( this );
 
     std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
@@ -65,7 +65,7 @@ Fifteen::~Fifteen()
 void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
-    TileSize tileSize = Options::boardMode == BoardMode::NUMERIC ?
+    TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
                         Options::getTileSize() : ImageProvider::getInstance().getTileSize( boardSize );
 
     gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
@@ -76,7 +76,7 @@ void Fifteen::createTiles()
 
 void Fifteen::setTiles()
 {
-    if ( Options::boardMode == BoardMode::NUMERIC )
+    if ( board->getMode() == BoardMode::NUMERIC )
     {
         setTilesNumeric();
     }
@@ -173,16 +173,15 @@ void Fifteen::prepareQIconForTile( QIcon& icon, QPixmap& pixmap, int fontSize, u
 void Fifteen::slotGenerateBoard()
 {
     BoardSize boardSize = gui->checkRadioBoardSize();
-    BoardMode requestedBoardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
+    BoardMode boardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
-    if ( requestedBoardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().isGraphicBoard( boardSize ) == false )
+    if ( boardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().isGraphicBoard( boardSize ) == false )
     {
         QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
         return;
     }
 
-    Options::boardMode = requestedBoardMode;
-    board.reset( new Board( boardSize ));
+    board.reset( new Board( boardSize, boardMode ));
     board->randomBoard();
     redrawTiles();
     undoMoveService->Reset();
@@ -242,8 +241,8 @@ void Fifteen::pressTile()
 
 void Fifteen::makeMove( Move move, uint row, uint col )
 {
-    auto moveTile = ( Options::boardMode == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
-                                                                   &Fifteen::moveGraphicTile;
+    auto moveTile = ( board->getMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
+                                                                 &Fifteen::moveGraphicTile;
 
     switch ( move )
     {
@@ -333,9 +332,9 @@ void Fifteen::slotRemoveGraphic()
     gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
     gui->setRadioBoardMode( BoardMode::NUMERIC );
 
-    if ( Options::boardMode == BoardMode::GRAPHIC )
+    if ( board->getMode() == BoardMode::GRAPHIC )
     {
-        Options::boardMode = BoardMode::NUMERIC;
+        board->setMode( BoardMode::NUMERIC );
         redrawTiles();
     }
 }
@@ -384,7 +383,7 @@ void Fifteen::slotReadBoard()
     }
 
     values->pop_back();
-    board.reset( new Board( *values, board->getSize() ));
+    board.reset( new Board( *values, board->getSize(), board->getMode() ));
     redrawTiles();
 }
 

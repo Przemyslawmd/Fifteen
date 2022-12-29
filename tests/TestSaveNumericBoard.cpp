@@ -15,7 +15,7 @@
 
 std::unique_ptr<Board> createAndSaveBoard(BoardSize size)
 {
-    auto board = std::make_unique<Board>(size);
+    auto board = std::make_unique<Board>(size, BoardMode::NUMERIC);
     auto initialValues = board->randomBoard();
     
     IOBoard io;
@@ -33,7 +33,7 @@ std::unique_ptr<Board> restoreBoard(std::unique_ptr<Board> board)
     
     BoardSize boardSize = Maps::getBoardSizeByInt(readValues->back());
     readValues->pop_back();
-    board.reset(new Board(*readValues, boardSize));
+    board.reset(new Board(*readValues, boardSize, board->getMode()));
     return board;
 }
 
@@ -57,7 +57,7 @@ void runTestSaveNumericBoardWithChangeSize()
     auto board = createAndSaveBoard(BoardSize::SEVEN);
     auto initialValues = board->sendBoard();
 
-    board.reset(new Board(BoardSize::FIVE));
+    board.reset(new Board(BoardSize::FIVE, BoardMode::NUMERIC));
     auto changedValues = board->randomBoard();
     EXPECT_NE(changedValues, initialValues);
 

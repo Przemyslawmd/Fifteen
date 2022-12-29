@@ -10,9 +10,10 @@
 using std::vector;
 
 
-Board::Board( BoardSize size ) : size( size ),
-                                 sizeInt( Maps::boardSizeInt.at( size )),
-                                 emptyTile( sizeInt * sizeInt - 1 )
+Board::Board( BoardSize size, BoardMode mode ) : size( size ),
+                                                 mode( mode ),
+                                                 sizeInt( Maps::boardSizeInt.at( size )),
+                                                 emptyTile( sizeInt * sizeInt - 1 )
 {
     values.resize( sizeInt * sizeInt );
     std::iota( values.begin(), values.end(), 0 );
@@ -21,9 +22,10 @@ Board::Board( BoardSize size ) : size( size ),
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( vector< uint >& values, BoardSize size ) : size( size ),
-                                                         sizeInt( Maps::boardSizeInt.at( size )),
-                                                         emptyTile( sizeInt * sizeInt - 1 )
+Board::Board( vector< uint >& values, BoardSize size, BoardMode mode ) : size( size ),
+                                                                         mode( mode ),
+                                                                         sizeInt( Maps::boardSizeInt.at( size )),
+                                                                         emptyTile( sizeInt * sizeInt - 1 )
 {
     this->values.clear();
     this->values = values;
@@ -142,6 +144,22 @@ BoardSize Board::getSize()
 uint Board::getSizeInt() const
 {
     return sizeInt;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+BoardMode Board::getMode() const
+{
+    return mode;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void Board::setMode( BoardMode mode )
+{
+    this->mode = mode;
 }
 
 /*********************************************************************************/

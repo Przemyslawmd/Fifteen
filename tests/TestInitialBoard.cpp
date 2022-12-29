@@ -8,7 +8,7 @@
     
 void runTestInitialBoard(BoardSize boardSize)
 {
-    auto board = std::make_unique<Board>(boardSize );
+    auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
     auto const& values = board->sendBoard();
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
     uint tilesCount = sizeInt * sizeInt;
