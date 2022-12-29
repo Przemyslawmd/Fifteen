@@ -65,10 +65,9 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString&
 bool IOBoard::validate( const std::vector< uint >& values )
 {
     uint boardSize = values[values.size() -1];
-
     if ( boardSize < 4 || boardSize > 7 )
     {
-        Message::putMessage( Result::FILE_ERROR_IMPROPER_SIZE );
+        Message::putMessage( Result::FILE_ERROR_SIZE_IMPROPER );
         return false;
     }
 
@@ -76,6 +75,19 @@ bool IOBoard::validate( const std::vector< uint >& values )
     {
         Message::putMessage( Result::FILE_ERROR_SIZE_NOT_FIT_VALUES );
         return false;
+    }
+
+    std::vector< uint > testValues;
+    testValues.resize( boardSize * boardSize );
+    std::iota( testValues.begin(), testValues.end(), 0 );
+
+    for ( uint test : testValues )
+    {
+        if ( std::find( values.begin(), values.end(), test ) == values.end() )
+        {
+            Message::putMessage( Result::FILE_ERROR_VALUE_IMPROPER );
+            return false;
+        }
     }
 
     return true;

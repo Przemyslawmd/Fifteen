@@ -45,8 +45,13 @@ TEST(testErrorRestore, BoardSizeNotFitValues_2)
     runTestErrorRestore("boardSizeNotFitValues_2", "File error: read board size doesn't fit to read board values");
 }
 
-TEST(testErrorRestore, BoardNotAllValues)
+TEST(testErrorRestore, valueTooHigh)
 {
-    runTestErrorRestore("improperBoardNotAllValues", "Error reading file : board values");
+    runTestErrorRestore("valueTooHigh", "File error: improper value");
+}
+
+TEST(testErrorRestore, valueRepeated)
+{
+    runTestErrorRestore("valueRepeated", "File error: improper value");
 }
 

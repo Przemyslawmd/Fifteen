@@ -378,7 +378,7 @@ void Fifteen::slotReadBoard()
 
     uint savedBoardSize = values->back();
     if ( savedBoardSize != board->getSizeInt() ) {
-        Message::putMessage( Result::READ_BOARD_SIZE_IMPROPER, values->back() );
+        Message::putMessage( Result::FILE_INFO_SIZE_IMPROPER, values->back() );
         QMessageBox::information( this, "", Message::getMessages() );
         return;
     }
