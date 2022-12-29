@@ -4,6 +4,7 @@
 
 #include <QDialog>
 
+
 class GUIAbout : public QDialog
 {
 public:

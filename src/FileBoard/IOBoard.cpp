@@ -1,16 +1,13 @@
 
 #include "IOBoard.h"
 #include "../MappedValues.h"
-#include "../Options.h"
-#include "../GraphicBoard/ImageProvider.h"
+#include "../Message.h"
 
 #include <fstream>
 #include <iostream>
+#include <numeric>
 #include <sstream>
 #include <vector>
-
-//#include <QMessageBox>
-//#include <QMessageBox>
 
 
 void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
@@ -18,11 +15,11 @@ void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
     std::ofstream ofs( fileName.toStdString() );
     auto values = board.sendBoard();
 
-    for ( uint v : values ) {
-        ofs << v <<',';
+    for ( uint value : values )
+    {
+        ofs << value <<',';
     }
-    ofs << board.getSizeInt();
-    ofs << '\n';
+    ofs << board.getSizeInt() << '\n';
 }
 
 /*********************************************************************************/
@@ -40,28 +37,28 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString&
     std::stringstream sstr;
     sstr << ifs.rdbuf();
 
-    std::vector< uint > numbers;
-    std::string number_as_string;
+    std::vector< uint > values;
+    std::string value_as_string;
     uint boardValue;
-    while( std::getline( sstr, number_as_string, ',' ))
+    while( std::getline( sstr, value_as_string, ',' ))
     {
         try
         {
-            boardValue = std::stoi( number_as_string );
+            boardValue = std::stoi( value_as_string );
         }
         catch (...)
         {
             Message::putMessage( Result::FILE_ERROR_VALUE_NOT_NUMBER );
             return nullptr;
         }
-        numbers.push_back( boardValue );
+        values.push_back( boardValue );
     }
 
-    if ( validate( numbers ) == false )
+    if ( validate( values ) == false )
     {
         return nullptr;
     }
-    return std::make_unique<std::vector< uint >>( numbers );
+    return std::make_unique<std::vector< uint >>( values );
 }
 
 /*********************************************************************************/

@@ -50,7 +50,6 @@ void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
             {
                 break;
             }
-
             images.push_back( std::make_unique< QImage >( image->copy( xPos, yPos, tileSize, tileSize )));
         }
     }

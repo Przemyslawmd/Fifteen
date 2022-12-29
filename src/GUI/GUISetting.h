@@ -2,7 +2,9 @@
 #ifndef GUI_SETTING_H
 #define GUI_SETTING_H
 
-#include <memory>
+#include "Fifteen.h"
+#include "Types.h"
+#include "Options.h"
 
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -11,9 +13,7 @@
 #include <QRadioButton>
 #include <QSlider>
 
-#include "Fifteen.h"
-#include "Types.h"
-#include "Options.h"
+#include <memory>
 
 
 class GUISetting : public QDialog

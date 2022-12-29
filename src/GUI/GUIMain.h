@@ -2,9 +2,7 @@
 #ifndef GUI_MAIN_H
 #define GUI_MAIN_H
 
-#include <functional>
-#include <map>
-#include <memory>
+#include "Types.h"
 
 #include <QHBoxLayout>
 #include <QMainWindow>
@@ -13,7 +11,9 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
-#include "Types.h"
+#include <functional>
+#include <map>
+#include <memory>
 
 
 enum class ActionMenu {
