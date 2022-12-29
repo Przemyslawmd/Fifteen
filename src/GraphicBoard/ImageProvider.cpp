@@ -66,23 +66,6 @@ TileSize ImageProvider::getTileSize( BoardSize boardSize )
 }
 
 /*********************************************************************************/
-/*********************************************************************************/
-
-bool ImageProvider::restoreBoardFromFile( IODataModel& dataModel )
-{
-    BoardSize boardSize = dataModel.boardSize;
-    images.at( boardSize ).reset( new GraphicBoard() );
-
-    if ( images.at( boardSize )->restoreImagesFromFile( dataModel ) == false )
-    {
-        images.at( boardSize ).reset();
-        return false;
-    }
-
-    return true;
-}
-
-/*********************************************************************************/
 /* PRIVATE ***********************************************************************/
 
 ImageProvider::ImageProvider()

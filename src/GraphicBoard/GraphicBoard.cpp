@@ -61,28 +61,3 @@ void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
     Message::putMessage( Result::GRAPHIC_LOAD_OK, boardSize );
 }
 
-/*********************************************************************************/
-/*********************************************************************************/
-
-bool GraphicBoard:: restoreImagesFromFile( IODataModel& data )
-{
-    uint boardSizeInt = Maps::boardSizeInt.at( data.boardSize );
-    uint tileSizeInt = Maps::tileSizeInt.at( data.tileSize );
-
-    for ( uint i = 0; i < ( boardSizeInt  * boardSizeInt ); i++ )
-    {
-        try
-        {
-            QImage tileImage( data.imagesData + i * data.tileImageBytes, tileSizeInt, tileSizeInt, QImage::Format_RGB32 );
-            images.push_back( std::make_unique< QImage >( tileImage ));
-        }
-        catch (...)
-        {
-            return false;
-        }
-    }
-
-    this->tileSize = data.tileSize;
-    return true;
-}
-

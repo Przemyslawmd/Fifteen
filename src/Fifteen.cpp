@@ -353,7 +353,7 @@ void Fifteen::slotSaveBoard()
     }
 
     IOBoard ioBoard;
-    ioBoard.writeBoardIntoFile( *board, Options::boardMode, file );
+    ioBoard.writeBoardIntoFile( *board, file );
 }
 
 /*********************************************************************************/
@@ -376,14 +376,16 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    BoardSize boardSize = Maps::getBoardSizeByInt( values->back() );
-    values->pop_back();
-    board.reset( new Board( *values, boardSize ));
-    redrawTiles();
+    uint savedBoardSize = values->back();
+    if ( savedBoardSize != board->getSizeInt() ) {
+        Message::putMessage( Result::FILE_INFO_SIZE_IMPROPER, values->back() );
+        QMessageBox::information( this, "", Message::getMessages() );
+        return;
+    }
 
-    gui->setRadioSize( boardSize );
-    gui->setRadioBoardMode( Options::boardMode );
-    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, Options::boardMode == BoardMode::GRAPHIC );
+    values->pop_back();
+    board.reset( new Board( *values, board->getSize() ));
+    redrawTiles();
 }
 
 /*********************************************************************************/

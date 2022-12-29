@@ -14,10 +14,13 @@ public:
     Board( BoardSize );
     Board( std::vector< uint >& values, BoardSize );
     Board( const Board& ) = delete;
+    Board operator=( const Board& ) = delete;
 
     Move checkMove( uint row, uint col );
 
     BoardSize getSize();
+    uint getSizeInt() const;
+
     std::vector< uint >& sendBoard();
     std::vector< uint >& randomBoard();
     void solveBoard();

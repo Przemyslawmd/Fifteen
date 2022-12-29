@@ -1,18 +1,25 @@
 
 #include "IOBoard.h"
-#include "IOFile.h"
 #include "../MappedValues.h"
 #include "../Options.h"
 #include "../GraphicBoard/ImageProvider.h"
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
-void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QString& fileName )
+
+void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
 {
-    IOFile file( fileName, QIODevice::WriteOnly );
-    QDataStream& stream = file.getDataStream();
+    std::ofstream ofs( fileName.toStdString() );
+    auto values = board.sendBoard();
 
-    IODataModel dataModel( board, boardMode );
-    dataModel.writeDataIntoStream( stream );
+    for ( uint v : values ) {
+        ofs << v <<',';
+    }
+    ofs << board.getSizeInt();
+    ofs << '\n';
 }
 
 /*********************************************************************************/
@@ -20,27 +27,69 @@ void IOBoard::writeBoardIntoFile( Board& board, BoardMode boardMode, const QStri
 
 std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
 {
-    IOFile file( fileName, QIODevice::ReadOnly );
-    QDataStream& stream = file.getDataStream();
-
-    IODataModel dataModel;
-    if ( auto result = dataModel.readDataFromStream( stream ); result != Result::OK )
-    {
-        Message::putMessage( result );
+    std::ifstream ifs( fileName.toStdString() );
+    if ( !ifs ) {
+        Message::putMessage( Result::READ_BOARD_ERROR );
         return nullptr;
     }
 
-    BoardMode boardMode = static_cast< BoardMode >( dataModel.boardMode );
-    std::unique_ptr< std::vector< uint >> boardData = std::move( dataModel.values );
+    std::stringstream sstr;
+    sstr << ifs.rdbuf();
 
-    if ( boardMode == BoardMode::GRAPHIC && ImageProvider::getInstance().restoreBoardFromFile( dataModel ) == false )
-    {
-        Message::putMessage( Result::READ_BOARD_IMAGES_DATA_ERROR );
+    std::vector< uint > numbers;
+    std::string number_as_string;
+    uint boardValue;
+    while( std::getline( sstr, number_as_string, ',' ))  {
+        try
+        {
+            boardValue = std::stoi( number_as_string );
+        }
+        catch (...)
+        {
+            Message::putMessage( Result::FILE_ERROR_VALUE_NOT_NUMBER );
+            return nullptr;
+        }
+        numbers.push_back( boardValue );
+    }
+
+    if ( validate( numbers ) == false ) {
         return nullptr;
     }
 
-    Options::boardMode = boardMode;
-    boardData->push_back( Maps::boardSizeInt.at( dataModel.boardSize ));
-    return boardData;
+    return std::make_unique<std::vector< uint >>( numbers );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+bool IOBoard::validate( const std::vector< uint >& values )
+{
+    uint boardSize = values[values.size() -1];
+    if ( boardSize < 4 || boardSize > 7 )
+    {
+        Message::putMessage( Result::FILE_ERROR_SIZE_IMPROPER );
+        return false;
+    }
+
+    if ( values.size() != boardSize * boardSize + 1 )
+    {
+        Message::putMessage( Result::FILE_ERROR_SIZE_NOT_FIT_VALUES );
+        return false;
+    }
+
+    std::vector< uint > testValues;
+    testValues.resize( boardSize * boardSize );
+    std::iota( testValues.begin(), testValues.end(), 0 );
+
+    for ( uint test : testValues )
+    {
+        if ( std::find( values.begin(), values.end(), test ) == values.end() )
+        {
+            Message::putMessage( Result::FILE_ERROR_VALUE_IMPROPER );
+            return false;
+        }
+    }
+
+    return true;
 }
 

@@ -2,11 +2,11 @@
 #ifndef GRAPHIC_BOARD_H
 #define GRAPHIC_BOARD_H
 
-#include <vector>
 #include <QImage>
-#include "../FileBoard/IODataModel.h"
 #include "../Types.h"
 
+#include <memory>
+#include <vector>
 
 class GraphicBoard
 {
@@ -22,7 +22,6 @@ private:
 
     void createTilesFromImage( QImage&, BoardSize, TileSize, GraphicMode );
     void createTiles( QImage*, uint boardSize, uint tileSize );
-    bool restoreImagesFromFile( IODataModel& );
     std::vector< std::unique_ptr< QImage >>& getImages();
 
     TileSize tileSize;
