@@ -85,7 +85,7 @@ bool IOBoard::validate( const std::vector< uint >& values )
 
     for ( uint test : testValues )
     {
-        if ( std::find( values.begin(), values.end(), test ) == values.end() )
+        if ( std::find( values.cbegin(), values.cend(), test ) == values.cend() )
         {
             Message::putMessage( Result::FILE_ERROR_VALUE_IMPROPER );
             return false;

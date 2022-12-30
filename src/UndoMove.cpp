@@ -1,6 +1,7 @@
 
 #include "UndoMove.h"
 
+
 void UndoMove::PutMove( Move move, uint row, uint col )
 {
     if ( moveStack.size() == MOVE_STACK_LIMIT )

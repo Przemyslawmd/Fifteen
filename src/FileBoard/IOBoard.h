@@ -2,6 +2,8 @@
 #ifndef IO_BOARD_H
 #define IO_BOARD_H
 
+#include <QString>
+
 #include <memory>
 #include "../Board.h"
 

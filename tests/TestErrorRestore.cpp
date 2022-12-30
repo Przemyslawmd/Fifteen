@@ -7,7 +7,6 @@
 #include "../src/GraphicBoard/ImageProvider.h"
 
 #include <gtest/gtest.h>
-
 #include <QString>
 
 

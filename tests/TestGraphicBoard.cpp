@@ -8,7 +8,6 @@
 #include "../src/MappedValues.h"
 #include "../src/GraphicBoard/ImageProvider.h"
 
-
 #include <gtest/gtest.h>
 #include <QImage>
 #include <QString>

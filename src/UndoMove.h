@@ -6,7 +6,6 @@
 
 #include <deque>
 
-
 constexpr int MOVE_STACK_EMPTY = 10000;
 
 

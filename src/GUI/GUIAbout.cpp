@@ -4,6 +4,7 @@
 #include <QTextDocument>
 #include <QTextBrowser>
 
+
 GUIAbout::GUIAbout()
 {
     setModal( true );

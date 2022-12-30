@@ -1,14 +1,13 @@
 
 #include "GUIMain.h"
-
-#include <iostream>
-#include <memory>
+#include "MappedValues.h"
 
 #include <QGroupBox>
 #include <QMenu>
 #include <QMenuBar>
 
-#include "MappedValues.h"
+#include <iostream>
+#include <memory>
 
 constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 constexpr const char STYLE_HEIGHT[] = "height:20px";

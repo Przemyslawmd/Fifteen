@@ -1,12 +1,12 @@
 
+#include "GUISetting.h"
+#include "MappedValues.h"
+
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QVBoxLayout>
-
-#include "GUISetting.h"
-#include "MappedValues.h"
 
 constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 

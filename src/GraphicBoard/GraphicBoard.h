@@ -2,8 +2,9 @@
 #ifndef GRAPHIC_BOARD_H
 #define GRAPHIC_BOARD_H
 
-#include <QImage>
 #include "../Types.h"
+
+#include <QImage>
 
 #include <memory>
 #include <vector>

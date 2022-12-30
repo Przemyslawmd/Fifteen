@@ -2,7 +2,6 @@
 #include "Message.h"
 
 
-
 void Message::putMessage( Result code )
 {
     messageQueue.push( message.at( code ));

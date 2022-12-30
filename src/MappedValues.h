@@ -4,6 +4,8 @@
 
 #include "Types.h"
 
+#include <QString>
+
 #include <map>
 
 
