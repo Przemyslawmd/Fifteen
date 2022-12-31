@@ -19,8 +19,8 @@ std::unique_ptr<Board> createAndSaveBoard(BoardSize size)
     auto initialValues = board->randomBoard();
     
     IOBoard io;
-    std::string filePath = ROOT_DIR + std::string("savedBoard");
-    io.writeBoardIntoFile(*board, QString::fromStdString(filePath));
+    const std::string& filePath = ROOT_DIR + std::string("savedBoard");
+    io.writeBoardIntoFile(*board, filePath);
     return board;
 }
 
@@ -28,8 +28,8 @@ std::unique_ptr<Board> createAndSaveBoard(BoardSize size)
 std::unique_ptr<Board> restoreBoard(std::unique_ptr<Board> board)
 {
     IOBoard io;
-    std::string filePath = ROOT_DIR + std::string("savedBoard");
-    auto readValues = io.readBoardFromFile(QString::fromStdString(filePath));
+    const std::string& filePath = ROOT_DIR + std::string("savedBoard");
+    auto readValues = io.readBoardFromFile(filePath);
     
     BoardSize boardSize = Maps::getBoardSizeByInt(readValues->back());
     readValues->pop_back();

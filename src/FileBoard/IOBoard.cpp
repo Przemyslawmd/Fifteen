@@ -10,24 +10,30 @@
 #include <vector>
 
 
-void IOBoard::writeBoardIntoFile( Board& board, const QString& fileName )
+void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
 {
-    std::ofstream ofs( fileName.toStdString() );
-    auto values = board.sendBoard();
+    std::ofstream ofs( fileName );
+    if ( !ofs )
+    {
+        Message::putMessage( Result::READ_BOARD_ERROR );
+        return;
+    }
 
+    const auto& values = board.sendBoard();
     for ( uint value : values )
     {
         ofs << value <<',';
     }
     ofs << board.getSizeInt() << '\n';
+    ofs.close();
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString& fileName )
+std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const std::string& fileName )
 {
-    std::ifstream ifs( fileName.toStdString() );
+    std::ifstream ifs( fileName );
     if ( !ifs )
     {
         Message::putMessage( Result::READ_BOARD_ERROR );
@@ -36,6 +42,7 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const QString&
 
     std::stringstream sstr;
     sstr << ifs.rdbuf();
+    ifs.close();
 
     std::vector< uint > values;
     std::string value_as_string;

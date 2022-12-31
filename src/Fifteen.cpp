@@ -352,7 +352,7 @@ void Fifteen::slotSaveBoard()
     }
 
     IOBoard ioBoard;
-    ioBoard.writeBoardIntoFile( *board, file );
+    ioBoard.writeBoardIntoFile( *board, file.toStdString() );
 }
 
 /*********************************************************************************/
@@ -368,7 +368,7 @@ void Fifteen::slotReadBoard()
     }
 
     IOBoard ioBoard;
-    auto values = ioBoard.readBoardFromFile( file );
+    auto values = ioBoard.readBoardFromFile( file.toStdString() );
     if ( values == nullptr )
     {
         QMessageBox::information( this, "", Message::getMessages() );

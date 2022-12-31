@@ -7,15 +7,14 @@
 #include "../src/GraphicBoard/ImageProvider.h"
 
 #include <gtest/gtest.h>
-#include <QString>
 
 
 void runTestErrorRestore(std::string fileName, QString errorLog)
 {
-    std::string filePath = IMPROPER_BOARD_DIR + std::string(fileName);
+    const std::string& filePath = IMPROPER_BOARD_DIR + std::string(fileName);
     
     IOBoard io;
-    auto readValues = io.readBoardFromFile(QString::fromStdString(filePath));
+    auto readValues = io.readBoardFromFile(filePath);
     
     EXPECT_EQ(readValues, nullptr);
 
