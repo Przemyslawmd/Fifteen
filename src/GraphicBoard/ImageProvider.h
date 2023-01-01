@@ -1,6 +1,6 @@
 
-#ifndef IMAGEPROVIDER_H
-#define IMAGEPROVIDER_H
+#ifndef FIFTEEN_IMAGE_PROVIDER_H
+#define FIFTEEN_IMAGE_PROVIDER_H
 
 #include "GraphicBoard.h"
 #include "../Types.h"
@@ -13,8 +13,9 @@ class ImageProvider
 {
 public:
 
-    static ImageProvider& getInstance();
-    static void deleteInstance();
+    ImageProvider();
+    ImageProvider( const ImageProvider& ) = delete;
+    ImageProvider operator=( const ImageProvider& ) = delete;
 
     std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
@@ -24,14 +25,9 @@ public:
 
 private:
 
-    ImageProvider();
-    ImageProvider( const ImageProvider& ) = delete;
-    ImageProvider operator=( const ImageProvider& ) = delete;
-
     bool checkImageSize( QImage&, BoardSize, TileSize ) ;
     void createTilesForGraphicBoard( BoardSize, TileSize, QImage& );
 
-    static ImageProvider* instance;
     std::map< BoardSize, std::unique_ptr< GraphicBoard >> images;
 };
 

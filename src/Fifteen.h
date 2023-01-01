@@ -4,6 +4,7 @@
 
 #include "Board.h"
 #include "GUI/GUIMain.h"
+#include "GraphicBoard/ImageProvider.h"
 #include "Types.h"
 #include "UndoMove.h"
 
@@ -26,7 +27,6 @@ public:
     explicit Fifteen( QWidget *parent = 0 );
     Fifteen( const Fifteen& ) = delete;
     Fifteen operator=( const Fifteen& ) = delete;
-    ~Fifteen();
 
     void initGame();
     void setColor();
@@ -40,6 +40,7 @@ private:
 
     std::unique_ptr< Board > board;
     std::unique_ptr< GUI > gui;
+    std::unique_ptr< ImageProvider > imageProvider;
     std::unique_ptr< UndoMove > undoMoveService;
 
     void createTiles();

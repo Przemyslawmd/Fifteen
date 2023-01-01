@@ -8,23 +8,12 @@ using std::pair;
 using std::unique_ptr;
 
 
-ImageProvider& ImageProvider::getInstance()
+ImageProvider::ImageProvider()
 {
-    if ( instance == nullptr )
-    {
-        instance = new ImageProvider();
-    }
-
-    return *instance;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void ImageProvider::deleteInstance()
-{
-    delete instance;
-    instance = nullptr;
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FOUR,  nullptr ));
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FIVE,  nullptr ));
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SIX,   nullptr ));
+    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SEVEN, nullptr ));
 }
 
 /*********************************************************************************/
@@ -66,17 +55,6 @@ TileSize ImageProvider::getTileSize( BoardSize boardSize )
 }
 
 /*********************************************************************************/
-/* PRIVATE ***********************************************************************/
-
-ImageProvider::ImageProvider()
-{
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FOUR,  nullptr ));
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FIVE,  nullptr ));
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SIX,   nullptr ));
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SEVEN, nullptr ));
-}
-
-/*********************************************************************************/
 /*********************************************************************************/
 
 bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize tileSize )
@@ -100,9 +78,4 @@ void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, TileSize ti
     images.at( boardSize ) = std::make_unique< GraphicBoard >();
     images.at( boardSize )->createTilesFromImage( image, boardSize, tileSize, Options::graphicMode );
 }
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-ImageProvider* ImageProvider::instance = nullptr;
 

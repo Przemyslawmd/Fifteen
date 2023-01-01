@@ -44,9 +44,9 @@ void runTestGraphicBoard(BoardSize boardSize, TileSize tileSize, GraphicMode gra
     options->imageToLoad_7 = true;
     Options::saveOptions(std::move(options));
     
-    ImageProvider& imageProvider = ImageProvider::getInstance();
-    imageProvider.prepareGraphicBoard(image, tileSize);
-    auto& images = imageProvider.getImages(boardSize);
+    auto imageProvider = std::make_unique< ImageProvider >();
+    imageProvider->prepareGraphicBoard(image, tileSize);
+    const auto& images = imageProvider->getImages(boardSize);
     
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
     for (uint i = 0; i < sizeInt * sizeInt; i++)
