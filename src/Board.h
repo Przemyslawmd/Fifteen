@@ -18,7 +18,7 @@ public:
 
     Move checkMove( uint row, uint col );
 
-    BoardSize getSize();
+    BoardSize getSize() const;
     uint getSizeInt() const;
     BoardMode getMode() const;
     void setMode( BoardMode );
