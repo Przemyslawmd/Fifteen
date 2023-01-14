@@ -9,6 +9,7 @@
 
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <numeric>
 #include <vector>
 
@@ -30,7 +31,8 @@ std::unique_ptr<Board> restoreBoard(std::unique_ptr<Board> board)
     IOBoard io;
     const std::string& filePath = ROOT_DIR + std::string("savedBoard");
     auto readValues = io.readBoardFromFile(filePath);
-    
+    std::remove(filePath.c_str());
+
     BoardSize boardSize = Maps::getBoardSizeByInt(readValues->back());
     readValues->pop_back();
     board.reset(new Board(*readValues, boardSize, board->getMode()));
@@ -38,7 +40,7 @@ std::unique_ptr<Board> restoreBoard(std::unique_ptr<Board> board)
 }
 
 
-void runTestSaveNumericBoard()
+TEST(testSaveNumericBoard, NoSizeChange)
 {
     auto board = createAndSaveBoard(BoardSize::SEVEN);
     auto initialValues = board->sendBoard();
@@ -48,11 +50,10 @@ void runTestSaveNumericBoard()
  
     auto restoredBoard = restoreBoard(std::move(board));
     auto restoredValues = restoredBoard->sendBoard();
-    EXPECT_EQ(initialValues, restoredValues);    
+    EXPECT_EQ(initialValues, restoredValues);
 }
 
-
-void runTestSaveNumericBoardWithChangeSize()
+TEST(testSaveNumericBoard, SizeChanged)
 {
     auto board = createAndSaveBoard(BoardSize::SEVEN);
     auto initialValues = board->sendBoard();
@@ -63,17 +64,5 @@ void runTestSaveNumericBoardWithChangeSize()
 
     auto restoredBoard = restoreBoard(std::move(board));
     auto restoredValues = restoredBoard->sendBoard();
-    EXPECT_EQ(initialValues, restoredValues);  
+    EXPECT_EQ(initialValues, restoredValues);
 }
-
-
-TEST(testSaveNumericBoard, NoSizeChange)
-{
-    runTestSaveNumericBoard();
-}
-
-TEST(testSaveNumericBoard, WithSizeChange)
-{
-    runTestSaveNumericBoardWithChangeSize();
-}
-
