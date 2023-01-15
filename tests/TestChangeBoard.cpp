@@ -18,16 +18,15 @@ void runTestChangeBoard(BoardSize firstSize, BoardSize secondSize)
     board->randomBoard();
     auto const& values_1 = board->randomBoard();
     
-    Utils utils;
     uint sizeInt = Maps::boardSizeInt.at(firstSize);
-    utils.checkTiles(sizeInt, values_1);
+    Utils::checkTiles(sizeInt, values_1);
 
     board.reset(new Board(secondSize, BoardMode::NUMERIC));
     board->randomBoard();
     auto const& values_2 = board->randomBoard();
 
     sizeInt = Maps::boardSizeInt.at(secondSize);
-    utils.checkTiles(sizeInt, values_2);
+    Utils::checkTiles(sizeInt, values_2);
 }
 
 
