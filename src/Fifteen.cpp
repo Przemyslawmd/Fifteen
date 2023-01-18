@@ -244,8 +244,6 @@ void Fifteen::makeMove( Move move, uint row, uint col )
             return ( this->*moveTile )( row, col, row + 1, col );
         case Move::LEFT:
             return ( this->*moveTile )( row, col, row, col - 1 );
-        default:
-            return;
     }
 }
 
