@@ -1,6 +1,7 @@
 
 #include "Controller.h"
 #include "Options.h"
+#include "MappedValues.h"
 
 
 Controller::Controller() 
@@ -34,6 +35,17 @@ void Controller::solveBoard()
 {
     board->solveBoard();
     undoMoveService->Reset();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+std::tuple< uint, uint > Controller::getBoardAttributes()
+{
+    BoardSize boardSize = board->getSize();
+    TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
+                        Options::getTileSize() : getTileSize( boardSize );
+    return { Maps::boardSizeInt.at( boardSize ), Maps::tileSizeInt.at( tileSize ) };
 }
 
 /*********************************************************************************/
@@ -109,14 +121,6 @@ void Controller::readBoardFromFile( const std::string& file )
 
     values->pop_back();
     board.reset( new Board( *values, board->getSize(), board->getMode() ));
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void Controller::resetUndoMove()
-{
-    undoMoveService->Reset();
 }
 
 /*********************************************************************************/

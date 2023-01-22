@@ -9,7 +9,6 @@
 #include "Message.h"
 #include "Options.h"
 
-#include <QBuffer>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPainter>
@@ -54,11 +53,7 @@ void Fifteen::initGame()
 
 void Fifteen::createTiles()
 {
-    Board* board = controller->getBoard();
-    BoardSize boardSize = board->getSize();
-    TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
-                        Options::getTileSize() : controller->getTileSize( boardSize );
-
+    auto [ boardSize, tileSize ] = controller->getBoardAttributes();
     gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
 }
 

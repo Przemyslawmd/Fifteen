@@ -11,6 +11,7 @@
 #include <QImage>
 
 #include <memory>
+#include <tuple>
 #include <vector>
 
 
@@ -25,6 +26,7 @@ public:
     void generateBoard( BoardSize, BoardMode );
     void solveBoard();
     Board* getBoard();
+    std::tuple< uint, uint > getBoardAttributes();
 
     bool loadGraphic( QImage& );
     void removeGraphic();
@@ -38,7 +40,6 @@ public:
 
     void putMove( Move move, uint row, uint col );
     uint getUndoMove();
-    void resetUndoMove();
 
 private:
 
