@@ -65,7 +65,7 @@ std::tuple< uint, uint > Controller::getBoardAttributes()
 {
     BoardSize boardSize = board->getSize();
     TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
-                        Options::getTileSize() : getTileSize( boardSize );
+                        Options::getTileSize() : imageProvider->getTileSize( boardSize );
     return { Maps::boardSizeInt.at( boardSize ), Maps::tileSizeInt.at( tileSize ) };
 }
 
@@ -132,14 +132,6 @@ bool Controller::isGraphic( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-TileSize Controller::getTileSize( BoardSize boardSize )
-{
-    return imageProvider->getTileSize( boardSize );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 void Controller::writeBoardIntoFile( const std::string& file )
 {
     IOBoard ioBoard;
@@ -149,23 +141,24 @@ void Controller::writeBoardIntoFile( const std::string& file )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Controller::readBoardFromFile( const std::string& file )
+bool Controller::readBoardFromFile( const std::string& file )
 {
     IOBoard ioBoard;
     auto values = ioBoard.readBoardFromFile( file );
     if ( values == nullptr )
     {
-        return;
+        return false;
     }
 
     uint savedBoardSize = values->back();
     if ( savedBoardSize != board->getSizeInt() ) {
         Message::putMessage( Result::FILE_INFO_SIZE_IMPROPER, values->back() );
-        return;
+        return false;
     }
 
     values->pop_back();
     board.reset( new Board( *values, board->getSize(), board->getMode() ));
+    return true;
 }
 
 /*********************************************************************************/

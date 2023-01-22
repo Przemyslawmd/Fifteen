@@ -172,9 +172,7 @@ uint Board::getNullValue()
 
 void Board::makeMove( uint srcRow, uint srcCol, uint dstRow, uint dstCol )
 {    
-    values.at( dstRow * sizeInt + dstCol ) += values.at( srcRow * sizeInt + srcCol );
-    values.at( srcRow * sizeInt + srcCol ) =  values.at( dstRow * sizeInt + dstCol ) - values.at( srcRow * sizeInt + srcCol );
-    values.at( dstRow * sizeInt + dstCol ) -= values.at( srcRow * sizeInt + srcCol );
+    std::swap( values.at( dstRow * sizeInt + dstCol ), values.at( srcRow * sizeInt + srcCol ));
 }
 
 /*********************************************************************************/

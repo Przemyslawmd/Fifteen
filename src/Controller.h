@@ -36,15 +36,15 @@ public:
 
     bool loadGraphic( QImage& );
     bool removeGraphic();
-    bool isGraphic( BoardSize );
 
-    TileSize getTileSize( BoardSize );
     std::vector< std::unique_ptr< QImage >>& getImages();
 
     void writeBoardIntoFile( const std::string& file );
-    void readBoardFromFile( const std::string& file );
+    bool readBoardFromFile( const std::string& file );
 
 private:
+
+    bool isGraphic( BoardSize );
 
     std::unique_ptr< Board > board;
     std::unique_ptr< ImageProvider > imageProvider;

@@ -319,7 +319,11 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    controller->readBoardFromFile( file.toStdString() );
+    if ( controller->readBoardFromFile( file.toStdString() ) == false)
+    {
+        QMessageBox::information( this, "", Message::getMessages() );
+        return;
+    }
     redrawTiles();
 }
 
