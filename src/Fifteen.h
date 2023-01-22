@@ -45,7 +45,7 @@ private:
     void setTilesNumeric( Board& );
     void setTilesGraphic( Board& );
 
-    void prepareQIconForTile( QIcon&, QPixmap&, int fontSize, uint number, NumberColor );
+    void drawNumberOnTile( QIcon&, QPixmap&, int fontSize, uint number, NumberColor );
 
     void makeMove( Move, uint row, uint col );
     void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSizeInt, uint tileSizeInt );

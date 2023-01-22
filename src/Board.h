@@ -26,7 +26,7 @@ public:
     std::vector< uint >& sendValues();
     std::vector< uint >& randomBoard();
     void solveBoard();
-    uint getEmptyTile();
+    uint getNullValue();
 
 private:
 

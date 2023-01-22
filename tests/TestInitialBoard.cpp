@@ -18,7 +18,7 @@ void runTestInitialBoard(BoardSize boardSize)
     {
         EXPECT_EQ(values[i], i);
     }
-    EXPECT_EQ(values[tilesCount - 1], board->getEmptyTile());   
+    EXPECT_EQ(values[tilesCount - 1], board->getNullValue());
 }
 
 

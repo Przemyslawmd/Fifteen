@@ -78,30 +78,25 @@ void Fifteen::setTiles()
 
 void Fifteen::setTilesNumeric( Board& board )
 {    
-    auto values = board.sendValues().begin();
+    const auto& values = board.sendValues();
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
     QFont font;
     font.setPixelSize( fontSizeInt );
-
-    uint emptyTile = board.getEmptyTile();
     auto tileColor = Options::getTileColor();
 
-    for ( auto& tile : gui->getTiles() )
+    auto& tiles = gui->getTiles();
+    int valuesIndex = 0;
+    for ( auto& tile : tiles )
     {
-        if ( *values != emptyTile )
-        {
-            tile->setText( QString::number( *values + 1 ));
-            tile->setStyleSheet( tileColor );
-        }
-        else
-        {
-            tile->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
-        }
-
+        tile->setText( QString::number( values[ valuesIndex++ ] + 1 ));
+        tile->setStyleSheet( tileColor );
         tile->setFont( font );
-        values++;
     }
+
+    uint nullValue = board.getNullValue();
+    auto iter = std::find( values.begin(), values.end(), nullValue );
+    tiles[ std::distance( values.begin(), iter) ]->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
 }
 
 /*********************************************************************************/
@@ -110,7 +105,7 @@ void Fifteen::setTilesNumeric( Board& board )
 void Fifteen::setTilesGraphic( Board& board )
 {
     auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
-    auto iter = board.sendValues().begin();
+    auto value = board.sendValues().begin();
 
     const auto& images = controller->getImages();
     QSize iconSize( tileSizeInt, tileSizeInt );
@@ -121,27 +116,27 @@ void Fifteen::setTilesGraphic( Board& board )
 
     for ( auto& tile : gui->getTiles() )
     {
-        QPixmap pixmap = QPixmap::fromImage( *images.at( *iter ).get() );
-        prepareQIconForTile( icon, pixmap, fontSizeInt, *iter, numberColor );
+        QPixmap pixmap = QPixmap::fromImage( *images.at( *value ).get() );
+        if ( numberColor == NumberColor::NO || *value == board.getNullValue() )
+        {
+            icon.addPixmap( pixmap );
+        }
+        else
+        {
+            drawNumberOnTile( icon, pixmap, fontSizeInt, *value, numberColor );
+        }
         tile->setIconSize( iconSize );
         tile->setIcon( icon );
         tile->setStyleSheet( "" );
-        iter++;
+        value++;
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::prepareQIconForTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
+void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
 {
-    Board& board = controller->getBoard();
-    if ( numberColor == NumberColor::NO || number == board.getEmptyTile() )
-    {
-        icon.addPixmap( pixmap );
-        return;
-    }
-
     QPainter painter( &pixmap );
     painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
     QColor color = numberColor == NumberColor::WHITE ? QColor( 255, 255, 255 ) : QColor( 0, 0, 0 );
