@@ -29,11 +29,11 @@ public:
     std::tuple< uint, uint > getBoardAttributes();
 
     bool loadGraphic( QImage& );
-    void removeGraphic();
+    bool removeGraphic();
     bool isGraphic( BoardSize );
 
     TileSize getTileSize( BoardSize );
-    std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
+    std::vector< std::unique_ptr< QImage >>& getImages();
 
     void writeBoardIntoFile( const std::string& file );
     void readBoardFromFile( const std::string& file );

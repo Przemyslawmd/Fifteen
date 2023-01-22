@@ -63,17 +63,24 @@ bool Controller::loadGraphic( QImage& image )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Controller::removeGraphic()
+bool Controller::removeGraphic()
 {
     imageProvider.reset();
+
+    if ( board->getMode() == BoardMode::GRAPHIC )
+    {
+        board->setMode( BoardMode::NUMERIC );
+        return true;
+    }
+    return false;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< std::unique_ptr< QImage >>& Controller::getImages( BoardSize boardSize )
+std::vector< std::unique_ptr< QImage >>& Controller::getImages()
 {
-    return imageProvider->getImages( boardSize );
+    return imageProvider->getImages( board->getSize() );
 }
 
 /*********************************************************************************/

@@ -110,13 +110,11 @@ void Fifteen::setTilesNumeric()
 
 void Fifteen::setTilesGraphic()
 {
+    auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
     Board* board = controller->getBoard();
-    BoardSize boardSize = board->getSize();
     auto iter = board->sendBoard().begin();
 
-    const auto& images = controller->getImages( boardSize );
-    TileSize tileSize = controller->getTileSize( boardSize );
-    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
+    const auto& images = controller->getImages();
     QSize iconSize( tileSizeInt, tileSizeInt );
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
@@ -229,30 +227,29 @@ void Fifteen::pressTile()
 void Fifteen::makeMove( Move move, uint row, uint col )
 {
     Board* board = controller->getBoard();
+    auto [ boardSize, tileSize ] = controller->getBoardAttributes();
     auto moveTile = ( board->getMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
                                                                  &Fifteen::moveGraphicTile;
 
     switch ( move )
     {
         case Move::UP:
-            return ( this->*moveTile )( row, col, row - 1, col );
+            return ( this->*moveTile )( row, col, row - 1, col, boardSize, tileSize );
         case Move::RIGHT:
-            return ( this->*moveTile )( row, col, row, col + 1 );
+            return ( this->*moveTile )( row, col, row, col + 1, boardSize, tileSize );
         case Move::DOWN:
-            return ( this->*moveTile )( row, col, row + 1, col );
+            return ( this->*moveTile )( row, col, row + 1, col, boardSize, tileSize );
         case Move::LEFT:
-            return ( this->*moveTile )( row, col, row, col - 1 );
+            return ( this->*moveTile )( row, col, row, col - 1, boardSize, tileSize );
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
+void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize )
 {
     auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
-    Board* board = controller->getBoard();
-    uint boardSize = Maps::boardSizeInt.at( board->getSize() );
     auto& tiles = gui->getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
@@ -264,20 +261,15 @@ void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uin
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
+void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize )
 {
-    Board* board = controller->getBoard();
-    BoardSize boardSize = board->getSize();
-    uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
     auto& tiles = gui->getTiles();
 
-    tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
-    TileSize tileSize = controller->getTileSize( boardSize );
-    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
-    QPixmap pixmap( tileSizeInt, tileSizeInt );
+    tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
+    QPixmap pixmap( tileSize, tileSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
-    tiles.at( rowSource * boardSizeInt + colSource )->setIcon( nullIcon );
+    tiles.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
 }
 
 /*********************************************************************************/
@@ -311,16 +303,12 @@ void Fifteen::slotLoadGraphic()
 
 void Fifteen::slotRemoveGraphic()
 {
-    controller->removeGraphic();
-    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
-    gui->setRadioBoardMode( BoardMode::NUMERIC );
-
-    Board* board = controller->getBoard();
-    if ( board->getMode() == BoardMode::GRAPHIC )
+    if ( controller->removeGraphic() )
     {
-        board->setMode( BoardMode::NUMERIC );
         redrawTiles();
     }
+    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
+    gui->setRadioBoardMode( BoardMode::NUMERIC );
 }
 
 /*********************************************************************************/
