@@ -13,19 +13,24 @@ Controller::Controller()
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board* Controller::getBoard()
+Board& Controller::getBoard()
 {
-    return board.get();
+    return *board.get();
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Controller::generateBoard( BoardSize boardSize, BoardMode boardMode )
+bool Controller::generateBoard( BoardSize boardSize, BoardMode boardMode )
 {
+    if ( boardMode == BoardMode::GRAPHIC && ( isGraphic( boardSize ) == false ))
+    {
+        return false;
+    }
     board.reset( new Board( boardSize, boardMode ));
     board->randomBoard();
     undoMoveService->Reset();
+    return true;
 }
 
 /*********************************************************************************/

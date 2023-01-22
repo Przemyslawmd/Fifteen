@@ -62,30 +62,29 @@ void Fifteen::createTiles()
 
 void Fifteen::setTiles()
 {
-    Board* board = controller->getBoard();
-    if ( board->getMode() == BoardMode::NUMERIC )
+    Board& board = controller->getBoard();
+    if ( board.getMode() == BoardMode::NUMERIC )
     {
-        setTilesNumeric();
+        setTilesNumeric( board );
     }
     else
     {
-        setTilesGraphic();
+        setTilesGraphic( board );
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::setTilesNumeric()
+void Fifteen::setTilesNumeric( Board& board )
 {    
-    Board* board = controller->getBoard();
-    auto iter = board->sendBoard().begin();
+    auto iter = board.sendBoard().begin();
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
     QFont font;
     font.setPixelSize( fontSizeInt );
 
-    uint emptyTile = board->getEmptyTile();
+    uint emptyTile = board.getEmptyTile();
     auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
 
     for ( auto& tile : gui->getTiles() )
@@ -108,11 +107,10 @@ void Fifteen::setTilesNumeric()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::setTilesGraphic()
+void Fifteen::setTilesGraphic( Board& board )
 {
     auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
-    Board* board = controller->getBoard();
-    auto iter = board->sendBoard().begin();
+    auto iter = board.sendBoard().begin();
 
     const auto& images = controller->getImages();
     QSize iconSize( tileSizeInt, tileSizeInt );
@@ -137,8 +135,8 @@ void Fifteen::setTilesGraphic()
 
 void Fifteen::prepareQIconForTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
 {
-    Board* board = controller->getBoard();
-    if ( numberColor == NumberColor::NO || number == board->getEmptyTile() )
+    Board& board = controller->getBoard();
+    if ( numberColor == NumberColor::NO || number == board.getEmptyTile() )
     {
         icon.addPixmap( pixmap );
         return;
@@ -161,13 +159,11 @@ void Fifteen::slotGenerateBoard()
     BoardSize boardSize = gui->checkRadioBoardSize();
     BoardMode boardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
-    if ( boardMode == BoardMode::GRAPHIC && ( controller->isGraphic( boardSize ) == false ))
+    if ( controller->generateBoard( boardSize, boardMode ) == false )
     {
         QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
         return;
     }
-
-    controller->generateBoard( boardSize, boardMode );
     redrawTiles();
 }
 
@@ -195,8 +191,8 @@ void Fifteen::slotUndoMove()
 
     uint row = position / 10;
     uint col = position % 10;
-    Board* board = controller->getBoard();
-    Move move = board->checkMove( row, col );
+    Board& board = controller->getBoard();
+    Move move = board.checkMove( row, col );
     makeMove( move, row, col );
 }
 
@@ -209,8 +205,8 @@ void Fifteen::pressTile()
 
     uint row = position / 10;
     uint col = position % 10;
-    Board* board = controller->getBoard();
-    Move move = board->checkMove( row, col );
+    Board& board = controller->getBoard();
+    Move move = board.checkMove( row, col );
 
     if ( move == Move::NOT_ALLOWED )
     {
@@ -226,10 +222,10 @@ void Fifteen::pressTile()
 
 void Fifteen::makeMove( Move move, uint row, uint col )
 {
-    Board* board = controller->getBoard();
+    Board& board = controller->getBoard();
     auto [ boardSize, tileSize ] = controller->getBoardAttributes();
-    auto moveTile = ( board->getMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
-                                                                 &Fifteen::moveGraphicTile;
+    auto moveTile = ( board.getMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
+                                                                &Fifteen::moveGraphicTile;
 
     switch ( move )
     {

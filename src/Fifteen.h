@@ -42,8 +42,8 @@ private:
 
     void createTiles();
     void setTiles();
-    void setTilesNumeric();
-    void setTilesGraphic();
+    void setTilesNumeric( Board& );
+    void setTilesGraphic( Board& );
 
     void prepareQIconForTile( QIcon&, QPixmap&, int fontSize, uint number, NumberColor );
 

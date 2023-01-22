@@ -23,9 +23,9 @@ public:
     Controller( const Controller& ) = delete;
     Controller operator=( const Controller& ) = delete;
 
-    void generateBoard( BoardSize, BoardMode );
+    bool generateBoard( BoardSize, BoardMode );
     void solveBoard();
-    Board* getBoard();
+    Board& getBoard();
     std::tuple< uint, uint > getBoardAttributes();
 
     bool loadGraphic( QImage& );
