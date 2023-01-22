@@ -37,7 +37,6 @@ public slots:
 
 private:
 
-    std::unique_ptr< Board > board;
     std::unique_ptr< Controller > controller;
     std::unique_ptr< GUI > gui;
 

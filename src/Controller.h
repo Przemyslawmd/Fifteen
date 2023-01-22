@@ -2,6 +2,7 @@
 #ifndef FIFTEEN_CONTROLLER_H
 #define FIFTEEN_CONTROLLER_H
 
+#include "Board.h"
 #include "FileBoard/IOBoard.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "Types.h"
@@ -21,6 +22,10 @@ public:
     Controller( const Controller& ) = delete;
     Controller operator=( const Controller& ) = delete;
 
+    void generateBoard( BoardSize, BoardMode );
+    void solveBoard();
+    Board* getBoard();
+
     bool loadGraphic( QImage& );
     void removeGraphic();
     bool isGraphic( BoardSize );
@@ -28,8 +33,8 @@ public:
     TileSize getTileSize( BoardSize );
     std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
-    void writeBoardIntoFile( Board&, const std::string& file );
-    std::unique_ptr< std::vector< uint >> readBoardFromFile( const std::string& file );
+    void writeBoardIntoFile( const std::string& file );
+    void readBoardFromFile( const std::string& file );
 
     void putMove( Move move, uint row, uint col );
     uint getUndoMove();
@@ -37,6 +42,7 @@ public:
 
 private:
 
+    std::unique_ptr< Board > board;
     std::unique_ptr< ImageProvider > imageProvider;
     std::unique_ptr< UndoMove > undoMoveService;
 };

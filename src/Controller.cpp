@@ -5,7 +5,35 @@
 
 Controller::Controller() 
 {
+    board = std::make_unique< Board >( BoardSize::FOUR, BoardMode::NUMERIC );
     undoMoveService = std::make_unique< UndoMove >();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+Board* Controller::getBoard()
+{
+    return board.get();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void Controller::generateBoard( BoardSize boardSize, BoardMode boardMode )
+{
+    board.reset( new Board( boardSize, boardMode ));
+    board->randomBoard();
+    undoMoveService->Reset();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void Controller::solveBoard()
+{
+    board->solveBoard();
+    undoMoveService->Reset();
 }
 
 /*********************************************************************************/
@@ -55,24 +83,32 @@ TileSize Controller::getTileSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Controller::writeBoardIntoFile( Board& board, const std::string& file )
+void Controller::writeBoardIntoFile( const std::string& file )
 {
     IOBoard ioBoard;
-    ioBoard.writeBoardIntoFile( board, file );
+    ioBoard.writeBoardIntoFile( *board, file );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::unique_ptr< std::vector< uint >> Controller::readBoardFromFile( const std::string& file )
+void Controller::readBoardFromFile( const std::string& file )
 {
     IOBoard ioBoard;
     auto values = ioBoard.readBoardFromFile( file );
     if ( values == nullptr )
     {
-        return nullptr;
+        return;
     }
-    return values;
+
+    uint savedBoardSize = values->back();
+    if ( savedBoardSize != board->getSizeInt() ) {
+        Message::putMessage( Result::FILE_INFO_SIZE_IMPROPER, values->back() );
+        return;
+    }
+
+    values->pop_back();
+    board.reset( new Board( *values, board->getSize(), board->getMode() ));
 }
 
 /*********************************************************************************/

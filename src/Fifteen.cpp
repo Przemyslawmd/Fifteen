@@ -23,7 +23,6 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 void Fifteen::initGame()
 {
     resize( 850, 600 );
-    board = std::make_unique< Board >( BoardSize::FOUR, BoardMode::NUMERIC );
     controller = std::make_unique< Controller >();
     gui = std::make_unique< GUI >( this );
 
@@ -55,6 +54,7 @@ void Fifteen::initGame()
 
 void Fifteen::createTiles()
 {
+    Board* board = controller->getBoard();
     BoardSize boardSize = board->getSize();
     TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
                         Options::getTileSize() : controller->getTileSize( boardSize );
@@ -67,6 +67,7 @@ void Fifteen::createTiles()
 
 void Fifteen::setTiles()
 {
+    Board* board = controller->getBoard();
     if ( board->getMode() == BoardMode::NUMERIC )
     {
         setTilesNumeric();
@@ -82,6 +83,7 @@ void Fifteen::setTiles()
 
 void Fifteen::setTilesNumeric()
 {    
+    Board* board = controller->getBoard();
     auto iter = board->sendBoard().begin();
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
@@ -113,6 +115,7 @@ void Fifteen::setTilesNumeric()
 
 void Fifteen::setTilesGraphic()
 {
+    Board* board = controller->getBoard();
     BoardSize boardSize = board->getSize();
     auto iter = board->sendBoard().begin();
 
@@ -141,6 +144,7 @@ void Fifteen::setTilesGraphic()
 
 void Fifteen::prepareQIconForTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
 {
+    Board* board = controller->getBoard();
     if ( numberColor == NumberColor::NO || number == board->getEmptyTile() )
     {
         icon.addPixmap( pixmap );
@@ -170,10 +174,8 @@ void Fifteen::slotGenerateBoard()
         return;
     }
 
-    board.reset( new Board( boardSize, boardMode ));
-    board->randomBoard();
+    controller->generateBoard( boardSize, boardMode );
     redrawTiles();
-    controller->resetUndoMove();
 }
 
 /*********************************************************************************/
@@ -181,9 +183,8 @@ void Fifteen::slotGenerateBoard()
 
 void Fifteen::slotSolveBoard()
 {
-    board->solveBoard();
+    controller->solveBoard();
     setTiles();
-    controller->resetUndoMove();
 }
 
 /*********************************************************************************/
@@ -201,6 +202,7 @@ void Fifteen::slotUndoMove()
 
     uint row = position / 10;
     uint col = position % 10;
+    Board* board = controller->getBoard();
     Move move = board->checkMove( row, col );
     makeMove( move, row, col );
 }
@@ -214,6 +216,7 @@ void Fifteen::pressTile()
 
     uint row = position / 10;
     uint col = position % 10;
+    Board* board = controller->getBoard();
     Move move = board->checkMove( row, col );
 
     if ( move == Move::NOT_ALLOWED )
@@ -230,6 +233,7 @@ void Fifteen::pressTile()
 
 void Fifteen::makeMove( Move move, uint row, uint col )
 {
+    Board* board = controller->getBoard();
     auto moveTile = ( board->getMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
                                                                  &Fifteen::moveGraphicTile;
 
@@ -252,6 +256,7 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
 {
     auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
+    Board* board = controller->getBoard();
     uint boardSize = Maps::boardSizeInt.at( board->getSize() );
     auto& tiles = gui->getTiles();
 
@@ -266,6 +271,7 @@ void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uin
 
 void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
 {
+    Board* board = controller->getBoard();
     BoardSize boardSize = board->getSize();
     uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
     auto& tiles = gui->getTiles();
@@ -314,6 +320,7 @@ void Fifteen::slotRemoveGraphic()
     gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
     gui->setRadioBoardMode( BoardMode::NUMERIC );
 
+    Board* board = controller->getBoard();
     if ( board->getMode() == BoardMode::GRAPHIC )
     {
         board->setMode( BoardMode::NUMERIC );
@@ -333,7 +340,7 @@ void Fifteen::slotSaveBoard()
         return;
     }
 
-    controller->writeBoardIntoFile( *board, file.toStdString() );
+    controller->writeBoardIntoFile( file.toStdString() );
 }
 
 /*********************************************************************************/
@@ -348,22 +355,7 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    auto values = controller->readBoardFromFile( file.toStdString() );
-    if ( values == nullptr )
-    {
-        QMessageBox::information( this, "", Message::getMessages() );
-        return;
-    }
-
-    uint savedBoardSize = values->back();
-    if ( savedBoardSize != board->getSizeInt() ) {
-        Message::putMessage( Result::FILE_INFO_SIZE_IMPROPER, values->back() );
-        QMessageBox::information( this, "", Message::getMessages() );
-        return;
-    }
-
-    values->pop_back();
-    board.reset( new Board( *values, board->getSize(), board->getMode() ));
+    controller->readBoardFromFile( file.toStdString() );
     redrawTiles();
 }
 
