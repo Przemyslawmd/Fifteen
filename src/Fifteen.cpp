@@ -85,14 +85,14 @@ void Fifteen::setTilesNumeric( Board& board )
     font.setPixelSize( fontSizeInt );
 
     uint emptyTile = board.getEmptyTile();
-    auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
+    auto tileColor = Options::getTileColor();
 
     for ( auto& tile : gui->getTiles() )
     {
         if ( *iter != emptyTile )
         {
             tile->setText( QString::number( *iter + 1 ));
-            tile->setStyleSheet( tileColorStyle );
+            tile->setStyleSheet( tileColor );
         }
         else
         {
@@ -245,11 +245,11 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 
 void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize )
 {
-    auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
+    auto tileColor = Options::getTileColor();
     auto& tiles = gui->getTiles();
 
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
-    tiles.at( rowDest * boardSize + colDest )->setStyleSheet( tileColorStyle );
+    tiles.at( rowDest * boardSize + colDest )->setStyleSheet( tileColor );
     tiles.at( rowSource * boardSize + colSource )->setText( "" );
     tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ));
 }
@@ -343,13 +343,13 @@ void Fifteen::slotReadBoard()
 
 void Fifteen::setColor()
 {
-    auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
+    auto tileColor = Options::getTileColor();
 
     for ( auto& tile : gui->getTiles() )
     {
         if ( tile->styleSheet() != Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ))
         {
-            tile->setStyleSheet( tileColorStyle );
+            tile->setStyleSheet( tileColor );
         }
     }    
 }

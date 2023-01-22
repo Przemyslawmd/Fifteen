@@ -16,7 +16,7 @@ public:
 
     static GraphicMode graphicMode;
 
-    static TileColor getTileColor();
+    static const QString& getTileColor();
     static TileSize getTileSize();
 
     static bool isImageToBeLoaded( BoardSize size );

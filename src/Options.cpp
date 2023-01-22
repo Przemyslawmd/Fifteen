@@ -5,9 +5,9 @@
 using std::unique_ptr;
 
 
-TileColor Options::getTileColor()
+const QString& Options::getTileColor()
 {
-    return Options::tileColor;
+    return Maps::tileColorStyle.at( Options::tileColor );;
 }
 
 /*********************************************************************************/
