@@ -2,6 +2,7 @@
 #ifndef FIFTEEN_CONTROLLER_H
 #define FIFTEEN_CONTROLLER_H
 
+#include "FileBoard/IOBoard.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "Types.h"
 #include "UndoMove.h"
@@ -26,6 +27,9 @@ public:
 
     TileSize getTileSize( BoardSize );
     std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
+
+    void writeBoardIntoFile( Board&, const std::string& file );
+    std::unique_ptr< std::vector< uint >> readBoardFromFile( const std::string& file );
 
     void putMove( Move move, uint row, uint col );
     uint getUndoMove();

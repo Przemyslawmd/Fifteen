@@ -1,7 +1,6 @@
 
 #include "Fifteen.h"
 
-#include "FileBoard/IOBoard.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "GUI/GUIAbout.h"
 #include "GUI/GUIMain.h"
@@ -334,8 +333,7 @@ void Fifteen::slotSaveBoard()
         return;
     }
 
-    IOBoard ioBoard;
-    ioBoard.writeBoardIntoFile( *board, file.toStdString() );
+    controller->writeBoardIntoFile( *board, file.toStdString() );
 }
 
 /*********************************************************************************/
@@ -350,8 +348,7 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    IOBoard ioBoard;
-    auto values = ioBoard.readBoardFromFile( file.toStdString() );
+    auto values = controller->readBoardFromFile( file.toStdString() );
     if ( values == nullptr )
     {
         QMessageBox::information( this, "", Message::getMessages() );

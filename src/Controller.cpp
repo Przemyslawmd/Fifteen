@@ -55,6 +55,29 @@ TileSize Controller::getTileSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
+void Controller::writeBoardIntoFile( Board& board, const std::string& file )
+{
+    IOBoard ioBoard;
+    ioBoard.writeBoardIntoFile( board, file );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+std::unique_ptr< std::vector< uint >> Controller::readBoardFromFile( const std::string& file )
+{
+    IOBoard ioBoard;
+    auto values = ioBoard.readBoardFromFile( file );
+    if ( values == nullptr )
+    {
+        return nullptr;
+    }
+    return values;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 void Controller::resetUndoMove()
 {
     undoMoveService->Reset();
