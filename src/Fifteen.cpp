@@ -181,18 +181,13 @@ void Fifteen::slotSolveBoard()
 
 void Fifteen::slotUndoMove()
 {
-    uint position = controller->getUndoMove();
-
-    if ( position == MOVE_STACK_EMPTY )
+    auto [ move, row, col ] = controller->undoMove();
+    if ( move == Move::NOT_ALLOWED )
     {
         QMessageBox::information( this, "", "There are no moves\t" );
         return;
     }
 
-    uint row = position / 10;
-    uint col = position % 10;
-    Board& board = controller->getBoard();
-    Move move = board.checkMove( row, col );
     makeMove( move, row, col );
 }
 

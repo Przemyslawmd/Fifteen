@@ -146,8 +146,17 @@ void Controller::putMove( Move move, uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Controller::getUndoMove()
+std::tuple< Move, uint, uint > Controller::undoMove()
 {
-    return undoMoveService->GetMove();
+    uint position = undoMoveService->GetMove();
+    if ( position == MOVE_STACK_EMPTY )
+    {
+        return { Move::NOT_ALLOWED, 0, 0 };
+    }
+
+    uint row = position / 10;
+    uint col = position % 10;
+    Move move = board->checkMove( row, col );
+    return { move, row, col };
 }
 

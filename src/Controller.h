@@ -39,7 +39,7 @@ public:
     void readBoardFromFile( const std::string& file );
 
     void putMove( Move move, uint row, uint col );
-    uint getUndoMove();
+    std::tuple< Move, uint, uint > undoMove();
 
 private:
 
