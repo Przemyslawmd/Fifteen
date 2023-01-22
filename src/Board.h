@@ -31,13 +31,13 @@ public:
 private:
 
     void makeMove( uint srcRow, uint srcColumn, uint dstRow, uint dstColumn );
-    uint findEmptyTill();
+    uint findNullValue();
 
     const BoardSize size;
     const uint sizeInt;
 
     BoardMode mode;
-    const uint emptyTile;
+    const uint nullValue;
 
     std::vector< uint > values;
 };

@@ -9,7 +9,7 @@
 Board::Board( BoardSize size, BoardMode mode ) : size( size ),
                                                  mode( mode ),
                                                  sizeInt( Maps::boardSizeInt.at( size )),
-                                                 emptyTile( sizeInt * sizeInt - 1 )
+                                                 nullValue( sizeInt * sizeInt - 1 )
 {
     values.resize( sizeInt * sizeInt );
     std::iota( values.begin(), values.end(), 0 );
@@ -21,7 +21,7 @@ Board::Board( BoardSize size, BoardMode mode ) : size( size ),
 Board::Board( std::vector< uint >& values, BoardSize size, BoardMode mode ) : size( size ),
                                                                               mode( mode ),
                                                                               sizeInt( Maps::boardSizeInt.at( size )),
-                                                                              emptyTile( sizeInt * sizeInt - 1 )
+                                                                              nullValue( sizeInt * sizeInt - 1 )
 {
     this->values.clear();
     this->values = values;
@@ -32,22 +32,22 @@ Board::Board( std::vector< uint >& values, BoardSize size, BoardMode mode ) : si
 
 Move Board::checkMove( uint row, uint col )
 {        
-    if ( row > 0 && ( values.at(( row - 1 ) * sizeInt + col ) == emptyTile ))
+    if ( row > 0 && ( values.at(( row - 1 ) * sizeInt + col ) == nullValue ))
     {
         makeMove( row, col, row - 1, col );
         return Move::UP;
     }
-    if ( col < ( sizeInt - 1 ) && ( values.at( row * sizeInt + col + 1 ) == emptyTile ))
+    if ( col < ( sizeInt - 1 ) && ( values.at( row * sizeInt + col + 1 ) == nullValue ))
     {
         makeMove( row, col, row, col + 1 );
         return Move::RIGHT;
     }
-    if ( row < ( sizeInt - 1 ) && ( values.at(( row + 1 ) * sizeInt + col )  == emptyTile ))
+    if ( row < ( sizeInt - 1 ) && ( values.at(( row + 1 ) * sizeInt + col )  == nullValue ))
     {
         makeMove( row, col, row + 1, col );
         return Move::DOWN;
     }
-    if ( col > 0 && ( values.at( row * sizeInt + col - 1 ) == emptyTile ))
+    if ( col > 0 && ( values.at( row * sizeInt + col - 1 ) == nullValue ))
     {
         makeMove( row, col, row, col -1 );
         return Move::LEFT;
@@ -61,19 +61,17 @@ Move Board::checkMove( uint row, uint col )
 
 std::vector< uint >& Board::randomBoard()
 {
-    uint emptyTillPos = findEmptyTill();
+    uint emptyTillPos = findNullValue();
     uint nullRow = emptyTillPos / 10;
     uint nullCol = emptyTillPos % 10;
 
     std::vector< Move > moves( 4 );
+    const std::array< Move, 4 > allMoves = { Move::UP, Move::RIGHT, Move::DOWN, Move::LEFT };
 
     for ( int i = 0; i < 4000; i++ )
     {
         moves.clear();
-        moves.push_back( Move::UP );
-        moves.push_back( Move::RIGHT );
-        moves.push_back( Move::DOWN );
-        moves.push_back( Move::LEFT );
+        moves.insert( moves.begin(), allMoves.begin(), allMoves.end() );
         Move move = moves.at( rand() % moves.size() );
 
         while( true )
@@ -164,7 +162,7 @@ std::vector< uint >& Board::sendValues()
 
 uint Board::getNullValue()
 {
-    return emptyTile;
+    return nullValue;
 }
 
 /*********************************************************************************/
@@ -178,10 +176,9 @@ void Board::makeMove( uint srcRow, uint srcCol, uint dstRow, uint dstCol )
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Board::findEmptyTill()
+uint Board::findNullValue()
 {
-    auto empty = std::find( values.begin(), values.end(), emptyTile );
-    uint emptyPos =  std::distance( values.begin(), empty );
-    return emptyPos / sizeInt * 10 + emptyPos % sizeInt;
+    uint nullValuePos =  std::distance( values.begin(), std::find( values.begin(), values.end(), nullValue ));
+    return nullValuePos / sizeInt * 10 + nullValuePos % sizeInt;
 }
 

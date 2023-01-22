@@ -97,6 +97,7 @@ void Fifteen::setTilesNumeric()
     uint nullValue = controller->getNullValue();
     auto iter = std::find( values.begin(), values.end(), nullValue );
     tiles[ std::distance( values.begin(), iter) ]->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
+    tiles[ std::distance( values.begin(), iter) ]->setText( nullptr );
 }
 
 /*********************************************************************************/
@@ -335,7 +336,7 @@ void Fifteen::setColor()
 
     for ( auto& tile : gui->getTiles() )
     {
-        if ( tile->styleSheet() != Maps::tileColorStyle.at( TileColor::EMPTY ))
+        if ( tile->text() != nullptr )
         {
             tile->setStyleSheet( tileColor );
         }
