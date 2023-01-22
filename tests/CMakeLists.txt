@@ -36,6 +36,7 @@ add_executable(
   ${SRC}/MappedValues.cpp
   ${SRC}/Message.cpp
   ${SRC}/Options.cpp
+  ${SRC}/UndoMove.cpp
   ${SRC}/GraphicBoard/GraphicBoard.cpp
   ${SRC}/GraphicBoard/ImageProvider.cpp
   ${SRC}/FileBoard/IOBoard.cpp

@@ -2,8 +2,10 @@
 #include "Controller.h"
 #include "Options.h"
 
+
 Controller::Controller() 
 {
+    undoMoveService = std::make_unique< UndoMove >();
 }
 
 /*********************************************************************************/
@@ -48,5 +50,29 @@ bool Controller::isGraphic( BoardSize boardSize )
 TileSize Controller::getTileSize( BoardSize boardSize )
 {
     return imageProvider->getTileSize( boardSize );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void Controller::resetUndoMove()
+{
+    undoMoveService->Reset();
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void Controller::putMove( Move move, uint row, uint col )
+{
+    undoMoveService->PutMove( move, row, col );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+uint Controller::getUndoMove()
+{
+    return undoMoveService->GetMove();
 }
 

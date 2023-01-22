@@ -4,6 +4,7 @@
 
 #include "GraphicBoard/ImageProvider.h"
 #include "Types.h"
+#include "UndoMove.h"
 
 #include <QImage>
 
@@ -26,9 +27,14 @@ public:
     TileSize getTileSize( BoardSize );
     std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
+    void putMove( Move move, uint row, uint col );
+    uint getUndoMove();
+    void resetUndoMove();
+
 private:
 
     std::unique_ptr< ImageProvider > imageProvider;
+    std::unique_ptr< UndoMove > undoMoveService;
 };
 
 #endif

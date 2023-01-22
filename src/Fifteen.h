@@ -6,7 +6,6 @@
 #include "Controller.h"
 #include "GUI/GUIMain.h"
 #include "Types.h"
-#include "UndoMove.h"
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -41,7 +40,6 @@ private:
     std::unique_ptr< Board > board;
     std::unique_ptr< Controller > controller;
     std::unique_ptr< GUI > gui;
-    std::unique_ptr< UndoMove > undoMoveService;
 
     void createTiles();
     void setTiles();
