@@ -228,29 +228,28 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize )
+void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
-    auto tileColor = Options::getTileColor();
     auto& tiles = gui->getTiles();
 
-    tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
-    tiles.at( rowDest * boardSize + colDest )->setStyleSheet( tileColor );
-    tiles.at( rowSource * boardSize + colSource )->setText( "" );
-    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
+    tiles.at( rowDst * boardSize + colDst )->setText( tiles.at( rowSrc * boardSize + colSrc )->text() );
+    tiles.at( rowDst * boardSize + colDst )->setStyleSheet( Options::getTileColor() );
+    tiles.at( rowSrc * boardSize + colSrc )->setText( "" );
+    tiles.at( rowSrc * boardSize + colSrc )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize )
+void Fifteen::moveGraphicTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
     auto& tiles = gui->getTiles();
 
-    tiles.at( rowDest * boardSize + colDest )->setIcon( tiles.at( rowSource * boardSize + colSource )->icon() );
+    tiles.at( rowDst * boardSize + colDst )->setIcon( tiles.at( rowSrc * boardSize + colSrc )->icon() );
     QPixmap pixmap( tileSize, tileSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
-    tiles.at( rowSource * boardSize + colSource )->setIcon( nullIcon );
+    tiles.at( rowSrc * boardSize + colSrc )->setIcon( nullIcon );
 }
 
 /*********************************************************************************/
