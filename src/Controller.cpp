@@ -13,16 +13,16 @@ Controller::Controller()
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool Controller::generateBoard( BoardSize boardSize, BoardMode boardMode )
+Result Controller::generateBoard( BoardSize boardSize, BoardMode boardMode )
 {
     if ( boardMode == BoardMode::GRAPHIC && ( isGraphic( boardSize ) == false ))
     {
-        return false;
+        return Result::CREATE_GRAPHIC_BOARD_NO_GRAPHIC;
     }
     board.reset( new Board( boardSize, boardMode ));
     board->randomBoard();
     undoMoveService->Reset();
-    return true;
+    return Result::OK;
 }
 
 /*********************************************************************************/

@@ -47,8 +47,8 @@ private:
     void drawNumberOnTile( QIcon&, QPixmap&, int fontSize, uint number, NumberColor );
 
     void makeMove( Move, uint row, uint col );
-    void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSizeInt, uint tileSizeInt );
-    void moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSizeInt, uint tileSizeInt );
+    void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize );
+    void moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize );
 
 private slots:
 

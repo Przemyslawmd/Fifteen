@@ -154,9 +154,9 @@ void Fifteen::slotGenerateBoard()
     BoardSize boardSize = gui->checkRadioBoardSize();
     BoardMode boardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
-    if ( controller->generateBoard( boardSize, boardMode ) == false )
+    if ( Result result = controller->generateBoard( boardSize, boardMode ); result != Result::OK )
     {
-        QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
+        QMessageBox::information( this, "", Message::getMessage( result ));
         return;
     }
     redrawTiles();

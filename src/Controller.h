@@ -23,7 +23,7 @@ public:
     Controller( const Controller& ) = delete;
     Controller operator=( const Controller& ) = delete;
 
-    bool generateBoard( BoardSize, BoardMode );
+    Result generateBoard( BoardSize, BoardMode );
     void solveBoard();
 
     std::vector< uint >& getValues();
