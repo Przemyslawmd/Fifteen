@@ -23,21 +23,21 @@ public:
     BoardMode getMode() const;
     void setMode( BoardMode );
 
-    std::vector< uint >& sendBoard();
+    std::vector< uint >& sendValues();
     std::vector< uint >& randomBoard();
     void solveBoard();
-    uint getEmptyTile();
+    uint getNullValue();
 
 private:
 
     void makeMove( uint srcRow, uint srcColumn, uint dstRow, uint dstColumn );
-    uint findEmptyTill();
+    uint findNullValue();
 
     const BoardSize size;
     const uint sizeInt;
 
     BoardMode mode;
-    const uint emptyTile;
+    const uint nullValue;
 
     std::vector< uint > values;
 };

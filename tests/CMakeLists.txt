@@ -32,9 +32,11 @@ add_executable(
   TestMoves.cpp
   TestSaveNumericBoard.cpp
   ${SRC}/Board.cpp
+  ${SRC}/Controller.cpp
   ${SRC}/MappedValues.cpp
   ${SRC}/Message.cpp
   ${SRC}/Options.cpp
+  ${SRC}/UndoMove.cpp
   ${SRC}/GraphicBoard/GraphicBoard.cpp
   ${SRC}/GraphicBoard/ImageProvider.cpp
   ${SRC}/FileBoard/IOBoard.cpp

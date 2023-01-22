@@ -1,7 +1,6 @@
 
 #include "Fifteen.h"
 
-#include "FileBoard/IOBoard.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "GUI/GUIAbout.h"
 #include "GUI/GUIMain.h"
@@ -10,7 +9,6 @@
 #include "Message.h"
 #include "Options.h"
 
-#include <QBuffer>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPainter>
@@ -24,7 +22,7 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 void Fifteen::initGame()
 {
     resize( 850, 600 );
-    board = std::make_unique< Board >( BoardSize::FOUR, BoardMode::NUMERIC );
+    controller = std::make_unique< Controller >();
     gui = std::make_unique< GUI >( this );
 
     std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
@@ -48,7 +46,6 @@ void Fifteen::initGame()
 
     gui->completeLayouts();
     redrawTiles();
-    undoMoveService = std::make_unique< UndoMove >();
 }
 
 /*********************************************************************************/
@@ -56,10 +53,7 @@ void Fifteen::initGame()
 
 void Fifteen::createTiles()
 {
-    BoardSize boardSize = board->getSize();
-    TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
-                        Options::getTileSize() : imageProvider->getTileSize( boardSize );
-
+    auto [ boardSize, tileSize ] = controller->getBoardAttributes();
     gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
 }
 
@@ -68,7 +62,8 @@ void Fifteen::createTiles()
 
 void Fifteen::setTiles()
 {
-    if ( board->getMode() == BoardMode::NUMERIC )
+    BoardMode mode = controller->getBoardMode();
+    if ( mode == BoardMode::NUMERIC )
     {
         setTilesNumeric();
     }
@@ -83,30 +78,26 @@ void Fifteen::setTiles()
 
 void Fifteen::setTilesNumeric()
 {    
-    auto iter = board->sendBoard().begin();
+    const auto& values = controller->getValues();
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
     QFont font;
     font.setPixelSize( fontSizeInt );
+    auto tileColor = Options::getTileColor();
 
-    uint emptyTile = board->getEmptyTile();
-    auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
-
-    for ( auto& tile : gui->getTiles() )
+    auto& tiles = gui->getTiles();
+    int valuesIndex = 0;
+    for ( auto& tile : tiles )
     {
-        if ( *iter != emptyTile )
-        {
-            tile->setText( QString::number( *iter + 1 ));
-            tile->setStyleSheet( tileColorStyle );
-        }
-        else
-        {
-            tile->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ));
-        }
-
+        tile->setText( QString::number( values[ valuesIndex++ ] + 1 ));
+        tile->setStyleSheet( tileColor );
         tile->setFont( font );
-        iter++;
     }
+
+    uint nullValue = controller->getNullValue();
+    auto iter = std::find( values.begin(), values.end(), nullValue );
+    tiles[ std::distance( values.begin(), iter) ]->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
+    tiles[ std::distance( values.begin(), iter) ]->setText( nullptr );
 }
 
 /*********************************************************************************/
@@ -114,12 +105,10 @@ void Fifteen::setTilesNumeric()
 
 void Fifteen::setTilesGraphic()
 {
-    BoardSize boardSize = board->getSize();
-    auto iter = board->sendBoard().begin();
+    auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
+    auto value = controller->getValues().begin();
 
-    const auto& images = imageProvider->getImages( boardSize );
-    TileSize tileSize = imageProvider->getTileSize( boardSize );
-    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
+    const auto& images = controller->getImages();
     QSize iconSize( tileSizeInt, tileSizeInt );
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
@@ -128,26 +117,27 @@ void Fifteen::setTilesGraphic()
 
     for ( auto& tile : gui->getTiles() )
     {
-        QPixmap pixmap = QPixmap::fromImage( *images.at( *iter ).get() );
-        prepareQIconForTile( icon, pixmap, fontSizeInt, *iter, numberColor );
+        QPixmap pixmap = QPixmap::fromImage( *images.at( *value ).get() );
+        if ( numberColor == NumberColor::NO || *value == controller->getNullValue() )
+        {
+            icon.addPixmap( pixmap );
+        }
+        else
+        {
+            drawNumberOnTile( icon, pixmap, fontSizeInt, *value, numberColor );
+        }
         tile->setIconSize( iconSize );
         tile->setIcon( icon );
         tile->setStyleSheet( "" );
-        iter++;
+        value++;
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::prepareQIconForTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
+void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
 {
-    if ( numberColor == NumberColor::NO || number == board->getEmptyTile() )
-    {
-        icon.addPixmap( pixmap );
-        return;
-    }
-
     QPainter painter( &pixmap );
     painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
     QColor color = numberColor == NumberColor::WHITE ? QColor( 255, 255, 255 ) : QColor( 0, 0, 0 );
@@ -165,16 +155,12 @@ void Fifteen::slotGenerateBoard()
     BoardSize boardSize = gui->checkRadioBoardSize();
     BoardMode boardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
-    if ( boardMode == BoardMode::GRAPHIC && ( imageProvider == nullptr || imageProvider->isGraphicBoard( boardSize ) == false ))
+    if ( Result result = controller->generateBoard( boardSize, boardMode ); result != Result::OK )
     {
-        QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
+        QMessageBox::information( this, "", Message::getMessage( result ));
         return;
     }
-
-    board.reset( new Board( boardSize, boardMode ));
-    board->randomBoard();
     redrawTiles();
-    undoMoveService->Reset();
 }
 
 /*********************************************************************************/
@@ -182,9 +168,8 @@ void Fifteen::slotGenerateBoard()
 
 void Fifteen::slotSolveBoard()
 {
-    board->solveBoard();
+    controller->solveBoard();
     setTiles();
-    undoMoveService->Reset();
 }
 
 /*********************************************************************************/
@@ -192,17 +177,13 @@ void Fifteen::slotSolveBoard()
 
 void Fifteen::slotUndoMove()
 {
-    uint position = undoMoveService->GetMove();
-
-    if ( position == MOVE_STACK_EMPTY )
+    auto [ move, row, col ] = controller->undoMove();
+    if ( move == Move::NOT_ALLOWED )
     {
         QMessageBox::information( this, "", "There are no moves\t" );
         return;
     }
 
-    uint row = position / 10;
-    uint col = position % 10;
-    Move move = board->checkMove( row, col );
     makeMove( move, row, col );
 }
 
@@ -211,19 +192,12 @@ void Fifteen::slotUndoMove()
 
 void Fifteen::pressTile()
 {
-    uint position = ( static_cast< QPushButton* >( sender() ))->accessibleName().toUInt();
-
-    uint row = position / 10;
-    uint col = position % 10;
-    Move move = board->checkMove( row, col );
-
-    if ( move == Move::NOT_ALLOWED )
+    uint tilePosition = ( static_cast< QPushButton* >( sender() ))->accessibleName().toUInt();
+    auto [ move, row, col ] = controller->makeMove( tilePosition );
+    if ( move != Move::NOT_ALLOWED )
     {
-        return;
+        makeMove( move, row, col );
     }
-
-    undoMoveService->PutMove( move, row, col );
-    makeMove( move, row, col );
 }
 
 /*********************************************************************************/
@@ -231,53 +205,52 @@ void Fifteen::pressTile()
 
 void Fifteen::makeMove( Move move, uint row, uint col )
 {
-    auto moveTile = ( board->getMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
-                                                                 &Fifteen::moveGraphicTile;
+    auto [ boardSize, tileSize ] = controller->getBoardAttributes();
+    auto moveTile = ( controller->getBoardMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
+                                                                           &Fifteen::moveGraphicTile;
 
     switch ( move )
     {
         case Move::UP:
-            return ( this->*moveTile )( row, col, row - 1, col );
+            ( this->*moveTile )( row, col, row - 1, col, boardSize, tileSize );
+            return;
         case Move::RIGHT:
-            return ( this->*moveTile )( row, col, row, col + 1 );
+            ( this->*moveTile )( row, col, row, col + 1, boardSize, tileSize );
+            return;
         case Move::DOWN:
-            return ( this->*moveTile )( row, col, row + 1, col );
+            ( this->*moveTile )( row, col, row + 1, col, boardSize, tileSize );
+            return;
         case Move::LEFT:
-            return ( this->*moveTile )( row, col, row, col - 1 );
+            ( this->*moveTile )( row, col, row, col - 1, boardSize, tileSize );
+            return;
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
+void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
-    auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
-    uint boardSize = Maps::boardSizeInt.at( board->getSize() );
     auto& tiles = gui->getTiles();
 
-    tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
-    tiles.at( rowDest * boardSize + colDest )->setStyleSheet( tileColorStyle );
-    tiles.at( rowSource * boardSize + colSource )->setText( "" );
-    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ));
+    tiles.at( rowDst * boardSize + colDst )->setText( tiles.at( rowSrc * boardSize + colSrc )->text() );
+    tiles.at( rowDst * boardSize + colDst )->setStyleSheet( Options::getTileColor() );
+    tiles.at( rowSrc * boardSize + colSrc )->setText( "" );
+    tiles.at( rowSrc * boardSize + colSrc )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest )
+void Fifteen::moveGraphicTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
-    BoardSize boardSize = board->getSize();
-    uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
     auto& tiles = gui->getTiles();
 
-    tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
-    TileSize tileSize = imageProvider->getTileSize( boardSize );
-    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
-    QPixmap pixmap( tileSizeInt, tileSizeInt );
+    tiles.at( rowDst * boardSize + colDst )->setIcon( tiles.at( rowSrc * boardSize + colSrc )->icon() );
+    QPixmap pixmap( tileSize, tileSize );
     pixmap.fill( Qt::white );
     QIcon nullIcon( pixmap );
-    tiles.at( rowSource * boardSizeInt + colSource )->setIcon( nullIcon );
+    tiles.at( rowSrc * boardSize + colSrc )->setIcon( nullIcon );
 }
 
 /*********************************************************************************/
@@ -299,15 +272,10 @@ void Fifteen::slotLoadGraphic()
         return;
     }
 
-    imageProvider = std::make_unique< ImageProvider >();
-    imageProvider->prepareGraphicBoard( image, Options::getTileSize() );
-
-    if ( imageProvider->isGraphicBoard( BoardSize::FOUR ) || imageProvider->isGraphicBoard( BoardSize::FIVE ) ||
-         imageProvider->isGraphicBoard( BoardSize::SIX )  || imageProvider->isGraphicBoard( BoardSize::SEVEN ))
+    if ( controller->loadGraphic( image ))
     {
         gui->setActionMenuState( ActionMenu::REM_GRAPHIC, true );
     }
-
     QMessageBox::information( this, "", Message::getMessages() );
 }
 
@@ -316,15 +284,12 @@ void Fifteen::slotLoadGraphic()
 
 void Fifteen::slotRemoveGraphic()
 {
-    imageProvider.reset();
-    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
-    gui->setRadioBoardMode( BoardMode::NUMERIC );
-
-    if ( board->getMode() == BoardMode::GRAPHIC )
+    if ( controller->removeGraphic() )
     {
-        board->setMode( BoardMode::NUMERIC );
         redrawTiles();
     }
+    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
+    gui->setRadioBoardMode( BoardMode::NUMERIC );
 }
 
 /*********************************************************************************/
@@ -339,8 +304,7 @@ void Fifteen::slotSaveBoard()
         return;
     }
 
-    IOBoard ioBoard;
-    ioBoard.writeBoardIntoFile( *board, file.toStdString() );
+    controller->writeBoardIntoFile( file.toStdString() );
 }
 
 /*********************************************************************************/
@@ -355,23 +319,11 @@ void Fifteen::slotReadBoard()
         return;
     }
 
-    IOBoard ioBoard;
-    auto values = ioBoard.readBoardFromFile( file.toStdString() );
-    if ( values == nullptr )
+    if ( controller->readBoardFromFile( file.toStdString() ) == false)
     {
         QMessageBox::information( this, "", Message::getMessages() );
         return;
     }
-
-    uint savedBoardSize = values->back();
-    if ( savedBoardSize != board->getSizeInt() ) {
-        Message::putMessage( Result::FILE_INFO_SIZE_IMPROPER, values->back() );
-        QMessageBox::information( this, "", Message::getMessages() );
-        return;
-    }
-
-    values->pop_back();
-    board.reset( new Board( *values, board->getSize(), board->getMode() ));
     redrawTiles();
 }
 
@@ -380,13 +332,13 @@ void Fifteen::slotReadBoard()
 
 void Fifteen::setColor()
 {
-    auto tileColorStyle = Maps::tileColorStyle.at( Options::getTileColor() );
+    auto tileColor = Options::getTileColor();
 
     for ( auto& tile : gui->getTiles() )
     {
-        if ( tile->styleSheet() != Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ))
+        if ( tile->text() != nullptr )
         {
-            tile->setStyleSheet( tileColorStyle );
+            tile->setStyleSheet( tileColor );
         }
     }    
 }

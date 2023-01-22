@@ -151,26 +151,24 @@ void GUI::bindAction( QAction*& action, function< void( void ) > slot, QString t
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( BoardSize boardSize, TileSize tileSize_, function< void( void )> func )
+void GUI::createTiles( uint boardSize, uint tileSize, function< void( void )> func )
 {
     deleteTiles();
-    uint tileSizeInt = Maps::tileSizeInt.at( tileSize_ );
-    uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
 
     layVerticalBoard->addStretch();
 
-    for ( uint row = 0; row < boardSizeInt ; row++ )
+    for ( uint row = 0; row < boardSize; row++ )
     {
         layHorizontalBoard.push_back( new QHBoxLayout() );
         layHorizontalBoard[row]->setSpacing(0);
         layHorizontalBoard[row]->addStretch();
 
-        for ( uint col = 0; col < boardSizeInt; col++ )
+        for ( uint col = 0; col < boardSize; col++ )
         {
             auto tile = std::make_unique< QPushButton >();
             tile->setAccessibleName( QString::number( row ) + QString::number( col ));
-            tile->setMaximumSize( tileSizeInt, tileSizeInt );
-            tile->setMinimumSize( tileSizeInt, tileSizeInt );
+            tile->setMaximumSize( tileSize, tileSize );
+            tile->setMinimumSize( tileSize, tileSize );
             connect( tile.get(), &QPushButton::clicked, widget, func );
             layHorizontalBoard[row]->addWidget( tile.get() );
             tiles.push_back( std::move( tile ));

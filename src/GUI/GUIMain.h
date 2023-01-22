@@ -37,7 +37,7 @@ public:
     void createRightLayout( std::array< std::function< void( void ) >, 3 >& funcs );
     void completeLayouts();
 
-    void createTiles( BoardSize, TileSize, std::function< void( void ) > func );
+    void createTiles( uint boardSize, uint tileSize, std::function< void( void ) > func );
     void deleteTiles();
     std::vector< std::unique_ptr< QPushButton >>& getTiles();
     BoardSize checkRadioBoardSize();

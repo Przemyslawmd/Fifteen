@@ -9,7 +9,7 @@
 void runTestInitialBoard(BoardSize boardSize)
 {
     auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
-    auto const& values = board->sendBoard();
+    auto const& values = board->sendValues();
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
     uint tilesCount = sizeInt * sizeInt;
     
@@ -18,7 +18,7 @@ void runTestInitialBoard(BoardSize boardSize)
     {
         EXPECT_EQ(values[i], i);
     }
-    EXPECT_EQ(values[tilesCount - 1], board->getEmptyTile());   
+    EXPECT_EQ(values[tilesCount - 1], board->getNullValue());
 }
 
 

@@ -11,6 +11,7 @@
 enum class Result
 {
     OK,
+    CREATE_GRAPHIC_BOARD_NO_GRAPHIC,
     GRAPHIC_LOAD_OK,
     GRAPHIC_LOAD_FAILURE,
     GRAPHIC_TOO_LOW_SIZE,
@@ -27,6 +28,7 @@ class Message
 {
 public:
 
+    static const QString& getMessage( Result );
     static void putMessage( Result );
     static void putMessage( Result, uint arg );
     static QString getMessages();

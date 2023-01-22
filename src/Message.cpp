@@ -2,6 +2,14 @@
 #include "Message.h"
 
 
+const QString& Message::getMessage( Result result )
+{
+    return message.at( result );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 void Message::putMessage( Result code )
 {
     messageQueue.push( message.at( code ));
@@ -37,6 +45,7 @@ std::queue< QString > Message::messageQueue = {};
 
 const std::map< Result, QString > Message::message =
 {
+    { Result::CREATE_GRAPHIC_BOARD_NO_GRAPHIC,     "There is no loaded graphic for a chosen board size " },
     { Result::GRAPHIC_LOAD_OK,                     "Graphic was loaded for a board " },
     { Result::GRAPHIC_LOAD_FAILURE,                "Failure of loading graphic for a board of size " },
     { Result::GRAPHIC_TOO_LOW_SIZE,                "Too low size of graphic for a board of size " },

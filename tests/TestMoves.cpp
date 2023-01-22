@@ -19,7 +19,7 @@ void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expect
         board->checkMove(move / 10, move % 10);
     }
     
-    auto const& values = board->sendBoard();
+    auto const& values = board->sendValues();
     for (int i = 0; i < values.size(); ++i)
     {
         EXPECT_EQ(values[i], expectedValues[i]);    
