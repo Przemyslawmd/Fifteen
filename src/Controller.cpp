@@ -56,6 +56,23 @@ std::tuple< uint, uint > Controller::getBoardAttributes()
 /*********************************************************************************/
 /*********************************************************************************/
 
+std::tuple< Move, uint, uint > Controller::makeMove( uint tilePosition )
+{
+    uint row = tilePosition / 10;
+    uint col = tilePosition % 10;
+    Move move = board->checkMove( row, col );
+    if ( move == Move::NOT_ALLOWED )
+    {
+        return { Move::NOT_ALLOWED, 0, 0 };
+    }
+
+    undoMoveService->PutMove( move, row, col );
+    return { move, row, col };
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 bool Controller::loadGraphic( QImage& image )
 {
     imageProvider = std::make_unique< ImageProvider >();
@@ -133,14 +150,6 @@ void Controller::readBoardFromFile( const std::string& file )
 
     values->pop_back();
     board.reset( new Board( *values, board->getSize(), board->getMode() ));
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void Controller::putMove( Move move, uint row, uint col )
-{
-    undoMoveService->PutMove( move, row, col );
 }
 
 /*********************************************************************************/

@@ -196,20 +196,12 @@ void Fifteen::slotUndoMove()
 
 void Fifteen::pressTile()
 {
-    uint position = ( static_cast< QPushButton* >( sender() ))->accessibleName().toUInt();
-
-    uint row = position / 10;
-    uint col = position % 10;
-    Board& board = controller->getBoard();
-    Move move = board.checkMove( row, col );
-
-    if ( move == Move::NOT_ALLOWED )
+    uint tilePosition = ( static_cast< QPushButton* >( sender() ))->accessibleName().toUInt();
+    auto [ move, row, col ] = controller->makeMove( tilePosition );
+    if ( move != Move::NOT_ALLOWED )
     {
-        return;
+        makeMove( move, row, col );
     }
-
-    controller->putMove( move, row, col );
-    makeMove( move, row, col );
 }
 
 /*********************************************************************************/

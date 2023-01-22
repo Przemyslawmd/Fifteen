@@ -28,6 +28,8 @@ public:
     Board& getBoard();
     std::tuple< uint, uint > getBoardAttributes();
 
+    std::tuple< Move, uint, uint > makeMove( uint tilePosition );
+
     bool loadGraphic( QImage& );
     bool removeGraphic();
     bool isGraphic( BoardSize );
@@ -38,7 +40,6 @@ public:
     void writeBoardIntoFile( const std::string& file );
     void readBoardFromFile( const std::string& file );
 
-    void putMove( Move move, uint row, uint col );
     std::tuple< Move, uint, uint > undoMove();
 
 private:
