@@ -11,7 +11,6 @@
 #include <QPushButton>
 #include <QRadioButton>
 
-#include <map>
 #include <memory>
 
 
@@ -42,8 +41,8 @@ private:
 
     void createTiles();
     void setTiles();
-    void setTilesNumeric( Board& );
-    void setTilesGraphic( Board& );
+    void setTilesNumeric();
+    void setTilesGraphic();
 
     void drawNumberOnTile( QIcon&, QPixmap&, int fontSize, uint number, NumberColor );
 

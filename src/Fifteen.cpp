@@ -62,23 +62,23 @@ void Fifteen::createTiles()
 
 void Fifteen::setTiles()
 {
-    Board& board = controller->getBoard();
-    if ( board.getMode() == BoardMode::NUMERIC )
+    BoardMode mode = controller->getBoardMode();
+    if ( mode == BoardMode::NUMERIC )
     {
-        setTilesNumeric( board );
+        setTilesNumeric();
     }
     else
     {
-        setTilesGraphic( board );
+        setTilesGraphic();
     }
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::setTilesNumeric( Board& board )
+void Fifteen::setTilesNumeric()
 {    
-    const auto& values = board.sendValues();
+    const auto& values = controller->getValues();
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
     QFont font;
@@ -94,7 +94,7 @@ void Fifteen::setTilesNumeric( Board& board )
         tile->setFont( font );
     }
 
-    uint nullValue = board.getNullValue();
+    uint nullValue = controller->getNullValue();
     auto iter = std::find( values.begin(), values.end(), nullValue );
     tiles[ std::distance( values.begin(), iter) ]->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
 }
@@ -102,10 +102,10 @@ void Fifteen::setTilesNumeric( Board& board )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::setTilesGraphic( Board& board )
+void Fifteen::setTilesGraphic()
 {
     auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
-    auto value = board.sendValues().begin();
+    auto value = controller->getValues().begin();
 
     const auto& images = controller->getImages();
     QSize iconSize( tileSizeInt, tileSizeInt );
@@ -117,7 +117,7 @@ void Fifteen::setTilesGraphic( Board& board )
     for ( auto& tile : gui->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( *images.at( *value ).get() );
-        if ( numberColor == NumberColor::NO || *value == board.getNullValue() )
+        if ( numberColor == NumberColor::NO || *value == controller->getNullValue() )
         {
             icon.addPixmap( pixmap );
         }
@@ -204,21 +204,24 @@ void Fifteen::pressTile()
 
 void Fifteen::makeMove( Move move, uint row, uint col )
 {
-    Board& board = controller->getBoard();
     auto [ boardSize, tileSize ] = controller->getBoardAttributes();
-    auto moveTile = ( board.getMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
-                                                                &Fifteen::moveGraphicTile;
+    auto moveTile = ( controller->getBoardMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
+                                                                           &Fifteen::moveGraphicTile;
 
     switch ( move )
     {
         case Move::UP:
-            return ( this->*moveTile )( row, col, row - 1, col, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row - 1, col, boardSize, tileSize );
+            return;
         case Move::RIGHT:
-            return ( this->*moveTile )( row, col, row, col + 1, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row, col + 1, boardSize, tileSize );
+            return;
         case Move::DOWN:
-            return ( this->*moveTile )( row, col, row + 1, col, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row + 1, col, boardSize, tileSize );
+            return;
         case Move::LEFT:
-            return ( this->*moveTile )( row, col, row, col - 1, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row, col - 1, boardSize, tileSize );
+            return;
     }
 }
 
