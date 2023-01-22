@@ -78,7 +78,7 @@ void Fifteen::setTiles()
 
 void Fifteen::setTilesNumeric( Board& board )
 {    
-    auto iter = board.sendBoard().begin();
+    auto values = board.sendValues().begin();
 
     int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
     QFont font;
@@ -89,18 +89,18 @@ void Fifteen::setTilesNumeric( Board& board )
 
     for ( auto& tile : gui->getTiles() )
     {
-        if ( *iter != emptyTile )
+        if ( *values != emptyTile )
         {
-            tile->setText( QString::number( *iter + 1 ));
+            tile->setText( QString::number( *values + 1 ));
             tile->setStyleSheet( tileColor );
         }
         else
         {
-            tile->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ));
+            tile->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
         }
 
         tile->setFont( font );
-        iter++;
+        values++;
     }
 }
 
@@ -110,7 +110,7 @@ void Fifteen::setTilesNumeric( Board& board )
 void Fifteen::setTilesGraphic( Board& board )
 {
     auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
-    auto iter = board.sendBoard().begin();
+    auto iter = board.sendValues().begin();
 
     const auto& images = controller->getImages();
     QSize iconSize( tileSizeInt, tileSizeInt );
@@ -251,7 +251,7 @@ void Fifteen::moveNumericTile( uint rowSource, uint colSource, uint rowDest, uin
     tiles.at( rowDest * boardSize + colDest )->setText( tiles.at( rowSource * boardSize + colSource )->text() );
     tiles.at( rowDest * boardSize + colDest )->setStyleSheet( tileColor );
     tiles.at( rowSource * boardSize + colSource )->setText( "" );
-    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ));
+    tiles.at( rowSource * boardSize + colSource )->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
 }
 
 /*********************************************************************************/
@@ -347,7 +347,7 @@ void Fifteen::setColor()
 
     for ( auto& tile : gui->getTiles() )
     {
-        if ( tile->styleSheet() != Maps::tileColorStyle.at( TileColor::EMPTY_STYLE ))
+        if ( tile->styleSheet() != Maps::tileColorStyle.at( TileColor::EMPTY ))
         {
             tile->setStyleSheet( tileColor );
         }

@@ -43,26 +43,26 @@ std::unique_ptr<Board> restoreBoard(std::unique_ptr<Board> board)
 TEST(testSaveNumericBoard, NoSizeChange)
 {
     auto board = createAndSaveBoard(BoardSize::SEVEN);
-    auto initialValues = board->sendBoard();
+    auto initialValues = board->sendValues();
 
     auto changedValues = board->randomBoard();
     EXPECT_NE(changedValues, initialValues);
  
     auto restoredBoard = restoreBoard(std::move(board));
-    auto restoredValues = restoredBoard->sendBoard();
+    auto restoredValues = restoredBoard->sendValues();
     EXPECT_EQ(initialValues, restoredValues);
 }
 
 TEST(testSaveNumericBoard, SizeChanged)
 {
     auto board = createAndSaveBoard(BoardSize::SEVEN);
-    auto initialValues = board->sendBoard();
+    auto initialValues = board->sendValues();
 
     board.reset(new Board(BoardSize::FIVE, BoardMode::NUMERIC));
     auto changedValues = board->randomBoard();
     EXPECT_NE(changedValues, initialValues);
 
     auto restoredBoard = restoreBoard(std::move(board));
-    auto restoredValues = restoredBoard->sendBoard();
+    auto restoredValues = restoredBoard->sendValues();
     EXPECT_EQ(initialValues, restoredValues);
 }

@@ -32,7 +32,7 @@ const map< TileColor, const QString > Maps::tileColorStyle
     { TileColor::BLUE,        BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE },
     { TileColor::GREEN,       BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE },
     { TileColor::RED,         BEGIN_STYLE ", stop:0 #800000, stop:1 #EE0000); " END_STYLE },
-    { TileColor::EMPTY_STYLE, "background-color:white; " END_STYLE }
+    { TileColor::EMPTY,       "background-color:white; " END_STYLE }
 };
 
 

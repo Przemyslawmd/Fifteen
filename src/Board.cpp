@@ -154,7 +154,7 @@ void Board::setMode( BoardMode mode )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< uint >& Board::sendBoard()
+std::vector< uint >& Board::sendValues()
 {
     return values;
 }
