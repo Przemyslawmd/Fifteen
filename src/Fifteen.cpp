@@ -59,7 +59,7 @@ void Fifteen::createTiles()
 {
     BoardSize boardSize = board->getSize();
     TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
-                        Options::getTileSize() : imageProvider->getTileSize( boardSize );
+                        Options::getTileSize() : controller->getTileSize( boardSize );
 
     gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
 }
@@ -118,8 +118,8 @@ void Fifteen::setTilesGraphic()
     BoardSize boardSize = board->getSize();
     auto iter = board->sendBoard().begin();
 
-    const auto& images = imageProvider->getImages( boardSize );
-    TileSize tileSize = imageProvider->getTileSize( boardSize );
+    const auto& images = controller->getImages( boardSize );
+    TileSize tileSize = controller->getTileSize( boardSize );
     uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
     QSize iconSize( tileSizeInt, tileSizeInt );
 
@@ -166,7 +166,7 @@ void Fifteen::slotGenerateBoard()
     BoardSize boardSize = gui->checkRadioBoardSize();
     BoardMode boardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
-    if ( boardMode == BoardMode::GRAPHIC && ( imageProvider == nullptr || imageProvider->isGraphicBoard( boardSize ) == false ))
+    if ( boardMode == BoardMode::GRAPHIC && ( controller->isGraphic( boardSize ) == false ))
     {
         QMessageBox::information( this, "", "There is no loaded graphic for a chosen board size\t" );
         return;
@@ -273,7 +273,7 @@ void Fifteen::moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uin
     auto& tiles = gui->getTiles();
 
     tiles.at( rowDest * boardSizeInt + colDest )->setIcon( tiles.at( rowSource * boardSizeInt + colSource )->icon() );
-    TileSize tileSize = imageProvider->getTileSize( boardSize );
+    TileSize tileSize = controller->getTileSize( boardSize );
     uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
     QPixmap pixmap( tileSizeInt, tileSizeInt );
     pixmap.fill( Qt::white );

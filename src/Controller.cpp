@@ -25,3 +25,28 @@ void Controller::removeGraphic()
 {
     imageProvider.reset();
 }
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+std::vector< std::unique_ptr< QImage >>& Controller::getImages( BoardSize boardSize )
+{
+    return imageProvider->getImages( boardSize );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+bool Controller::isGraphic( BoardSize boardSize )
+{
+    return imageProvider != nullptr && imageProvider->isGraphicBoard( boardSize );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+TileSize Controller::getTileSize( BoardSize boardSize )
+{
+    return imageProvider->getTileSize( boardSize );
+}
+

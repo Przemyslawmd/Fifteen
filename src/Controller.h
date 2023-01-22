@@ -3,10 +3,12 @@
 #define FIFTEEN_CONTROLLER_H
 
 #include "GraphicBoard/ImageProvider.h"
+#include "Types.h"
 
 #include <QImage>
 
 #include <memory>
+#include <vector>
 
 
 class Controller
@@ -19,6 +21,10 @@ public:
 
     bool loadGraphic( QImage& );
     void removeGraphic();
+    bool isGraphic( BoardSize );
+
+    TileSize getTileSize( BoardSize );
+    std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
 private:
 
@@ -26,3 +32,4 @@ private:
 };
 
 #endif
+
