@@ -3,6 +3,7 @@
 #define FIFTEEN_FIFTEEN_H
 
 #include "Board.h"
+#include "Controller.h"
 #include "GUI/GUIMain.h"
 #include "GraphicBoard/ImageProvider.h"
 #include "Types.h"
@@ -39,6 +40,7 @@ public slots:
 private:
 
     std::unique_ptr< Board > board;
+    std::unique_ptr< Controller > controller;
     std::unique_ptr< GUI > gui;
     std::unique_ptr< ImageProvider > imageProvider;
     std::unique_ptr< UndoMove > undoMoveService;

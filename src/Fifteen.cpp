@@ -25,6 +25,7 @@ void Fifteen::initGame()
 {
     resize( 850, 600 );
     board = std::make_unique< Board >( BoardSize::FOUR, BoardMode::NUMERIC );
+    controller = std::make_unique< Controller >();
     gui = std::make_unique< GUI >( this );
 
     std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
@@ -299,15 +300,10 @@ void Fifteen::slotLoadGraphic()
         return;
     }
 
-    imageProvider = std::make_unique< ImageProvider >();
-    imageProvider->prepareGraphicBoard( image, Options::getTileSize() );
-
-    if ( imageProvider->isGraphicBoard( BoardSize::FOUR ) || imageProvider->isGraphicBoard( BoardSize::FIVE ) ||
-         imageProvider->isGraphicBoard( BoardSize::SIX )  || imageProvider->isGraphicBoard( BoardSize::SEVEN ))
+    if ( controller->loadGraphic( image ))
     {
         gui->setActionMenuState( ActionMenu::REM_GRAPHIC, true );
     }
-
     QMessageBox::information( this, "", Message::getMessages() );
 }
 
@@ -316,7 +312,7 @@ void Fifteen::slotLoadGraphic()
 
 void Fifteen::slotRemoveGraphic()
 {
-    imageProvider.reset();
+    controller->removeGraphic();
     gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
     gui->setRadioBoardMode( BoardMode::NUMERIC );
 
