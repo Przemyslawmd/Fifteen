@@ -25,9 +25,10 @@ void Fifteen::initGame()
     resize( 850, 600 );
     controller = std::make_unique< Controller >();
     gui = std::make_unique< GUI >( this );
+    menuBar = std::make_unique< MenuBar >();
     panel = std::make_unique< Panel >();
 
-    std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
+    std::map< ActionMenu, std::function< void( void ) >> menuSlots =
     {
         { ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this )},
         { ActionMenu::REM_GRAPHIC,  std::bind( &Fifteen::slotRemoveGraphic, this )},
@@ -36,7 +37,8 @@ void Fifteen::initGame()
         { ActionMenu::SETTINGS,     std::bind( &Fifteen::slotSettings, this )},
         { ActionMenu::ABOUT,        std::bind( &Fifteen::slotAbout, this )},
     };
-    gui->createMenu( funcsMenu );
+    QMenuBar* menu = menuBar->createMenuBar( menuSlots, this );
+    setMenuBar( menu );
 
     std::array< std::function< void( void ) >, 3 > panelSlots =
     {
@@ -276,7 +278,7 @@ void Fifteen::slotLoadGraphic()
 
     if ( controller->loadGraphic( image ))
     {
-        gui->setActionMenuState( ActionMenu::REM_GRAPHIC, true );
+        menuBar->setActionMenuState( ActionMenu::REM_GRAPHIC, true );
     }
     QMessageBox::information( this, "", Message::getMessages() );
 }
@@ -290,7 +292,7 @@ void Fifteen::slotRemoveGraphic()
     {
         redrawTiles();
     }
-    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
+    menuBar->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
     panel->setBoardMode( BoardMode::NUMERIC );
 }
 

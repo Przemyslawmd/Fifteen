@@ -23,38 +23,6 @@ GUI::GUI( QMainWindow* widget ) : widget( widget ) {}
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createMenu( map< ActionMenu, function< void( void ) >>& funcs )
-{
-    QMenu* fileMenu = new QMenu( "File" );
-    fileMenu->setStyleSheet( "padding-left:10px;" );
-
-    bindAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC], funcs.at( ActionMenu::OPEN_GRAPHIC ), "Load Graphic File" );
-    bindAction( mapActionMenu[ActionMenu::REM_GRAPHIC],  funcs.at( ActionMenu::REM_GRAPHIC ),  "Remove Graphic" );
-    bindAction( mapActionMenu[ActionMenu::SAVE_BOARD],   funcs.at( ActionMenu::SAVE_BOARD ),   "Save Board" );
-    bindAction( mapActionMenu[ActionMenu::LOAD_BOARD],   funcs.at( ActionMenu::LOAD_BOARD ),   "Load Board" );
-    bindAction( mapActionMenu[ActionMenu::SETTINGS],     funcs.at( ActionMenu::SETTINGS ),     "Settings" );
-    bindAction( mapActionMenu[ActionMenu::ABOUT],        funcs.at( ActionMenu::ABOUT ),        "About" );
-
-    fileMenu->addAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC] );
-    fileMenu->addSeparator();
-    fileMenu->addAction( mapActionMenu[ActionMenu::REM_GRAPHIC] );
-    fileMenu->addSeparator();
-    fileMenu->addAction( mapActionMenu[ActionMenu::SAVE_BOARD] );
-    fileMenu->addSeparator();
-    fileMenu->addAction( mapActionMenu[ActionMenu::LOAD_BOARD] );
-
-    QMenuBar* menuBar = new QMenuBar();
-    menuBar->addMenu( fileMenu );
-    menuBar->addAction( mapActionMenu[ActionMenu::SETTINGS] );
-    menuBar->addAction( mapActionMenu[ActionMenu::ABOUT] );
-    menuBar->setStyleSheet( "padding-left: 5px; margin: 3px;" );
-
-    widget->setMenuBar( menuBar );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 void GUI::completeLayouts( QVBoxLayout* layRight )
 {
     QWidget* mainPanel = new QWidget();
@@ -71,16 +39,6 @@ void GUI::completeLayouts( QVBoxLayout* layRight )
     mainLayout->addLayout( layRight );
 
     widget->setCentralWidget( mainPanel );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GUI::bindAction( QAction*& action, function< void( void ) > slot, QString text )
-{
-    action = new QAction( widget );
-    action->setText( text );
-    connect( action, &QAction::triggered, widget, slot );
 }
 
 /*********************************************************************************/
@@ -139,13 +97,5 @@ void GUI::deleteTiles()
 vector< unique_ptr< QPushButton >>& GUI::getTiles()
 {
     return tiles;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GUI::setActionMenuState( ActionMenu actionMenu, bool state )
-{
-    mapActionMenu.at( actionMenu )->setEnabled( state );
 }
 

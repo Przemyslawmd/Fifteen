@@ -4,6 +4,7 @@
 
 #include "Board.h"
 #include "Controller.h"
+#include "GUI/MenuBar.h"
 #include "GUI/Panel.h"
 #include "GUI/GUIMain.h"
 #include "Types.h"
@@ -40,7 +41,9 @@ private:
     std::unique_ptr< Controller > controller;
     std::unique_ptr< GUI > gui;
     std::unique_ptr< Panel > panel;
+    std::unique_ptr< MenuBar > menuBar;
 
+    std::vector< std::unique_ptr< QPushButton >> tiles;
 
     void createTiles();
     void setTiles();
