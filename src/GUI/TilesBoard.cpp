@@ -1,53 +1,40 @@
 
-#include "GUIMain.h"
-#include "MappedValues.h"
+#include "TilesBoard.h"
 
 #include <QGroupBox>
-#include <QMenu>
-#include <QMenuBar>
 
-#include <iostream>
 #include <memory>
 
-constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
-constexpr const char STYLE_HEIGHT[] = "height:20px";
 
-using std::function;
-using std::map;
-using std::vector;
-using std::unique_ptr;
-
-
-GUI::GUI() 
+TilesBoard::TilesBoard() 
 {
-    layVerticalBoard = new QVBoxLayout();
-    layVerticalBoard->setSpacing( 0 );
-
-    boxImages = new QGroupBox();
-    boxImages->setLayout( layVerticalBoard );
+    verticalLayout = new QVBoxLayout();
+    verticalLayout->setSpacing( 0 );
+    tilesBox = new QGroupBox();
+    tilesBox->setLayout( verticalLayout );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-QGroupBox* GUI::getGroupBox()
+QGroupBox* TilesBoard::getGroupBox()
 {
-    return boxImages;
+    return tilesBox;
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( uint boardSize, uint tileSize, function< void( void )> func, QMainWindow* window )
+void TilesBoard::createTiles( uint boardSize, uint tileSize, std::function< void( void )> func, QMainWindow* window )
 {
     deleteTiles();
-    layVerticalBoard->addStretch();
+    verticalLayout->addStretch();
 
     for ( uint row = 0; row < boardSize; row++ )
     {
-        layHorizontalBoard.push_back( new QHBoxLayout() );
-        layHorizontalBoard[row]->setSpacing(0);
-        layHorizontalBoard[row]->addStretch();
+        horizontalLayouts.push_back( new QHBoxLayout() );
+        horizontalLayouts[row]->setSpacing(0);
+        horizontalLayouts[row]->addStretch();
 
         for ( uint col = 0; col < boardSize; col++ )
         {
@@ -56,38 +43,37 @@ void GUI::createTiles( uint boardSize, uint tileSize, function< void( void )> fu
             tile->setMaximumSize( tileSize, tileSize );
             tile->setMinimumSize( tileSize, tileSize );
             QObject::connect( tile.get(), &QPushButton::clicked, window, func );
-            layHorizontalBoard[row]->addWidget( tile.get() );
+            horizontalLayouts[row]->addWidget( tile.get() );
             tiles.push_back( std::move( tile ));
         }
 
-        layHorizontalBoard[row]->addStretch();
-        layVerticalBoard->addLayout( layHorizontalBoard[row] );
+        horizontalLayouts[row]->addStretch();
+        verticalLayout->addLayout( horizontalLayouts[row] );
     }
 
-    layVerticalBoard->addStretch();
+    verticalLayout->addStretch();
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::deleteTiles()
+void TilesBoard::deleteTiles()
 {
     tiles.clear();
 
     QLayoutItem* item;
-    while (( item = layVerticalBoard->takeAt( 0 )))
+    while (( item = verticalLayout->takeAt( 0 )))
     {
-        layVerticalBoard->removeItem( 0 );
+        verticalLayout->removeItem( 0 );
         delete item;
     }
-
-    layHorizontalBoard.clear();
+    horizontalLayouts.clear();
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-vector< unique_ptr< QPushButton >>& GUI::getTiles()
+std::vector< std::unique_ptr< QPushButton >>& TilesBoard::getTiles()
 {
     return tiles;
 }

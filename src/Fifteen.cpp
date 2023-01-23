@@ -3,7 +3,6 @@
 
 #include "GraphicBoard/ImageProvider.h"
 #include "GUI/GUIAbout.h"
-#include "GUI/GUIMain.h"
 #include "GUI/Panel.h"
 #include "GUI/GUISetting.h"
 #include "MappedValues.h"
@@ -16,6 +15,7 @@
 #include <QHBoxLayout>
 #include <QGroupBox>
 
+
 Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 
 /*********************************************************************************/
@@ -25,7 +25,7 @@ void Fifteen::initGame()
 {
     resize( 850, 600 );
     controller = std::make_unique< Controller >();
-    gui = std::make_unique< GUI >();
+    tilesBoard = std::make_unique< TilesBoard >();
     menuBar = std::make_unique< MenuBar >();
     panel = std::make_unique< Panel >();
 
@@ -53,7 +53,7 @@ void Fifteen::initGame()
     mainPanel->setContentsMargins( 20, 20, 0, 20 );
 
     QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
-    QGroupBox* boxImages = gui->getGroupBox();
+    QGroupBox* boxImages = tilesBoard->getGroupBox();
     mainLayout->addWidget( boxImages );
     mainLayout->addLayout( layout );
     setCentralWidget( mainPanel );
@@ -67,7 +67,7 @@ void Fifteen::initGame()
 void Fifteen::createTiles()
 {
     auto [ boardSize, tileSize ] = controller->getBoardAttributes();
-    gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ), this );
+    tilesBoard->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ), this );
 }
 
 /*********************************************************************************/
@@ -98,7 +98,7 @@ void Fifteen::setTilesNumeric()
     font.setPixelSize( fontSizeInt );
     auto tileColor = Options::getTileColor();
 
-    auto& tiles = gui->getTiles();
+    auto& tiles = tilesBoard->getTiles();
     int valuesIndex = 0;
     for ( auto& tile : tiles )
     {
@@ -128,7 +128,7 @@ void Fifteen::setTilesGraphic()
     NumberColor numberColor = Options::getNumberOnImageColor();
     QIcon icon;
 
-    for ( auto& tile : gui->getTiles() )
+    for ( auto& tile : tilesBoard->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( *images.at( *value ).get() );
         if ( numberColor == NumberColor::NO || *value == controller->getNullValue() )
@@ -244,7 +244,7 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 
 void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
-    auto& tiles = gui->getTiles();
+    auto& tiles = tilesBoard->getTiles();
 
     tiles.at( rowDst * boardSize + colDst )->setText( tiles.at( rowSrc * boardSize + colSrc )->text() );
     tiles.at( rowDst * boardSize + colDst )->setStyleSheet( Options::getTileColor() );
@@ -257,7 +257,7 @@ void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDs
 
 void Fifteen::moveGraphicTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
-    auto& tiles = gui->getTiles();
+    auto& tiles = tilesBoard->getTiles();
 
     tiles.at( rowDst * boardSize + colDst )->setIcon( tiles.at( rowSrc * boardSize + colSrc )->icon() );
     QPixmap pixmap( tileSize, tileSize );
@@ -347,7 +347,7 @@ void Fifteen::setColor()
 {
     auto tileColor = Options::getTileColor();
 
-    for ( auto& tile : gui->getTiles() )
+    for ( auto& tile : tilesBoard->getTiles() )
     {
         if ( tile->text() != nullptr )
         {

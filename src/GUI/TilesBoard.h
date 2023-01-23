@@ -1,41 +1,39 @@
 
-#ifndef GUI_MAIN_H
-#define GUI_MAIN_H
-
-#include "Types.h"
+#ifndef GUI_TILES_BOARD_H
+#define GUI_TILES_BOARD_H
 
 #include <QHBoxLayout>
 #include <QMainWindow>
 #include <QPushButton>
-#include <QRadioButton>
 #include <QVBoxLayout>
 #include <QGroupBox>
 
-#include <functional>
-#include <map>
 #include <memory>
+#include <vector>
 
 
-class GUI
+class TilesBoard
 {
 public:
 
-    GUI();
-    GUI( const GUI& ) = delete;
-    GUI operator=( const GUI& ) = delete;
+    TilesBoard();
+    TilesBoard( const TilesBoard& ) = delete;
+    TilesBoard operator=( const TilesBoard& ) = delete;
 
     QGroupBox* getGroupBox();
+
     void createTiles( uint boardSize, uint tileSize, std::function< void( void ) > slot, QMainWindow* window );
-    void deleteTiles();
     std::vector< std::unique_ptr< QPushButton >>& getTiles();
 
 private:
 
+    void deleteTiles();
+    
     std::vector< std::unique_ptr< QPushButton >> tiles;
-    QGroupBox* boxImages;
+    QGroupBox* tilesBox;
 
-    QVBoxLayout* layVerticalBoard;
-    std::vector< QHBoxLayout* > layHorizontalBoard;
+    QVBoxLayout* verticalLayout;
+    std::vector< QHBoxLayout* > horizontalLayouts;
 };
 
 #endif

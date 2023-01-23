@@ -6,7 +6,7 @@
 #include "Controller.h"
 #include "GUI/MenuBar.h"
 #include "GUI/Panel.h"
-#include "GUI/GUIMain.h"
+#include "GUI/TilesBoard.h"
 #include "Types.h"
 
 #include <QMainWindow>
@@ -39,11 +39,9 @@ public slots:
 private:
 
     std::unique_ptr< Controller > controller;
-    std::unique_ptr< GUI > gui;
+    std::unique_ptr< TilesBoard > tilesBoard;
     std::unique_ptr< Panel > panel;
     std::unique_ptr< MenuBar > menuBar;
-
-    std::vector< std::unique_ptr< QPushButton >> tiles;
 
     void createTiles();
     void setTiles();
