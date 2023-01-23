@@ -28,23 +28,18 @@ private:
 
     Q_OBJECT
 
-    std::map< GraphicMode, QRadioButton* > mapRadioGraphicMode;
-
-    std::map< BoardSize, QCheckBox* > mapCheckImageToChose;
-
-    std::map< NumberColor, QRadioButton* > mapRadioNumberOnImage;
-    QButtonGroup groupRadioNumberOnImage;
-
-    std::map< TileColor, QRadioButton* > mapRadioColor;
-    QButtonGroup groupRadioColor;
+    std::map< GraphicMode, QRadioButton* > mapGraphicMode;
+    std::map< BoardSize, QCheckBox* > mapImageToLoad;
+    std::map< NumberColor, QRadioButton* > mapNumberOnImage;
+    std::map< TileColor, QRadioButton* > mapTileColor;
 
     QSlider* slider;
 
-    std::unique_ptr< OptionsData > optionsCurrent;
+    std::unique_ptr< OptionsData > currentOptions;
 
     Fifteen& owner;
 
-    template< typename T > T getChoosenOption( std::map< T, QRadioButton* >&, QButtonGroup& );
+    template< typename T > T getChoosenOption( std::map< T, QRadioButton* >&, const QButtonGroup* );
 
 private slots:
 
