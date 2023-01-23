@@ -3,7 +3,7 @@
 
 #include "GraphicBoard/ImageProvider.h"
 #include "GUI/GUIAbout.h"
-#include "GUI/GUIMain.h"
+#include "GUI/Panel.h"
 #include "GUI/GUISetting.h"
 #include "MappedValues.h"
 #include "Message.h"
@@ -12,6 +12,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPainter>
+#include <QHBoxLayout>
+#include <QGroupBox>
 
 
 Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
@@ -23,9 +25,11 @@ void Fifteen::initGame()
 {
     resize( 850, 600 );
     controller = std::make_unique< Controller >();
-    gui = std::make_unique< GUI >( this );
+    tilesBoard = std::make_unique< TilesBoard >();
+    menuBar = std::make_unique< MenuBar >();
+    panel = std::make_unique< Panel >();
 
-    std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
+    std::map< ActionMenu, std::function< void( void ) >> menuSlots =
     {
         { ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this )},
         { ActionMenu::REM_GRAPHIC,  std::bind( &Fifteen::slotRemoveGraphic, this )},
@@ -34,17 +38,26 @@ void Fifteen::initGame()
         { ActionMenu::SETTINGS,     std::bind( &Fifteen::slotSettings, this )},
         { ActionMenu::ABOUT,        std::bind( &Fifteen::slotAbout, this )},
     };
-    gui->createMenu( funcsMenu );
+    QMenuBar* menu = menuBar->createMenuBar( menuSlots, this );
+    setMenuBar( menu );
 
-    std::array< std::function< void( void ) >, 3 > funcsRightLayout =
+    std::array< std::function< void( void ) >, 3 > panelSlots =
     {
         std::bind( &Fifteen::slotGenerateBoard, this ),
         std::bind( &Fifteen::slotSolveBoard, this ),
         std::bind( &Fifteen::slotUndoMove, this ),
     };
-    gui->createRightLayout( funcsRightLayout );
+    QVBoxLayout* layout = panel->createLayout( panelSlots, this );
 
-    gui->completeLayouts();
+    QWidget* mainPanel = new QWidget();
+    mainPanel->setContentsMargins( 20, 20, 0, 20 );
+
+    QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
+    QGroupBox* boxImages = tilesBoard->getGroupBox();
+    mainLayout->addWidget( boxImages );
+    mainLayout->addLayout( layout );
+    setCentralWidget( mainPanel );
+
     redrawTiles();
 }
 
@@ -54,7 +67,7 @@ void Fifteen::initGame()
 void Fifteen::createTiles()
 {
     auto [ boardSize, tileSize ] = controller->getBoardAttributes();
-    gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
+    tilesBoard->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ), this );
 }
 
 /*********************************************************************************/
@@ -85,7 +98,7 @@ void Fifteen::setTilesNumeric()
     font.setPixelSize( fontSizeInt );
     auto tileColor = Options::getTileColor();
 
-    auto& tiles = gui->getTiles();
+    auto& tiles = tilesBoard->getTiles();
     int valuesIndex = 0;
     for ( auto& tile : tiles )
     {
@@ -115,7 +128,7 @@ void Fifteen::setTilesGraphic()
     NumberColor numberColor = Options::getNumberOnImageColor();
     QIcon icon;
 
-    for ( auto& tile : gui->getTiles() )
+    for ( auto& tile : tilesBoard->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( *images.at( *value ).get() );
         if ( numberColor == NumberColor::NO || *value == controller->getNullValue() )
@@ -152,8 +165,8 @@ void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint
 
 void Fifteen::slotGenerateBoard()
 {
-    BoardSize boardSize = gui->checkRadioBoardSize();
-    BoardMode boardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
+    BoardSize boardSize = panel->checkBoardSize();
+    BoardMode boardMode = panel->checkBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
     if ( Result result = controller->generateBoard( boardSize, boardMode ); result != Result::OK )
     {
@@ -231,7 +244,7 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 
 void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
-    auto& tiles = gui->getTiles();
+    auto& tiles = tilesBoard->getTiles();
 
     tiles.at( rowDst * boardSize + colDst )->setText( tiles.at( rowSrc * boardSize + colSrc )->text() );
     tiles.at( rowDst * boardSize + colDst )->setStyleSheet( Options::getTileColor() );
@@ -244,7 +257,7 @@ void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDs
 
 void Fifteen::moveGraphicTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
 {
-    auto& tiles = gui->getTiles();
+    auto& tiles = tilesBoard->getTiles();
 
     tiles.at( rowDst * boardSize + colDst )->setIcon( tiles.at( rowSrc * boardSize + colSrc )->icon() );
     QPixmap pixmap( tileSize, tileSize );
@@ -274,7 +287,7 @@ void Fifteen::slotLoadGraphic()
 
     if ( controller->loadGraphic( image ))
     {
-        gui->setActionMenuState( ActionMenu::REM_GRAPHIC, true );
+        menuBar->setActionMenuState( ActionMenu::REM_GRAPHIC, true );
     }
     QMessageBox::information( this, "", Message::getMessages() );
 }
@@ -288,8 +301,8 @@ void Fifteen::slotRemoveGraphic()
     {
         redrawTiles();
     }
-    gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
-    gui->setRadioBoardMode( BoardMode::NUMERIC );
+    menuBar->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
+    panel->setBoardMode( BoardMode::NUMERIC );
 }
 
 /*********************************************************************************/
@@ -334,7 +347,7 @@ void Fifteen::setColor()
 {
     auto tileColor = Options::getTileColor();
 
-    for ( auto& tile : gui->getTiles() )
+    for ( auto& tile : tilesBoard->getTiles() )
     {
         if ( tile->text() != nullptr )
         {
