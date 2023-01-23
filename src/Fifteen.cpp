@@ -13,7 +13,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPainter>
-
+#include <QHBoxLayout>
+#include <QGroupBox>
 
 Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 
@@ -24,7 +25,7 @@ void Fifteen::initGame()
 {
     resize( 850, 600 );
     controller = std::make_unique< Controller >();
-    gui = std::make_unique< GUI >( this );
+    gui = std::make_unique< GUI >();
     menuBar = std::make_unique< MenuBar >();
     panel = std::make_unique< Panel >();
 
@@ -48,7 +49,15 @@ void Fifteen::initGame()
     };
     QVBoxLayout* layout = panel->createLayout( panelSlots, this );
 
-    gui->completeLayouts( layout );
+    QWidget* mainPanel = new QWidget();
+    mainPanel->setContentsMargins( 20, 20, 0, 20 );
+
+    QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
+    QGroupBox* boxImages = gui->getGroupBox();
+    mainLayout->addWidget( boxImages );
+    mainLayout->addLayout( layout );
+    setCentralWidget( mainPanel );
+
     redrawTiles();
 }
 
@@ -58,7 +67,7 @@ void Fifteen::initGame()
 void Fifteen::createTiles()
 {
     auto [ boardSize, tileSize ] = controller->getBoardAttributes();
-    gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ));
+    gui->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ), this );
 }
 
 /*********************************************************************************/

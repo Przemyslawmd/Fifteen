@@ -18,36 +18,29 @@ using std::vector;
 using std::unique_ptr;
 
 
-GUI::GUI( QMainWindow* widget ) : widget( widget ) {}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GUI::completeLayouts( QVBoxLayout* layRight )
+GUI::GUI() 
 {
-    QWidget* mainPanel = new QWidget();
-    mainPanel->setContentsMargins( 20, 20, 0, 20 );
-
     layVerticalBoard = new QVBoxLayout();
     layVerticalBoard->setSpacing( 0 );
 
-    QGroupBox* boxImages = new QGroupBox();
+    boxImages = new QGroupBox();
     boxImages->setLayout( layVerticalBoard );
-
-    QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
-    mainLayout->addWidget( boxImages );
-    mainLayout->addLayout( layRight );
-
-    widget->setCentralWidget( mainPanel );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createTiles( uint boardSize, uint tileSize, function< void( void )> func )
+QGroupBox* GUI::getGroupBox()
+{
+    return boxImages;
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+void GUI::createTiles( uint boardSize, uint tileSize, function< void( void )> func, QMainWindow* window )
 {
     deleteTiles();
-
     layVerticalBoard->addStretch();
 
     for ( uint row = 0; row < boardSize; row++ )
@@ -62,7 +55,7 @@ void GUI::createTiles( uint boardSize, uint tileSize, function< void( void )> fu
             tile->setAccessibleName( QString::number( row ) + QString::number( col ));
             tile->setMaximumSize( tileSize, tileSize );
             tile->setMinimumSize( tileSize, tileSize );
-            connect( tile.get(), &QPushButton::clicked, widget, func );
+            QObject::connect( tile.get(), &QPushButton::clicked, window, func );
             layHorizontalBoard[row]->addWidget( tile.get() );
             tiles.push_back( std::move( tile ));
         }

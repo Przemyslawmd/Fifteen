@@ -9,31 +9,30 @@
 #include <QPushButton>
 #include <QRadioButton>
 #include <QVBoxLayout>
+#include <QGroupBox>
 
 #include <functional>
 #include <map>
 #include <memory>
 
 
-class GUI : public QMainWindow
+class GUI
 {
 public:
 
-    GUI( QMainWindow* widget );
+    GUI();
     GUI( const GUI& ) = delete;
     GUI operator=( const GUI& ) = delete;
 
-    void completeLayouts( QVBoxLayout* layRight );
-
-    void createTiles( uint boardSize, uint tileSize, std::function< void( void ) > func );
+    QGroupBox* getGroupBox();
+    void createTiles( uint boardSize, uint tileSize, std::function< void( void ) > slot, QMainWindow* window );
     void deleteTiles();
     std::vector< std::unique_ptr< QPushButton >>& getTiles();
 
 private:
 
-    QMainWindow* const widget;
-
     std::vector< std::unique_ptr< QPushButton >> tiles;
+    QGroupBox* boxImages;
 
     QVBoxLayout* layVerticalBoard;
     std::vector< QHBoxLayout* > layHorizontalBoard;
