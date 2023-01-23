@@ -4,6 +4,7 @@
 
 #include "Board.h"
 #include "Controller.h"
+#include "GUI/Panel.h"
 #include "GUI/GUIMain.h"
 #include "Types.h"
 
@@ -38,6 +39,8 @@ private:
 
     std::unique_ptr< Controller > controller;
     std::unique_ptr< GUI > gui;
+    std::unique_ptr< Panel > panel;
+
 
     void createTiles();
     void setTiles();

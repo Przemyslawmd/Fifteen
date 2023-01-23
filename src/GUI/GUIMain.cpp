@@ -55,72 +55,7 @@ void GUI::createMenu( map< ActionMenu, function< void( void ) >>& funcs )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GUI::createRightLayout( std::array< function< void( void ) >, 3 >& funcs )
-{
-    mapRadioBoardSize[BoardSize::FOUR] = new QRadioButton( "4" );
-    mapRadioBoardSize[BoardSize::FIVE] = new QRadioButton( "5" );
-    mapRadioBoardSize[BoardSize::SIX] = new QRadioButton( "6" );
-    mapRadioBoardSize[BoardSize::SEVEN] = new QRadioButton( "7" );
-    mapRadioBoardSize[BoardSize::FOUR]->setChecked( true );
-
-    QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapRadioBoardSize )
-    {
-        radioSizeLayout->addSpacing( 10 );
-        radioSizeLayout->addWidget( radioSizePair.second );
-        radioSizePair.second->setStyleSheet( STYLE_MARGIN_LEFT );
-    }
-    radioSizeLayout->addSpacing( 30 );
-
-    QGroupBox* radioSizeBox = new QGroupBox( "Dimension of Board" );
-    radioSizeBox->setLayout( radioSizeLayout );
-
-    mapRadioBoardMode[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
-    mapRadioBoardMode[BoardMode::GRAPHIC] = new QRadioButton( "Graphic" );
-    mapRadioBoardMode[BoardMode::NUMERIC]->setChecked( true );
-
-    QVBoxLayout* radioKindLayout = new QVBoxLayout();
-    for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapRadioBoardMode )
-    {
-        radioKindLayout->addSpacing( 10 );
-        radioKindLayout->addWidget( radioKindPair.second );
-        radioKindPair.second->setStyleSheet( STYLE_MARGIN_LEFT );
-    }
-    radioKindLayout->addSpacing( 30 );
-
-    QGroupBox* radioKindBox = new QGroupBox( "Kind of Board" );
-    radioKindBox->setLayout( radioKindLayout );
-
-    QPushButton* pushRandom = new QPushButton( "Generate Board" );
-    pushRandom->setStyleSheet( STYLE_HEIGHT );
-    connect( pushRandom, &QPushButton::clicked, widget, funcs.at( 0 ));
-
-    QPushButton* pushSolve = new QPushButton( "Solve Board" );
-    pushSolve->setStyleSheet( STYLE_HEIGHT );
-    connect( pushSolve, &QPushButton::clicked, widget, funcs.at( 1 ));
-
-    QPushButton* pushUndo = new QPushButton( "Undo Move" );
-    pushUndo->setStyleSheet( STYLE_HEIGHT );
-    connect( pushUndo, &QPushButton::clicked, widget, funcs.at( 2 ));
-
-    layRight = new QVBoxLayout();
-    layRight->setContentsMargins( 30, 0, 20, 0 );
-    layRight->addWidget( pushRandom );
-    layRight->addSpacing( 15 );
-    layRight->addWidget( pushSolve );
-    layRight->addSpacing( 15 );
-    layRight->addWidget( pushUndo );
-    layRight->addSpacing( 30 );
-    layRight->addWidget( radioSizeBox );
-    layRight->addStretch();
-    layRight->addWidget( radioKindBox );
-    layRight->addStretch();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GUI::completeLayouts()
+void GUI::completeLayouts( QVBoxLayout* layRight )
 {
     QWidget* mainPanel = new QWidget();
     mainPanel->setContentsMargins( 20, 20, 0, 20 );
@@ -204,50 +139,6 @@ void GUI::deleteTiles()
 vector< unique_ptr< QPushButton >>& GUI::getTiles()
 {
     return tiles;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-BoardSize GUI::checkRadioBoardSize()
-{
-    if ( mapRadioBoardSize.at( BoardSize::FOUR )->isChecked() )
-    {
-        return BoardSize::FOUR;
-    }
-    if ( mapRadioBoardSize.at( BoardSize::FIVE )->isChecked() )
-    {
-        return BoardSize::FIVE;
-    }
-    if ( mapRadioBoardSize.at( BoardSize::SIX )->isChecked() )
-    {
-        return BoardSize::SIX;
-    }
-    return BoardSize::SEVEN;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GUI::setRadioSize( BoardSize boardSize )
-{
-    mapRadioBoardSize.at( boardSize )->setChecked( true );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-bool GUI::checkRadioBoardMode( BoardMode boardMode )
-{
-    return mapRadioBoardMode.at( boardMode )->isChecked();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void GUI::setRadioBoardMode( BoardMode boardMode )
-{
-    mapRadioBoardMode.at( boardMode )->setChecked( true );
 }
 
 /*********************************************************************************/

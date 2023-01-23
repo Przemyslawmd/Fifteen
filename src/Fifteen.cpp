@@ -4,6 +4,7 @@
 #include "GraphicBoard/ImageProvider.h"
 #include "GUI/GUIAbout.h"
 #include "GUI/GUIMain.h"
+#include "GUI/Panel.h"
 #include "GUI/GUISetting.h"
 #include "MappedValues.h"
 #include "Message.h"
@@ -24,6 +25,7 @@ void Fifteen::initGame()
     resize( 850, 600 );
     controller = std::make_unique< Controller >();
     gui = std::make_unique< GUI >( this );
+    panel = std::make_unique< Panel >();
 
     std::map< ActionMenu, std::function< void( void ) >> funcsMenu =
     {
@@ -36,15 +38,15 @@ void Fifteen::initGame()
     };
     gui->createMenu( funcsMenu );
 
-    std::array< std::function< void( void ) >, 3 > funcsRightLayout =
+    std::array< std::function< void( void ) >, 3 > panelSlots =
     {
         std::bind( &Fifteen::slotGenerateBoard, this ),
         std::bind( &Fifteen::slotSolveBoard, this ),
         std::bind( &Fifteen::slotUndoMove, this ),
     };
-    gui->createRightLayout( funcsRightLayout );
+    QVBoxLayout* layout = panel->createLayout( panelSlots, this );
 
-    gui->completeLayouts();
+    gui->completeLayouts( layout );
     redrawTiles();
 }
 
@@ -152,8 +154,8 @@ void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint
 
 void Fifteen::slotGenerateBoard()
 {
-    BoardSize boardSize = gui->checkRadioBoardSize();
-    BoardMode boardMode = gui->checkRadioBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
+    BoardSize boardSize = panel->checkBoardSize();
+    BoardMode boardMode = panel->checkBoardMode( BoardMode::GRAPHIC ) ? BoardMode::GRAPHIC : BoardMode::NUMERIC;
 
     if ( Result result = controller->generateBoard( boardSize, boardMode ); result != Result::OK )
     {
@@ -289,7 +291,7 @@ void Fifteen::slotRemoveGraphic()
         redrawTiles();
     }
     gui->setActionMenuState( ActionMenu::REM_GRAPHIC, false );
-    gui->setRadioBoardMode( BoardMode::NUMERIC );
+    panel->setBoardMode( BoardMode::NUMERIC );
 }
 
 /*********************************************************************************/

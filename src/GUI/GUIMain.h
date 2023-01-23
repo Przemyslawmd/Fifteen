@@ -34,16 +34,11 @@ public:
     GUI operator=( const GUI& ) = delete;
 
     void createMenu( std::map< ActionMenu, std::function< void( void ) >>& funcs );
-    void createRightLayout( std::array< std::function< void( void ) >, 3 >& funcs );
-    void completeLayouts();
+    void completeLayouts( QVBoxLayout* layRight );
 
     void createTiles( uint boardSize, uint tileSize, std::function< void( void ) > func );
     void deleteTiles();
     std::vector< std::unique_ptr< QPushButton >>& getTiles();
-    BoardSize checkRadioBoardSize();
-    void setRadioSize( BoardSize );
-    bool checkRadioBoardMode( BoardMode );
-    void setRadioBoardMode( BoardMode );
     void setActionMenuState( ActionMenu, bool state );
 
 private:
@@ -54,13 +49,10 @@ private:
 
     std::vector< std::unique_ptr< QPushButton >> tiles;
 
-    std::map< BoardSize, QRadioButton* > mapRadioBoardSize;
-    std::map< BoardMode, QRadioButton* > mapRadioBoardMode;
     std::map< ActionMenu, QAction* > mapActionMenu;
 
     QVBoxLayout* layVerticalBoard;
     std::vector< QHBoxLayout* > layHorizontalBoard;
-    QVBoxLayout* layRight;
 };
 
 #endif
