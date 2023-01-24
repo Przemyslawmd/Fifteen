@@ -4,15 +4,10 @@
 
 #include <QGroupBox>
 
-#include <iostream>
 #include <memory>
 
 constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 constexpr const char STYLE_HEIGHT[] = "height:20px";
-
-//using std::map;
-//using std::vector;
-//using std::unique_ptr;
 
 
 QVBoxLayout* Panel::createLayout( std::array< std::function< void( void ) >, 3 >& panelSlots, QMainWindow* window )

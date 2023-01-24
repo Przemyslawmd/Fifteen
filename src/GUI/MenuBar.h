@@ -8,7 +8,6 @@
 
 #include <functional>
 #include <map>
-#include <memory>
 
 enum class ActionMenu {
     ABOUT,
@@ -18,6 +17,7 @@ enum class ActionMenu {
     SAVE_BOARD,
     SETTINGS,
 };
+
 
 class MenuBar
 {
@@ -32,7 +32,7 @@ public:
 
 private:
 
-    void bindAction( QAction*& action, std::function< void( void ) > slot, QString text,  QMainWindow* window  );
+    void bindAction( QAction*& action, std::function< void( void ) > slot, QString text, QMainWindow* window );
     std::map< ActionMenu, QAction* > mapActionMenu;
 };
 

@@ -1,22 +1,10 @@
 
 #include "MenuBar.h"
-#include "MappedValues.h"
 
-#include <QMenu>
 #include <QMenuBar>
 
-#include <memory>
 
-constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
-constexpr const char STYLE_HEIGHT[] = "height:20px";
-
-using std::function;
-using std::map;
-using std::vector;
-using std::unique_ptr;
-
-
-QMenuBar* MenuBar::createMenuBar( map< ActionMenu, function< void( void ) >>& menuSlots, QMainWindow* window )
+QMenuBar* MenuBar::createMenuBar( std::map< ActionMenu, std::function< void( void ) >>& menuSlots, QMainWindow* window )
 {
     QMenu* fileMenu = new QMenu( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
@@ -47,7 +35,7 @@ QMenuBar* MenuBar::createMenuBar( map< ActionMenu, function< void( void ) >>& me
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MenuBar::bindAction( QAction*& action, function< void( void ) > slot, QString text, QMainWindow* window )
+void MenuBar::bindAction( QAction*& action, std::function< void( void ) > slot, QString text, QMainWindow* window )
 {
     action = new QAction( window );
     action->setText( text );
