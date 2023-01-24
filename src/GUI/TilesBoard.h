@@ -2,6 +2,7 @@
 #ifndef GUI_TILES_BOARD_H
 #define GUI_TILES_BOARD_H
 
+#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QMainWindow>
 #include <QPushButton>

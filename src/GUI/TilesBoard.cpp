@@ -1,8 +1,6 @@
 
 #include "TilesBoard.h"
 
-#include <QGroupBox>
-
 #include <memory>
 
 
