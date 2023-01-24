@@ -16,13 +16,13 @@ class TilesBoard
 {
 public:
 
-    TilesBoard();
+    TilesBoard( std::function< void( void ) > pressTileSlot );
     TilesBoard( const TilesBoard& ) = delete;
     TilesBoard operator=( const TilesBoard& ) = delete;
 
     QGroupBox* getGroupBox();
 
-    void createTiles( uint boardSize, uint tileSize, std::function< void( void ) > slot, QMainWindow* window );
+    void createTiles( uint boardSize, uint tileSize, QMainWindow* window );
     std::vector< std::unique_ptr< QPushButton >>& getTiles();
 
 private:
@@ -30,6 +30,7 @@ private:
     void deleteTiles();
     
     std::vector< std::unique_ptr< QPushButton >> tiles;
+    std::function< void( void ) > pressTileSlot;
     QGroupBox* tilesBox;
 
     QVBoxLayout* verticalLayout;

@@ -6,7 +6,7 @@
 #include <memory>
 
 
-TilesBoard::TilesBoard() 
+TilesBoard::TilesBoard( std::function< void( void ) > pressTileSlot ) : pressTileSlot( pressTileSlot )
 {
     verticalLayout = new QVBoxLayout();
     verticalLayout->setSpacing( 0 );
@@ -25,7 +25,7 @@ QGroupBox* TilesBoard::getGroupBox()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void TilesBoard::createTiles( uint boardSize, uint tileSize, std::function< void( void )> func, QMainWindow* window )
+void TilesBoard::createTiles( uint boardSize, uint tileSize, QMainWindow* window )
 {
     deleteTiles();
     verticalLayout->addStretch();
@@ -42,7 +42,7 @@ void TilesBoard::createTiles( uint boardSize, uint tileSize, std::function< void
             tile->setAccessibleName( QString::number( row ) + QString::number( col ));
             tile->setMaximumSize( tileSize, tileSize );
             tile->setMinimumSize( tileSize, tileSize );
-            QObject::connect( tile.get(), &QPushButton::clicked, window, func );
+            QObject::connect( tile.get(), &QPushButton::clicked, window, pressTileSlot );
             horizontalLayouts[row]->addWidget( tile.get() );
             tiles.push_back( std::move( tile ));
         }

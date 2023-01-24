@@ -25,7 +25,7 @@ void Fifteen::initGame()
 {
     resize( 850, 600 );
     controller = std::make_unique< Controller >();
-    tilesBoard = std::make_unique< TilesBoard >();
+    tilesBoard = std::make_unique< TilesBoard >( std::bind( &Fifteen::pressTile, this ));
     menuBar = std::make_unique< MenuBar >();
     panel = std::make_unique< Panel >();
 
@@ -67,7 +67,7 @@ void Fifteen::initGame()
 void Fifteen::createTiles()
 {
     auto [ boardSize, tileSize ] = controller->getBoardAttributes();
-    tilesBoard->createTiles( boardSize, tileSize, std::bind( &Fifteen::pressTile, this ), this );
+    tilesBoard->createTiles( boardSize, tileSize, this );
 }
 
 /*********************************************************************************/
