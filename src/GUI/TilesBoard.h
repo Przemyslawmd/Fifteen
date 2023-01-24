@@ -6,8 +6,8 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QGroupBox>
 
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -20,7 +20,7 @@ public:
     TilesBoard( const TilesBoard& ) = delete;
     TilesBoard operator=( const TilesBoard& ) = delete;
 
-    QGroupBox* getGroupBox();
+    QGroupBox* createGroupBox();
 
     void createTiles( uint boardSize, uint tileSize, QMainWindow* window );
     std::vector< std::unique_ptr< QPushButton >>& getTiles();
@@ -31,7 +31,6 @@ private:
     
     std::vector< std::unique_ptr< QPushButton >> tiles;
     std::function< void( void ) > pressTileSlot;
-    QGroupBox* tilesBox;
 
     QVBoxLayout* verticalLayout;
     std::vector< QHBoxLayout* > horizontalLayouts;

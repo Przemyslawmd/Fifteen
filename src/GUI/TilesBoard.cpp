@@ -6,19 +6,17 @@
 #include <memory>
 
 
-TilesBoard::TilesBoard( std::function< void( void ) > pressTileSlot ) : pressTileSlot( pressTileSlot )
+TilesBoard::TilesBoard( std::function< void( void ) > pressTileSlot ) : pressTileSlot( pressTileSlot ) {}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
+QGroupBox* TilesBoard::createGroupBox()
 {
     verticalLayout = new QVBoxLayout();
     verticalLayout->setSpacing( 0 );
-    tilesBox = new QGroupBox();
+    QGroupBox* tilesBox = new QGroupBox();
     tilesBox->setLayout( verticalLayout );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-QGroupBox* TilesBoard::getGroupBox()
-{
     return tilesBox;
 }
 
@@ -50,7 +48,6 @@ void TilesBoard::createTiles( uint boardSize, uint tileSize, QMainWindow* window
         horizontalLayouts[row]->addStretch();
         verticalLayout->addLayout( horizontalLayouts[row] );
     }
-
     verticalLayout->addStretch();
 }
 

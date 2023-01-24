@@ -53,7 +53,7 @@ void Fifteen::initGame()
     mainPanel->setContentsMargins( 20, 20, 0, 20 );
 
     QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
-    QGroupBox* boxImages = tilesBoard->getGroupBox();
+    QGroupBox* boxImages = tilesBoard->createGroupBox();
     mainLayout->addWidget( boxImages );
     mainLayout->addLayout( layout );
     setCentralWidget( mainPanel );
@@ -221,7 +221,6 @@ void Fifteen::makeMove( Move move, uint row, uint col )
     auto [ boardSize, tileSize ] = controller->getBoardAttributes();
     auto moveTile = ( controller->getBoardMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
                                                                            &Fifteen::moveGraphicTile;
-
     switch ( move )
     {
         case Move::UP:
@@ -316,7 +315,6 @@ void Fifteen::slotSaveBoard()
     {
         return;
     }
-
     controller->writeBoardIntoFile( file.toStdString() );
 }
 
