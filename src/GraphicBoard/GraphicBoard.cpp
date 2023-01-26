@@ -33,6 +33,7 @@ void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSiz
 
     createTiles( &boardImage, boardSizeInt, tileSizeInt );
     this->tileSize = tileSize;
+    this->fontSize = Maps::tileSizeFontSize.at( tileSize );
 }
 
 /*********************************************************************************/

@@ -26,6 +26,7 @@ private:
     std::vector< std::unique_ptr< QImage >>& getImages();
 
     TileSize tileSize;
+    FontSize fontSize;
     std::vector< std::unique_ptr< QImage >> images;
 };
 

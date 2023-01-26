@@ -93,9 +93,9 @@ void Fifteen::setTilesNumeric()
 {    
     const auto& values = controller->getValues();
 
-    int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
+    int fontSize = controller->getFontSize();
     QFont font;
-    font.setPixelSize( fontSizeInt );
+    font.setPixelSize( fontSize );
     auto tileColor = Options::getTileColor();
 
     auto& tiles = tilesBoard->getTiles();
@@ -124,7 +124,7 @@ void Fifteen::setTilesGraphic()
     const auto& images = controller->getImages();
     QSize iconSize( tileSizeInt, tileSizeInt );
 
-    int fontSizeInt = Maps::getFontSizeInt( Options::getTileSize() );
+    int fontSizeInt = controller->getFontSize();
     NumberColor numberColor = Options::getNumberOnImageColor();
     QIcon icon;
 

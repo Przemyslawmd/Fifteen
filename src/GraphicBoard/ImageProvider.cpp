@@ -57,6 +57,15 @@ TileSize ImageProvider::getTileSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
+uint ImageProvider::getFontSize( BoardSize boardSize )
+{
+    FontSize fontSize = images.at( boardSize )->fontSize;
+    return Maps::fontSizeInt.at( fontSize );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize tileSize )
 {
     uint tileSizeInt = Maps::tileSizeInt.at( tileSize );

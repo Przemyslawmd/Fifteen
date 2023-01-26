@@ -22,6 +22,7 @@ public:
     void prepareGraphicBoard( QImage&, TileSize );
     bool isGraphicBoard( BoardSize );
     TileSize getTileSize( BoardSize );
+    uint getFontSize( BoardSize );
 
 private:
 

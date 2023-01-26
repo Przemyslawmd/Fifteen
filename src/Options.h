@@ -19,6 +19,8 @@ public:
     static const QString& getTileColor();
     static TileSize getTileSize();
 
+    static uint getFontSize();
+
     static bool isImageToBeLoaded( BoardSize size );
 
     static NumberColor getNumberOnImageColor();
@@ -28,6 +30,7 @@ public:
 
 private:
 
+    static FontSize fontSize;
     static TileSize tileSize;
     static TileColor tileColor;
     static NumberColor numberColor;

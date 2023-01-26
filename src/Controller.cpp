@@ -72,6 +72,15 @@ std::tuple< uint, uint > Controller::getBoardAttributes()
 /*********************************************************************************/
 /*********************************************************************************/
 
+uint Controller::getFontSize()
+{
+    return board->getMode() == BoardMode::NUMERIC ?
+           Options::getFontSize() : imageProvider->getFontSize( board->getSize() );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 std::tuple< Move, uint, uint > Controller::makeMove( uint tilePosition )
 {
     uint row = tilePosition / 10;

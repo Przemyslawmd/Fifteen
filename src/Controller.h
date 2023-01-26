@@ -29,7 +29,9 @@ public:
     std::vector< uint >& getValues();
     uint getNullValue();
     BoardMode getBoardMode();
+
     std::tuple< uint, uint > getBoardAttributes();
+    uint getFontSize();
 
     std::tuple< Move, uint, uint > makeMove( uint tilePosition );
     std::tuple< Move, uint, uint > undoMove();

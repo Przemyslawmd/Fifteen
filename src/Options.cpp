@@ -21,6 +21,14 @@ TileSize Options::getTileSize()
 /*********************************************************************************/
 /*********************************************************************************/
 
+uint Options::getFontSize()
+{
+    return Maps::fontSizeInt.at( Options::fontSize );
+}
+
+/*********************************************************************************/
+/*********************************************************************************/
+
 bool Options::isImageToBeLoaded( BoardSize boardSize )
 {
     return imagesToLoad.at( boardSize );
@@ -64,11 +72,13 @@ void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
     imagesToLoad.at( BoardSize::SEVEN ) = optionsData->imageToLoad_7;
     tileColor = optionsData->squareColor;
     numberColor = optionsData->numberColor;
+    fontSize = Maps::tileSizeFontSize.at( tileSize );
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
+FontSize Options::fontSize = FontSize::_30;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 TileSize Options::tileSize = TileSize::_100;
 TileColor Options::tileColor = TileColor::BLUE;
