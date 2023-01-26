@@ -64,9 +64,9 @@ BoardMode Controller::getBoardMode()
 std::tuple< uint, uint > Controller::getBoardAttributes()
 {
     BoardSize boardSize = board->getSize();
-    TileSize tileSize = board->getMode() == BoardMode::NUMERIC ?
+    uint tileSize = board->getMode() == BoardMode::NUMERIC ?
                         Options::getTileSize() : imageProvider->getTileSize( boardSize );
-    return { Maps::boardSizeInt.at( boardSize ), Maps::tileSizeInt.at( tileSize ) };
+    return { Maps::boardSizeInt.at( boardSize ), tileSize };
 }
 
 /*********************************************************************************/

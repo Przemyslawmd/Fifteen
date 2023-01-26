@@ -27,7 +27,7 @@ std::vector< unique_ptr< QImage >>& ImageProvider::getImages( BoardSize boardSiz
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::prepareGraphicBoard( QImage& image, TileSize tileSize )
+void ImageProvider::prepareGraphicBoard( QImage& image, uint tileSize )
 {
     for ( auto iter = images.begin(); iter != images.end(); iter++ )
     {
@@ -49,9 +49,10 @@ bool ImageProvider::isGraphicBoard( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-TileSize ImageProvider::getTileSize( BoardSize boardSize )
+uint ImageProvider::getTileSize( BoardSize boardSize )
 {
-    return images.at( boardSize )->tileSize;
+    TileSize tileSize = images.at( boardSize )->tileSize;
+    return Maps::tileSizeInt.at( tileSize );
 }
 
 /*********************************************************************************/
@@ -66,11 +67,10 @@ uint ImageProvider::getFontSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSize tileSize )
+bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, uint tileSize )
 {
-    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
     uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
-    if (( picture.height() < boardSizeInt * tileSizeInt ) || ( picture.width() < boardSizeInt * tileSizeInt ))
+    if (( picture.height() < boardSizeInt * tileSize ) || ( picture.width() < boardSizeInt * tileSize ))
     {
         Message::putMessage( Result::GRAPHIC_TOO_LOW_SIZE, boardSizeInt );
         return false;
@@ -82,7 +82,7 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, TileSi
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, TileSize tileSize, QImage& image )
+void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, uint tileSize, QImage& image )
 {
     images.at( boardSize ) = std::make_unique< GraphicBoard >();
     images.at( boardSize )->createTilesFromImage( image, boardSize, tileSize, Options::graphicMode );

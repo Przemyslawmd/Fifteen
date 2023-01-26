@@ -19,15 +19,15 @@ public:
 
     std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
-    void prepareGraphicBoard( QImage&, TileSize );
+    void prepareGraphicBoard( QImage&, uint tileSize );
     bool isGraphicBoard( BoardSize );
-    TileSize getTileSize( BoardSize );
+    uint getTileSize( BoardSize );
     uint getFontSize( BoardSize );
 
 private:
 
-    bool checkImageSize( QImage&, BoardSize, TileSize ) ;
-    void createTilesForGraphicBoard( BoardSize, TileSize, QImage& );
+    bool checkImageSize( QImage&, BoardSize, uint tileSize ) ;
+    void createTilesForGraphicBoard( BoardSize, uint tileSize, QImage& );
 
     std::map< BoardSize, std::unique_ptr< GraphicBoard >> images;
 };

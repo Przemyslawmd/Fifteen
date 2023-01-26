@@ -12,11 +12,10 @@ std::vector< std::unique_ptr< QImage >>& GraphicBoard::getImages()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSize, TileSize tileSize, GraphicMode graphicMode )
+void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSize, uint tileSize, GraphicMode graphicMode )
 {
-    uint tileSizeInt = Maps::tileSizeInt.at( tileSize );
     uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
-    uint boardSizePixel = boardSizeInt * tileSizeInt;
+    uint boardSizePixel = boardSizeInt * tileSize;
 
     QImage boardImage;
     if ( graphicMode == GraphicMode::SCALED )
@@ -31,9 +30,9 @@ void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSiz
                                         boardSizePixel );
     }
 
-    createTiles( &boardImage, boardSizeInt, tileSizeInt );
-    this->tileSize = tileSize;
-    this->fontSize = Maps::tileSizeFontSize.at( tileSize );
+    createTiles( &boardImage, boardSizeInt, tileSize );
+    this->tileSize = Maps::getTileSizeByInt( tileSize );
+    this->fontSize = Maps::tileSizeFontSize.at( this->tileSize );
 }
 
 /*********************************************************************************/

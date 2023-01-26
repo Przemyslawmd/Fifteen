@@ -13,9 +13,9 @@ const QString& Options::getTileColor()
 /*********************************************************************************/
 /*********************************************************************************/
 
-TileSize Options::getTileSize()
+uint Options::getTileSize()
 {
-    return Options::tileSize;
+    return Maps::tileSizeInt.at( Options::tileSize );
 }
 
 /*********************************************************************************/
