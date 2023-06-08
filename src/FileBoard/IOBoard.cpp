@@ -71,7 +71,7 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const std::str
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::validate( const std::vector< uint >& values )
+bool IOBoard::validate( const std::vector< uint >& values ) const
 {
     uint boardSize = values[values.size() -1];
     if ( boardSize < 4 || boardSize > 7 )
