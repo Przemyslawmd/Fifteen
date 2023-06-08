@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.16)
 project(FifteenTests)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -7,8 +7,11 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(CMAKE_CXX_STANDARD 17)
 set(SRC "../src/")
 
-find_package(Qt6 REQUIRED Core)
-find_package(Qt6 REQUIRED COMPONENTS Gui)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Gui REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Gui REQUIRED)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -45,8 +48,8 @@ add_executable(
 target_link_libraries(
   FifteenTests
   GTest::gtest_main
-  Qt6::Core
-  Qt6::Gui
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Gui
 )
 
 include(GoogleTest)
