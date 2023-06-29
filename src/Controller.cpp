@@ -154,7 +154,7 @@ bool Controller::readBoardFromFile( const std::string& file )
 {
     IOBoard ioBoard;
     auto values = ioBoard.readBoardFromFile( file );
-    if ( values == nullptr )
+    if ( values == std::nullopt )
     {
         return false;
     }
@@ -165,8 +165,8 @@ bool Controller::readBoardFromFile( const std::string& file )
         return false;
     }
 
-    values->pop_back();
-    board.reset( new Board( *values, board->getSize(), board->getMode() ));
+    values.value().pop_back();
+    board.reset( new Board( std::move( values.value() ), board->getSize(), board->getMode() ));
     return true;
 }
 

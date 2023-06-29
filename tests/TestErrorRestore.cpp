@@ -12,11 +12,10 @@
 void runTestErrorRestore(std::string fileName, QString errorLog)
 {
     const std::string& filePath = IMPROPER_BOARD_DIR + std::string(fileName);
-    
+
     IOBoard io;
     auto readValues = io.readBoardFromFile(filePath);
-    
-    EXPECT_EQ(readValues, nullptr);
+    EXPECT_EQ(readValues, std::nullopt);
 
     QString message = Message::getMessages();
     EXPECT_EQ(message, errorLog);

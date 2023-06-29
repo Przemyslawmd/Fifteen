@@ -5,6 +5,7 @@
 #include "../Board.h"
 
 #include <memory>
+#include <optional>
 
 
 class IOBoard
@@ -18,7 +19,7 @@ public:
     IOBoard& operator=( IOBoard&& ) = delete;
 
     void writeBoardIntoFile( Board&, const std::string& fileName );
-    std::unique_ptr< std::vector< uint >> readBoardFromFile( const std::string& fileName );
+    std::optional< std::vector< uint >> readBoardFromFile( const std::string& fileName );
 
 private:
 

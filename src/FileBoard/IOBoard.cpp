@@ -31,13 +31,13 @@ void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const std::string& fileName )
+std::optional<std::vector< uint >> IOBoard::readBoardFromFile( const std::string& fileName )
 {
     std::ifstream ifs( fileName );
     if ( !ifs )
     {
         Message::putMessage( Result::READ_BOARD_ERROR );
-        return nullptr;
+        return std::nullopt;
     }
 
     std::stringstream sstr;
@@ -56,16 +56,16 @@ std::unique_ptr< std::vector< uint >> IOBoard::readBoardFromFile( const std::str
         catch (...)
         {
             Message::putMessage( Result::FILE_ERROR_VALUE_NOT_NUMBER );
-            return nullptr;
+            return std::nullopt;
         }
         values.push_back( boardValue );
     }
 
     if ( validate( values ) == false )
     {
-        return nullptr;
+        return std::nullopt;
     }
-    return std::make_unique<std::vector< uint >>( values );
+    return values;
 }
 
 /*********************************************************************************/
@@ -86,8 +86,7 @@ bool IOBoard::validate( const std::vector< uint >& values ) const
         return false;
     }
 
-    std::vector< uint > testValues;
-    testValues.resize( boardSize * boardSize );
+    std::vector< uint > testValues( boardSize * boardSize, 0 );
     std::iota( testValues.begin(), testValues.end(), 0 );
 
     for ( uint test : testValues )
@@ -98,7 +97,6 @@ bool IOBoard::validate( const std::vector< uint >& values ) const
             return false;
         }
     }
-
     return true;
 }
 

@@ -18,11 +18,11 @@ Board::Board( BoardSize size, BoardMode mode ) : size( size ),
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( std::vector< uint >& values, BoardSize size, BoardMode mode ) : size( size ),
-                                                                              mode( mode ),
-                                                                              sizeInt( Maps::boardSizeInt.at( size )),
-                                                                              values( values ),
-                                                                              nullValue( sizeInt * sizeInt - 1 ) {}
+Board::Board( std::vector< uint >&& values, BoardSize size, BoardMode mode ) : size( size ),
+                                                                               mode( mode ),
+                                                                               sizeInt( Maps::boardSizeInt.at( size )),
+                                                                               values( values ),
+                                                                               nullValue( sizeInt * sizeInt - 1 ) {}
 
 /*********************************************************************************/
 /*********************************************************************************/

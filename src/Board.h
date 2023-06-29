@@ -12,7 +12,7 @@ class Board
 public:
 
     Board( BoardSize, BoardMode mode );
-    Board( std::vector< uint >& values, BoardSize, BoardMode mode );
+    Board( std::vector< uint >&& values, BoardSize, BoardMode mode );
     Board( const Board& ) = delete;
     Board operator=( const Board& ) = delete;
 

@@ -34,8 +34,8 @@ std::unique_ptr<Board> restoreBoard(std::unique_ptr<Board> board)
     std::remove(filePath.c_str());
 
     BoardSize boardSize = Maps::getBoardSizeByInt(readValues->back());
-    readValues->pop_back();
-    board.reset(new Board(*readValues, boardSize, board->getMode()));
+    readValues.value().pop_back();
+    board.reset(new Board(std::move(readValues.value()), boardSize, board->getMode()));
     return board;
 }
 
