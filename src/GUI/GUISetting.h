@@ -20,7 +20,7 @@ class GUISetting : public QDialog
 {
 public:
 
-    GUISetting( Fifteen& owner );
+    GUISetting( Fifteen& owner, BoardMode boardMode );
     GUISetting( const GUISetting& ) = delete;
     GUISetting operator=( const GUISetting& ) = delete;
 
@@ -38,6 +38,7 @@ private:
     std::unique_ptr< OptionsData > currentOptions;
 
     Fifteen& owner;
+    BoardMode boardMode;
 
     template< typename T > T getChoosenOption( std::map< T, QRadioButton* >&, const QButtonGroup* );
 

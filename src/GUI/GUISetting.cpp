@@ -13,8 +13,7 @@ constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 using std::map;
 using std::unique_ptr;
 
-
-GUISetting::GUISetting( Fifteen& owner ) : owner( owner )
+GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), boardMode( boardMode )
 {
     setModal( true );
     setWindowTitle( "" );
@@ -167,7 +166,7 @@ void GUISetting::acceptSettings()
 
     newOptions->tileSize = Maps::sliderTileSize.at( slider->value() );
     bool tileSizeChanged = newOptions->tileSize != currentOptions->tileSize;
-    if ( tileSizeChanged && currentOptions->boardMode == BoardMode::GRAPHIC )
+    if ( tileSizeChanged && boardMode == BoardMode::GRAPHIC )
     {
         QMessageBox::information( this, "",
                                   "\nSize of a tile can not be changed in graphic mode\t \nwhen an image is loaded" );
@@ -187,12 +186,12 @@ void GUISetting::acceptSettings()
 
     Options::saveOptions( std::move( newOptions ));
 
-    if (( tileSizeChanged && currentOptions->boardMode == BoardMode::NUMERIC  ) ||
-        ( numberImageChanged && currentOptions->boardMode == BoardMode::GRAPHIC ))
+    if (( tileSizeChanged && boardMode == BoardMode::NUMERIC  ) ||
+        ( numberImageChanged && boardMode == BoardMode::GRAPHIC ))
     {
         owner.redrawTiles();
     }
-    if ( colorChanged && currentOptions->boardMode == BoardMode::NUMERIC )
+    if ( colorChanged && boardMode == BoardMode::NUMERIC )
     {
         owner.setColor();
     }

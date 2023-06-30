@@ -368,7 +368,7 @@ void Fifteen::redrawTiles()
 
 void Fifteen::slotSettings()
 {
-    new GUISetting( *this );
+    new GUISetting( *this, controller->getBoardMode() );
 }
 
 /*********************************************************************************/

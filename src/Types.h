@@ -17,7 +17,6 @@ enum class NumberColor  { NO, BLACK, WHITE };
 
 typedef struct
 {
-    BoardMode boardMode;
     GraphicMode graphicMode;
     bool imageToLoad_4;
     bool imageToLoad_5;
