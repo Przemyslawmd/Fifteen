@@ -2,8 +2,6 @@
 #include "MappedValues.h"
 #include "Options.h"
 
-using std::unique_ptr;
-
 
 const QString& Options::getTileColor()
 {
@@ -45,33 +43,33 @@ NumberColor Options::getNumberOnImageColor()
 /*********************************************************************************/
 /*********************************************************************************/
 
-unique_ptr< OptionsData > Options::readOptions()
+OptionsData Options::readOptions()
 {
-    unique_ptr< OptionsData > optionsData = std::make_unique< OptionsData >();
-    optionsData->graphicMode = graphicMode;
-    optionsData->tileSize = tileSize;
-    optionsData->imageToLoad_4 = imagesToLoad.at( BoardSize::FOUR );
-    optionsData->imageToLoad_5 = imagesToLoad.at( BoardSize::FIVE );
-    optionsData->imageToLoad_6 = imagesToLoad.at( BoardSize::SIX );
-    optionsData->imageToLoad_7 = imagesToLoad.at( BoardSize::SEVEN );
-    optionsData->squareColor = tileColor;
-    optionsData->numberColor = numberColor;
-    return optionsData;
+    return {
+        graphicMode,
+        imagesToLoad.at( BoardSize::FOUR ),
+        imagesToLoad.at( BoardSize::FIVE ),
+        imagesToLoad.at( BoardSize::SIX ),
+        imagesToLoad.at( BoardSize::SEVEN ),
+        tileColor,
+        tileSize,
+        numberColor,
+    };
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Options::saveOptions( unique_ptr< OptionsData >  optionsData )
+void Options::saveOptions( OptionsData&  optionsData )
 {
-    graphicMode = optionsData->graphicMode;
-    tileSize = optionsData->tileSize;
-    imagesToLoad.at( BoardSize::FOUR ) = optionsData->imageToLoad_4;
-    imagesToLoad.at( BoardSize::FIVE ) = optionsData->imageToLoad_5;
-    imagesToLoad.at( BoardSize::SIX ) = optionsData->imageToLoad_6;
-    imagesToLoad.at( BoardSize::SEVEN ) = optionsData->imageToLoad_7;
-    tileColor = optionsData->squareColor;
-    numberColor = optionsData->numberColor;
+    graphicMode = optionsData.graphicMode;
+    tileSize = optionsData.tileSize;
+    imagesToLoad.at( BoardSize::FOUR ) = optionsData.imageToLoad_4;
+    imagesToLoad.at( BoardSize::FIVE ) = optionsData.imageToLoad_5;
+    imagesToLoad.at( BoardSize::SIX ) = optionsData.imageToLoad_6;
+    imagesToLoad.at( BoardSize::SEVEN ) = optionsData.imageToLoad_7;
+    tileColor = optionsData.squareColor;
+    numberColor = optionsData.numberColor;
     fontSize = Maps::tileSizeFontSize.at( tileSize );
 }
 

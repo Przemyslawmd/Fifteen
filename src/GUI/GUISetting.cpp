@@ -10,8 +10,6 @@
 
 constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 
-using std::map;
-using std::unique_ptr;
 
 GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), boardMode( boardMode )
 {
@@ -30,16 +28,16 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapGraphicMode[GraphicMode::SCALED]->setStyleSheet( STYLE_MARGIN_LEFT );
     mapGraphicMode[GraphicMode::CROPPED] = new QRadioButton( "Cropped image" );
     mapGraphicMode[GraphicMode::SCALED]->setStyleSheet( STYLE_MARGIN_LEFT );
-    mapGraphicMode[currentOptions->graphicMode]->setChecked( true );
+    mapGraphicMode[currentOptions.graphicMode]->setChecked( true );
 
     mapImageToLoad[BoardSize::FOUR] = new QCheckBox( "Load image for board  4x4" );
-    mapImageToLoad[BoardSize::FOUR]->setChecked( currentOptions->imageToLoad_4 );
+    mapImageToLoad[BoardSize::FOUR]->setChecked( currentOptions.imageToLoad_4 );
     mapImageToLoad[BoardSize::FIVE] = new QCheckBox( "Load Image for board  5x5" );
-    mapImageToLoad[BoardSize::FIVE]->setChecked( currentOptions->imageToLoad_5 );
+    mapImageToLoad[BoardSize::FIVE]->setChecked( currentOptions.imageToLoad_5 );
     mapImageToLoad[BoardSize::SIX] = new QCheckBox( "Load image for board  6x6" );
-    mapImageToLoad[BoardSize::SIX]->setChecked( currentOptions->imageToLoad_6 );
+    mapImageToLoad[BoardSize::SIX]->setChecked( currentOptions.imageToLoad_6 );
     mapImageToLoad[BoardSize::SEVEN] = new QCheckBox( "Load image for board  7x7" );
-    mapImageToLoad[BoardSize::SEVEN]->setChecked( currentOptions->imageToLoad_7 );
+    mapImageToLoad[BoardSize::SEVEN]->setChecked( currentOptions.imageToLoad_7 );
 
     for ( auto& image : mapImageToLoad )
     {
@@ -57,7 +55,7 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
         groupNumberOnImage->addButton( radio.second );
     }
 
-    mapNumberOnImage[currentOptions->numberColor]->setChecked( true );
+    mapNumberOnImage[currentOptions.numberColor]->setChecked( true );
 
     QVBoxLayout* layoutImages = new QVBoxLayout();
     layoutImages->addSpacing( 8 );
@@ -96,7 +94,7 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
         groupRadioColor->addButton( radio.second );
     }
     
-    mapTileColor[ currentOptions->squareColor ]->setChecked( true );
+    mapTileColor[ currentOptions.squareColor ]->setChecked( true );
 
     QVBoxLayout* layoutTileColor = new QVBoxLayout();
     layoutTileColor->addSpacing( 7 );
@@ -115,7 +113,7 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     slider = new QSlider( Qt::Horizontal, this );
     slider->setRange( 0, 4 );
     slider->setSingleStep( 1 );
-    slider->setValue( Maps::getSliderByTileSize( currentOptions->tileSize ));
+    slider->setValue( Maps::getSliderByTileSize( currentOptions.tileSize ));
 
     QGridLayout* layoutSlider = new QGridLayout();
     layoutSlider->setContentsMargins( 10, 20, 30, 20 );
@@ -162,10 +160,10 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
 
 void GUISetting::acceptSettings()
 {
-    unique_ptr< OptionsData > newOptions( new OptionsData );
+    OptionsData newOptions;
 
-    newOptions->tileSize = Maps::sliderTileSize.at( slider->value() );
-    bool tileSizeChanged = newOptions->tileSize != currentOptions->tileSize;
+    newOptions.tileSize = Maps::sliderTileSize.at( slider->value() );
+    bool tileSizeChanged = newOptions.tileSize != currentOptions.tileSize;
     if ( tileSizeChanged && boardMode == BoardMode::GRAPHIC )
     {
         QMessageBox::information( this, "",
@@ -173,18 +171,18 @@ void GUISetting::acceptSettings()
         return;
     }
 
-    newOptions->graphicMode = mapGraphicMode[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
-    newOptions->imageToLoad_4 = mapImageToLoad[BoardSize::FOUR]->isChecked();
-    newOptions->imageToLoad_5 = mapImageToLoad[BoardSize::FIVE]->isChecked();
-    newOptions->imageToLoad_6 = mapImageToLoad[BoardSize::SIX]->isChecked();
-    newOptions->imageToLoad_7 = mapImageToLoad[BoardSize::SEVEN]->isChecked();
-    newOptions->numberColor = getChoosenOption< NumberColor >( mapNumberOnImage, mapNumberOnImage[NumberColor::NO]->group() );
-    newOptions->squareColor = getChoosenOption< TileColor >( mapTileColor, mapTileColor[TileColor::BLUE]->group() );
+    newOptions.graphicMode = mapGraphicMode[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
+    newOptions.imageToLoad_4 = mapImageToLoad[BoardSize::FOUR]->isChecked();
+    newOptions.imageToLoad_5 = mapImageToLoad[BoardSize::FIVE]->isChecked();
+    newOptions.imageToLoad_6 = mapImageToLoad[BoardSize::SIX]->isChecked();
+    newOptions.imageToLoad_7 = mapImageToLoad[BoardSize::SEVEN]->isChecked();
+    newOptions.numberColor = getChoosenOption< NumberColor >( mapNumberOnImage, mapNumberOnImage[NumberColor::NO]->group() );
+    newOptions.squareColor = getChoosenOption< TileColor >( mapTileColor, mapTileColor[TileColor::BLUE]->group() );
 
-    bool numberImageChanged = newOptions->numberColor != currentOptions->numberColor;
-    bool colorChanged = newOptions->squareColor != currentOptions->squareColor;
+    bool numberImageChanged = newOptions.numberColor != currentOptions.numberColor;
+    bool colorChanged = newOptions.squareColor != currentOptions.squareColor;
 
-    Options::saveOptions( std::move( newOptions ));
+    Options::saveOptions( newOptions );
 
     if (( tileSizeChanged && boardMode == BoardMode::NUMERIC  ) ||
         ( numberImageChanged && boardMode == BoardMode::GRAPHIC ))
@@ -202,7 +200,7 @@ void GUISetting::acceptSettings()
 /*********************************************************************************/
 /*********************************************************************************/
 
-template< typename T > T GUISetting::getChoosenOption( map< T, QRadioButton* >& mapButton, const QButtonGroup* group )
+template< typename T > T GUISetting::getChoosenOption( std::map< T, QRadioButton* >& mapButton, const QButtonGroup* group )
 {
     QRadioButton* choosen = static_cast< QRadioButton* >( group->checkedButton() );
 

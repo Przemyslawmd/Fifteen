@@ -36,13 +36,16 @@ void runTestGraphicBoard(BoardSize boardSize, TileSize tileSize, GraphicMode gra
     std::string initial = IMAGES_DIR + testImages + "initial.jpg";
     QImage image(QString::fromStdString(initial));
 
-    auto options = std::make_unique<OptionsData>();
-    options->graphicMode = graphicMode;
-    options->imageToLoad_4 = true;
-    options->imageToLoad_5 = true;
-    options->imageToLoad_6 = true;
-    options->imageToLoad_7 = true;
-    Options::saveOptions(std::move(options));
+    OptionsData options;
+    options.graphicMode = graphicMode;
+    options.imageToLoad_4 = true;
+    options.imageToLoad_5 = true;
+    options.imageToLoad_6 = true;
+    options.imageToLoad_7 = true;
+    options.tileSize = tileSize;
+    options.numberColor = NumberColor::NO;
+    options.squareColor = TileColor::BLUE;
+    Options::saveOptions(options);
     
     auto imageProvider = std::make_unique< ImageProvider >();
     imageProvider->prepareGraphicBoard(image, Maps::tileSizeInt.at(tileSize));

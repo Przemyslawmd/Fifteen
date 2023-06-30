@@ -7,7 +7,6 @@
 #include <QString>
 
 #include <map>
-#include <memory>
 
 
 class Options
@@ -24,8 +23,8 @@ public:
 
     static NumberColor getNumberOnImageColor();
 
-    static std::unique_ptr< OptionsData > readOptions();
-    static void saveOptions( std::unique_ptr< OptionsData > messageData );
+    static OptionsData readOptions();
+    static void saveOptions( OptionsData& messageData );
 
 private:
 

@@ -13,7 +13,7 @@
 #include <QRadioButton>
 #include <QSlider>
 
-#include <memory>
+#include <map>
 
 
 class GUISetting : public QDialog
@@ -35,7 +35,7 @@ private:
 
     QSlider* slider;
 
-    std::unique_ptr< OptionsData > currentOptions;
+    OptionsData currentOptions;
 
     Fifteen& owner;
     BoardMode boardMode;
