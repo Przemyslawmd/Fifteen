@@ -19,7 +19,9 @@ public:
 
     TilesBoard( std::function< void( void ) > pressTileSlot );
     TilesBoard( const TilesBoard& ) = delete;
-    TilesBoard operator=( const TilesBoard& ) = delete;
+    TilesBoard( TilesBoard&& ) = delete;
+    TilesBoard& operator=( const TilesBoard& ) = delete;
+    TilesBoard& operator=( TilesBoard&& ) = delete;
 
     QGroupBox* createGroupBox();
 

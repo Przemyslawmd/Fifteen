@@ -21,7 +21,9 @@ public:
 
     Controller();
     Controller( const Controller& ) = delete;
-    Controller operator=( const Controller& ) = delete;
+    Controller( Controller&& ) = delete;
+    Controller& operator=( const Controller& ) = delete;
+    Controller& operator=( Controller&& ) = delete;
 
     Result generateBoard( BoardSize, BoardMode );
     void solveBoard();

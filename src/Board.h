@@ -14,7 +14,9 @@ public:
     Board( BoardSize, BoardMode mode );
     Board( std::vector< uint >&& values, BoardSize, BoardMode mode );
     Board( const Board& ) = delete;
-    Board operator=( const Board& ) = delete;
+    Board( Board&& ) = delete;
+    Board& operator=( const Board& ) = delete;
+    Board& operator=( Board&& ) = delete;
 
     Move checkMove( uint row, uint col );
 
