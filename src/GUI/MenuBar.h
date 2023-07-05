@@ -25,7 +25,9 @@ public:
 
     MenuBar() = default;
     MenuBar( const MenuBar& ) = delete;
-    MenuBar operator=( const MenuBar& ) = delete;
+    MenuBar( MenuBar&& ) = delete;
+    MenuBar& operator=( const MenuBar& ) = delete;
+    MenuBar& operator=( MenuBar&& ) = delete;
 
     QMenuBar* createMenuBar( std::map< ActionMenu, std::function< void( void ) >>& menuSlots, QMainWindow* window );
     void setActionMenuState( ActionMenu, bool state );

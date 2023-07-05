@@ -29,7 +29,7 @@ std::vector< unique_ptr< QImage >>& ImageProvider::getImages( BoardSize boardSiz
 
 void ImageProvider::prepareGraphicBoard( QImage& image, uint tileSize )
 {
-    for ( const auto& [ boardSize, _ ] : images )
+    for ( const auto& [boardSize, _] : images )
     {
         if (( Options::isImageToBeLoaded( boardSize )) && ( checkImageSize( image, boardSize, tileSize )))
         {

@@ -11,7 +11,9 @@ public:
 
     GUIAbout();
     GUIAbout( const GUIAbout& ) = delete;
-    GUIAbout operator=( const GUIAbout& ) = delete;
+    GUIAbout( GUIAbout&& ) = delete;
+    GUIAbout& operator=( const GUIAbout& ) = delete;
+    GUIAbout& operator=( GUIAbout&& ) = delete;
 };
 
 #endif

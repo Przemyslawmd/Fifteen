@@ -39,9 +39,9 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapImageToLoad[BoardSize::SEVEN] = new QCheckBox( "Load image for board  7x7" );
     mapImageToLoad[BoardSize::SEVEN]->setChecked( currentOptions.imageToLoad_7 );
 
-    for ( auto& image : mapImageToLoad )
+    for ( auto& [_, checkBox] : mapImageToLoad )
     {
-        image.second->setStyleSheet( STYLE_MARGIN_LEFT );
+        checkBox->setStyleSheet( STYLE_MARGIN_LEFT );
     }
 
     mapNumberOnImage[NumberColor::NO] = new QRadioButton( "Number on graphic tile : No" );
@@ -49,10 +49,10 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapNumberOnImage[NumberColor::WHITE] = new QRadioButton( "Number on graphic tile : White" );
 
     QButtonGroup* groupNumberOnImage = new QButtonGroup();
-    for ( auto& radio : mapNumberOnImage )
+    for ( auto& [_, radio] : mapNumberOnImage )
     {
-        radio.second->setStyleSheet( STYLE_MARGIN_LEFT );
-        groupNumberOnImage->addButton( radio.second );
+        radio->setStyleSheet( STYLE_MARGIN_LEFT );
+        groupNumberOnImage->addButton( radio );
     }
 
     mapNumberOnImage[currentOptions.numberColor]->setChecked( true );
@@ -88,10 +88,10 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapTileColor[TileColor::RED] = new QRadioButton( "Red" );
 
     QButtonGroup* groupRadioColor = new QButtonGroup();
-    for ( auto& radio : mapTileColor )
+    for ( auto& [_, radio] : mapTileColor )
     {
-        radio.second->setStyleSheet( STYLE_MARGIN_LEFT );
-        groupRadioColor->addButton( radio.second );
+        radio->setStyleSheet( STYLE_MARGIN_LEFT );
+        groupRadioColor->addButton( radio );
     }
     
     mapTileColor[ currentOptions.squareColor ]->setChecked( true );
@@ -193,7 +193,6 @@ void GUISetting::acceptSettings()
     {
         owner.setColor();
     }
-
     close();
 }
 

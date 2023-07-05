@@ -19,11 +19,11 @@ QVBoxLayout* Panel::createLayout( std::array< std::function< void( void ) >, 3 >
     mapBoardSize[BoardSize::FOUR]->setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    for( std::pair< BoardSize, QRadioButton* > radioSizePair : mapBoardSize )
+    for( auto& [_, radio] : mapBoardSize )
     {
         radioSizeLayout->addSpacing( 10 );
-        radioSizeLayout->addWidget( radioSizePair.second );
-        radioSizePair.second->setStyleSheet( STYLE_MARGIN_LEFT );
+        radioSizeLayout->addWidget( radio );
+        radio->setStyleSheet( STYLE_MARGIN_LEFT );
     }
     radioSizeLayout->addSpacing( 30 );
 
@@ -35,11 +35,11 @@ QVBoxLayout* Panel::createLayout( std::array< std::function< void( void ) >, 3 >
     mapBoardMode[BoardMode::NUMERIC]->setChecked( true );
 
     QVBoxLayout* radioKindLayout = new QVBoxLayout();
-    for( std::pair< BoardMode, QRadioButton* > radioKindPair : mapBoardMode )
+    for( auto& [_, radio] : mapBoardMode )
     {
         radioKindLayout->addSpacing( 10 );
-        radioKindLayout->addWidget( radioKindPair.second );
-        radioKindPair.second->setStyleSheet( STYLE_MARGIN_LEFT );
+        radioKindLayout->addWidget( radio );
+        radio->setStyleSheet( STYLE_MARGIN_LEFT );
     }
     radioKindLayout->addSpacing( 30 );
 

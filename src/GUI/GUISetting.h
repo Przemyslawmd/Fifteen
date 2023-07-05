@@ -22,7 +22,9 @@ public:
 
     GUISetting( Fifteen& owner, BoardMode boardMode );
     GUISetting( const GUISetting& ) = delete;
-    GUISetting operator=( const GUISetting& ) = delete;
+    GUISetting( GUISetting&& ) = delete;
+    GUISetting& operator=( const GUISetting& ) = delete;
+    GUISetting& operator=( GUISetting&& ) = delete;
 
 private:
 

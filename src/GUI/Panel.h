@@ -20,7 +20,9 @@ public:
 
     Panel() = default;
     Panel( const Panel& ) = delete;
-    Panel operator=( const Panel& ) = delete;
+    Panel( Panel&& ) = delete;
+    Panel& operator=( const Panel& ) = delete;
+    Panel& operator=( Panel&& ) = delete;
 
     QVBoxLayout* createLayout( std::array< std::function< void( void ) >, 3 >& slots, QMainWindow* );
 
