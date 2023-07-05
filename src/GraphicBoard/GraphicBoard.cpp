@@ -30,7 +30,7 @@ void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSiz
                                         boardSizePixel );
     }
 
-    createTiles( &boardImage, boardSizeInt, tileSize );
+    createTiles( boardImage, boardSizeInt, tileSize );
     this->tileSize = Maps::getTileSizeByInt( tileSize );
     this->fontSize = Maps::tileSizeFontSize.at( this->tileSize );
 }
@@ -38,9 +38,10 @@ void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSiz
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
+void GraphicBoard::createTiles( QImage& image, uint boardSize, uint tileSize )
 {
     uint pictureSize = boardSize * tileSize;
+    images.reserve( boardSize * boardSize );
 
     for ( uint yPos = 0; yPos < pictureSize; yPos += tileSize )
     {
@@ -50,7 +51,7 @@ void GraphicBoard::createTiles( QImage* image, uint boardSize, uint tileSize )
             {
                 break;
             }
-            images.push_back( std::make_unique< QImage >( image->copy( xPos, yPos, tileSize, tileSize )));
+            images.push_back( std::make_unique< QImage >( image.copy( xPos, yPos, tileSize, tileSize )));
         }
     }
 
