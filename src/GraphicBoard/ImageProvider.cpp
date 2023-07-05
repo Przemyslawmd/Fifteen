@@ -29,11 +29,12 @@ std::vector< unique_ptr< QImage >>& ImageProvider::getImages( BoardSize boardSiz
 
 void ImageProvider::prepareGraphicBoard( QImage& image, uint tileSize )
 {
-    for ( auto iter = images.begin(); iter != images.end(); iter++ )
+    for ( const auto& [ boardSize, _ ] : images )
     {
-        if (( Options::isImageToBeLoaded( iter->first )) && ( checkImageSize( image, iter->first, tileSize )))
+        if (( Options::isImageToBeLoaded( boardSize )) && ( checkImageSize( image, boardSize, tileSize )))
         {
-            createTilesForGraphicBoard( iter->first, tileSize, image );
+            images.at( boardSize ) = std::make_unique< GraphicBoard >();
+            images.at( boardSize )->createTilesFromImage( image, boardSize, tileSize, Options::graphicMode );
         }
     }
 }
@@ -75,16 +76,6 @@ bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, uint t
         Message::putMessage( Result::GRAPHIC_TOO_LOW_SIZE, boardSizeInt );
         return false;
     }
-
     return true;
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-void ImageProvider::createTilesForGraphicBoard( BoardSize boardSize, uint tileSize, QImage& image )
-{
-    images.at( boardSize ) = std::make_unique< GraphicBoard >();
-    images.at( boardSize )->createTilesFromImage( image, boardSize, tileSize, Options::graphicMode );
 }
 

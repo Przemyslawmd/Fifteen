@@ -15,7 +15,9 @@ public:
 
     ImageProvider();
     ImageProvider( const ImageProvider& ) = delete;
-    ImageProvider operator=( const ImageProvider& ) = delete;
+    ImageProvider( ImageProvider&& ) = delete;
+    ImageProvider& operator=( const ImageProvider& ) = delete;
+    ImageProvider& operator=( ImageProvider&& ) = delete;
 
     std::vector< std::unique_ptr< QImage >>& getImages( BoardSize );
 
@@ -27,7 +29,6 @@ public:
 private:
 
     bool checkImageSize( QImage&, BoardSize, uint tileSize ) ;
-    void createTilesForGraphicBoard( BoardSize, uint tileSize, QImage& );
 
     std::map< BoardSize, std::unique_ptr< GraphicBoard >> images;
 };
