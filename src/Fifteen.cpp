@@ -26,19 +26,17 @@ void Fifteen::initGame()
     resize( 850, 600 );
     controller = std::make_unique< Controller >();
     tilesBoard = std::make_unique< TilesBoard >( std::bind( &Fifteen::pressTile, this ));
-    menuBar = std::make_unique< MenuBar >();
     panel = std::make_unique< Panel >();
 
-    std::map< ActionMenu, std::function< void( void ) >> menuSlots =
-    {
-        { ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this )},
-        { ActionMenu::REM_GRAPHIC,  std::bind( &Fifteen::slotRemoveGraphic, this )},
-        { ActionMenu::SAVE_BOARD,   std::bind( &Fifteen::slotSaveBoard, this )},
-        { ActionMenu::LOAD_BOARD,   std::bind( &Fifteen::slotReadBoard, this )},
-        { ActionMenu::SETTINGS,     std::bind( &Fifteen::slotSettings, this )},
-        { ActionMenu::ABOUT,        std::bind( &Fifteen::slotAbout, this )},
-    };
-    QMenuBar* menu = menuBar->createMenuBar( menuSlots, this );
+    menuBar = std::make_unique< MenuBar >();
+    menuBar->bindSlot( ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this ), this, "Load Graphic File" );
+    menuBar->bindSlot( ActionMenu::REM_GRAPHIC, std::bind( &Fifteen::slotRemoveGraphic, this ), this, "Remove Graphic" );
+    menuBar->bindSlot( ActionMenu::SAVE_BOARD, std::bind( &Fifteen::slotSaveBoard, this ), this, "Save Board" );
+    menuBar->bindSlot( ActionMenu::LOAD_BOARD, std::bind( &Fifteen::slotReadBoard, this ), this, "Load Board" );
+    menuBar->bindSlot( ActionMenu::SETTINGS, std::bind( &Fifteen::slotSettings, this ), this, "Settings" );
+    menuBar->bindSlot( ActionMenu::ABOUT, std::bind( &Fifteen::slotAbout, this ), this, "About" );
+
+    QMenuBar* menu = menuBar->createMenuBar();
     setMenuBar( menu );
 
     std::array< std::function< void( void ) >, 3 > panelSlots =

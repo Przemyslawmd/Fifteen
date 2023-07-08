@@ -4,7 +4,10 @@
 
 #include "Types.h"
 
+#include <QAction>
 #include <QMainWindow>
+#include <QMenuBar>
+#include <QString>
 
 #include <functional>
 #include <map>
@@ -29,13 +32,14 @@ public:
     MenuBar& operator=( const MenuBar& ) = delete;
     MenuBar& operator=( MenuBar&& ) = delete;
 
-    QMenuBar* createMenuBar( std::map< ActionMenu, std::function< void( void ) >>& menuSlots, QMainWindow* window );
+    QMenuBar* createMenuBar();
     void setActionMenuState( ActionMenu, bool state );
+
+    void bindSlot( ActionMenu action, std::function< void( void )> slot, QMainWindow* window, const QString& text );
 
 private:
 
-    void bindAction( QAction*& action, std::function< void( void ) > slot, QString text, QMainWindow* window );
-    std::map< ActionMenu, QAction* > mapActionMenu;
+    std::map< ActionMenu, QAction* > mapAction;
 };
 
 #endif

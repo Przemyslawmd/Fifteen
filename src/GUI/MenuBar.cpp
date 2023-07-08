@@ -1,33 +1,35 @@
 
 #include "MenuBar.h"
 
-#include <QMenuBar>
 
+void MenuBar::bindSlot( ActionMenu actionMenu, std::function< void( void )> slot, QMainWindow* window, const QString& text )
+{
+    mapAction[ actionMenu ] = new QAction();
+    mapAction.at( actionMenu )->setText( text );
+    QObject::connect( mapAction.at( actionMenu ), &QAction::triggered, window, slot );
+}
 
-QMenuBar* MenuBar::createMenuBar( std::map< ActionMenu, std::function< void( void ) >>& menuSlots, QMainWindow* window )
+/*********************************************************************************/
+/*********************************************************************************/
+
+QMenuBar* MenuBar::createMenuBar()
 {
     QMenu* fileMenu = new QMenu( "File" );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    bindAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC], menuSlots.at( ActionMenu::OPEN_GRAPHIC ), "Load Graphic File",window );
-    bindAction( mapActionMenu[ActionMenu::REM_GRAPHIC],  menuSlots.at( ActionMenu::REM_GRAPHIC ),  "Remove Graphic", window );
-    bindAction( mapActionMenu[ActionMenu::SAVE_BOARD],   menuSlots.at( ActionMenu::SAVE_BOARD ),   "Save Board", window );
-    bindAction( mapActionMenu[ActionMenu::LOAD_BOARD],   menuSlots.at( ActionMenu::LOAD_BOARD ),   "Load Board", window );
-    bindAction( mapActionMenu[ActionMenu::SETTINGS],     menuSlots.at( ActionMenu::SETTINGS ),     "Settings", window );
-    bindAction( mapActionMenu[ActionMenu::ABOUT],        menuSlots.at( ActionMenu::ABOUT ),        "About", window );
-
-    fileMenu->addAction( mapActionMenu[ActionMenu::OPEN_GRAPHIC] );
+    fileMenu->addAction( mapAction.at( ActionMenu::OPEN_GRAPHIC ));
     fileMenu->addSeparator();
-    fileMenu->addAction( mapActionMenu[ActionMenu::REM_GRAPHIC] );
+    fileMenu->addAction( mapAction.at( ActionMenu::REM_GRAPHIC ));
+    mapAction.at( ActionMenu::REM_GRAPHIC )->setEnabled( false );
     fileMenu->addSeparator();
-    fileMenu->addAction( mapActionMenu[ActionMenu::SAVE_BOARD] );
+    fileMenu->addAction( mapAction.at( ActionMenu::SAVE_BOARD ));
     fileMenu->addSeparator();
-    fileMenu->addAction( mapActionMenu[ActionMenu::LOAD_BOARD] );
+    fileMenu->addAction( mapAction.at( ActionMenu::LOAD_BOARD ));
 
     QMenuBar* menuBar = new QMenuBar();
     menuBar->addMenu( fileMenu );
-    menuBar->addAction( mapActionMenu[ActionMenu::SETTINGS] );
-    menuBar->addAction( mapActionMenu[ActionMenu::ABOUT] );
+    menuBar->addAction( mapAction.at( ActionMenu::SETTINGS ));
+    menuBar->addAction( mapAction.at( ActionMenu::ABOUT ));
     menuBar->setStyleSheet( "padding-left: 5px; margin: 3px;" );
     return menuBar;
 }
@@ -35,18 +37,8 @@ QMenuBar* MenuBar::createMenuBar( std::map< ActionMenu, std::function< void( voi
 /*********************************************************************************/
 /*********************************************************************************/
 
-void MenuBar::bindAction( QAction*& action, std::function< void( void ) > slot, QString text, QMainWindow* window )
-{
-    action = new QAction( window );
-    action->setText( text );
-    QObject::connect( action, &QAction::triggered, window, slot );
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 void MenuBar::setActionMenuState( ActionMenu actionMenu, bool state )
 {
-    mapActionMenu.at( actionMenu )->setEnabled( state );
+    mapAction.at( actionMenu )->setEnabled( state );
 }
 
