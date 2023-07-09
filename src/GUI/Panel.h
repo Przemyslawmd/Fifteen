@@ -11,7 +11,6 @@
 
 #include <functional>
 #include <map>
-#include <memory>
 
 
 class Panel
@@ -33,8 +32,8 @@ public:
 
 private:
 
-    std::map< BoardSize, QRadioButton* > mapBoardSize;
-    std::map< BoardMode, QRadioButton* > mapBoardMode;
+    std::map< BoardSize, QRadioButton* > mapSize;
+    std::map< BoardMode, QRadioButton* > mapMode;
 };
 
 #endif

@@ -12,14 +12,14 @@ constexpr const char STYLE_HEIGHT[] = "height:20px";
 
 QVBoxLayout* Panel::createLayout( std::array< std::function< void( void ) >, 3 >& panelSlots, QMainWindow* window )
 {
-    mapBoardSize[BoardSize::FOUR] = new QRadioButton( "4" );
-    mapBoardSize[BoardSize::FIVE] = new QRadioButton( "5" );
-    mapBoardSize[BoardSize::SIX] = new QRadioButton( "6" );
-    mapBoardSize[BoardSize::SEVEN] = new QRadioButton( "7" );
-    mapBoardSize[BoardSize::FOUR]->setChecked( true );
+    mapSize[BoardSize::FOUR] = new QRadioButton( "4" );
+    mapSize[BoardSize::FIVE] = new QRadioButton( "5" );
+    mapSize[BoardSize::SIX] = new QRadioButton( "6" );
+    mapSize[BoardSize::SEVEN] = new QRadioButton( "7" );
+    mapSize[BoardSize::FOUR]->setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    for( auto& [_, radio] : mapBoardSize )
+    for( auto& [_, radio] : mapSize )
     {
         radioSizeLayout->addSpacing( 10 );
         radioSizeLayout->addWidget( radio );
@@ -30,12 +30,12 @@ QVBoxLayout* Panel::createLayout( std::array< std::function< void( void ) >, 3 >
     QGroupBox* radioSizeBox = new QGroupBox( "Dimension of Board" );
     radioSizeBox->setLayout( radioSizeLayout );
 
-    mapBoardMode[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
-    mapBoardMode[BoardMode::GRAPHIC] = new QRadioButton( "Graphic" );
-    mapBoardMode[BoardMode::NUMERIC]->setChecked( true );
+    mapMode[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
+    mapMode[BoardMode::GRAPHIC] = new QRadioButton( "Graphic" );
+    mapMode[BoardMode::NUMERIC]->setChecked( true );
 
     QVBoxLayout* radioKindLayout = new QVBoxLayout();
-    for( auto& [_, radio] : mapBoardMode )
+    for( auto& [_, radio] : mapMode )
     {
         radioKindLayout->addSpacing( 10 );
         radioKindLayout->addWidget( radio );
@@ -78,19 +78,8 @@ QVBoxLayout* Panel::createLayout( std::array< std::function< void( void ) >, 3 >
 
 BoardSize Panel::checkBoardSize()
 {
-    if ( mapBoardSize.at( BoardSize::FOUR )->isChecked() )
-    {
-        return BoardSize::FOUR;
-    }
-    if ( mapBoardSize.at( BoardSize::FIVE )->isChecked() )
-    {
-        return BoardSize::FIVE;
-    }
-    if ( mapBoardSize.at( BoardSize::SIX )->isChecked() )
-    {
-        return BoardSize::SIX;
-    }
-    return BoardSize::SEVEN;
+    const auto it = std::find_if( mapSize.begin(), mapSize.end(), [] ( const auto &it ) { return it.second->isChecked() == true; });
+    return it->first;
 }
 
 /*********************************************************************************/
@@ -98,7 +87,7 @@ BoardSize Panel::checkBoardSize()
 
 void Panel::setBoardSize( BoardSize boardSize )
 {
-    mapBoardSize.at( boardSize )->setChecked( true );
+    mapSize.at( boardSize )->setChecked( true );
 }
 
 /*********************************************************************************/
@@ -106,7 +95,7 @@ void Panel::setBoardSize( BoardSize boardSize )
 
 bool Panel::checkBoardMode( BoardMode boardMode )
 {
-    return mapBoardMode.at( boardMode )->isChecked();
+    return mapMode.at( boardMode )->isChecked();
 }
 
 /*********************************************************************************/
@@ -114,6 +103,6 @@ bool Panel::checkBoardMode( BoardMode boardMode )
 
 void Panel::setBoardMode( BoardMode boardMode )
 {
-    mapBoardMode.at( boardMode )->setChecked( true );
+    mapMode.at( boardMode )->setChecked( true );
 }
 
