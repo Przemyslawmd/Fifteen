@@ -58,9 +58,9 @@ Move Board::checkMove( uint row, uint col )
 
 void Board::generateBoard()
 {
-    uint emptyTillPos = findNullValue();
-    uint nullRow = emptyTillPos / 10;
-    uint nullCol = emptyTillPos % 10;
+    uint emptyTile = findEmptyTilePosition();
+    uint emptyRow = emptyTile / 10;
+    uint emptyCol = emptyTile % 10;
 
     std::vector< Move > moves( 4 );
     const std::array< Move, 4 > allMoves = { Move::UP, Move::RIGHT, Move::DOWN, Move::LEFT };
@@ -73,28 +73,28 @@ void Board::generateBoard()
 
         while( true )
         {
-            if (( move == Move::UP ) && ( nullRow > 0 ))
+            if (( move == Move::UP ) && ( emptyRow > 0 ))
             {                
-                makeMove( nullRow, nullCol, nullRow - 1, nullCol );
-                nullRow--;
+                makeMove( emptyRow, emptyCol, emptyRow - 1, emptyCol );
+                emptyRow--;
                 break;
             }            
-            if (( move == Move::RIGHT ) && ( nullCol < ( sizeInt - 1 )))
+            if (( move == Move::RIGHT ) && ( emptyCol < ( sizeInt - 1 )))
             {                
-                makeMove( nullRow, nullCol, nullRow, nullCol + 1 );
-                nullCol++;
+                makeMove( emptyRow, emptyCol, emptyRow, emptyCol + 1 );
+                emptyCol++;
                 break;
             }            
-            if (( move == Move::DOWN ) && ( nullRow < ( sizeInt - 1 )))
+            if (( move == Move::DOWN ) && ( emptyRow < ( sizeInt - 1 )))
             {                
-                makeMove( nullRow, nullCol, nullRow + 1, nullCol );
-                nullRow++;
+                makeMove( emptyRow, emptyCol, emptyRow + 1, emptyCol );
+                emptyRow++;
                 break;
             }            
-            if (( move == Move::LEFT ) && ( nullCol > 0 ))
+            if (( move == Move::LEFT ) && ( emptyCol > 0 ))
             {                
-                makeMove( nullRow, nullCol, nullRow, nullCol - 1 );
-                nullCol--;
+                makeMove( emptyRow, emptyCol, emptyRow, emptyCol - 1 );
+                emptyCol--;
                 break;
             }
 
@@ -171,7 +171,7 @@ void Board::makeMove( uint srcRow, uint srcCol, uint dstRow, uint dstCol )
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Board::findNullValue()
+uint Board::findEmptyTilePosition()
 {
     uint nullValuePos =  std::distance( values.begin(), std::find( values.begin(), values.end(), nullValue ));
     return nullValuePos / sizeInt * 10 + nullValuePos % sizeInt;

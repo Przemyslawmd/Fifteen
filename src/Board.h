@@ -34,7 +34,7 @@ public:
 private:
 
     void makeMove( uint srcRow, uint srcColumn, uint dstRow, uint dstColumn );
-    uint findNullValue();
+    uint findEmptyTilePosition();
 
     const BoardSize size;
     const uint sizeInt;
