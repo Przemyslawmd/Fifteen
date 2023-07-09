@@ -25,9 +25,10 @@ public:
     BoardMode getMode() const;
     void setMode( BoardMode );
 
-    std::vector< uint >& sendValues();
-    std::vector< uint >& randomBoard();
+    std::vector< uint >& getBoardValues();
+    void generateBoard();
     void solveBoard();
+
     uint getNullValue();
 
 private:

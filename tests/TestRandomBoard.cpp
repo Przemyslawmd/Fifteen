@@ -14,7 +14,8 @@
 void runTestRandomBoard(BoardSize boardSize)
 {
     auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
-    auto values = board->randomBoard();
+    board->generateBoard();
+    auto values = board->getBoardValues();
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
 
     Utils::checkTiles(sizeInt, values);

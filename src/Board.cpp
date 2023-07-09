@@ -56,7 +56,7 @@ Move Board::checkMove( uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< uint >& Board::randomBoard()
+void Board::generateBoard()
 {
     uint emptyTillPos = findNullValue();
     uint nullRow = emptyTillPos / 10;
@@ -102,8 +102,6 @@ std::vector< uint >& Board::randomBoard()
             move = moves[ rand() % moves.size() ];
         }
     }
-
-    return values;
 }
 
 /*********************************************************************************/
@@ -149,7 +147,7 @@ void Board::setMode( BoardMode mode )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< uint >& Board::sendValues()
+std::vector< uint >& Board::getBoardValues()
 {
     return values;
 }

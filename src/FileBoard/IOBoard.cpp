@@ -19,7 +19,7 @@ void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
         return;
     }
 
-    const auto& values = board.sendValues();
+    const auto& values = board.getBoardValues();
     for ( uint value : values )
     {
         ofs << value <<',';

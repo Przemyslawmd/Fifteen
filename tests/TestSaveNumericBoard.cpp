@@ -17,7 +17,8 @@
 std::unique_ptr<Board> createAndSaveBoard(BoardSize size)
 {
     auto board = std::make_unique<Board>(size, BoardMode::NUMERIC);
-    auto initialValues = board->randomBoard();
+    board->generateBoard();
+    auto initialValues = board->getBoardValues();
     
     IOBoard io;
     const std::string& filePath = ROOT_DIR + std::string("savedBoard");
@@ -43,26 +44,28 @@ std::unique_ptr<Board> restoreBoard(std::unique_ptr<Board> board)
 TEST(testSaveNumericBoard, NoSizeChange)
 {
     auto board = createAndSaveBoard(BoardSize::SEVEN);
-    auto initialValues = board->sendValues();
+    auto initialValues = board->getBoardValues();
 
-    auto changedValues = board->randomBoard();
+    board->generateBoard();
+    auto changedValues = board->getBoardValues();
     EXPECT_NE(changedValues, initialValues);
  
     auto restoredBoard = restoreBoard(std::move(board));
-    auto restoredValues = restoredBoard->sendValues();
+    auto restoredValues = restoredBoard->getBoardValues();
     EXPECT_EQ(initialValues, restoredValues);
 }
 
 TEST(testSaveNumericBoard, SizeChanged)
 {
     auto board = createAndSaveBoard(BoardSize::SEVEN);
-    auto initialValues = board->sendValues();
+    auto initialValues = board->getBoardValues();
 
     board.reset(new Board(BoardSize::FIVE, BoardMode::NUMERIC));
-    auto changedValues = board->randomBoard();
+    board->generateBoard();
+    auto changedValues = board->getBoardValues();
     EXPECT_NE(changedValues, initialValues);
 
     auto restoredBoard = restoreBoard(std::move(board));
-    auto restoredValues = restoredBoard->sendValues();
+    auto restoredValues = restoredBoard->getBoardValues();
     EXPECT_EQ(initialValues, restoredValues);
 }

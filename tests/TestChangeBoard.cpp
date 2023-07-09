@@ -14,16 +14,16 @@
 void runTestChangeBoard(BoardSize firstSize, BoardSize secondSize)
 {
     auto board = std::make_unique<Board>(firstSize, BoardMode::NUMERIC);
-    board->randomBoard();
-    board->randomBoard();
-    auto const& values_1 = board->randomBoard();
+    board->generateBoard();
+    board->generateBoard();
+    auto const& values_1 = board->getBoardValues();
     
     uint sizeInt = Maps::boardSizeInt.at(firstSize);
     Utils::checkTiles(sizeInt, values_1);
 
     board.reset(new Board(secondSize, BoardMode::NUMERIC));
-    board->randomBoard();
-    auto const& values_2 = board->randomBoard();
+    board->generateBoard();
+    auto const& values_2 = board->getBoardValues();
 
     sizeInt = Maps::boardSizeInt.at(secondSize);
     Utils::checkTiles(sizeInt, values_2);

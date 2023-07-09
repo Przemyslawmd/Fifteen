@@ -20,7 +20,7 @@ Result Controller::generateBoard( BoardSize boardSize, BoardMode boardMode )
         return Result::CREATE_GRAPHIC_BOARD_NO_GRAPHIC;
     }
     board.reset( new Board( boardSize, boardMode ));
-    board->randomBoard();
+    board->generateBoard();
     undoMoveService->Reset();
     return Result::OK;
 }
@@ -39,7 +39,7 @@ void Controller::solveBoard()
 
 std::vector< uint >& Controller::getValues()
 {
-    return board->sendValues();
+    return board->getBoardValues();
 }
 
 /*********************************************************************************/
