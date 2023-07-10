@@ -63,12 +63,11 @@ void Board::generateBoard()
     uint emptyCol = emptyTile % 10;
 
     std::vector< Move > moves( 4 );
-    const std::array< Move, 4 > allMoves = { Move::UP, Move::RIGHT, Move::DOWN, Move::LEFT };
 
     for ( int i = 0; i < 4000; i++ )
     {
         moves.clear();
-        moves.insert( moves.begin(), allMoves.begin(), allMoves.end() );
+        moves.insert( moves.begin(), { Move::UP, Move::RIGHT, Move::DOWN, Move::LEFT });
         Move move = moves.at( rand() % moves.size() );
 
         while( true )
