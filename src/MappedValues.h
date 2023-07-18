@@ -27,7 +27,7 @@ public:
 
 private:
 
-    template< typename T, typename U > static T getMapKeyByValue( std::map< T, U >, U  value );
+    template< typename T, typename U > static T getMapKeyByValue( const std::map< T, U >&, U  value );
 };
 
 #endif

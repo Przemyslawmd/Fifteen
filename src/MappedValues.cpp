@@ -90,7 +90,7 @@ int Maps::getFontSizeInt( TileSize tileSize )
 }
 
 
-template< typename T, typename U > T Maps::getMapKeyByValue( map< T, U > pairs, U value )
+template< typename T, typename U > T Maps::getMapKeyByValue( const map< T, U >& pairs, U value )
 {
     for ( auto& pair : pairs )
     {
