@@ -1,6 +1,12 @@
 
 #include "Fifteen.h"
 
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QPainter>
+#include <QHBoxLayout>
+#include <QGroupBox>
+
 #include "GraphicBoard/ImageProvider.h"
 #include "GUI/GUIAbout.h"
 #include "GUI/Panel.h"
@@ -8,12 +14,6 @@
 #include "MappedValues.h"
 #include "Message.h"
 #include "Options.h"
-
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPainter>
-#include <QHBoxLayout>
-#include <QGroupBox>
 
 
 Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
@@ -24,9 +24,9 @@ Fifteen::Fifteen( QWidget *parent ) : QMainWindow{ parent } {}
 void Fifteen::initGame()
 {
     resize( 850, 600 );
-    controller = std::make_unique< Controller >();
-    tilesBoard = std::make_unique< TilesBoard >( std::bind( &Fifteen::pressTile, this ));
-    panel = std::make_unique< Panel >();
+    controller = std::make_unique<Controller>();
+    tilesBoard = std::make_unique<TilesBoard>( std::bind( &Fifteen::pressTile, this ));
+    panel = std::make_unique<Panel>();
 
     menuBar = std::make_unique< MenuBar >();
     menuBar->bindSlot( ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this ), this, "Load Graphic File" );
@@ -39,7 +39,7 @@ void Fifteen::initGame()
     QMenuBar* menu = menuBar->createMenuBar();
     setMenuBar( menu );
 
-    std::array< std::function< void( void ) >, 3 > panelSlots =
+    std::array< std::function<void( void )>, 3> panelSlots =
     {
         std::bind( &Fifteen::slotGenerateBoard, this ),
         std::bind( &Fifteen::slotSolveBoard, this ),

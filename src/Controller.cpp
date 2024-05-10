@@ -6,8 +6,8 @@
 
 Controller::Controller() 
 {
-    board = std::make_unique< Board >( BoardSize::FOUR, BoardMode::NUMERIC );
-    undoMoveService = std::make_unique< UndoMove >();
+    board = std::make_unique<Board>( BoardSize::FOUR, BoardMode::NUMERIC );
+    undoMoveService = std::make_unique<UndoMove>();
 }
 
 /*********************************************************************************/
@@ -61,7 +61,7 @@ BoardMode Controller::getBoardMode()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::tuple< uint, uint > Controller::getBoardAttributes()
+std::tuple<uint, uint> Controller::getBoardAttributes()
 {
     BoardSize boardSize = board->getSize();
     uint tileSize = board->getMode() == BoardMode::NUMERIC ?
@@ -81,7 +81,7 @@ uint Controller::getFontSize()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::tuple< Move, uint, uint > Controller::makeMove( uint tilePosition )
+std::tuple<Move, uint, uint> Controller::makeMove( uint tilePosition )
 {
     uint row = tilePosition / 10;
     uint col = tilePosition % 10;
@@ -100,7 +100,7 @@ std::tuple< Move, uint, uint > Controller::makeMove( uint tilePosition )
 
 bool Controller::loadGraphic( QImage& image )
 {
-    imageProvider = std::make_unique< ImageProvider >();
+    imageProvider = std::make_unique<ImageProvider>();
     imageProvider->prepareGraphicBoard( image, Options::getTileSize() );
 
     return imageProvider->isGraphicBoard( BoardSize::FOUR ) || imageProvider->isGraphicBoard( BoardSize::FIVE ) ||
@@ -173,7 +173,7 @@ bool Controller::readBoardFromFile( const std::string& file )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::tuple< Move, uint, uint > Controller::undoMove()
+std::tuple<Move, uint, uint> Controller::undoMove()
 {
     uint position = undoMoveService->GetMove();
     if ( position == MOVE_STACK_EMPTY )

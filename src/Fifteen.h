@@ -2,18 +2,18 @@
 #ifndef FIFTEEN_FIFTEEN_H
 #define FIFTEEN_FIFTEEN_H
 
+#include <memory>
+
+#include <QMainWindow>
+#include <QPushButton>
+#include <QRadioButton>
+
 #include "Board.h"
 #include "Controller.h"
 #include "GUI/MenuBar.h"
 #include "GUI/Panel.h"
 #include "GUI/TilesBoard.h"
 #include "Types.h"
-
-#include <QMainWindow>
-#include <QPushButton>
-#include <QRadioButton>
-
-#include <memory>
 
 
 class Fifteen : public QMainWindow
@@ -38,10 +38,10 @@ public slots:
 
 private:
 
-    std::unique_ptr< Controller > controller;
-    std::unique_ptr< TilesBoard > tilesBoard;
-    std::unique_ptr< Panel > panel;
-    std::unique_ptr< MenuBar > menuBar;
+    std::unique_ptr<Controller> controller;
+    std::unique_ptr<TilesBoard> tilesBoard;
+    std::unique_ptr<Panel> panel;
+    std::unique_ptr<MenuBar> menuBar;
 
     void createTiles();
     void setTiles();
