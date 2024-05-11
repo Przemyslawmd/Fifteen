@@ -4,7 +4,7 @@
 
 void MenuBar::bindSlot( ActionMenu actionMenu, std::function<void( void )> slot, QMainWindow* window, const QString& text )
 {
-    mapAction[ actionMenu ] = new QAction();
+    mapAction[ actionMenu ] = new QAction( window );
     mapAction.at( actionMenu )->setText( text );
     QObject::connect( mapAction.at( actionMenu ), &QAction::triggered, window, slot );
 }
