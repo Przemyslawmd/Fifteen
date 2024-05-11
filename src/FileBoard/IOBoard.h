@@ -2,10 +2,12 @@
 #ifndef IO_BOARD_H
 #define IO_BOARD_H
 
-#include "../Board.h"
-
 #include <memory>
 #include <optional>
+#include <string>
+#include <vector>
+
+#include "../Board.h"
 
 
 class IOBoard
@@ -19,11 +21,11 @@ public:
     IOBoard& operator=( IOBoard&& ) = delete;
 
     void writeBoardIntoFile( Board&, const std::string& fileName );
-    std::optional< std::vector< uint >> readBoardFromFile( const std::string& fileName );
+    std::optional<std::vector<uint>> readBoardFromFile( const std::string& fileName );
 
 private:
 
-    bool validate( const std::vector< uint >& ) const;
+    bool validate( const std::vector<uint>& ) const;
 };
 
 #endif

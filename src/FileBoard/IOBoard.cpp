@@ -1,13 +1,13 @@
 
 #include "IOBoard.h"
-#include "../MappedValues.h"
-#include "../Message.h"
 
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <sstream>
-#include <vector>
+
+#include "../MappedValues.h"
+#include "../Message.h"
 
 
 void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
@@ -15,14 +15,13 @@ void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
     std::ofstream ofs( fileName );
     if ( !ofs )
     {
-        Message::putMessage( Result::READ_BOARD_ERROR );
         return;
     }
 
     const auto& values = board.getBoardValues();
     for ( uint value : values )
     {
-        ofs << value <<',';
+        ofs << value << ',';
     }
     ofs << board.getSizeInt() << '\n';
     ofs.close();
@@ -31,7 +30,7 @@ void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::optional<std::vector< uint >> IOBoard::readBoardFromFile( const std::string& fileName )
+std::optional<std::vector<uint>> IOBoard::readBoardFromFile( const std::string& fileName )
 {
     std::ifstream ifs( fileName );
     if ( !ifs )
@@ -44,7 +43,7 @@ std::optional<std::vector< uint >> IOBoard::readBoardFromFile( const std::string
     sstr << ifs.rdbuf();
     ifs.close();
 
-    std::vector< uint > values;
+    std::vector<uint> values;
     std::string value_as_string;
     uint boardValue;
     while( std::getline( sstr, value_as_string, ',' ))
@@ -74,7 +73,7 @@ std::optional<std::vector< uint >> IOBoard::readBoardFromFile( const std::string
 bool IOBoard::validate( const std::vector< uint >& values ) const
 {
     uint boardSize = values[values.size() -1];
-    if ( boardSize < 4 || boardSize > 7 )
+    if (( boardSize < 4 ) || ( boardSize > 7 ))
     {
         Message::putMessage( Result::FILE_ERROR_SIZE_IMPROPER );
         return false;
@@ -86,7 +85,7 @@ bool IOBoard::validate( const std::vector< uint >& values ) const
         return false;
     }
 
-    std::vector< uint > testValues( boardSize * boardSize, 0 );
+    std::vector<uint> testValues( boardSize * boardSize, 0 );
     std::iota( testValues.begin(), testValues.end(), 0 );
 
     for ( uint test : testValues )
