@@ -2,12 +2,13 @@
 #ifndef GRAPHIC_BOARD_H
 #define GRAPHIC_BOARD_H
 
-#include "../Types.h"
+#include <memory>
+#include <vector>
 
 #include <QImage>
 
-#include <memory>
-#include <vector>
+#include "../Types.h"
+
 
 class GraphicBoard
 {
@@ -25,11 +26,11 @@ private:
 
     void createTilesFromImage( QImage&, BoardSize, uint tileSize, GraphicMode );
     void createTiles( QImage&, uint boardSize, uint tileSize );
-    std::vector< std::unique_ptr< QImage >>& getImages();
+    std::vector<std::unique_ptr<QImage>>& getImages();
 
     TileSize tileSize;
     FontSize fontSize;
-    std::vector< std::unique_ptr< QImage >> images;
+    std::vector<std::unique_ptr<QImage>> images;
 };
 
 #endif

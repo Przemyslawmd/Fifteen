@@ -10,16 +10,16 @@ using std::unique_ptr;
 
 ImageProvider::ImageProvider()
 {
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FOUR,  nullptr ));
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::FIVE,  nullptr ));
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SIX,   nullptr ));
-    images.insert( pair< BoardSize, unique_ptr< GraphicBoard >>( BoardSize::SEVEN, nullptr ));
+    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::FOUR,  nullptr ));
+    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::FIVE,  nullptr ));
+    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::SIX,   nullptr ));
+    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::SEVEN, nullptr ));
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< unique_ptr< QImage >>& ImageProvider::getImages( BoardSize boardSize )
+std::vector<unique_ptr<QImage>>& ImageProvider::getImages( BoardSize boardSize )
 {
     return images.at( boardSize )->getImages();
 }
@@ -33,7 +33,7 @@ void ImageProvider::prepareGraphicBoard( QImage& image, uint tileSize )
     {
         if (( Options::isImageToBeLoaded( boardSize )) && ( checkImageSize( image, boardSize, tileSize )))
         {
-            images.at( boardSize ) = std::make_unique< GraphicBoard >();
+            images.at( boardSize ) = std::make_unique<GraphicBoard>();
             images.at( boardSize )->createTilesFromImage( image, boardSize, tileSize, Options::graphicMode );
         }
     }
