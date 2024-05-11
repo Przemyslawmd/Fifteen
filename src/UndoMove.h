@@ -2,9 +2,9 @@
 #ifndef FIFTEEN_UNDO_MOVE_H
 #define FIFTEEN_UNDO_MOVE_H
 
-#include "Types.h"
-
 #include <deque>
+
+#include "Types.h"
 
 constexpr int MOVE_STACK_EMPTY = 10000;
 
@@ -23,7 +23,7 @@ public:
 
 private:
 
-    std::deque< uint > moveStack;
+    std::deque<uint> moveStack;
     const uint MOVE_STACK_LIMIT = 10;
 };
 

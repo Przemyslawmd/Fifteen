@@ -4,7 +4,7 @@
 using std::map;
 
 
-const map< TileSize, uint > Maps::tileSizeInt
+const map<TileSize, uint> Maps::tileSizeInt
 {
     { TileSize::_50,  50 },
     { TileSize::_75,  75 },
@@ -14,7 +14,7 @@ const map< TileSize, uint > Maps::tileSizeInt
 };
 
 
-const map< FontSize, uint > Maps::fontSizeInt
+const map<FontSize, uint> Maps::fontSizeInt
 {
     { FontSize::_20, 20 },
     { FontSize::_25, 25 },
@@ -27,7 +27,7 @@ const map< FontSize, uint > Maps::fontSizeInt
 #define BEGIN_STYLE "background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1"
 #define END_STYLE   "color:white; border:1px solid white"
 
-const map< TileColor, const QString > Maps::tileColorStyle
+const map<TileColor, const QString> Maps::tileColorStyle
 {
     { TileColor::BLUE,        BEGIN_STYLE ", stop:0 #000080, stop:1 #0000EE); " END_STYLE },
     { TileColor::GREEN,       BEGIN_STYLE ", stop:0 #004d00, stop:1 #009900); " END_STYLE },
@@ -36,7 +36,7 @@ const map< TileColor, const QString > Maps::tileColorStyle
 };
 
 
-const map< BoardSize, uint > Maps::boardSizeInt
+const map<BoardSize, uint> Maps::boardSizeInt
 {
     { BoardSize::FOUR,  4 },
     { BoardSize::FIVE,  5 },
@@ -45,7 +45,7 @@ const map< BoardSize, uint > Maps::boardSizeInt
 };
 
 
-const map< TileSize, FontSize > Maps::tileSizeFontSize
+const map<TileSize, FontSize> Maps::tileSizeFontSize
 {
     { TileSize::_50,  FontSize::_20 },
     { TileSize::_75,  FontSize::_25 },
@@ -55,7 +55,7 @@ const map< TileSize, FontSize > Maps::tileSizeFontSize
 };
 
 
-const map< int, TileSize > Maps::sliderTileSize
+const map<int, TileSize> Maps::sliderTileSize
 {
     { 0, TileSize::_50 },
     { 1, TileSize::_75 },
@@ -90,7 +90,7 @@ int Maps::getFontSizeInt( TileSize tileSize )
 }
 
 
-template< typename T, typename U > T Maps::getMapKeyByValue( const map< T, U >& pairs, U value )
+template<typename T, typename U> T Maps::getMapKeyByValue( const map<T, U>& pairs, U value )
 {
     for ( auto& pair : pairs )
     {

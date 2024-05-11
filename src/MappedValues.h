@@ -2,23 +2,23 @@
 #ifndef FIFTEEN_MAPPED_VALUES_H
 #define FIFTEEN_MAPPED_VALUES_H
 
-#include "Types.h"
+#include <map>
 
 #include <QString>
 
-#include <map>
+#include "Types.h"
 
 
 class Maps
 {
 public:
 
-    static const std::map< TileSize, uint > tileSizeInt;
-    static const std::map< FontSize, uint > fontSizeInt;
-    static const std::map< BoardSize, uint > boardSizeInt;
-    static const std::map< TileColor, const QString > tileColorStyle;
-    static const std::map< int, TileSize > sliderTileSize;
-    static const std::map< TileSize, FontSize > tileSizeFontSize;
+    static const std::map<TileSize, uint> tileSizeInt;
+    static const std::map<FontSize, uint> fontSizeInt;
+    static const std::map<BoardSize, uint> boardSizeInt;
+    static const std::map<TileColor, const QString> tileColorStyle;
+    static const std::map<int, TileSize> sliderTileSize;
+    static const std::map<TileSize, FontSize> tileSizeFontSize;
 
     static int getFontSizeInt( TileSize tileSize );
     static BoardSize getBoardSizeByInt( uint value );
@@ -27,7 +27,7 @@ public:
 
 private:
 
-    template< typename T, typename U > static T getMapKeyByValue( const std::map< T, U >&, U  value );
+    template<typename T, typename U> static T getMapKeyByValue( const std::map<T, U>&, U  value );
 };
 
 #endif
