@@ -1,9 +1,10 @@
 
 #include "Board.h"
-#include "MappedValues.h"
 
 #include <iterator>
 #include <numeric>
+
+#include "MappedValues.h"
 
 
 Board::Board( BoardSize size, BoardMode mode ) : size( size ),
@@ -18,11 +19,11 @@ Board::Board( BoardSize size, BoardMode mode ) : size( size ),
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( std::vector< uint >&& values, BoardSize size, BoardMode mode ) : size( size ),
-                                                                               mode( mode ),
-                                                                               sizeInt( Maps::boardSizeInt.at( size )),
-                                                                               values( values ),
-                                                                               nullValue( sizeInt * sizeInt - 1 ) {}
+Board::Board( std::vector<uint>&& values, BoardSize size, BoardMode mode ) : size( size ),
+                                                                             mode( mode ),
+                                                                             sizeInt( Maps::boardSizeInt.at( size )),
+                                                                             values( values ),
+                                                                             nullValue( sizeInt * sizeInt - 1 ) {}
 
 /*********************************************************************************/
 /*********************************************************************************/
@@ -62,7 +63,7 @@ void Board::generateBoard()
     uint emptyRow = emptyTile / 10;
     uint emptyCol = emptyTile % 10;
 
-    std::vector< Move > moves( 4 );
+    std::vector<Move> moves( 4 );
 
     for ( int i = 0; i < 4000; i++ )
     {

@@ -3,7 +3,6 @@
 
 using std::map;
 
-
 const map<TileSize, uint> Maps::tileSizeInt
 {
     { TileSize::_50,  50 },

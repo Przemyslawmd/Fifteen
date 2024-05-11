@@ -43,7 +43,7 @@ QString Message::getMessages()
 
 std::queue< QString > Message::messageQueue = {};
 
-const std::map< Result, QString > Message::message =
+const std::map<Result, QString> Message::message =
 {
     { Result::CREATE_GRAPHIC_BOARD_NO_GRAPHIC,     "There is no loaded graphic for a chosen board size " },
     { Result::GRAPHIC_LOAD_OK,                     "Graphic was loaded for a board " },

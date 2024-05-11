@@ -2,9 +2,9 @@
 #ifndef FIFTEEN_BOARD_H
 #define FIFTEEN_BOARD_H
 
-#include "Types.h"
-
 #include <vector>
+
+#include "Types.h"
 
 
 class Board
@@ -25,7 +25,7 @@ public:
     BoardMode getMode() const;
     void setMode( BoardMode );
 
-    std::vector< uint >& getBoardValues();
+    std::vector<uint>& getBoardValues();
     void generateBoard();
     void solveBoard();
 
@@ -42,7 +42,7 @@ private:
     BoardMode mode;
     const uint nullValue;
 
-    std::vector< uint > values;
+    std::vector<uint> values;
 };
 
 #endif

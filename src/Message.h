@@ -2,10 +2,10 @@
 #ifndef FIFTEEN_MESSAGE_H
 #define FIFTEEN_MESSAGE_H
 
-#include <QString>
-
 #include <map>
 #include <queue>
+
+#include <QString>
 
 
 enum class Result
@@ -35,7 +35,7 @@ public:
 
 private:
 
-    static const std::map< Result, QString > message;
+    static const std::map<Result, QString> message;
     static std::queue< QString > messageQueue;
 };
 
