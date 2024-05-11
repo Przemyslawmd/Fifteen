@@ -2,15 +2,16 @@
 #ifndef FIFTEEN_MENU_H
 #define FIFTEEN_MENU_H
 
-#include "Types.h"
+#include <functional>
+#include <map>
 
 #include <QAction>
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QString>
 
-#include <functional>
-#include <map>
+#include "Types.h"
+
 
 enum class ActionMenu {
     ABOUT,
@@ -35,11 +36,11 @@ public:
     QMenuBar* createMenuBar();
     void setActionMenuState( ActionMenu, bool state );
 
-    void bindSlot( ActionMenu action, std::function< void( void )> slot, QMainWindow* window, const QString& text );
+    void bindSlot( ActionMenu action, std::function<void( void )> slot, QMainWindow* window, const QString& text );
 
 private:
 
-    std::map< ActionMenu, QAction* > mapAction;
+    std::map<ActionMenu, QAction*> mapAction;
 };
 
 #endif

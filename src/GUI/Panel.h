@@ -2,15 +2,15 @@
 #ifndef FIFTEEN_PANEL_H
 #define FIFTEEN_PANEL_H
 
-#include "Types.h"
+#include <functional>
+#include <map>
 
 #include <QMainWindow>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QVBoxLayout>
 
-#include <functional>
-#include <map>
+#include "Types.h"
 
 
 class Panel
@@ -23,7 +23,7 @@ public:
     Panel& operator=( const Panel& ) = delete;
     Panel& operator=( Panel&& ) = delete;
 
-    QVBoxLayout* createLayout( std::array< std::function< void( void ) >, 3 >& slots, QMainWindow* );
+    QVBoxLayout* createLayout( std::array<std::function<void()>, 3>& slots, QMainWindow* );
 
     BoardSize checkBoardSize();
     void setBoardSize( BoardSize );
@@ -32,8 +32,8 @@ public:
 
 private:
 
-    std::map< BoardSize, QRadioButton* > mapSize;
-    std::map< BoardMode, QRadioButton* > mapMode;
+    std::map<BoardSize, QRadioButton*> mapSize;
+    std::map<BoardMode, QRadioButton*> mapMode;
 };
 
 #endif

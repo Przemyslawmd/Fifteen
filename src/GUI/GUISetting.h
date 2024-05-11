@@ -2,9 +2,7 @@
 #ifndef GUI_SETTING_H
 #define GUI_SETTING_H
 
-#include "Fifteen.h"
-#include "Types.h"
-#include "Options.h"
+#include <map>
 
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -13,7 +11,9 @@
 #include <QRadioButton>
 #include <QSlider>
 
-#include <map>
+#include "Fifteen.h"
+#include "Types.h"
+#include "Options.h"
 
 
 class GUISetting : public QDialog
@@ -30,10 +30,10 @@ private:
 
     Q_OBJECT
 
-    std::map< GraphicMode, QRadioButton* > mapGraphicMode;
-    std::map< BoardSize, QCheckBox* > mapImageToLoad;
-    std::map< NumberColor, QRadioButton* > mapNumberOnImage;
-    std::map< TileColor, QRadioButton* > mapTileColor;
+    std::map<GraphicMode, QRadioButton*> mapGraphicMode;
+    std::map<BoardSize, QCheckBox*> mapImageToLoad;
+    std::map<NumberColor, QRadioButton*> mapNumberOnImage;
+    std::map<TileColor, QRadioButton*> mapTileColor;
 
     QSlider* slider;
 
@@ -42,7 +42,8 @@ private:
     Fifteen& owner;
     BoardMode boardMode;
 
-    template< typename T > T getChoosenOption( std::map< T, QRadioButton* >&, const QButtonGroup* );
+    template <typename T>
+    T getChoosenOption( std::map<T, QRadioButton*>&, const QButtonGroup* );
 
 private slots:
 

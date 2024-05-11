@@ -1,5 +1,6 @@
 
 #include "GUIAbout.h"
+
 #include <QVBoxLayout>
 #include <QTextDocument>
 #include <QTextBrowser>

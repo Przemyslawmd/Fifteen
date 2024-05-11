@@ -4,7 +4,7 @@
 #include <memory>
 
 
-TilesBoard::TilesBoard( std::function< void( void ) > pressTileSlot ) : pressTileSlot( pressTileSlot ) {}
+TilesBoard::TilesBoard( std::function<void()> pressTileSlot ) : pressTileSlot( pressTileSlot ) {}
 
 /*********************************************************************************/
 /*********************************************************************************/
@@ -34,7 +34,7 @@ void TilesBoard::createTiles( uint boardSize, uint tileSize, QMainWindow* window
 
         for ( uint col = 0; col < boardSize; col++ )
         {
-            auto tile = std::make_unique< QPushButton >();
+            auto tile = std::make_unique<QPushButton>();
             tile->setAccessibleName( QString::number( row ) + QString::number( col ));
             tile->setMaximumSize( tileSize, tileSize );
             tile->setMinimumSize( tileSize, tileSize );
@@ -68,7 +68,7 @@ void TilesBoard::deleteTiles()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< std::unique_ptr< QPushButton >>& TilesBoard::getTiles()
+std::vector<std::unique_ptr<QPushButton>>& TilesBoard::getTiles()
 {
     return tiles;
 }

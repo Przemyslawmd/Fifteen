@@ -1,12 +1,14 @@
 
 #include "GUISetting.h"
-#include "MappedValues.h"
 
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QVBoxLayout>
+
+#include "MappedValues.h"
+
 
 constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 
@@ -199,7 +201,7 @@ void GUISetting::acceptSettings()
 /*********************************************************************************/
 /*********************************************************************************/
 
-template< typename T > T GUISetting::getChoosenOption( std::map< T, QRadioButton* >& mapButton, const QButtonGroup* group )
+template <typename T> T GUISetting::getChoosenOption( std::map<T, QRadioButton*>& mapButton, const QButtonGroup* group )
 {
     QRadioButton* choosen = static_cast< QRadioButton* >( group->checkedButton() );
 
