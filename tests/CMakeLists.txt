@@ -1,10 +1,7 @@
-
-cmake_minimum_required(VERSION 3.16)
 project(FifteenTests)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-set(CMAKE_CXX_STANDARD 17)
 set(SRC "../src/")
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
@@ -13,6 +10,8 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Gui REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Gui REQUIRED)
 
+configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -20,10 +19,6 @@ FetchContent_Declare(
   GIT_TAG release-1.12.1
 )
 FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
-configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
 add_executable(
   FifteenTests
@@ -52,6 +47,7 @@ target_link_libraries(
   Qt${QT_VERSION_MAJOR}::Gui
 )
 
+enable_testing()
 include(GoogleTest)
 gtest_discover_tests(FifteenTests)
 
