@@ -2,7 +2,7 @@
 #include "UndoMove.h"
 
 
-void UndoMove::PutMove( Move move, uint row, uint col )
+void UndoMove::PutMove( Move move, size_t row, size_t col )
 {
     if ( moveStack.size() == MOVE_STACK_LIMIT )
     {
@@ -29,14 +29,14 @@ void UndoMove::PutMove( Move move, uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint UndoMove::GetMove()
+std::optional<size_t> UndoMove::GetMove()
 {
     if ( moveStack.empty() )
     {
-        return MOVE_STACK_EMPTY;
+        return std::nullopt;
     }
 
-    uint move = moveStack.back();
+    size_t move = moveStack.back();
     moveStack.pop_back();
     return move;
 }

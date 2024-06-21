@@ -175,14 +175,14 @@ bool Controller::readBoardFromFile( const std::string& file )
 
 std::tuple<Move, uint, uint> Controller::undoMove()
 {
-    uint position = undoMoveService->GetMove();
-    if ( position == MOVE_STACK_EMPTY )
+    std::optional<size_t> position = undoMoveService->GetMove();
+    if ( position == std::nullopt )
     {
         return { Move::NOT_ALLOWED, 0, 0 };
     }
 
-    uint row = position / 10;
-    uint col = position % 10;
+    uint row = position.value() / 10;
+    uint col = position.value() % 10;
     Move move = board->checkMove( row, col );
     return { move, row, col };
 }
