@@ -30,7 +30,7 @@ public:
 
     static const QString& getMessage( Result );
     static void putMessage( Result );
-    static void putMessage( Result, uint arg );
+    static void putMessage( Result, size_t arg );
     static QString getMessages();
 
 private:

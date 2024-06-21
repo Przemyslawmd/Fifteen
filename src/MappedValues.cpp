@@ -3,7 +3,7 @@
 
 using std::map;
 
-const map<TileSize, uint> Maps::tileSizeInt
+const map<TileSize, size_t> Maps::tileSizeInt
 {
     { TileSize::_50,  50 },
     { TileSize::_75,  75 },
@@ -13,7 +13,7 @@ const map<TileSize, uint> Maps::tileSizeInt
 };
 
 
-const map<FontSize, uint> Maps::fontSizeInt
+const map<FontSize, size_t> Maps::fontSizeInt
 {
     { FontSize::_20, 20 },
     { FontSize::_25, 25 },
@@ -35,7 +35,7 @@ const map<TileColor, const QString> Maps::tileColorStyle
 };
 
 
-const map<BoardSize, uint> Maps::boardSizeInt
+const map<BoardSize, size_t> Maps::boardSizeInt
 {
     { BoardSize::FOUR,  4 },
     { BoardSize::FIVE,  5 },
@@ -54,7 +54,7 @@ const map<TileSize, FontSize> Maps::tileSizeFontSize
 };
 
 
-const map<int, TileSize> Maps::sliderTileSize
+const map<size_t, TileSize> Maps::sliderTileSize
 {
     { 0, TileSize::_50 },
     { 1, TileSize::_75 },
@@ -64,13 +64,13 @@ const map<int, TileSize> Maps::sliderTileSize
 };
 
 
-BoardSize Maps::getBoardSizeByInt( uint value )
+BoardSize Maps::getBoardSizeByInt( size_t value )
 {
    return getMapKeyByValue( Maps::boardSizeInt, value );
 }
 
 
-TileSize Maps::getTileSizeByInt( uint value )
+TileSize Maps::getTileSizeByInt( size_t value )
 {
     return getMapKeyByValue( Maps::tileSizeInt, value );
 }

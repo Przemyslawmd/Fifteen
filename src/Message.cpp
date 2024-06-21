@@ -18,7 +18,7 @@ void Message::putMessage( Result code )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Message::putMessage( Result code, uint value )
+void Message::putMessage( Result code, size_t value )
 {
     messageQueue.push( QString( message.at( code ) + "%1 \t\n\n" ).arg( value ));
 }
