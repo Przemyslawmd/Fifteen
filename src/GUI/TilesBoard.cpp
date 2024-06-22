@@ -26,13 +26,13 @@ void TilesBoard::createTiles( size_t boardSize, size_t tileSize, QMainWindow* wi
     deleteTiles();
     verticalLayout->addStretch();
 
-    for ( uint row = 0; row < boardSize; row++ )
+    for ( size_t row = 0; row < boardSize; row++ )
     {
-        horizontalLayouts.push_back( new QHBoxLayout() );
+        horizontalLayouts.emplace_back( new QHBoxLayout() );
         horizontalLayouts[row]->setSpacing(0);
         horizontalLayouts[row]->addStretch();
 
-        for ( uint col = 0; col < boardSize; col++ )
+        for ( size_t col = 0; col < boardSize; col++ )
         {
             auto tile = std::make_unique<QPushButton>();
             tile->setAccessibleName( QString::number( row ) + QString::number( col ));
@@ -57,7 +57,7 @@ void TilesBoard::deleteTiles()
     tiles.clear();
 
     QLayoutItem* item;
-    while (( item = verticalLayout->takeAt( 0 )))
+    while ( item = verticalLayout->takeAt( 0 ))
     {
         verticalLayout->removeItem( 0 );
         delete item;

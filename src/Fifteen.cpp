@@ -28,7 +28,7 @@ void Fifteen::initGame()
     tilesBoard = std::make_unique<TilesBoard>( std::bind( &Fifteen::pressTile, this ));
     panel = std::make_unique<Panel>();
 
-    menuBar = std::make_unique< MenuBar >();
+    menuBar = std::make_unique<MenuBar>();
     menuBar->bindSlot( ActionMenu::OPEN_GRAPHIC, std::bind( &Fifteen::slotLoadGraphic, this ), this, "Load Graphic File" );
     menuBar->bindSlot( ActionMenu::REM_GRAPHIC, std::bind( &Fifteen::slotRemoveGraphic, this ), this, "Remove Graphic" );
     menuBar->bindSlot( ActionMenu::SAVE_BOARD, std::bind( &Fifteen::slotSaveBoard, this ), this, "Save Board" );
@@ -39,7 +39,7 @@ void Fifteen::initGame()
     QMenuBar* menu = menuBar->createMenuBar();
     setMenuBar( menu );
 
-    std::array< std::function<void( void )>, 3> panelSlots =
+    std::array<std::function<void( void )>, 3> panelSlots =
     {
         std::bind( &Fifteen::slotGenerateBoard, this ),
         std::bind( &Fifteen::slotSolveBoard, this ),

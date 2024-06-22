@@ -26,12 +26,12 @@ public:
     QGroupBox* createGroupBox();
 
     void createTiles( size_t boardSize, size_t tileSize, QMainWindow* window );
-    std::vector<std::unique_ptr<QPushButton >>& getTiles();
+    std::vector<std::unique_ptr<QPushButton>>& getTiles();
 
 private:
 
     void deleteTiles();
-    
+
     std::vector<std::unique_ptr<QPushButton>> tiles;
     std::function<void()> pressTileSlot;
 
