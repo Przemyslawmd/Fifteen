@@ -48,11 +48,11 @@ private:
     void setTilesNumeric();
     void setTilesGraphic();
 
-    void drawNumberOnTile( QIcon&, QPixmap&, int fontSize, uint number, NumberColor );
+    void drawNumberOnTile( QIcon&, QPixmap&, size_t fontSize, size_t number, NumberColor );
 
     void makeMove( Move, uint row, uint col );
-    void moveNumericTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize );
-    void moveGraphicTile( uint rowSource, uint colSource, uint rowDest, uint colDest, uint boardSize, uint tileSize );
+    void moveNumericTile( size_t rowSource, size_t colSource, size_t rowDest, size_t colDest, size_t boardSize, size_t tileSize );
+    void moveGraphicTile( size_t rowSource, size_t colSource, size_t rowDest, size_t colDest, size_t boardSize, size_t tileSize );
 
 private slots:
 

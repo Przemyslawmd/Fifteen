@@ -61,7 +61,7 @@ BoardMode Controller::getBoardMode()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::tuple<uint, uint> Controller::getBoardAttributes()
+std::tuple<size_t, size_t> Controller::getBoardAttributes()
 {
     BoardSize boardSize = board->getSize();
     uint tileSize = board->getMode() == BoardMode::NUMERIC ?
@@ -81,7 +81,7 @@ uint Controller::getFontSize()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::tuple<Move, uint, uint> Controller::makeMove( uint tilePosition )
+std::tuple<Move, size_t, size_t> Controller::makeMove( uint tilePosition )
 {
     uint row = tilePosition / 10;
     uint col = tilePosition % 10;
@@ -173,7 +173,7 @@ bool Controller::readBoardFromFile( const std::string& file )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::tuple<Move, uint, uint> Controller::undoMove()
+std::tuple<Move, size_t, size_t> Controller::undoMove()
 {
     std::optional<size_t> position = undoMoveService->GetMove();
     if ( position == std::nullopt )

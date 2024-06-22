@@ -32,11 +32,11 @@ public:
     uint getNullValue();
     BoardMode getBoardMode();
 
-    std::tuple<uint, uint> getBoardAttributes();
+    std::tuple<size_t, size_t> getBoardAttributes();
     uint getFontSize();
 
-    std::tuple<Move, uint, uint> makeMove( uint tilePosition );
-    std::tuple<Move, uint, uint> undoMove();
+    std::tuple<Move, size_t, size_t> makeMove( uint tilePosition );
+    std::tuple<Move, size_t, size_t> undoMove();
 
     bool loadGraphic( QImage& );
     bool removeGraphic();

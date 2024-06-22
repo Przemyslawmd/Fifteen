@@ -147,7 +147,7 @@ void Fifteen::setTilesGraphic()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, int fontSize, uint number, NumberColor numberColor )
+void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, size_t fontSize, size_t number, NumberColor numberColor )
 {
     QPainter painter( &pixmap );
     painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
@@ -239,7 +239,7 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
+void Fifteen::moveNumericTile( size_t rowSrc, size_t colSrc, size_t rowDst, size_t colDst, size_t boardSize, size_t tileSize )
 {
     auto& tiles = tilesBoard->getTiles();
 
@@ -252,7 +252,7 @@ void Fifteen::moveNumericTile( uint rowSrc, uint colSrc, uint rowDst, uint colDs
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveGraphicTile( uint rowSrc, uint colSrc, uint rowDst, uint colDst, uint boardSize, uint tileSize )
+void Fifteen::moveGraphicTile( size_t rowSrc, size_t colSrc, size_t rowDst, size_t colDst, size_t boardSize, size_t tileSize )
 {
     auto& tiles = tilesBoard->getTiles();
 

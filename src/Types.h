@@ -2,8 +2,6 @@
 #ifndef FIFTEEN_TYPES_H
 #define FIFTEEN_TYPES_H
 
-typedef unsigned int uint;
-
 
 enum class BoardSize    { FOUR, FIVE, SIX, SEVEN };
 enum class GraphicMode  { SCALED, CROPPED };

@@ -21,7 +21,7 @@ public:
     Move checkMove( size_t row, size_t col );
 
     BoardSize getSize() const;
-    uint getSizeInt() const;
+    size_t getSizeInt() const;
     BoardMode getMode() const;
     void setMode( BoardMode );
 
@@ -29,12 +29,12 @@ public:
     void generateBoard();
     void solveBoard();
 
-    uint getNullValue();
+    size_t getNullValue();
 
 private:
 
     void makeMove( size_t srcRow, size_t srcColumn, size_t dstRow, size_t dstColumn );
-    uint findEmptyTilePosition();
+    size_t findEmptyTilePosition();
 
     const BoardSize size;
     const size_t sizeInt;

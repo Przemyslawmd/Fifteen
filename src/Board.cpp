@@ -59,9 +59,9 @@ Move Board::checkMove( size_t row, size_t col )
 
 void Board::generateBoard()
 {
-    uint emptyTile = findEmptyTilePosition();
-    uint emptyRow = emptyTile / 10;
-    uint emptyCol = emptyTile % 10;
+    size_t emptyTile = findEmptyTilePosition();
+    size_t emptyRow = emptyTile / 10;
+    size_t emptyCol = emptyTile % 10;
 
     std::vector<Move> moves( 4 );
 
@@ -123,7 +123,7 @@ BoardSize Board::getSize() const
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Board::getSizeInt() const
+size_t Board::getSizeInt() const
 {
     return sizeInt;
 }
@@ -155,7 +155,7 @@ std::vector<size_t>& Board::getBoardValues()
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Board::getNullValue()
+size_t Board::getNullValue()
 {
     return nullValue;
 }
@@ -171,7 +171,7 @@ void Board::makeMove( size_t srcRow, size_t srcCol, size_t dstRow, size_t dstCol
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Board::findEmptyTilePosition()
+size_t Board::findEmptyTilePosition()
 {
     uint nullValuePos =  std::distance( values.begin(), std::find( values.begin(), values.end(), nullValue ));
     return nullValuePos / sizeInt * 10 + nullValuePos % sizeInt;
