@@ -21,7 +21,7 @@ QGroupBox* TilesBoard::createGroupBox()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void TilesBoard::createTiles( uint boardSize, uint tileSize, QMainWindow* window )
+void TilesBoard::createTiles( size_t boardSize, size_t tileSize, QMainWindow* window )
 {
     deleteTiles();
     verticalLayout->addStretch();

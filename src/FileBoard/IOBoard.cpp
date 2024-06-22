@@ -30,7 +30,7 @@ void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::optional<std::vector<uint>> IOBoard::readBoardFromFile( const std::string& fileName )
+std::optional<std::vector<size_t>> IOBoard::readBoardFromFile( const std::string& fileName )
 {
     std::ifstream ifs( fileName );
     if ( !ifs )
@@ -43,7 +43,7 @@ std::optional<std::vector<uint>> IOBoard::readBoardFromFile( const std::string& 
     sstr << ifs.rdbuf();
     ifs.close();
 
-    std::vector<uint> values;
+    std::vector<size_t> values;
     std::string value_as_string;
     uint boardValue;
     while( std::getline( sstr, value_as_string, ',' ))
@@ -70,7 +70,7 @@ std::optional<std::vector<uint>> IOBoard::readBoardFromFile( const std::string& 
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool IOBoard::validate( const std::vector< uint >& values ) const
+bool IOBoard::validate( const std::vector<size_t>& values ) const
 {
     uint boardSize = values[values.size() -1];
     if (( boardSize < 4 ) || ( boardSize > 7 ))

@@ -21,11 +21,11 @@ public:
     IOBoard& operator=( IOBoard&& ) = delete;
 
     void writeBoardIntoFile( Board&, const std::string& fileName );
-    std::optional<std::vector<uint>> readBoardFromFile( const std::string& fileName );
+    std::optional<std::vector<size_t>> readBoardFromFile( const std::string& fileName );
 
 private:
 
-    bool validate( const std::vector<uint>& ) const;
+    bool validate( const std::vector<size_t>& ) const;
 };
 
 #endif

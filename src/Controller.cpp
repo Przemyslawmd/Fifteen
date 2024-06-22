@@ -37,7 +37,7 @@ void Controller::solveBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< uint >& Controller::getValues()
+std::vector<size_t>& Controller::getValues()
 {
     return board->getBoardValues();
 }

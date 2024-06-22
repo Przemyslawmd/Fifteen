@@ -19,7 +19,7 @@ Board::Board( BoardSize size, BoardMode mode ) : size( size ),
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( std::vector<uint>&& values, BoardSize size, BoardMode mode ) : size( size ),
+Board::Board( std::vector<size_t>&& values, BoardSize size, BoardMode mode ) : size( size ),
                                                                              mode( mode ),
                                                                              sizeInt( Maps::boardSizeInt.at( size )),
                                                                              values( values ),
@@ -28,7 +28,7 @@ Board::Board( std::vector<uint>&& values, BoardSize size, BoardMode mode ) : siz
 /*********************************************************************************/
 /*********************************************************************************/
 
-Move Board::checkMove( uint row, uint col )
+Move Board::checkMove( size_t row, size_t col )
 {        
     if ( row > 0 && ( values.at(( row - 1 ) * sizeInt + col ) == nullValue ))
     {
@@ -147,7 +147,7 @@ void Board::setMode( BoardMode mode )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector< uint >& Board::getBoardValues()
+std::vector<size_t>& Board::getBoardValues()
 {
     return values;
 }
@@ -163,7 +163,7 @@ uint Board::getNullValue()
 /*********************************************************************************/
 /* PRIVATE ***********************************************************************/
 
-void Board::makeMove( uint srcRow, uint srcCol, uint dstRow, uint dstCol )
+void Board::makeMove( size_t srcRow, size_t srcCol, size_t dstRow, size_t dstCol )
 {    
     std::swap( values.at( dstRow * sizeInt + dstCol ), values.at( srcRow * sizeInt + srcCol ));
 }

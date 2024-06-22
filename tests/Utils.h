@@ -8,7 +8,7 @@
 class Utils
 {
 public:
-    static void checkTiles(uint size, const std::vector<uint>& tiles)
+    static void checkTiles(uint size, const std::vector<size_t>& tiles)
     {
         uint tilesCount = size * size;
         std::vector< uint > testValues(tilesCount);
