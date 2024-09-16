@@ -1,4 +1,11 @@
 
+#include <numeric>
+#include <vector>
+
+#include <gtest/gtest.h>
+#include <QImage>
+#include <QString>
+
 #include "Utils.h"
 #include "config.h"
 
@@ -8,15 +15,8 @@
 #include "../src/MappedValues.h"
 #include "../src/GraphicBoard/ImageProvider.h"
 
-#include <gtest/gtest.h>
-#include <QImage>
-#include <QString>
 
-#include <numeric>
-#include <vector>
-
-
-void compareImage(QImage& image1, QImage& image2)
+void compareImage(const QImage& image1, const QImage& image2)
 {
     EXPECT_EQ(image1.width(), image2.width());
     EXPECT_EQ(image1.height(), image2.height());
@@ -56,7 +56,7 @@ void runTestGraphicBoard(BoardSize boardSize, TileSize tileSize, GraphicMode gra
     {
         std::string imagePath = IMAGES_DIR + testImages + std::to_string(i) + ".bmp";
         QImage image(QString::fromStdString(imagePath));
-        compareImage(*images.at(i).get(), image);
+        compareImage(*images.at(i), image);
     }
 }
 

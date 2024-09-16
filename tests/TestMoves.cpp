@@ -1,14 +1,14 @@
 
+#include <numeric>
+#include <vector>
+
+#include <gtest/gtest.h>
+
 #include "Utils.h"
 
 #include "../src/Board.h"
 #include "../src/Types.h"
 #include "../src/MappedValues.h"
-
-#include <gtest/gtest.h>
-
-#include <numeric>
-#include <vector>
 
     
 void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expectedValues, BoardSize boardSize)
@@ -19,7 +19,7 @@ void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expect
         board->checkMove(move / 10, move % 10);
     }
     
-    auto const& values = board->getBoardValues();
+    const auto& values = board->getBoardValues();
     for (int i = 0; i < values.size(); ++i)
     {
         EXPECT_EQ(values[i], expectedValues[i]);    

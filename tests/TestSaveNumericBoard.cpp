@@ -1,4 +1,10 @@
 
+#include <iostream>
+#include <numeric>
+#include <vector>
+
+#include <gtest/gtest.h>
+
 #include "config.h"
 #include "Utils.h"
 
@@ -6,12 +12,6 @@
 #include "../src/Types.h"
 #include "../src/MappedValues.h"
 #include "../src/FileBoard/IOBoard.h"
-
-#include <gtest/gtest.h>
-
-#include <iostream>
-#include <numeric>
-#include <vector>
 
 
 std::unique_ptr<Board> createAndSaveBoard(BoardSize size)

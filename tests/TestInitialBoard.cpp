@@ -1,15 +1,15 @@
 
+#include <gtest/gtest.h>
+
 #include "../src/Board.h"
 #include "../src/Types.h"
 #include "../src/MappedValues.h"
-
-#include <gtest/gtest.h>
 
     
 void runTestInitialBoard(BoardSize boardSize)
 {
     auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
-    auto const& values = board->getBoardValues();
+    const auto& values = board->getBoardValues();
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
     uint tilesCount = sizeInt * sizeInt;
     

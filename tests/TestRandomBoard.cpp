@@ -1,14 +1,14 @@
 
+#include <numeric>
+#include <vector>
+
+#include <gtest/gtest.h>
+
 #include "Utils.h"
 
 #include "../src/Board.h"
 #include "../src/Types.h"
 #include "../src/MappedValues.h"
-
-#include <gtest/gtest.h>
-
-#include <numeric>
-#include <vector>
 
     
 void runTestRandomBoard(BoardSize boardSize)
@@ -18,7 +18,7 @@ void runTestRandomBoard(BoardSize boardSize)
     auto values = board->getBoardValues();
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
 
-    Utils::checkTiles(sizeInt, values);
+    checkTiles(sizeInt, values);
 }
 
 

@@ -1,12 +1,12 @@
 
+#include <gtest/gtest.h>
+
 #include "config.h"
 
 #include "../src/Board.h"
 #include "../src/Types.h"
 #include "../src/FileBoard/IOBoard.h"
 #include "../src/GraphicBoard/ImageProvider.h"
-
-#include <gtest/gtest.h>
 
 
 void runTestErrorRestore(std::string fileName, QString errorLog)
