@@ -4,7 +4,7 @@
 #include "../MappedValues.h"
 
 
-std::vector< std::unique_ptr< QImage >>& GraphicBoard::getImages()
+std::vector<QImage>& GraphicBoard::getImages()
 {
     return images;
 }
@@ -51,13 +51,13 @@ void GraphicBoard::createTiles( QImage& image, uint boardSize, uint tileSize )
             {
                 break;
             }
-            images.emplace_back( std::make_unique<QImage>( image.copy( xPos, yPos, tileSize, tileSize )));
+            images.emplace_back( image.copy( xPos, yPos, tileSize, tileSize ));
         }
     }
 
     QImage tileImage ( tileSize, tileSize, QImage::Format_RGB32 );
     tileImage.fill( Qt::GlobalColor::white );
-    images.push_back( std::make_unique< QImage >( tileImage ));
+    images.push_back( tileImage );
     Message::putMessage( Result::GRAPHIC_LOAD_OK, boardSize );
 }
 

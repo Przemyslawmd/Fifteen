@@ -19,7 +19,7 @@ ImageProvider::ImageProvider()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector<unique_ptr<QImage>>& ImageProvider::getImages( BoardSize boardSize )
+std::vector<QImage>& ImageProvider::getImages( BoardSize boardSize ) const
 {
     return images.at( boardSize )->getImages();
 }

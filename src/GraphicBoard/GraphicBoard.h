@@ -26,11 +26,11 @@ private:
 
     void createTilesFromImage( QImage&, BoardSize, uint tileSize, GraphicMode );
     void createTiles( QImage&, uint boardSize, uint tileSize );
-    std::vector<std::unique_ptr<QImage>>& getImages();
+    std::vector<QImage>& getImages();
 
     TileSize tileSize;
     FontSize fontSize;
-    std::vector<std::unique_ptr<QImage>> images;
+    std::vector<QImage> images;
 };
 
 #endif

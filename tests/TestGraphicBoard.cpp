@@ -56,7 +56,7 @@ void runTestGraphicBoard(BoardSize boardSize, TileSize tileSize, GraphicMode gra
     {
         std::string imagePath = IMAGES_DIR + testImages + std::to_string(i) + ".bmp";
         QImage image(QString::fromStdString(imagePath));
-        compareImage(*images.at(i), image);
+        compareImage(images.at(i), image);
     }
 }
 

@@ -19,7 +19,7 @@ public:
     ImageProvider& operator=( const ImageProvider& ) = delete;
     ImageProvider& operator=( ImageProvider&& ) = delete;
 
-    std::vector< std::unique_ptr<QImage>>& getImages( BoardSize );
+    std::vector<QImage>& getImages( BoardSize ) const;
 
     void prepareGraphicBoard( QImage&, uint tileSize );
     bool isGraphicBoard( BoardSize );

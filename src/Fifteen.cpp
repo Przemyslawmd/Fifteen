@@ -128,7 +128,7 @@ void Fifteen::setTilesGraphic()
 
     for ( auto& tile : tilesBoard->getTiles() )
     {
-        QPixmap pixmap = QPixmap::fromImage( *images.at( *value ).get() );
+        QPixmap pixmap = QPixmap::fromImage( images.at( *value ));
         if ( numberColor == NumberColor::NO || *value == controller->getNullValue() )
         {
             icon.addPixmap( pixmap );
