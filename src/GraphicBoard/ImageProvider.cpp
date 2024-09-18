@@ -4,16 +4,13 @@
 #include "../Message.h"
 #include "../MappedValues.h"
 
-using std::pair;
-using std::unique_ptr;
-
 
 ImageProvider::ImageProvider()
 {
-    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::FOUR,  nullptr ));
-    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::FIVE,  nullptr ));
-    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::SIX,   nullptr ));
-    images.insert( pair<BoardSize, unique_ptr<GraphicBoard>>( BoardSize::SEVEN, nullptr ));
+    images.emplace( BoardSize::FOUR, nullptr );
+    images.emplace( BoardSize::FIVE, nullptr );
+    images.emplace( BoardSize::SIX, nullptr );
+    images.emplace( BoardSize::SEVEN, nullptr );
 }
 
 /*********************************************************************************/

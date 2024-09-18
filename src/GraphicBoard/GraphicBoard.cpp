@@ -55,9 +55,8 @@ void GraphicBoard::createTiles( QImage& image, uint boardSize, uint tileSize )
         }
     }
 
-    QImage tileImage ( tileSize, tileSize, QImage::Format_RGB32 );
-    tileImage.fill( Qt::GlobalColor::white );
-    images.push_back( tileImage );
+    images.emplace_back( tileSize, tileSize, QImage::Format_RGB32 );
+    images.back().fill( Qt::GlobalColor::white );
     Message::putMessage( Result::GRAPHIC_LOAD_OK, boardSize );
 }
 
