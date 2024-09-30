@@ -5,7 +5,7 @@
 
 const QString& Options::getTileColor()
 {
-    return Maps::tileColorStyle.at( Options::tileColor );;
+    return Maps::tileColorStyle.at( Options::tileColor );
 }
 
 /*********************************************************************************/

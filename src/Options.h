@@ -32,7 +32,7 @@ private:
     static TileSize tileSize;
     static TileColor tileColor;
     static NumberColor numberColor;
-    static std::map< BoardSize, bool > imagesToLoad;
+    static std::map<BoardSize, bool> imagesToLoad;
 };
 
 #endif

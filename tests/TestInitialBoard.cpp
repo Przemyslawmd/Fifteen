@@ -5,7 +5,7 @@
 #include "../src/Types.h"
 #include "../src/MappedValues.h"
 
-    
+
 void runTestInitialBoard(BoardSize boardSize)
 {
     auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);

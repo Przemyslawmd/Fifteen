@@ -17,7 +17,7 @@ void runTestChangeBoard(BoardSize firstSize, BoardSize secondSize)
     board->generateBoard();
     board->generateBoard();
     const auto& values_1 = board->getBoardValues();
-    
+
     uint sizeInt = Maps::boardSizeInt.at(firstSize);
     checkTiles(sizeInt, values_1);
 

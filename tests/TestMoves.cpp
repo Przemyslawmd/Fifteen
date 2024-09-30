@@ -10,7 +10,7 @@
 #include "../src/Types.h"
 #include "../src/MappedValues.h"
 
-    
+
 void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expectedValues, BoardSize boardSize)
 {
     auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
@@ -22,7 +22,7 @@ void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expect
     const auto& values = board->getBoardValues();
     for (int i = 0; i < values.size(); ++i)
     {
-        EXPECT_EQ(values[i], expectedValues[i]);    
+        EXPECT_EQ(values[i], expectedValues[i]);
     }
 }
 

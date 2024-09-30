@@ -19,7 +19,7 @@ std::unique_ptr<Board> createAndSaveBoard(BoardSize size)
     auto board = std::make_unique<Board>(size, BoardMode::NUMERIC);
     board->generateBoard();
     auto initialValues = board->getBoardValues();
-    
+
     IOBoard io;
     const std::string& filePath = ROOT_DIR + std::string("savedBoard");
     io.writeBoardIntoFile(*board, filePath);
@@ -49,7 +49,7 @@ TEST(testSaveNumericBoard, NoSizeChange)
     board->generateBoard();
     auto changedValues = board->getBoardValues();
     EXPECT_NE(changedValues, initialValues);
- 
+
     auto restoredBoard = restoreBoard(std::move(board));
     auto restoredValues = restoredBoard->getBoardValues();
     EXPECT_EQ(initialValues, restoredValues);
