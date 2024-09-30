@@ -1,14 +1,9 @@
 project(FifteenTests)
 
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(SRC "../src/")
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
-
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Gui REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Gui REQUIRED)
+find_package(Qt6 COMPONENTS Core REQUIRED)
+find_package(Qt6 COMPONENTS Gui REQUIRED)
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 
@@ -43,8 +38,8 @@ add_executable(
 target_link_libraries(
   FifteenTests
   GTest::gtest_main
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Gui
+  Qt6::Core
+  Qt6::Gui
 )
 
 enable_testing()
