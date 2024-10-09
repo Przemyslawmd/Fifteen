@@ -29,7 +29,7 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapGraphicMode[GraphicMode::SCALED] = new QRadioButton( "Scalled image" );
     mapGraphicMode[GraphicMode::SCALED]->setStyleSheet( STYLE_MARGIN_LEFT );
     mapGraphicMode[GraphicMode::CROPPED] = new QRadioButton( "Cropped image" );
-    mapGraphicMode[GraphicMode::SCALED]->setStyleSheet( STYLE_MARGIN_LEFT );
+    mapGraphicMode[GraphicMode::CROPPED]->setStyleSheet( STYLE_MARGIN_LEFT );
     mapGraphicMode[currentOptions.graphicMode]->setChecked( true );
 
     mapImageToLoad[BoardSize::FOUR] = new QCheckBox( "Load image for board  4x4" );
