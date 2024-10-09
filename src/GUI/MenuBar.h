@@ -33,10 +33,10 @@ public:
     MenuBar& operator=( const MenuBar& ) = delete;
     MenuBar& operator=( MenuBar&& ) = delete;
 
-    QMenuBar* createMenuBar();
+    QMenuBar* createMenuBar( QMainWindow* mainWindow );
     void setActionMenuState( ActionMenu, bool state );
 
-    void bindSlot( ActionMenu action, std::function<void( void )> slot, QMainWindow* window, const QString& text );
+    void bindSlot( ActionMenu action, std::function<void( void )> slot, QMainWindow* mainWindow, const QString& text );
 
 private:
 

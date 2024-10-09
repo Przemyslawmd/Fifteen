@@ -173,13 +173,26 @@ void GUISetting::acceptSettings()
         return;
     }
 
+    const auto getChecked = [](const auto& mapRadio, const QButtonGroup* group)
+    {
+        QRadioButton* checked = static_cast<QRadioButton*>( group->checkedButton() );
+        for ( auto it : mapRadio )
+        {
+            if ( it.second == checked )
+            {
+                return it.first;
+            }
+        }
+        return mapRadio.begin()->first;
+    };
+
     newOptions.graphicMode = mapGraphicMode[GraphicMode::SCALED]->isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
     newOptions.imageToLoad_4 = mapImageToLoad[BoardSize::FOUR]->isChecked();
     newOptions.imageToLoad_5 = mapImageToLoad[BoardSize::FIVE]->isChecked();
     newOptions.imageToLoad_6 = mapImageToLoad[BoardSize::SIX]->isChecked();
     newOptions.imageToLoad_7 = mapImageToLoad[BoardSize::SEVEN]->isChecked();
-    newOptions.numberColor = getChoosenOption< NumberColor >( mapNumberOnImage, mapNumberOnImage[NumberColor::NO]->group() );
-    newOptions.squareColor = getChoosenOption< TileColor >( mapTileColor, mapTileColor[TileColor::BLUE]->group() );
+    newOptions.numberColor = getChecked( mapNumberOnImage, mapNumberOnImage[NumberColor::NO]->group() );
+    newOptions.squareColor = getChecked( mapTileColor, mapTileColor[TileColor::BLUE]->group() );
 
     bool numberImageChanged = newOptions.numberColor != currentOptions.numberColor;
     bool colorChanged = newOptions.squareColor != currentOptions.squareColor;
@@ -196,22 +209,5 @@ void GUISetting::acceptSettings()
         owner.setColor();
     }
     close();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
-template <typename T> T GUISetting::getChoosenOption( std::map<T, QRadioButton*>& mapButton, const QButtonGroup* group )
-{
-    QRadioButton* choosen = static_cast< QRadioButton* >( group->checkedButton() );
-
-    for ( auto it = mapButton.begin(); it != mapButton.end(); it++ )
-    {
-        if ( it->second == choosen )
-        {
-            return it->first;
-        }
-    }
-    return mapButton.begin()->first;
 }
 

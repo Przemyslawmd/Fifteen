@@ -36,7 +36,7 @@ void Fifteen::initGame()
     menuBar->bindSlot( ActionMenu::SETTINGS, std::bind( &Fifteen::slotSettings, this ), this, "Settings" );
     menuBar->bindSlot( ActionMenu::ABOUT, std::bind( &Fifteen::slotAbout, this ), this, "About" );
 
-    QMenuBar* menu = menuBar->createMenuBar();
+    QMenuBar* menu = menuBar->createMenuBar( this );
     setMenuBar( menu );
 
     std::array<std::function<void( void )>, 3> panelSlots =

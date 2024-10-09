@@ -42,9 +42,6 @@ private:
     Fifteen& owner;
     BoardMode boardMode;
 
-    template <typename T>
-    T getChoosenOption( std::map<T, QRadioButton*>&, const QButtonGroup* );
-
 private slots:
 
     void acceptSettings();
