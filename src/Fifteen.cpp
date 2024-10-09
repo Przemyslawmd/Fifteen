@@ -47,7 +47,7 @@ void Fifteen::initGame()
     };
     QVBoxLayout* layout = panel->createLayout( panelSlots, this );
 
-    QWidget* mainPanel = new QWidget();
+    QWidget* mainPanel = new QWidget( this );
     mainPanel->setContentsMargins( 20, 20, 0, 20 );
 
     QHBoxLayout* mainLayout = new QHBoxLayout( mainPanel );
@@ -203,7 +203,7 @@ void Fifteen::slotUndoMove()
 
 void Fifteen::pressTile()
 {
-    uint tilePosition = ( static_cast< QPushButton* >( sender() ))->accessibleName().toUInt();
+    uint tilePosition = ( static_cast<QPushButton*>( sender() ))->accessibleName().toUInt();
     auto [ move, row, col ] = controller->makeMove( tilePosition );
     if ( move != Move::NOT_ALLOWED )
     {
@@ -341,7 +341,7 @@ void Fifteen::slotReadBoard()
 
 void Fifteen::setColor()
 {
-    auto tileColor = Options::getTileColor();
+    auto& tileColor = Options::getTileColor();
 
     for ( auto& tile : tilesBoard->getTiles() )
     {

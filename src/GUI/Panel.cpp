@@ -10,7 +10,7 @@ constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 constexpr const char STYLE_HEIGHT[] = "height:20px";
 
 
-QVBoxLayout* Panel::createLayout( std::array< std::function<void()>, 3>& panelSlots, QMainWindow* mainWindow )
+QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlots, QMainWindow* mainWindow )
 {
     radioSizeMap.emplace( BoardSize::FOUR, "4" );
     radioSizeMap.emplace( BoardSize::FIVE, "5" );
