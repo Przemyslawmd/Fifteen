@@ -20,9 +20,9 @@ GUIAbout::GUIAbout()
     html.append( "<br/><pre>  Author:       Przemyslaw Madej</pre>" );
     html.append( "<pre>  Web page:     http://przemeknet.pl/fifteen.html</pre>" );
 
-    QTextDocument* doc = new QTextDocument();
+    QTextDocument* doc = new QTextDocument( this );
     doc->setHtml( html );
-    QTextBrowser* browser = new QTextBrowser();
+    QTextBrowser* browser = new QTextBrowser( this );
     browser->setDocument( doc );
     layout.addWidget( browser );
     show();
