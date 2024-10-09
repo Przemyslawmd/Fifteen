@@ -32,8 +32,8 @@ public:
 
 private:
 
-    std::map<BoardSize, QRadioButton*> mapSize;
-    std::map<BoardMode, QRadioButton*> mapMode;
+    std::map<BoardSize, QRadioButton> radioSizeMap;
+    std::map<BoardMode, QRadioButton> radioModeMap;
 };
 
 #endif

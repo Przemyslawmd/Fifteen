@@ -10,53 +10,53 @@ constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 constexpr const char STYLE_HEIGHT[] = "height:20px";
 
 
-QVBoxLayout* Panel::createLayout( std::array< std::function<void()>, 3>& panelSlots, QMainWindow* window )
+QVBoxLayout* Panel::createLayout( std::array< std::function<void()>, 3>& panelSlots, QMainWindow* mainWindow )
 {
-    mapSize[BoardSize::FOUR] = new QRadioButton( "4" );
-    mapSize[BoardSize::FIVE] = new QRadioButton( "5" );
-    mapSize[BoardSize::SIX] = new QRadioButton( "6" );
-    mapSize[BoardSize::SEVEN] = new QRadioButton( "7" );
-    mapSize[BoardSize::FOUR]->setChecked( true );
+    radioSizeMap.emplace( BoardSize::FOUR, "4" );
+    radioSizeMap.emplace( BoardSize::FIVE, "5" );
+    radioSizeMap.emplace( BoardSize::SIX, "6" );
+    radioSizeMap.emplace( BoardSize::SEVEN, "7" );
+    radioSizeMap[BoardSize::FOUR].setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    for( auto& [_, radio] : mapSize )
+    for( auto& [_, radio] : radioSizeMap )
     {
         radioSizeLayout->addSpacing( 10 );
-        radioSizeLayout->addWidget( radio );
-        radio->setStyleSheet( STYLE_MARGIN_LEFT );
+        radioSizeLayout->addWidget( &radio );
+        radio.setStyleSheet( STYLE_MARGIN_LEFT );
     }
     radioSizeLayout->addSpacing( 30 );
 
-    QGroupBox* radioSizeBox = new QGroupBox( "Dimension of Board" );
+    QGroupBox* radioSizeBox = new QGroupBox( "Dimension of Board", mainWindow );
     radioSizeBox->setLayout( radioSizeLayout );
 
-    mapMode[BoardMode::NUMERIC] = new QRadioButton( "Numeric" );
-    mapMode[BoardMode::GRAPHIC] = new QRadioButton( "Graphic" );
-    mapMode[BoardMode::NUMERIC]->setChecked( true );
+    radioModeMap.emplace( BoardMode::NUMERIC, "Numeric" );
+    radioModeMap.emplace( BoardMode::GRAPHIC, "Graphic" );
+    radioModeMap[BoardMode::NUMERIC].setChecked( true );
 
-    QVBoxLayout* radioKindLayout = new QVBoxLayout();
-    for( auto& [_, radio] : mapMode )
+    QVBoxLayout* radioModeLayout = new QVBoxLayout();
+    for( auto& [_, radio] : radioModeMap )
     {
-        radioKindLayout->addSpacing( 10 );
-        radioKindLayout->addWidget( radio );
-        radio->setStyleSheet( STYLE_MARGIN_LEFT );
+        radioModeLayout->addSpacing( 10 );
+        radioModeLayout->addWidget( &radio );
+        radio.setStyleSheet( STYLE_MARGIN_LEFT );
     }
-    radioKindLayout->addSpacing( 30 );
+    radioModeLayout->addSpacing( 30 );
 
-    QGroupBox* radioKindBox = new QGroupBox( "Kind of Board" );
-    radioKindBox->setLayout( radioKindLayout );
+    QGroupBox* radioModeBox = new QGroupBox( "Kind of Board", mainWindow );
+    radioModeBox->setLayout( radioModeLayout );
 
-    QPushButton* pushRandom = new QPushButton( "Generate Board" );
+    QPushButton* pushRandom = new QPushButton( "Generate Board", mainWindow );
     pushRandom->setStyleSheet( STYLE_HEIGHT );
-    QObject::connect( pushRandom, &QPushButton::clicked, window, panelSlots[0] );
+    QObject::connect( pushRandom, &QPushButton::clicked, panelSlots[0] );
 
-    QPushButton* pushSolve = new QPushButton( "Solve Board" );
+    QPushButton* pushSolve = new QPushButton( "Solve Board", mainWindow );
     pushSolve->setStyleSheet( STYLE_HEIGHT );
-    QObject::connect( pushSolve, &QPushButton::clicked, window, panelSlots[1] );
+    QObject::connect( pushSolve, &QPushButton::clicked, panelSlots[1] );
 
-    QPushButton* pushUndo = new QPushButton( "Undo Move" );
+    QPushButton* pushUndo = new QPushButton( "Undo Move", mainWindow );
     pushUndo->setStyleSheet( STYLE_HEIGHT );
-    QObject::connect( pushUndo, &QPushButton::clicked, window, panelSlots[2] );
+    QObject::connect( pushUndo, &QPushButton::clicked, panelSlots[2] );
 
     QVBoxLayout* panelLayout = new QVBoxLayout();
     panelLayout->setContentsMargins( 30, 0, 20, 0 );
@@ -68,7 +68,7 @@ QVBoxLayout* Panel::createLayout( std::array< std::function<void()>, 3>& panelSl
     panelLayout->addSpacing( 30 );
     panelLayout->addWidget( radioSizeBox );
     panelLayout->addStretch();
-    panelLayout->addWidget( radioKindBox );
+    panelLayout->addWidget( radioModeBox );
     panelLayout->addStretch();
     return panelLayout;
 }
@@ -78,7 +78,7 @@ QVBoxLayout* Panel::createLayout( std::array< std::function<void()>, 3>& panelSl
 
 BoardSize Panel::checkBoardSize()
 {
-    const auto it = std::find_if( mapSize.begin(), mapSize.end(), [] ( const auto &it ) { return it.second->isChecked() == true; });
+    const auto it = std::find_if( radioSizeMap.begin(), radioSizeMap.end(), [] ( const auto &it ) { return it.second.isChecked() == true; });
     return it->first;
 }
 
@@ -87,7 +87,7 @@ BoardSize Panel::checkBoardSize()
 
 void Panel::setBoardSize( BoardSize boardSize )
 {
-    mapSize.at( boardSize )->setChecked( true );
+    radioSizeMap.at( boardSize ).setChecked( true );
 }
 
 /*********************************************************************************/
@@ -95,7 +95,7 @@ void Panel::setBoardSize( BoardSize boardSize )
 
 bool Panel::checkBoardMode( BoardMode boardMode )
 {
-    return mapMode.at( boardMode )->isChecked();
+    return radioModeMap.at( boardMode ).isChecked();
 }
 
 /*********************************************************************************/
@@ -103,6 +103,6 @@ bool Panel::checkBoardMode( BoardMode boardMode )
 
 void Panel::setBoardMode( BoardMode boardMode )
 {
-    mapMode.at( boardMode )->setChecked( true );
+    radioModeMap.at( boardMode ).setChecked( true );
 }
 
