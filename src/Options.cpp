@@ -1,6 +1,7 @@
 
-#include "MappedValues.h"
 #include "Options.h"
+
+#include "MappedValues.h"
 
 
 const QString& Options::getTileColor()

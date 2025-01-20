@@ -1,6 +1,8 @@
 
 #include "UndoMove.h"
 
+constexpr size_t MOVE_STACK_LIMIT = 10;
+
 
 void UndoMove::PutMove( Move move, size_t row, size_t col )
 {

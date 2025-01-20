@@ -36,7 +36,7 @@ public:
 private:
 
     static const std::map<Result, QString> message;
-    static std::queue< QString > messageQueue;
+    static std::queue<QString> messageQueue;
 };
 
 #endif
