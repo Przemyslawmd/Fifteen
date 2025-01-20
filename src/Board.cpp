@@ -147,7 +147,7 @@ void Board::setMode( BoardMode mode )
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector<size_t>& Board::getBoardValues()
+const std::vector<size_t>& Board::getBoardValues() const
 {
     return values;
 }

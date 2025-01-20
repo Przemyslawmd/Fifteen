@@ -25,7 +25,7 @@ public:
     BoardMode getMode() const;
     void setMode( BoardMode );
 
-    std::vector<size_t>& getBoardValues();
+    const std::vector<size_t>& getBoardValues() const;
     void generateBoard();
     void solveBoard();
 

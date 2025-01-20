@@ -10,7 +10,7 @@
 #include "../Message.h"
 
 
-void IOBoard::writeBoardIntoFile( Board& board, const std::string& fileName )
+void IOBoard::writeBoardIntoFile( const Board& board, const std::string& fileName )
 {
     std::ofstream ofs( fileName );
     if ( !ofs )

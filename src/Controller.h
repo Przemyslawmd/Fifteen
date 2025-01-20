@@ -28,7 +28,7 @@ public:
     Result generateBoard( BoardSize, BoardMode );
     void solveBoard();
 
-    std::vector<size_t>& getValues();
+    const std::vector<size_t>& getValues();
     uint getNullValue();
     BoardMode getBoardMode();
 
