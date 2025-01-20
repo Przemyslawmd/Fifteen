@@ -125,7 +125,7 @@ bool Controller::removeGraphic()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector<QImage>& Controller::getImages() const
+const std::vector<QImage>& Controller::getImages() const
 {
     return imageProvider->getImages( board->getSize() );
 }

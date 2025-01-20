@@ -1,6 +1,6 @@
 
-#ifndef GRAPHIC_BOARD_H
-#define GRAPHIC_BOARD_H
+#ifndef FIFTEEN_GRAPHIC_BOARD_H
+#define FIFTEEN_GRAPHIC_BOARD_H
 
 #include <memory>
 #include <vector>
@@ -26,7 +26,7 @@ private:
 
     void createTilesFromImage( QImage&, BoardSize, uint tileSize, GraphicMode );
     void createTiles( QImage&, uint boardSize, uint tileSize );
-    std::vector<QImage>& getImages();
+    const std::vector<QImage>& getImages() const;
 
     TileSize tileSize;
     FontSize fontSize;

@@ -41,7 +41,7 @@ public:
     bool loadGraphic( QImage& );
     bool removeGraphic();
 
-    std::vector<QImage>& getImages() const;
+    const std::vector<QImage>& getImages() const;
 
     void writeBoardIntoFile( const std::string& file );
     bool readBoardFromFile( const std::string& file );

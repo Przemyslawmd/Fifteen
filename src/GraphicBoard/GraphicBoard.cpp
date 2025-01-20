@@ -4,7 +4,7 @@
 #include "../MappedValues.h"
 
 
-std::vector<QImage>& GraphicBoard::getImages()
+const std::vector<QImage>& GraphicBoard::getImages() const
 {
     return images;
 }

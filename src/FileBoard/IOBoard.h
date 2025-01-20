@@ -1,6 +1,6 @@
 
-#ifndef IO_BOARD_H
-#define IO_BOARD_H
+#ifndef FIFTEEN_IO_BOARD_H
+#define FIFTEEN_IO_BOARD_H
 
 #include <memory>
 #include <optional>
