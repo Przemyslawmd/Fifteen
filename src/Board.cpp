@@ -20,10 +20,10 @@ Board::Board( BoardSize size, BoardMode mode ) : size( size ),
 /*********************************************************************************/
 
 Board::Board( std::vector<size_t>&& values, BoardSize size, BoardMode mode ) : size( size ),
-                                                                             mode( mode ),
-                                                                             sizeInt( Maps::boardSizeInt.at( size )),
-                                                                             values( values ),
-                                                                             nullValue( sizeInt * sizeInt - 1 ) {}
+                                                                               mode( mode ),
+                                                                               sizeInt( Maps::boardSizeInt.at( size )),
+                                                                               values( std::move( values )),
+                                                                               nullValue( sizeInt * sizeInt - 1 ) {}
 
 /*********************************************************************************/
 /*********************************************************************************/

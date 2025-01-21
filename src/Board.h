@@ -41,7 +41,6 @@ private:
 
     BoardMode mode;
     const size_t nullValue;
-
     std::vector<size_t> values;
 };
 
