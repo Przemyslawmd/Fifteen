@@ -88,16 +88,16 @@ void Fifteen::setTiles()
 /*********************************************************************************/
 
 void Fifteen::setTilesNumeric()
-{    
+{
     const auto& values = controller->getValues();
 
-    int fontSize = controller->getFontSize();
+    size_t fontSize = controller->getFontSize();
     QFont font;
     font.setPixelSize( fontSize );
     auto tileColor = Options::getTileColor();
 
     auto& tiles = tilesBoard->getTiles();
-    int valuesIndex = 0;
+    size_t valuesIndex = 0;
     for ( auto& tile : tiles )
     {
         tile->setText( QString::number( values[ valuesIndex++ ] + 1 ));
@@ -105,10 +105,10 @@ void Fifteen::setTilesNumeric()
         tile->setFont( font );
     }
 
-    uint nullValue = controller->getNullValue();
+    size_t nullValue = controller->getNullValue();
     auto iter = std::find( values.begin(), values.end(), nullValue );
-    tiles[ std::distance( values.begin(), iter) ]->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
-    tiles[ std::distance( values.begin(), iter) ]->setText( nullptr );
+    tiles[ std::distance( values.begin(), iter )]->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
+    tiles[ std::distance( values.begin(), iter )]->setText( nullptr );
 }
 
 /*********************************************************************************/
@@ -116,7 +116,7 @@ void Fifteen::setTilesNumeric()
 
 void Fifteen::setTilesGraphic()
 {
-    auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
+    const auto [ boardSizeInt, tileSizeInt ] = controller->getBoardAttributes();
     auto value = controller->getValues().begin();
 
     const auto& images = controller->getImages();
@@ -214,24 +214,23 @@ void Fifteen::pressTile()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::makeMove( Move move, uint row, uint col )
+void Fifteen::makeMove( Move move, size_t row, size_t col )
 {
-    auto [ boardSize, tileSize ] = controller->getBoardAttributes();
     auto moveTile = ( controller->getBoardMode() == BoardMode::NUMERIC ) ? &Fifteen::moveNumericTile :
                                                                            &Fifteen::moveGraphicTile;
     switch ( move )
     {
         case Move::UP:
-            ( this->*moveTile )( row, col, row - 1, col, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row - 1, col );
             return;
         case Move::RIGHT:
-            ( this->*moveTile )( row, col, row, col + 1, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row, col + 1 );
             return;
         case Move::DOWN:
-            ( this->*moveTile )( row, col, row + 1, col, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row + 1, col );
             return;
         case Move::LEFT:
-            ( this->*moveTile )( row, col, row, col - 1, boardSize, tileSize );
+            ( this->*moveTile )( row, col, row, col - 1 );
             return;
     }
 }
@@ -239,9 +238,10 @@ void Fifteen::makeMove( Move move, uint row, uint col )
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveNumericTile( size_t rowSrc, size_t colSrc, size_t rowDst, size_t colDst, size_t boardSize, size_t tileSize )
+void Fifteen::moveNumericTile( size_t rowSrc, size_t colSrc, size_t rowDst, size_t colDst )
 {
     auto& tiles = tilesBoard->getTiles();
+    const auto [ boardSize, _ ] = controller->getBoardAttributes();
 
     tiles.at( rowDst * boardSize + colDst )->setText( tiles.at( rowSrc * boardSize + colSrc )->text() );
     tiles.at( rowDst * boardSize + colDst )->setStyleSheet( Options::getTileColor() );
@@ -252,9 +252,10 @@ void Fifteen::moveNumericTile( size_t rowSrc, size_t colSrc, size_t rowDst, size
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::moveGraphicTile( size_t rowSrc, size_t colSrc, size_t rowDst, size_t colDst, size_t boardSize, size_t tileSize )
+void Fifteen::moveGraphicTile( size_t rowSrc, size_t colSrc, size_t rowDst, size_t colDst )
 {
     auto& tiles = tilesBoard->getTiles();
+    const auto [ boardSize, tileSize ] = controller->getBoardAttributes();
 
     tiles.at( rowDst * boardSize + colDst )->setIcon( tiles.at( rowSrc * boardSize + colSrc )->icon() );
     QPixmap pixmap( tileSize, tileSize );

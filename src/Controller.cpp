@@ -72,7 +72,7 @@ std::tuple<size_t, size_t> Controller::getBoardAttributes()
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Controller::getFontSize()
+size_t Controller::getFontSize() const
 {
     return board->getMode() == BoardMode::NUMERIC ?
            Options::getFontSize() : imageProvider->getFontSize( board->getSize() );

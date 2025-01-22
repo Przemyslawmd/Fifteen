@@ -33,7 +33,7 @@ public:
     BoardMode getBoardMode();
 
     std::tuple<size_t, size_t> getBoardAttributes();
-    uint getFontSize();
+    size_t getFontSize() const;
 
     std::tuple<Move, size_t, size_t> makeMove( uint tilePosition );
     std::tuple<Move, size_t, size_t> undoMove();

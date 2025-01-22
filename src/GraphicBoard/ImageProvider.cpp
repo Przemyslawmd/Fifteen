@@ -47,7 +47,7 @@ bool ImageProvider::isGraphicBoard( BoardSize boardSize ) const
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint ImageProvider::getTileSize( BoardSize boardSize ) const
+size_t ImageProvider::getTileSize( BoardSize boardSize ) const
 {
     TileSize tileSize = images.at( boardSize )->tileSize;
     return Maps::tileSizeInt.at( tileSize );
@@ -56,7 +56,7 @@ uint ImageProvider::getTileSize( BoardSize boardSize ) const
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint ImageProvider::getFontSize( BoardSize boardSize ) const
+size_t ImageProvider::getFontSize( BoardSize boardSize ) const
 {
     FontSize fontSize = images.at( boardSize )->fontSize;
     return Maps::fontSizeInt.at( fontSize );

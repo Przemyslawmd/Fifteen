@@ -23,8 +23,8 @@ public:
 
     void prepareGraphicBoard( QImage&, uint tileSize );
     bool isGraphicBoard( BoardSize ) const;
-    uint getTileSize( BoardSize ) const;
-    uint getFontSize( BoardSize ) const ;
+    size_t getTileSize( BoardSize ) const;
+    size_t getFontSize( BoardSize ) const ;
 
 private:
 
