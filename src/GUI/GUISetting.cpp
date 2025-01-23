@@ -28,17 +28,21 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
 
     mapGraphicMode.emplace( GraphicMode::SCALED, "Scalled image");
     mapGraphicMode[GraphicMode::SCALED].setStyleSheet( STYLE_MARGIN_LEFT );
-    mapGraphicMode.emplace(GraphicMode::CROPPED, "Cropped image" );
+    
+    mapGraphicMode.emplace( GraphicMode::CROPPED, "Cropped image" );
     mapGraphicMode[GraphicMode::SCALED].setStyleSheet( STYLE_MARGIN_LEFT );
     mapGraphicMode[currentOptions.graphicMode].setChecked( true );
 
-    mapImageToLoad.emplace(BoardSize::FOUR, "Load image for board  4x4" );
+    mapImageToLoad.emplace( BoardSize::FOUR, "Load image for board  4x4" );
     mapImageToLoad[BoardSize::FOUR].setChecked( currentOptions.imageToLoad_4 );
-    mapImageToLoad.emplace(BoardSize::FIVE, "Load Image for board  5x5" );
+    
+    mapImageToLoad.emplace( BoardSize::FIVE, "Load Image for board  5x5" );
     mapImageToLoad[BoardSize::FIVE].setChecked( currentOptions.imageToLoad_5 );
-    mapImageToLoad.emplace(BoardSize::SIX, "Load image for board  6x6" );
+    
+    mapImageToLoad.emplace( BoardSize::SIX, "Load image for board  6x6" );
     mapImageToLoad[BoardSize::SIX].setChecked( currentOptions.imageToLoad_6 );
-    mapImageToLoad.emplace(BoardSize::SEVEN, "Load image for board  7x7" );
+    
+    mapImageToLoad.emplace( BoardSize::SEVEN, "Load image for board  7x7" );
     mapImageToLoad[BoardSize::SEVEN].setChecked( currentOptions.imageToLoad_7 );
 
     for ( auto& [_, checkBox] : mapImageToLoad )
@@ -169,7 +173,7 @@ void GUISetting::acceptSettings()
     if ( tileSizeChanged && boardMode == BoardMode::GRAPHIC )
     {
         QMessageBox::information( this, "",
-                                  "\nSize of a tile can not be changed in graphic mode\t \nwhen an image is loaded" );
+                                  "\nSize of a tile can not be changed in graphic mode\t \nwhen an image has been loaded" );
         return;
     }
 
