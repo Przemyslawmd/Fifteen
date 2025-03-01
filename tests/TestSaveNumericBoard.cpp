@@ -8,10 +8,10 @@
 #include "config.h"
 #include "Utils.h"
 
-#include "../src/Board.h"
-#include "../src/Types.h"
-#include "../src/MappedValues.h"
-#include "../src/FileBoard/IOBoard.h"
+#include "Board.h"
+#include "Types.h"
+#include "MappedValues.h"
+#include "FileBoard/IOBoard.h"
 
 
 std::unique_ptr<Board> createAndSaveBoard(BoardSize size)
@@ -48,11 +48,11 @@ TEST(testSaveNumericBoard, NoSizeChange)
 
     board->generateBoard();
     auto changedValues = board->getBoardValues();
-    EXPECT_NE(changedValues, initialValues);
+    ASSERT_NE(changedValues, initialValues);
 
     auto restoredBoard = restoreBoard(std::move(board));
     auto restoredValues = restoredBoard->getBoardValues();
-    EXPECT_EQ(initialValues, restoredValues);
+    ASSERT_EQ(initialValues, restoredValues);
 }
 
 TEST(testSaveNumericBoard, SizeChanged)
@@ -63,9 +63,9 @@ TEST(testSaveNumericBoard, SizeChanged)
     board.reset(new Board(BoardSize::FIVE, BoardMode::NUMERIC));
     board->generateBoard();
     auto changedValues = board->getBoardValues();
-    EXPECT_NE(changedValues, initialValues);
+    ASSERT_NE(changedValues, initialValues);
 
     auto restoredBoard = restoreBoard(std::move(board));
     auto restoredValues = restoredBoard->getBoardValues();
-    EXPECT_EQ(initialValues, restoredValues);
+    ASSERT_EQ(initialValues, restoredValues);
 }
