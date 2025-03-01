@@ -30,7 +30,7 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapGraphicMode[GraphicMode::SCALED].setStyleSheet( STYLE_MARGIN_LEFT );
     
     mapGraphicMode.emplace( GraphicMode::CROPPED, "Cropped image" );
-    mapGraphicMode[GraphicMode::SCALED].setStyleSheet( STYLE_MARGIN_LEFT );
+    mapGraphicMode[GraphicMode::CROPPED].setStyleSheet( STYLE_MARGIN_LEFT );
     mapGraphicMode[currentOptions.graphicMode].setChecked( true );
 
     mapImageToLoad.emplace( BoardSize::FOUR, "Load image for board  4x4" );
