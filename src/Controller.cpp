@@ -37,7 +37,7 @@ void Controller::solveBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector<size_t>& Controller::getValues()
+const std::vector<size_t>& Controller::getValues()
 {
     return board->getBoardValues();
 }
@@ -72,7 +72,7 @@ std::tuple<size_t, size_t> Controller::getBoardAttributes()
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Controller::getFontSize()
+size_t Controller::getFontSize() const
 {
     return board->getMode() == BoardMode::NUMERIC ?
            Options::getFontSize() : imageProvider->getFontSize( board->getSize() );
@@ -125,7 +125,7 @@ bool Controller::removeGraphic()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector<QImage>& Controller::getImages() const
+const std::vector<QImage>& Controller::getImages() const
 {
     return imageProvider->getImages( board->getSize() );
 }

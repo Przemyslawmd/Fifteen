@@ -41,7 +41,7 @@ QString Message::getMessages()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::queue< QString > Message::messageQueue = {};
+std::queue<QString> Message::messageQueue = {};
 
 const std::map<Result, QString> Message::message =
 {

@@ -30,10 +30,10 @@ private:
 
     Q_OBJECT
 
-    std::map<GraphicMode, QRadioButton*> mapGraphicMode;
-    std::map<BoardSize, QCheckBox*> mapImageToLoad;
-    std::map<NumberColor, QRadioButton*> mapNumberOnImage;
-    std::map<TileColor, QRadioButton*> mapTileColor;
+    std::map<GraphicMode, QRadioButton> mapGraphicMode;
+    std::map<BoardSize, QCheckBox> mapImageToLoad;
+    std::map<NumberColor, QRadioButton> mapNumberOnImage;
+    std::map<TileColor, QRadioButton> mapTileColor;
 
     QSlider* slider;
 

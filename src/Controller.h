@@ -28,12 +28,12 @@ public:
     Result generateBoard( BoardSize, BoardMode );
     void solveBoard();
 
-    std::vector<size_t>& getValues();
+    const std::vector<size_t>& getValues();
     uint getNullValue();
     BoardMode getBoardMode();
 
     std::tuple<size_t, size_t> getBoardAttributes();
-    uint getFontSize();
+    size_t getFontSize() const;
 
     std::tuple<Move, size_t, size_t> makeMove( uint tilePosition );
     std::tuple<Move, size_t, size_t> undoMove();
@@ -41,7 +41,7 @@ public:
     bool loadGraphic( QImage& );
     bool removeGraphic();
 
-    std::vector<QImage>& getImages() const;
+    const std::vector<QImage>& getImages() const;
 
     void writeBoardIntoFile( const std::string& file );
     bool readBoardFromFile( const std::string& file );

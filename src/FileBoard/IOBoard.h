@@ -1,6 +1,6 @@
 
-#ifndef IO_BOARD_H
-#define IO_BOARD_H
+#ifndef FIFTEEN_IO_BOARD_H
+#define FIFTEEN_IO_BOARD_H
 
 #include <memory>
 #include <optional>
@@ -20,7 +20,7 @@ public:
     IOBoard& operator=( const IOBoard& ) = delete;
     IOBoard& operator=( IOBoard&& ) = delete;
 
-    void writeBoardIntoFile( Board&, const std::string& fileName );
+    void writeBoardIntoFile( const Board&, const std::string& fileName );
     std::optional<std::vector<size_t>> readBoardFromFile( const std::string& fileName );
 
 private:

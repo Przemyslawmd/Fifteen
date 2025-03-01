@@ -19,12 +19,12 @@ public:
     ImageProvider& operator=( const ImageProvider& ) = delete;
     ImageProvider& operator=( ImageProvider&& ) = delete;
 
-    std::vector<QImage>& getImages( BoardSize ) const;
+    const std::vector<QImage>& getImages( BoardSize ) const;
 
     void prepareGraphicBoard( QImage&, uint tileSize );
-    bool isGraphicBoard( BoardSize );
-    uint getTileSize( BoardSize );
-    uint getFontSize( BoardSize );
+    bool isGraphicBoard( BoardSize ) const;
+    size_t getTileSize( BoardSize ) const;
+    size_t getFontSize( BoardSize ) const ;
 
 private:
 

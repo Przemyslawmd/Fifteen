@@ -50,9 +50,9 @@ private:
 
     void drawNumberOnTile( QIcon&, QPixmap&, size_t fontSize, size_t number, NumberColor );
 
-    void makeMove( Move, uint row, uint col );
-    void moveNumericTile( size_t rowSource, size_t colSource, size_t rowDest, size_t colDest, size_t boardSize, size_t tileSize );
-    void moveGraphicTile( size_t rowSource, size_t colSource, size_t rowDest, size_t colDest, size_t boardSize, size_t tileSize );
+    void makeMove( Move, size_t row, size_t col );
+    void moveNumericTile( size_t rowSource, size_t colSource, size_t rowDest, size_t colDest );
+    void moveGraphicTile( size_t rowSource, size_t colSource, size_t rowDest, size_t colDest );
 
 private slots:
 

@@ -23,7 +23,6 @@ public:
 private:
 
     std::deque<size_t> moveStack;
-    const size_t MOVE_STACK_LIMIT = 10;
 };
 
 #endif

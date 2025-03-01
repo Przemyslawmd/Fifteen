@@ -16,7 +16,7 @@ ImageProvider::ImageProvider()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::vector<QImage>& ImageProvider::getImages( BoardSize boardSize ) const
+const std::vector<QImage>& ImageProvider::getImages( BoardSize boardSize ) const
 {
     return images.at( boardSize )->getImages();
 }
@@ -39,7 +39,7 @@ void ImageProvider::prepareGraphicBoard( QImage& image, uint tileSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::isGraphicBoard( BoardSize boardSize )
+bool ImageProvider::isGraphicBoard( BoardSize boardSize ) const
 {
     return images.at( boardSize ) != nullptr;
 }
@@ -47,7 +47,7 @@ bool ImageProvider::isGraphicBoard( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint ImageProvider::getTileSize( BoardSize boardSize )
+size_t ImageProvider::getTileSize( BoardSize boardSize ) const
 {
     TileSize tileSize = images.at( boardSize )->tileSize;
     return Maps::tileSizeInt.at( tileSize );
@@ -56,7 +56,7 @@ uint ImageProvider::getTileSize( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint ImageProvider::getFontSize( BoardSize boardSize )
+size_t ImageProvider::getFontSize( BoardSize boardSize ) const
 {
     FontSize fontSize = images.at( boardSize )->fontSize;
     return Maps::fontSizeInt.at( fontSize );
