@@ -1,7 +1,8 @@
 
 #include "GraphicBoard.h"
-#include "../Message.h"
-#include "../MappedValues.h"
+
+#include "Message.h"
+#include "MappedValues.h"
 
 
 const std::vector<QImage>& GraphicBoard::getImages() const
@@ -12,10 +13,10 @@ const std::vector<QImage>& GraphicBoard::getImages() const
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSize, uint tileSize, GraphicMode graphicMode )
+void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSize, size_t tileSize, GraphicMode graphicMode )
 {
-    uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
-    uint boardSizePixel = boardSizeInt * tileSize;
+    size_t boardSizeInt = Maps::boardSizeInt.at( boardSize );
+    size_t boardSizePixel = boardSizeInt * tileSize;
 
     QImage boardImage;
     if ( graphicMode == GraphicMode::SCALED )
@@ -38,9 +39,9 @@ void GraphicBoard::createTilesFromImage( QImage& sourceImage, BoardSize boardSiz
 /*********************************************************************************/
 /*********************************************************************************/
 
-void GraphicBoard::createTiles( QImage& image, uint boardSize, uint tileSize )
+void GraphicBoard::createTiles( QImage& image, size_t boardSize, size_t tileSize )
 {
-    uint pictureSize = boardSize * tileSize;
+    size_t pictureSize = boardSize * tileSize;
     images.reserve( boardSize * boardSize );
 
     for ( uint yPos = 0; yPos < pictureSize; yPos += tileSize )

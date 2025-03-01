@@ -1,8 +1,11 @@
 
 #include "ImageProvider.h"
-#include "../Options.h"
-#include "../Message.h"
-#include "../MappedValues.h"
+
+#include <ranges>
+
+#include "Options.h"
+#include "Message.h"
+#include "MappedValues.h"
 
 
 ImageProvider::ImageProvider()
@@ -24,9 +27,9 @@ const std::vector<QImage>& ImageProvider::getImages( BoardSize boardSize ) const
 /*********************************************************************************/
 /*********************************************************************************/
 
-void ImageProvider::prepareGraphicBoard( QImage& image, uint tileSize )
+void ImageProvider::prepareGraphicBoard( QImage& image, size_t tileSize )
 {
-    for ( const auto& [boardSize, _] : images )
+    for ( const auto boardSize : images | std::views::keys )
     {
         if (( Options::isImageToBeLoaded( boardSize )) && ( checkImageSize( image, boardSize, tileSize )))
         {
@@ -65,7 +68,7 @@ size_t ImageProvider::getFontSize( BoardSize boardSize ) const
 /*********************************************************************************/
 /*********************************************************************************/
 
-bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, uint tileSize )
+bool ImageProvider::checkImageSize( QImage& picture, BoardSize boardSize, size_t tileSize ) const
 {
     uint boardSizeInt = Maps::boardSizeInt.at( boardSize );
     if (( picture.height() < boardSizeInt * tileSize ) || ( picture.width() < boardSizeInt * tileSize ))

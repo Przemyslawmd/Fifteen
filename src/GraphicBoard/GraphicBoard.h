@@ -7,7 +7,7 @@
 
 #include <QImage>
 
-#include "../Types.h"
+#include "Types.h"
 
 
 class GraphicBoard
@@ -24,8 +24,8 @@ private:
 
     friend class ImageProvider;
 
-    void createTilesFromImage( QImage&, BoardSize, uint tileSize, GraphicMode );
-    void createTiles( QImage&, uint boardSize, uint tileSize );
+    void createTilesFromImage( QImage&, BoardSize, size_t tileSize, GraphicMode );
+    void createTiles( QImage&, size_t boardSize, size_t tileSize );
     const std::vector<QImage>& getImages() const;
 
     TileSize tileSize;

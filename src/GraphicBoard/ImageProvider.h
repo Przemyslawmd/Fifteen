@@ -5,8 +5,8 @@
 #include <memory>
 
 #include "GraphicBoard.h"
-#include "../Types.h"
-#include "../Message.h"
+#include "Types.h"
+#include "Message.h"
 
 
 class ImageProvider
@@ -21,14 +21,14 @@ public:
 
     const std::vector<QImage>& getImages( BoardSize ) const;
 
-    void prepareGraphicBoard( QImage&, uint tileSize );
+    void prepareGraphicBoard( QImage&, size_t tileSize );
     bool isGraphicBoard( BoardSize ) const;
     size_t getTileSize( BoardSize ) const;
-    size_t getFontSize( BoardSize ) const ;
+    size_t getFontSize( BoardSize ) const;
 
 private:
 
-    bool checkImageSize( QImage&, BoardSize, uint tileSize ) ;
+    bool checkImageSize( QImage&, BoardSize, size_t tileSize ) const;
 
     std::map<BoardSize, std::unique_ptr<GraphicBoard>> images;
 };
