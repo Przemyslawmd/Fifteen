@@ -29,7 +29,7 @@ public:
     void generateBoard();
     void solveBoard();
 
-    size_t getNullValue();
+    size_t getNullValue() const;
 
 private:
 

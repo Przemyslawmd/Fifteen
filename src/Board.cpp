@@ -64,35 +64,36 @@ void Board::generateBoard()
     size_t emptyCol = emptyTile % 10;
 
     std::vector<Move> moves( 4 );
+    using enum Move;
 
     for ( int i = 0; i < 4000; i++ )
     {
         moves.clear();
-        moves.insert( moves.begin(), { Move::UP, Move::RIGHT, Move::DOWN, Move::LEFT });
+        moves.insert( moves.begin(), { UP, RIGHT, DOWN, LEFT });
         Move move = moves.at( rand() % moves.size() );
 
         while( true )
         {
-            if (( move == Move::UP ) && ( emptyRow > 0 ))
-            {                
+            if (( move == UP ) && ( emptyRow > 0 ))
+            {
                 makeMove( emptyRow, emptyCol, emptyRow - 1, emptyCol );
                 emptyRow--;
                 break;
-            }            
-            if (( move == Move::RIGHT ) && ( emptyCol < ( sizeInt - 1 )))
-            {                
+            }
+            if (( move == RIGHT ) && ( emptyCol < ( sizeInt - 1 )))
+            {
                 makeMove( emptyRow, emptyCol, emptyRow, emptyCol + 1 );
                 emptyCol++;
                 break;
-            }            
-            if (( move == Move::DOWN ) && ( emptyRow < ( sizeInt - 1 )))
-            {                
+            }
+            if (( move == DOWN ) && ( emptyRow < ( sizeInt - 1 )))
+            {
                 makeMove( emptyRow, emptyCol, emptyRow + 1, emptyCol );
                 emptyRow++;
                 break;
-            }            
-            if (( move == Move::LEFT ) && ( emptyCol > 0 ))
-            {                
+            }
+            if (( move == LEFT ) && ( emptyCol > 0 ))
+            {
                 makeMove( emptyRow, emptyCol, emptyRow, emptyCol - 1 );
                 emptyCol--;
                 break;
@@ -155,7 +156,7 @@ const std::vector<size_t>& Board::getBoardValues() const
 /*********************************************************************************/
 /*********************************************************************************/
 
-size_t Board::getNullValue()
+size_t Board::getNullValue() const
 {
     return nullValue;
 }
@@ -164,7 +165,7 @@ size_t Board::getNullValue()
 /* PRIVATE ***********************************************************************/
 
 void Board::makeMove( size_t srcRow, size_t srcCol, size_t dstRow, size_t dstCol )
-{    
+{
     std::swap( values.at( dstRow * sizeInt + dstCol ), values.at( srcRow * sizeInt + srcCol ));
 }
 

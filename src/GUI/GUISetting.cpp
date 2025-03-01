@@ -1,6 +1,8 @@
 
 #include "GUISetting.h"
 
+#include <ranges>
+
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QMessageBox>
@@ -55,7 +57,7 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapNumberOnImage.emplace( NumberColor::WHITE, "Number on graphic tile : White" );
 
     QButtonGroup* groupNumberOnImage = new QButtonGroup();
-    for ( auto& [_, radio] : mapNumberOnImage )
+    for ( auto& radio : mapNumberOnImage | std::views::values )
     {
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
         groupNumberOnImage->addButton( &radio );
@@ -94,13 +96,13 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapTileColor.emplace(TileColor::RED, "Red" );
 
     QButtonGroup* groupRadioColor = new QButtonGroup();
-    for ( auto& [_, radio] : mapTileColor )
+    for ( auto& radio : mapTileColor | std::views::values )
     {
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
         groupRadioColor->addButton( &radio );
     }
 
-    mapTileColor[ currentOptions.squareColor ].setChecked( true );
+    mapTileColor[currentOptions.squareColor].setChecked( true );
 
     QVBoxLayout* layoutTileColor = new QVBoxLayout();
     layoutTileColor->addSpacing( 7 );

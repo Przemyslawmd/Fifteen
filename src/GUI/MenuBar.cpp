@@ -17,19 +17,20 @@ QMenuBar* MenuBar::createMenuBar( QMainWindow* mainWindow )
     QMenu* fileMenu = new QMenu( "File", mainWindow );
     fileMenu->setStyleSheet( "padding-left:10px;" );
 
-    fileMenu->addAction( &mapAction.at( ActionMenu::OPEN_GRAPHIC ));
+    using enum ActionMenu;
+    fileMenu->addAction( &mapAction.at( OPEN_GRAPHIC ));
     fileMenu->addSeparator();
-    fileMenu->addAction( &mapAction.at( ActionMenu::REM_GRAPHIC ));
-    mapAction.at( ActionMenu::REM_GRAPHIC ).setEnabled( false );
+    fileMenu->addAction( &mapAction.at( REM_GRAPHIC ));
+    mapAction.at( REM_GRAPHIC ).setEnabled( false );
     fileMenu->addSeparator();
-    fileMenu->addAction( &mapAction.at( ActionMenu::SAVE_BOARD ));
+    fileMenu->addAction( &mapAction.at( SAVE_BOARD ));
     fileMenu->addSeparator();
-    fileMenu->addAction( &mapAction.at( ActionMenu::LOAD_BOARD ));
+    fileMenu->addAction( &mapAction.at( LOAD_BOARD ));
 
     QMenuBar* menuBar = new QMenuBar( mainWindow );
     menuBar->addMenu( fileMenu );
-    menuBar->addAction( &mapAction.at( ActionMenu::SETTINGS ));
-    menuBar->addAction( &mapAction.at( ActionMenu::ABOUT ));
+    menuBar->addAction( &mapAction.at( SETTINGS ));
+    menuBar->addAction( &mapAction.at( ABOUT ));
     menuBar->setStyleSheet( "padding-left: 5px; margin: 3px;" );
     return menuBar;
 }

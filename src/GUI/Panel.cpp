@@ -1,10 +1,13 @@
 
 #include "Panel.h"
-#include "MappedValues.h"
+
+#include <memory>
+#include <ranges>
 
 #include <QGroupBox>
 
-#include <memory>
+#include "MappedValues.h"
+
 
 constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 constexpr const char STYLE_HEIGHT[] = "height:20px";
@@ -19,7 +22,7 @@ QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlo
     radioSizeMap[BoardSize::FOUR].setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    for( auto& [_, radio] : radioSizeMap )
+    for( auto& radio : radioSizeMap | std::views::values )
     {
         radioSizeLayout->addSpacing( 10 );
         radioSizeLayout->addWidget( &radio );
@@ -35,7 +38,7 @@ QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlo
     radioModeMap[BoardMode::NUMERIC].setChecked( true );
 
     QVBoxLayout* radioModeLayout = new QVBoxLayout();
-    for( auto& [_, radio] : radioModeMap )
+    for( auto& radio : radioModeMap | std::views::values )
     {
         radioModeLayout->addSpacing( 10 );
         radioModeLayout->addWidget( &radio );
@@ -78,7 +81,7 @@ QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlo
 
 BoardSize Panel::checkBoardSize()
 {
-    const auto it = std::find_if( radioSizeMap.begin(), radioSizeMap.end(), [] ( const auto &it ) { return it.second.isChecked() == true; });
+    const auto it = std::find_if( radioSizeMap.begin(), radioSizeMap.end(), [] ( const auto& it ) { return it.second.isChecked(); });
     return it->first;
 }
 
