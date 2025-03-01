@@ -9,11 +9,11 @@
 #include "Utils.h"
 #include "config.h"
 
-#include "../src/Board.h"
-#include "../src/Options.h"
-#include "../src/Types.h"
-#include "../src/MappedValues.h"
-#include "../src/GraphicBoard/ImageProvider.h"
+#include "Board.h"
+#include "Options.h"
+#include "Types.h"
+#include "MappedValues.h"
+#include "GraphicBoard/ImageProvider.h"
 
 
 void compareImage(const QImage& image1, const QImage& image2)
@@ -52,7 +52,7 @@ void runTestGraphicBoard(BoardSize boardSize, TileSize tileSize, GraphicMode gra
     const auto& images = imageProvider->getImages(boardSize);
 
     uint sizeInt = Maps::boardSizeInt.at(boardSize);
-    for (uint i = 0; i < sizeInt * sizeInt; i++)
+    for (size_t i = 0; i < sizeInt * sizeInt; i++)
     {
         const auto& imagePath = IMAGES_DIR + testImages + std::to_string(i) + ".bmp";
         QImage image(QString::fromStdString(imagePath));

@@ -35,6 +35,12 @@ add_executable(
   ${SRC}/FileBoard/IOBoard.cpp
 )
 
+target_include_directories(
+  FifteenTests
+  PRIVATE
+  ${SRC}
+)
+
 target_link_libraries(
   FifteenTests
   GTest::gtest_main

@@ -6,9 +6,9 @@
 
 #include "Utils.h"
 
-#include "../src/Board.h"
-#include "../src/Types.h"
-#include "../src/MappedValues.h"
+#include "Board.h"
+#include "Types.h"
+#include "MappedValues.h"
 
 
 void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expectedValues, BoardSize boardSize)
@@ -22,7 +22,7 @@ void runTestMoves(const std::vector<int>& moves, const std::vector<uint>& expect
     const auto& values = board->getBoardValues();
     for (int i = 0; i < values.size(); ++i)
     {
-        EXPECT_EQ(values[i], expectedValues[i]);
+        ASSERT_EQ(values[i], expectedValues[i]);
     }
 }
 

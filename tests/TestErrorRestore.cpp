@@ -3,10 +3,10 @@
 
 #include "config.h"
 
-#include "../src/Board.h"
-#include "../src/Types.h"
-#include "../src/FileBoard/IOBoard.h"
-#include "../src/GraphicBoard/ImageProvider.h"
+#include "Board.h"
+#include "Types.h"
+#include "FileBoard/IOBoard.h"
+#include "GraphicBoard/ImageProvider.h"
 
 
 void runTestErrorRestore(std::string fileName, QString errorLog)
@@ -15,10 +15,10 @@ void runTestErrorRestore(std::string fileName, QString errorLog)
 
     IOBoard io;
     auto readValues = io.readBoardFromFile(filePath);
-    EXPECT_EQ(readValues, std::nullopt);
+    ASSERT_EQ(readValues, std::nullopt);
 
     QString message = Message::getMessages();
-    EXPECT_EQ(message, errorLog);
+    ASSERT_EQ(message, errorLog);
 }
 
 

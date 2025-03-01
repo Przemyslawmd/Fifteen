@@ -1,9 +1,9 @@
 
 #include <gtest/gtest.h>
 
-#include "../src/Board.h"
-#include "../src/Types.h"
-#include "../src/MappedValues.h"
+#include "Board.h"
+#include "Types.h"
+#include "MappedValues.h"
 
 
 void runTestInitialBoard(BoardSize boardSize)
@@ -16,9 +16,9 @@ void runTestInitialBoard(BoardSize boardSize)
     ASSERT_EQ(tilesCount, values.size());
     for (uint i = 0; i < tilesCount - 1; i++)
     {
-        EXPECT_EQ(values[i], i);
+        ASSERT_EQ(values[i], i);
     }
-    EXPECT_EQ(values[tilesCount - 1], board->getNullValue());
+    ASSERT_EQ(values[tilesCount - 1], board->getNullValue());
 }
 
 

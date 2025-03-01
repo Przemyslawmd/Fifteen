@@ -6,9 +6,9 @@
 
 #include "Utils.h"
 
-#include "../src/Board.h"
-#include "../src/Types.h"
-#include "../src/MappedValues.h"
+#include "Board.h"
+#include "Types.h"
+#include "MappedValues.h"
 
 
 void runTestChangeBoard(BoardSize firstSize, BoardSize secondSize)
@@ -18,7 +18,7 @@ void runTestChangeBoard(BoardSize firstSize, BoardSize secondSize)
     board->generateBoard();
     const auto& values_1 = board->getBoardValues();
 
-    uint sizeInt = Maps::boardSizeInt.at(firstSize);
+    size_t sizeInt = Maps::boardSizeInt.at(firstSize);
     checkTiles(sizeInt, values_1);
 
     board.reset(new Board(secondSize, BoardMode::NUMERIC));

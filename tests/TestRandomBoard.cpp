@@ -6,9 +6,9 @@
 
 #include "Utils.h"
 
-#include "../src/Board.h"
-#include "../src/Types.h"
-#include "../src/MappedValues.h"
+#include "Board.h"
+#include "Types.h"
+#include "MappedValues.h"
 
 
 void runTestRandomBoard(BoardSize boardSize)
@@ -16,7 +16,7 @@ void runTestRandomBoard(BoardSize boardSize)
     auto board = std::make_unique<Board>(boardSize, BoardMode::NUMERIC);
     board->generateBoard();
     auto values = board->getBoardValues();
-    uint sizeInt = Maps::boardSizeInt.at(boardSize);
+    size_t sizeInt = Maps::boardSizeInt.at(boardSize);
 
     checkTiles(sizeInt, values);
 }
