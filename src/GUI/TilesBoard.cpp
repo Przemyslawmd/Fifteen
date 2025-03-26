@@ -1,8 +1,6 @@
 
 #include "TilesBoard.h"
 
-#include <memory>
-
 
 TilesBoard::TilesBoard( std::function<void()> pressTileSlot ) : pressTileSlot( pressTileSlot ) {}
 
