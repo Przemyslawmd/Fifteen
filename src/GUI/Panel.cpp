@@ -13,16 +13,19 @@ constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 constexpr const char STYLE_HEIGHT[] = "height:20px";
 
 
-QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlots, QMainWindow* mainWindow )
+QVBoxLayout* Panel::createLayout( std::function<void()> slotGenerate, 
+                                  std::function<void()> slotSolve, 
+                                  std::function<void()> slotUndoMove, 
+                                  QMainWindow* mainWindow )
 {
-    radioSizeMap.emplace( BoardSize::FOUR, "4" );
-    radioSizeMap.emplace( BoardSize::FIVE, "5" );
-    radioSizeMap.emplace( BoardSize::SIX, "6" );
-    radioSizeMap.emplace( BoardSize::SEVEN, "7" );
-    radioSizeMap[BoardSize::FOUR].setChecked( true );
+    radioSize.emplace( BoardSize::FOUR, "4" );
+    radioSize.emplace( BoardSize::FIVE, "5" );
+    radioSize.emplace( BoardSize::SIX, "6" );
+    radioSize.emplace( BoardSize::SEVEN, "7" );
+    radioSize[BoardSize::FOUR].setChecked( true );
 
     QVBoxLayout* radioSizeLayout = new QVBoxLayout();
-    for( auto& radio : radioSizeMap | std::views::values )
+    for( auto& radio : radioSize | std::views::values )
     {
         radioSizeLayout->addSpacing( 10 );
         radioSizeLayout->addWidget( &radio );
@@ -33,12 +36,12 @@ QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlo
     QGroupBox* radioSizeBox = new QGroupBox( "Dimension of Board", mainWindow );
     radioSizeBox->setLayout( radioSizeLayout );
 
-    radioModeMap.emplace( BoardMode::NUMERIC, "Numeric" );
-    radioModeMap.emplace( BoardMode::GRAPHIC, "Graphic" );
-    radioModeMap[BoardMode::NUMERIC].setChecked( true );
+    radioMode.emplace( BoardMode::NUMERIC, "Numeric" );
+    radioMode.emplace( BoardMode::GRAPHIC, "Graphic" );
+    radioMode[BoardMode::NUMERIC].setChecked( true );
 
     QVBoxLayout* radioModeLayout = new QVBoxLayout();
-    for( auto& radio : radioModeMap | std::views::values )
+    for( auto& radio : radioMode | std::views::values )
     {
         radioModeLayout->addSpacing( 10 );
         radioModeLayout->addWidget( &radio );
@@ -51,15 +54,15 @@ QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlo
 
     QPushButton* pushRandom = new QPushButton( "Generate Board", mainWindow );
     pushRandom->setStyleSheet( STYLE_HEIGHT );
-    QObject::connect( pushRandom, &QPushButton::clicked, panelSlots[0] );
+    QObject::connect( pushRandom, &QPushButton::clicked, slotGenerate );
 
     QPushButton* pushSolve = new QPushButton( "Solve Board", mainWindow );
     pushSolve->setStyleSheet( STYLE_HEIGHT );
-    QObject::connect( pushSolve, &QPushButton::clicked, panelSlots[1] );
+    QObject::connect( pushSolve, &QPushButton::clicked, slotSolve );
 
     QPushButton* pushUndo = new QPushButton( "Undo Move", mainWindow );
     pushUndo->setStyleSheet( STYLE_HEIGHT );
-    QObject::connect( pushUndo, &QPushButton::clicked, panelSlots[2] );
+    QObject::connect( pushUndo, &QPushButton::clicked, slotUndoMove );
 
     QVBoxLayout* panelLayout = new QVBoxLayout();
     panelLayout->setContentsMargins( 30, 0, 20, 0 );
@@ -81,7 +84,7 @@ QVBoxLayout* Panel::createLayout( std::array<std::function<void()>, 3>& panelSlo
 
 BoardSize Panel::checkBoardSize()
 {
-    const auto it = std::find_if( radioSizeMap.begin(), radioSizeMap.end(), [] ( const auto& it ) { return it.second.isChecked(); });
+    const auto it = std::find_if( radioSize.begin(), radioSize.end(), [] ( const auto& it ) { return it.second.isChecked(); });
     return it->first;
 }
 
@@ -90,7 +93,7 @@ BoardSize Panel::checkBoardSize()
 
 void Panel::setBoardSize( BoardSize boardSize )
 {
-    radioSizeMap.at( boardSize ).setChecked( true );
+    radioSize.at( boardSize ).setChecked( true );
 }
 
 /*********************************************************************************/
@@ -98,7 +101,7 @@ void Panel::setBoardSize( BoardSize boardSize )
 
 bool Panel::checkBoardMode( BoardMode boardMode )
 {
-    return radioModeMap.at( boardMode ).isChecked();
+    return radioMode.at( boardMode ).isChecked();
 }
 
 /*********************************************************************************/
@@ -106,6 +109,6 @@ bool Panel::checkBoardMode( BoardMode boardMode )
 
 void Panel::setBoardMode( BoardMode boardMode )
 {
-    radioModeMap.at( boardMode ).setChecked( true );
+    radioMode.at( boardMode ).setChecked( true );
 }
 

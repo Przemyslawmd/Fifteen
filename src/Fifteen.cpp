@@ -39,13 +39,10 @@ void Fifteen::initGame()
     QMenuBar* menu = menuBar->createMenuBar( this );
     setMenuBar( menu );
 
-    std::array<std::function<void( void )>, 3> panelSlots =
-    {
-        std::bind( &Fifteen::slotGenerateBoard, this ),
-        std::bind( &Fifteen::slotSolveBoard, this ),
-        std::bind( &Fifteen::slotUndoMove, this ),
-    };
-    QVBoxLayout* layout = panel->createLayout( panelSlots, this );
+    QVBoxLayout* layout = panel->createLayout( std::bind( &Fifteen::slotGenerateBoard, this ), 
+                                               std::bind( &Fifteen::slotSolveBoard, this ), 
+                                               std::bind( &Fifteen::slotUndoMove, this ), 
+                                               this );
 
     QWidget* mainPanel = new QWidget( this );
     mainPanel->setContentsMargins( 20, 20, 0, 20 );

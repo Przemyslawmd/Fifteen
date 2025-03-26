@@ -23,7 +23,7 @@ public:
     Panel& operator=( const Panel& ) = delete;
     Panel& operator=( Panel&& ) = delete;
 
-    QVBoxLayout* createLayout( std::array<std::function<void()>, 3>& slots, QMainWindow* );
+    QVBoxLayout* createLayout( std::function<void()>, std::function<void()>, std::function<void()>, QMainWindow* );
 
     BoardSize checkBoardSize();
     void setBoardSize( BoardSize );
@@ -32,8 +32,8 @@ public:
 
 private:
 
-    std::map<BoardSize, QRadioButton> radioSizeMap;
-    std::map<BoardMode, QRadioButton> radioModeMap;
+    std::map<BoardSize, QRadioButton> radioSize;
+    std::map<BoardMode, QRadioButton> radioMode;
 };
 
 #endif

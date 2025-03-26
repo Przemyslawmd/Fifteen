@@ -40,7 +40,7 @@ public:
 
 private:
 
-    std::map<ActionMenu, QAction> mapAction;
+    std::map<ActionMenu, QAction> actions;
 };
 
 #endif
