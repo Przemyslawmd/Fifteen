@@ -47,14 +47,14 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapImageToLoad.emplace( BoardSize::SEVEN, "Load image for board  7x7" );
     mapImageToLoad[BoardSize::SEVEN].setChecked( currentOptions.imageToLoad_7 );
 
-    for ( auto& [_, checkBox] : mapImageToLoad )
+    for ( auto& checkBox : mapImageToLoad | std::views::values )
     {
         checkBox.setStyleSheet( STYLE_MARGIN_LEFT );
     }
-
     mapNumberOnImage.emplace( NumberColor::NO, "Number on graphic tile : No" );
     mapNumberOnImage.emplace( NumberColor::BLACK, "Number on graphic tile : Black" );
     mapNumberOnImage.emplace( NumberColor::WHITE, "Number on graphic tile : White" );
+    mapNumberOnImage[currentOptions.numberColor].setChecked( true );
 
     QButtonGroup* groupNumberOnImage = new QButtonGroup();
     for ( auto& radio : mapNumberOnImage | std::views::values )
@@ -62,8 +62,6 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
         groupNumberOnImage->addButton( &radio );
     }
-
-    mapNumberOnImage[currentOptions.numberColor].setChecked( true );
 
     QVBoxLayout* layoutImages = new QVBoxLayout();
     layoutImages->addSpacing( 8 );
@@ -94,15 +92,14 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     mapTileColor.emplace(TileColor::BLUE, "Blue" );
     mapTileColor.emplace(TileColor::GREEN, "Green" );
     mapTileColor.emplace(TileColor::RED, "Red" );
+    mapTileColor[currentOptions.squareColor].setChecked( true );
 
     QButtonGroup* groupRadioColor = new QButtonGroup();
     for ( auto& radio : mapTileColor | std::views::values )
     {
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
         groupRadioColor->addButton( &radio );
-    }
-
-    mapTileColor[currentOptions.squareColor].setChecked( true );
+    }   
 
     QVBoxLayout* layoutTileColor = new QVBoxLayout();
     layoutTileColor->addSpacing( 7 );

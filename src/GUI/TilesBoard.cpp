@@ -57,7 +57,7 @@ void TilesBoard::deleteTiles()
     tiles.clear();
 
     QLayoutItem* item;
-    while ( item = verticalLayout->takeAt( 0 ))
+    while (( item = verticalLayout->takeAt( 0 )))
     {
         verticalLayout->removeItem( 0 );
         delete item;

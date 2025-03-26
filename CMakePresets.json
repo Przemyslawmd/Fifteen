@@ -32,6 +32,17 @@
             }
         },
         {
+            "name": "Clang",
+            "displayName": "Linux debug Clang",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+                "CMAKE_CXX_FLAGS" :"--analyze"
+            }
+        },
+        {
             "name": "Base",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "hidden": true,
