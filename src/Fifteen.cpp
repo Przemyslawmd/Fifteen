@@ -70,8 +70,7 @@ void Fifteen::createTiles()
 
 void Fifteen::setTiles()
 {
-    BoardMode mode = controller->getBoardMode();
-    if ( mode == BoardMode::NUMERIC )
+    if ( controller->getBoardMode() == BoardMode::NUMERIC )
     {
         setTilesNumeric();
     }
@@ -102,7 +101,7 @@ void Fifteen::setTilesNumeric()
         tile->setFont( font );
     }
 
-    size_t nullValue = controller->getNullValue();
+    size_t nullValue = controller->getEmptyTile();
     auto iter = std::find( values.begin(), values.end(), nullValue );
     tiles[ std::distance( values.begin(), iter )]->setStyleSheet( Maps::tileColorStyle.at( TileColor::EMPTY ));
     tiles[ std::distance( values.begin(), iter )]->setText( nullptr );
@@ -126,7 +125,7 @@ void Fifteen::setTilesGraphic()
     for ( auto& tile : tilesBoard->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( images.at( *value ));
-        if ( numberColor == NumberColor::NO || *value == controller->getNullValue() )
+        if ( numberColor == NumberColor::NO || *value == controller->getEmptyTile() )
         {
             icon.addPixmap( pixmap );
         }
@@ -347,7 +346,7 @@ void Fifteen::setColor()
         {
             tile->setStyleSheet( tileColor );
         }
-    }    
+    }
 }
 
 /*********************************************************************************/

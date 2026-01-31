@@ -29,18 +29,17 @@ public:
     void generateBoard();
     void solveBoard();
 
-    size_t getNullValue() const;
+    size_t getEmptyTile() const;
 
 private:
 
     void makeMove( size_t srcRow, size_t srcColumn, size_t dstRow, size_t dstColumn );
-    size_t findEmptyTilePosition();
+    size_t findEmptyPosition();
 
     const BoardSize size;
     const size_t sizeInt;
-
     BoardMode mode;
-    const size_t nullValue;
+
     std::vector<size_t> values;
 };
 

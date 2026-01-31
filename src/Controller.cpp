@@ -4,15 +4,6 @@
 #include "MappedValues.h"
 
 
-Controller::Controller() 
-{
-    board = std::make_unique<Board>( BoardSize::FOUR, BoardMode::NUMERIC );
-    undoMoveService = std::make_unique<UndoMove>();
-}
-
-/*********************************************************************************/
-/*********************************************************************************/
-
 Result Controller::generateBoard( BoardSize boardSize, BoardMode boardMode )
 {
     if ( boardMode == BoardMode::GRAPHIC && ( isGraphic( boardSize ) == false ))
@@ -37,7 +28,7 @@ void Controller::solveBoard()
 /*********************************************************************************/
 /*********************************************************************************/
 
-const std::vector<size_t>& Controller::getValues()
+const std::vector<size_t>& Controller::getValues() const
 {
     return board->getBoardValues();
 }
@@ -45,15 +36,15 @@ const std::vector<size_t>& Controller::getValues()
 /*********************************************************************************/
 /*********************************************************************************/
 
-uint Controller::getNullValue()
+size_t Controller::getEmptyTile() const
 {
-    return board->getNullValue();
+    return board->getEmptyTile();
 }
 
 /*********************************************************************************/
 /*********************************************************************************/
 
-BoardMode Controller::getBoardMode()
+BoardMode Controller::getBoardMode() const
 {
     return board->getMode();
 }
@@ -61,7 +52,7 @@ BoardMode Controller::getBoardMode()
 /*********************************************************************************/
 /*********************************************************************************/
 
-std::tuple<size_t, size_t> Controller::getBoardAttributes()
+std::tuple<size_t, size_t> Controller::getBoardAttributes() const
 {
     BoardSize boardSize = board->getSize();
     uint tileSize = board->getMode() == BoardMode::NUMERIC ?

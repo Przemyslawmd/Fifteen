@@ -19,7 +19,7 @@ class Controller
 {
 public:
 
-    Controller();
+    Controller() = default;
     Controller( const Controller& ) = delete;
     Controller( Controller&& ) = delete;
     Controller& operator=( const Controller& ) = delete;
@@ -28,11 +28,11 @@ public:
     Result generateBoard( BoardSize, BoardMode );
     void solveBoard();
 
-    const std::vector<size_t>& getValues();
-    uint getNullValue();
-    BoardMode getBoardMode();
+    const std::vector<size_t>& getValues() const;
+    size_t getEmptyTile() const;
+    BoardMode getBoardMode() const;
 
-    std::tuple<size_t, size_t> getBoardAttributes();
+    std::tuple<size_t, size_t> getBoardAttributes() const;
     size_t getFontSize() const;
 
     std::tuple<Move, size_t, size_t> makeMove( uint tilePosition );
@@ -50,9 +50,9 @@ private:
 
     bool isGraphic( BoardSize );
 
-    std::unique_ptr<Board> board;
+    std::unique_ptr<Board> board{ std::make_unique<Board>( BoardSize::FOUR, BoardMode::NUMERIC ) };
     std::unique_ptr<ImageProvider> imageProvider;
-    std::unique_ptr<UndoMove> undoMoveService;
+    std::unique_ptr<UndoMove> undoMoveService{ std::make_unique<UndoMove>() };
 };
 
 #endif

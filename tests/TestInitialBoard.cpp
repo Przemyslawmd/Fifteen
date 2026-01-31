@@ -18,7 +18,7 @@ void runTestInitialBoard(BoardSize boardSize)
     {
         ASSERT_EQ(values[i], i);
     }
-    ASSERT_EQ(values[tilesCount - 1], board->getNullValue());
+    ASSERT_EQ(values[tilesCount - 1], board->getEmptyTile());
 }
 
 

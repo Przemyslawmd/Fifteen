@@ -7,10 +7,12 @@
 #include "MappedValues.h"
 
 
-Board::Board( BoardSize size, BoardMode mode ) : size( size ),
-                                                 mode( mode ),
-                                                 sizeInt( Maps::boardSizeInt.at( size )),
-                                                 nullValue( sizeInt * sizeInt - 1 )
+constexpr size_t emptyTile(size_t size) { return size * size - 1; }
+
+
+Board::Board( BoardSize size, BoardMode mode ) : size{ size },
+                                                 mode{ mode },
+                                                 sizeInt{ Maps::boardSizeInt.at( size )}
 {
     values.resize( sizeInt * sizeInt );
     std::iota( values.begin(), values.end(), 0 );
@@ -19,38 +21,36 @@ Board::Board( BoardSize size, BoardMode mode ) : size( size ),
 /*********************************************************************************/
 /*********************************************************************************/
 
-Board::Board( std::vector<size_t>&& values, BoardSize size, BoardMode mode ) : size( size ),
-                                                                               mode( mode ),
-                                                                               sizeInt( Maps::boardSizeInt.at( size )),
-                                                                               values( std::move( values )),
-                                                                               nullValue( sizeInt * sizeInt - 1 ) {}
+Board::Board( std::vector<size_t>&& values, BoardSize size, BoardMode mode ) : size{ size },
+                                                                               mode{ mode },
+                                                                               sizeInt{ Maps::boardSizeInt.at( size ) },
+                                                                               values{ std::move( values )} {}
 
 /*********************************************************************************/
 /*********************************************************************************/
 
 Move Board::checkMove( size_t row, size_t col )
-{        
-    if ( row > 0 && ( values.at(( row - 1 ) * sizeInt + col ) == nullValue ))
+{
+    if ( row > 0 && ( values.at(( row - 1 ) * sizeInt + col ) == emptyTile( sizeInt )))
     {
         makeMove( row, col, row - 1, col );
         return Move::UP;
     }
-    if ( col < ( sizeInt - 1 ) && ( values.at( row * sizeInt + col + 1 ) == nullValue ))
+    if ( col < ( sizeInt - 1 ) && ( values.at( row * sizeInt + col + 1 ) == emptyTile( sizeInt )))
     {
         makeMove( row, col, row, col + 1 );
         return Move::RIGHT;
     }
-    if ( row < ( sizeInt - 1 ) && ( values.at(( row + 1 ) * sizeInt + col )  == nullValue ))
+    if ( row < ( sizeInt - 1 ) && ( values.at(( row + 1 ) * sizeInt + col )  == emptyTile( sizeInt )))
     {
         makeMove( row, col, row + 1, col );
         return Move::DOWN;
     }
-    if ( col > 0 && ( values.at( row * sizeInt + col - 1 ) == nullValue ))
+    if ( col > 0 && ( values.at( row * sizeInt + col - 1 ) == emptyTile( sizeInt )))
     {
         makeMove( row, col, row, col -1 );
         return Move::LEFT;
     }
-
     return Move::NOT_ALLOWED;
 }
 
@@ -59,9 +59,9 @@ Move Board::checkMove( size_t row, size_t col )
 
 void Board::generateBoard()
 {
-    size_t emptyTile = findEmptyTilePosition();
-    size_t emptyRow = emptyTile / 10;
-    size_t emptyCol = emptyTile % 10;
+    size_t emptyPosition = findEmptyPosition();
+    size_t emptyRow = emptyPosition / 10;
+    size_t emptyCol = emptyPosition % 10;
 
     std::vector<Move> moves( 4 );
     using enum Move;
@@ -156,9 +156,9 @@ const std::vector<size_t>& Board::getBoardValues() const
 /*********************************************************************************/
 /*********************************************************************************/
 
-size_t Board::getNullValue() const
+size_t Board::getEmptyTile() const
 {
-    return nullValue;
+    return emptyTile(sizeInt);
 }
 
 /*********************************************************************************/
@@ -172,9 +172,9 @@ void Board::makeMove( size_t srcRow, size_t srcCol, size_t dstRow, size_t dstCol
 /*********************************************************************************/
 /*********************************************************************************/
 
-size_t Board::findEmptyTilePosition()
+size_t Board::findEmptyPosition()
 {
-    uint nullValuePos =  std::distance( values.begin(), std::find( values.begin(), values.end(), nullValue ));
+    uint nullValuePos =  std::distance( values.begin(), std::find( values.begin(), values.end(), emptyTile(sizeInt) ));
     return nullValuePos / sizeInt * 10 + nullValuePos % sizeInt;
 }
 
