@@ -20,7 +20,7 @@ using enum GraphicTileCaption;
 using enum TileColor;
 
 
-GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), boardMode( boardMode )
+GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner{ owner }, boardMode{ boardMode }
 {
     setModal( true );
     setWindowTitle( "" );
@@ -62,11 +62,11 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     radioTileCaption.emplace( WHITE, "Number caption on a graphic tile : White" );
     radioTileCaption[currentOptions.tileCaption].setChecked( true );
 
-    QButtonGroup* groupNumberOnImage = new QButtonGroup();
+    QButtonGroup* groupTileCaption = new QButtonGroup();
     for ( auto& radio : radioTileCaption | std::views::values )
     {
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
-        groupNumberOnImage->addButton( &radio );
+        groupTileCaption->addButton( &radio );
     }
 
     QVBoxLayout* layoutImages = new QVBoxLayout();
@@ -100,12 +100,12 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
     radioTileColor.emplace( RED, "Red" );
     radioTileColor[currentOptions.squareColor].setChecked( true );
 
-    QButtonGroup* groupRadioColor = new QButtonGroup();
+    QButtonGroup* groupTileColor = new QButtonGroup();
     for ( auto& radio : radioTileColor | std::views::values )
     {
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
-        groupRadioColor->addButton( &radio );
-    }   
+        groupTileColor->addButton( &radio );
+    }
 
     QVBoxLayout* layoutTileColor = new QVBoxLayout();
     layoutTileColor->addSpacing( 7 );
@@ -204,17 +204,17 @@ void GUISetting::acceptSettings()
     newOptions.tileCaption = getChecked( radioTileCaption, radioTileCaption[NO].group() );
     newOptions.squareColor = getChecked( radioTileColor, radioTileColor[BLUE].group() );
 
-    bool numberImageChanged = newOptions.tileCaption != currentOptions.tileCaption;
+    bool tileCaptionChanged = newOptions.tileCaption != currentOptions.tileCaption;
     bool colorChanged = newOptions.squareColor != currentOptions.squareColor;
 
     Options::saveOptions( newOptions );
 
     if (( tileSizeChanged && boardMode == NUMERIC ) ||
-        ( numberImageChanged && boardMode == GRAPHIC ))
+        ( tileCaptionChanged && boardMode == GRAPHIC ))
     {
         owner.redrawTiles();
     }
-    if ( colorChanged && boardMode == NUMERIC )
+    else if ( colorChanged && boardMode == NUMERIC )
     {
         owner.setColor();
     }
