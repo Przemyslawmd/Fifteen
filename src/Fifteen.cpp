@@ -119,13 +119,13 @@ void Fifteen::setTilesGraphic()
     QSize iconSize( tileSizeInt, tileSizeInt );
 
     int fontSizeInt = controller->getFontSize();
-    NumberColor numberColor = Options::getNumberOnImageColor();
+    GraphicTileCaption numberColor = Options::captionOnGraphicTile();
     QIcon icon;
 
     for ( auto& tile : tilesBoard->getTiles() )
     {
         QPixmap pixmap = QPixmap::fromImage( images.at( *value ));
-        if ( numberColor == NumberColor::NO || *value == controller->getEmptyTile() )
+        if ( numberColor == GraphicTileCaption::NO || *value == controller->getEmptyTile() )
         {
             icon.addPixmap( pixmap );
         }
@@ -143,11 +143,11 @@ void Fifteen::setTilesGraphic()
 /*********************************************************************************/
 /*********************************************************************************/
 
-void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, size_t fontSize, size_t number, NumberColor numberColor )
+void Fifteen::drawNumberOnTile( QIcon& icon, QPixmap& pixmap, size_t fontSize, size_t number, GraphicTileCaption numberColor )
 {
     QPainter painter( &pixmap );
     painter.setFont( QFont( "Times", fontSize, QFont::Bold ));
-    QColor color = numberColor == NumberColor::WHITE ? QColor( 255, 255, 255 ) : QColor( 0, 0, 0 );
+    QColor color = numberColor == GraphicTileCaption::WHITE ? QColor( 255, 255, 255 ) : QColor( 0, 0, 0 );
     painter.setPen( color );
     painter.drawText( pixmap.rect(), Qt::AlignCenter, QString::number( number + 1 ));
     icon.addPixmap( pixmap );

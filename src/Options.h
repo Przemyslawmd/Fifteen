@@ -21,7 +21,7 @@ public:
 
     static bool isImageToBeLoaded( BoardSize size );
 
-    static NumberColor getNumberOnImageColor();
+    static GraphicTileCaption captionOnGraphicTile();
 
     static OptionsData readOptions();
     static void saveOptions( OptionsData& messageData );
@@ -31,7 +31,7 @@ private:
     static FontSize fontSize;
     static TileSize tileSize;
     static TileColor tileColor;
-    static NumberColor numberColor;
+    static GraphicTileCaption tileCaption;
     static std::map<BoardSize, bool> imagesToLoad;
 };
 

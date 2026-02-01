@@ -14,6 +14,11 @@
 
 constexpr const char STYLE_MARGIN_LEFT[] = "margin-left: 5px";
 
+using enum BoardSize;
+using enum GraphicMode;
+using enum GraphicTileCaption;
+using enum TileColor;
+
 
 GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), boardMode( boardMode )
 {
@@ -28,36 +33,37 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
 
     /* Graphic loading box *****************************************/
 
-    mapGraphicMode.emplace( GraphicMode::SCALED, "Scalled image");
-    mapGraphicMode[GraphicMode::SCALED].setStyleSheet( STYLE_MARGIN_LEFT );
-    
-    mapGraphicMode.emplace( GraphicMode::CROPPED, "Cropped image" );
-    mapGraphicMode[GraphicMode::CROPPED].setStyleSheet( STYLE_MARGIN_LEFT );
-    mapGraphicMode[currentOptions.graphicMode].setChecked( true );
+    radioGraphicMode.emplace( SCALED, "Scalled image");
+    radioGraphicMode[SCALED].setStyleSheet( STYLE_MARGIN_LEFT );
 
-    mapImageToLoad.emplace( BoardSize::FOUR, "Load image for board  4x4" );
-    mapImageToLoad[BoardSize::FOUR].setChecked( currentOptions.imageToLoad_4 );
-    
-    mapImageToLoad.emplace( BoardSize::FIVE, "Load Image for board  5x5" );
-    mapImageToLoad[BoardSize::FIVE].setChecked( currentOptions.imageToLoad_5 );
-    
-    mapImageToLoad.emplace( BoardSize::SIX, "Load image for board  6x6" );
-    mapImageToLoad[BoardSize::SIX].setChecked( currentOptions.imageToLoad_6 );
-    
-    mapImageToLoad.emplace( BoardSize::SEVEN, "Load image for board  7x7" );
-    mapImageToLoad[BoardSize::SEVEN].setChecked( currentOptions.imageToLoad_7 );
+    radioGraphicMode.emplace( CROPPED, "Cropped image" );
+    radioGraphicMode[CROPPED].setStyleSheet( STYLE_MARGIN_LEFT );
+    radioGraphicMode[currentOptions.graphicMode].setChecked( true );
 
-    for ( auto& checkBox : mapImageToLoad | std::views::values )
+    boxImageToLoad.emplace( FOUR, "Load image for board  4x4" );
+    boxImageToLoad[FOUR].setChecked( currentOptions.imageToLoad_4 );
+
+    boxImageToLoad.emplace( FIVE, "Load Image for board  5x5" );
+    boxImageToLoad[FIVE].setChecked( currentOptions.imageToLoad_5 );
+
+    boxImageToLoad.emplace( SIX, "Load image for board  6x6" );
+    boxImageToLoad[SIX].setChecked( currentOptions.imageToLoad_6 );
+
+    boxImageToLoad.emplace( SEVEN, "Load image for board  7x7" );
+    boxImageToLoad[SEVEN].setChecked( currentOptions.imageToLoad_7 );
+
+    for ( auto& checkBox : boxImageToLoad | std::views::values )
     {
         checkBox.setStyleSheet( STYLE_MARGIN_LEFT );
     }
-    mapNumberOnImage.emplace( NumberColor::NO, "Number on graphic tile : No" );
-    mapNumberOnImage.emplace( NumberColor::BLACK, "Number on graphic tile : Black" );
-    mapNumberOnImage.emplace( NumberColor::WHITE, "Number on graphic tile : White" );
-    mapNumberOnImage[currentOptions.numberColor].setChecked( true );
+
+    radioTileCaption.emplace( NO, "Number caption on a graphic tile : No" );
+    radioTileCaption.emplace( BLACK, "Number caption on a graphic tile : Black" );
+    radioTileCaption.emplace( WHITE, "Number caption on a graphic tile : White" );
+    radioTileCaption[currentOptions.tileCaption].setChecked( true );
 
     QButtonGroup* groupNumberOnImage = new QButtonGroup();
-    for ( auto& radio : mapNumberOnImage | std::views::values )
+    for ( auto& radio : radioTileCaption | std::views::values )
     {
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
         groupNumberOnImage->addButton( &radio );
@@ -65,23 +71,23 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
 
     QVBoxLayout* layoutImages = new QVBoxLayout();
     layoutImages->addSpacing( 8 );
-    layoutImages->addWidget( &mapGraphicMode[GraphicMode::SCALED] );
+    layoutImages->addWidget( &radioGraphicMode[SCALED] );
     layoutImages->addSpacing( 8 );
-    layoutImages->addWidget( &mapGraphicMode[GraphicMode::CROPPED] );
+    layoutImages->addWidget( &radioGraphicMode[CROPPED] );
     layoutImages->addSpacing( 15 );
-    layoutImages->addWidget( &mapImageToLoad[BoardSize::FOUR] );
+    layoutImages->addWidget( &boxImageToLoad[FOUR] );
     layoutImages->addSpacing( 8 );
-    layoutImages->addWidget( &mapImageToLoad[BoardSize::FIVE] );
+    layoutImages->addWidget( &boxImageToLoad[FIVE] );
     layoutImages->addSpacing( 8 );
-    layoutImages->addWidget( &mapImageToLoad[BoardSize::SIX] );
+    layoutImages->addWidget( &boxImageToLoad[SIX] );
     layoutImages->addSpacing( 8 );
-    layoutImages->addWidget( &mapImageToLoad[BoardSize::SEVEN] );
+    layoutImages->addWidget( &boxImageToLoad[SEVEN] );
     layoutImages->addSpacing( 15 );
-    layoutImages->addWidget( &mapNumberOnImage[NumberColor::NO] );
+    layoutImages->addWidget( &radioTileCaption[NO] );
     layoutImages->addSpacing( 12 );
-    layoutImages->addWidget( &mapNumberOnImage[NumberColor::BLACK] );
+    layoutImages->addWidget( &radioTileCaption[BLACK] );
     layoutImages->addSpacing( 12 );
-    layoutImages->addWidget( &mapNumberOnImage[NumberColor::WHITE] );
+    layoutImages->addWidget( &radioTileCaption[WHITE] );
     layoutImages->addSpacing( 15 );
 
     QGroupBox* boxRadioImage = new QGroupBox( "Image for a graphic board" );
@@ -89,13 +95,13 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
 
     /* Color of numeric board **************************************/
 
-    mapTileColor.emplace(TileColor::BLUE, "Blue" );
-    mapTileColor.emplace(TileColor::GREEN, "Green" );
-    mapTileColor.emplace(TileColor::RED, "Red" );
-    mapTileColor[currentOptions.squareColor].setChecked( true );
+    radioTileColor.emplace( BLUE, "Blue" );
+    radioTileColor.emplace( GREEN, "Green" );
+    radioTileColor.emplace( RED, "Red" );
+    radioTileColor[currentOptions.squareColor].setChecked( true );
 
     QButtonGroup* groupRadioColor = new QButtonGroup();
-    for ( auto& radio : mapTileColor | std::views::values )
+    for ( auto& radio : radioTileColor | std::views::values )
     {
         radio.setStyleSheet( STYLE_MARGIN_LEFT );
         groupRadioColor->addButton( &radio );
@@ -103,11 +109,11 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
 
     QVBoxLayout* layoutTileColor = new QVBoxLayout();
     layoutTileColor->addSpacing( 7 );
-    layoutTileColor->addWidget( &mapTileColor[TileColor::BLUE] );
+    layoutTileColor->addWidget( &radioTileColor[BLUE] );
     layoutTileColor->addSpacing( 7 );
-    layoutTileColor->addWidget( &mapTileColor[TileColor::GREEN] );
+    layoutTileColor->addWidget( &radioTileColor[GREEN] );
     layoutTileColor->addSpacing( 7 );
-    layoutTileColor->addWidget( &mapTileColor[TileColor::RED] );
+    layoutTileColor->addWidget( &radioTileColor[RED] );
     layoutTileColor->addSpacing( 7 );
 
     QGroupBox* boxRadioColor = new QGroupBox( "Color of numeric board" );
@@ -165,11 +171,12 @@ GUISetting::GUISetting( Fifteen& owner, BoardMode boardMode ) : owner( owner ), 
 
 void GUISetting::acceptSettings()
 {
+    using enum BoardMode;
     OptionsData newOptions;
 
     newOptions.tileSize = Maps::sliderTileSize.at( slider->value() );
     bool tileSizeChanged = newOptions.tileSize != currentOptions.tileSize;
-    if ( tileSizeChanged && boardMode == BoardMode::GRAPHIC )
+    if ( tileSizeChanged && boardMode == GRAPHIC )
     {
         QMessageBox::information( this, "",
                                   "\nSize of a tile can not be changed in graphic mode\t \nwhen an image has been loaded" );
@@ -189,25 +196,25 @@ void GUISetting::acceptSettings()
         return mapRadio.begin()->first;
     };
 
-    newOptions.graphicMode = mapGraphicMode[GraphicMode::SCALED].isChecked() ? GraphicMode::SCALED : GraphicMode::CROPPED;
-    newOptions.imageToLoad_4 = mapImageToLoad[BoardSize::FOUR].isChecked();
-    newOptions.imageToLoad_5 = mapImageToLoad[BoardSize::FIVE].isChecked();
-    newOptions.imageToLoad_6 = mapImageToLoad[BoardSize::SIX].isChecked();
-    newOptions.imageToLoad_7 = mapImageToLoad[BoardSize::SEVEN].isChecked();
-    newOptions.numberColor = getChecked( mapNumberOnImage, mapNumberOnImage[NumberColor::NO].group() );
-    newOptions.squareColor = getChecked( mapTileColor, mapTileColor[TileColor::BLUE].group() );
+    newOptions.graphicMode = radioGraphicMode[SCALED].isChecked() ? SCALED : CROPPED;
+    newOptions.imageToLoad_4 = boxImageToLoad[FOUR].isChecked();
+    newOptions.imageToLoad_5 = boxImageToLoad[FIVE].isChecked();
+    newOptions.imageToLoad_6 = boxImageToLoad[SIX].isChecked();
+    newOptions.imageToLoad_7 = boxImageToLoad[SEVEN].isChecked();
+    newOptions.tileCaption = getChecked( radioTileCaption, radioTileCaption[NO].group() );
+    newOptions.squareColor = getChecked( radioTileColor, radioTileColor[BLUE].group() );
 
-    bool numberImageChanged = newOptions.numberColor != currentOptions.numberColor;
+    bool numberImageChanged = newOptions.tileCaption != currentOptions.tileCaption;
     bool colorChanged = newOptions.squareColor != currentOptions.squareColor;
 
     Options::saveOptions( newOptions );
 
-    if (( tileSizeChanged && boardMode == BoardMode::NUMERIC  ) ||
-        ( numberImageChanged && boardMode == BoardMode::GRAPHIC ))
+    if (( tileSizeChanged && boardMode == NUMERIC ) ||
+        ( numberImageChanged && boardMode == GRAPHIC ))
     {
         owner.redrawTiles();
     }
-    if ( colorChanged && boardMode == BoardMode::NUMERIC )
+    if ( colorChanged && boardMode == NUMERIC )
     {
         owner.setColor();
     }

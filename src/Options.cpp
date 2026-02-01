@@ -36,9 +36,9 @@ bool Options::isImageToBeLoaded( BoardSize boardSize )
 /*********************************************************************************/
 /*********************************************************************************/
 
-NumberColor Options::getNumberOnImageColor()
+GraphicTileCaption Options::captionOnGraphicTile()
 {
-    return Options::numberColor;
+    return Options::tileCaption;
 }
 
 /*********************************************************************************/
@@ -54,7 +54,7 @@ OptionsData Options::readOptions()
         imagesToLoad.at( BoardSize::SEVEN ),
         tileColor,
         tileSize,
-        numberColor,
+        tileCaption,
     };
 }
 
@@ -70,7 +70,7 @@ void Options::saveOptions( OptionsData&  optionsData )
     imagesToLoad.at( BoardSize::SIX ) = optionsData.imageToLoad_6;
     imagesToLoad.at( BoardSize::SEVEN ) = optionsData.imageToLoad_7;
     tileColor = optionsData.squareColor;
-    numberColor = optionsData.numberColor;
+    tileCaption = optionsData.tileCaption;
     fontSize = Maps::tileSizeFontSize.at( tileSize );
 }
 
@@ -81,7 +81,7 @@ FontSize Options::fontSize = FontSize::_30;
 GraphicMode Options::graphicMode = GraphicMode::SCALED;
 TileSize Options::tileSize = TileSize::_100;
 TileColor Options::tileColor = TileColor::BLUE;
-NumberColor Options::numberColor = NumberColor::NO;
+GraphicTileCaption Options::tileCaption = GraphicTileCaption::NO;
 
 std::map< BoardSize, bool > Options::imagesToLoad
 {

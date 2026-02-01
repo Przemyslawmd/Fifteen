@@ -43,7 +43,7 @@ void runTestGraphicBoard(BoardSize boardSize, TileSize tileSize, GraphicMode gra
     options.imageToLoad_6 = true;
     options.imageToLoad_7 = true;
     options.tileSize = tileSize;
-    options.numberColor = NumberColor::NO;
+    options.tileCaption = GraphicTileCaption::NO;
     options.squareColor = TileColor::BLUE;
     Options::saveOptions(options);
 
