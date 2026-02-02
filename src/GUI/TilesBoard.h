@@ -17,7 +17,7 @@ class TilesBoard
 {
 public:
 
-    TilesBoard( std::function<void( void )> pressTileSlot );
+    TilesBoard(const QMainWindow& mainWindow) : mainWindow{ mainWindow } {};
     TilesBoard( const TilesBoard& ) = delete;
     TilesBoard( TilesBoard&& ) = delete;
     TilesBoard& operator=( const TilesBoard& ) = delete;
@@ -25,16 +25,16 @@ public:
 
     QGroupBox* createGroupBox();
 
-    void createTiles( size_t boardSize, size_t tileSize, QMainWindow* window );
+    void createTiles( size_t boardSize, size_t tileSize, std::function<void()> slot );
     std::vector<std::unique_ptr<QPushButton>>& getTiles();
 
 private:
 
     void deleteTiles();
 
-    std::vector<std::unique_ptr<QPushButton>> tiles;
-    std::function<void()> pressTileSlot;
+    const QMainWindow& mainWindow;
 
+    std::vector<std::unique_ptr<QPushButton>> tiles;
     QVBoxLayout* verticalLayout;
     std::vector<QHBoxLayout*> horizontalLayouts;
 };
